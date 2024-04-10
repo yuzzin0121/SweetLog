@@ -32,6 +32,9 @@
 		618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77142BC6F4450033CD0D /* ProfileViewController.swift */; };
 		618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77172BC6F4B70033CD0D /* BaseView.swift */; };
 		618C771B2BC6F4D80033CD0D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 618C771A2BC6F4D80033CD0D /* SnapKit */; };
+		618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C771C2BC6F51B0033CD0D /* BaseViewController.swift */; };
+		618C77202BC6F5370033CD0D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 618C771F2BC6F5370033CD0D /* RxCocoa */; };
+		618C77222BC6F5370033CD0D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 618C77212BC6F5370033CD0D /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +64,7 @@
 		618C770E2BC6F1740033CD0D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		618C77142BC6F4450033CD0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		618C77172BC6F4B70033CD0D /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		618C771C2BC6F51B0033CD0D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
+				618C77202BC6F5370033CD0D /* RxCocoa in Frameworks */,
 				618C771B2BC6F4D80033CD0D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				618C77172BC6F4B70033CD0D /* BaseView.swift */,
+				618C771C2BC6F51B0033CD0D /* BaseViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -253,6 +260,8 @@
 			name = SweetLog;
 			packageProductDependencies = (
 				618C771A2BC6F4D80033CD0D /* SnapKit */,
+				618C771F2BC6F5370033CD0D /* RxCocoa */,
+				618C77212BC6F5370033CD0D /* RxSwift */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -284,6 +293,7 @@
 			mainGroup = 618C76BC2BC6EE4B0033CD0D;
 			packageReferences = (
 				618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				618C771E2BC6F5370033CD0D /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -327,6 +337,7 @@
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
+				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
@@ -567,6 +578,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		618C771E2BC6F5370033CD0D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -574,6 +593,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		618C771F2BC6F5370033CD0D /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618C771E2BC6F5370033CD0D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		618C77212BC6F5370033CD0D /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618C771E2BC6F5370033CD0D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

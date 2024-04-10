@@ -27,9 +27,9 @@
 		618C77032BC6F0D50033CD0D /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77022BC6F0D50033CD0D /* Image.swift */; };
 		618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77042BC6F0FD0033CD0D /* TabItem.swift */; };
 		618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77072BC6F1210033CD0D /* TabBarController.swift */; };
-		618C770D2BC6F15E0033CD0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C770C2BC6F15E0033CD0D /* ProfileViewController.swift */; };
+		618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C770C2BC6F15E0033CD0D /* HomeViewController.swift */; };
 		618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C770E2BC6F1740033CD0D /* MapViewController.swift */; };
-		618C77112BC6F1860033CD0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77102BC6F1860033CD0D /* ProfileViewController.swift */; };
+		618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77142BC6F4450033CD0D /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,9 +55,9 @@
 		618C77022BC6F0D50033CD0D /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		618C77042BC6F0FD0033CD0D /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		618C77072BC6F1210033CD0D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		618C770C2BC6F15E0033CD0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		618C770C2BC6F15E0033CD0D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		618C770E2BC6F1740033CD0D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		618C77102BC6F1860033CD0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		618C77142BC6F4450033CD0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +209,7 @@
 		618C77092BC6F1400033CD0D /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				618C770C2BC6F15E0033CD0D /* ProfileViewController.swift */,
+				618C770C2BC6F15E0033CD0D /* HomeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 		618C770B2BC6F1490033CD0D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				618C77102BC6F1860033CD0D /* ProfileViewController.swift */,
+				618C77142BC6F4450033CD0D /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -313,13 +313,13 @@
 			files = (
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
-				618C77112BC6F1860033CD0D /* ProfileViewController.swift in Sources */,
+				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
-				618C770D2BC6F15E0033CD0D /* ProfileViewController.swift in Sources */,
+				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

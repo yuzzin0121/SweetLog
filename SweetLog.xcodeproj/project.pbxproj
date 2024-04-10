@@ -30,6 +30,8 @@
 		618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C770C2BC6F15E0033CD0D /* HomeViewController.swift */; };
 		618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C770E2BC6F1740033CD0D /* MapViewController.swift */; };
 		618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77142BC6F4450033CD0D /* ProfileViewController.swift */; };
+		618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77172BC6F4B70033CD0D /* BaseView.swift */; };
+		618C771B2BC6F4D80033CD0D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 618C771A2BC6F4D80033CD0D /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,7 @@
 		618C770C2BC6F15E0033CD0D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		618C770E2BC6F1740033CD0D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		618C77142BC6F4450033CD0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		618C77172BC6F4B70033CD0D /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618C771B2BC6F4D80033CD0D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +147,7 @@
 		618C76E42BC6EF7F0033CD0D /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				618C77172BC6F4B70033CD0D /* BaseView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -246,6 +251,9 @@
 			dependencies = (
 			);
 			name = SweetLog;
+			packageProductDependencies = (
+				618C771A2BC6F4D80033CD0D /* SnapKit */,
+			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
 			productType = "com.apple.product-type.application";
@@ -274,6 +282,9 @@
 				Base,
 			);
 			mainGroup = 618C76BC2BC6EE4B0033CD0D;
+			packageReferences = (
+				618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -320,6 +331,7 @@
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
+				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,6 +557,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		618C771A2BC6F4D80033CD0D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 618C76BD2BC6EE4B0033CD0D /* Project object */;
 }

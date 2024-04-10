@@ -1,5 +1,5 @@
 //
-//  SingInView.swift
+//  SignUpView.swift
 //  SweetLog
 //
 //  Created by 조유진 on 4/11/24.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-final class SignInView: BaseView {
+final class SignUpView: BaseView {
     let emailTextField = SignTextField(placeholderText: "이메일")
     let passwordTextField = SignTextField(placeholderText: "비밀번호")
-    let signInButton = SignButton(title: "로그인")
+    let nicknameTextField = SignTextField(placeholderText: "닉네임")
     let signUpButton = SignButton(title: "회원가입")
     
     override func configureHierarchy() {
-        addSubviews([emailTextField, passwordTextField, signInButton, signUpButton])
+        addSubviews([emailTextField, passwordTextField, nicknameTextField, signUpButton])
     }
     override func configureLayout() {
         emailTextField.snp.makeConstraints { make in
@@ -29,7 +29,7 @@ final class SignInView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
         }
         
-        signInButton.snp.makeConstraints { make in
+        nicknameTextField.snp.makeConstraints { make in
             make.height.equalTo(55)
             make.top.equalTo(passwordTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
@@ -37,14 +37,11 @@ final class SignInView: BaseView {
         
         signUpButton.snp.makeConstraints { make in
             make.height.equalTo(55)
-            make.top.equalTo(signInButton.snp.bottom).offset(30)
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }
     override func configureView() {
-        signUpButton.backgroundColor = Color.white
-        signUpButton.setTitleColor(Color.brown, for: .normal)
-        signUpButton.layer.borderColor = Color.brown.cgColor
-        signUpButton.layer.borderWidth = 1
+        
     }
 }

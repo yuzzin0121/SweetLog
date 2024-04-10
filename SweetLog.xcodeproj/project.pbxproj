@@ -46,6 +46,7 @@
 		618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77382BC6FAED0033CD0D /* SignInViewModel.swift */; };
 		618C773C2BC6FB260033CD0D /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C773B2BC6FB260033CD0D /* ViewModelType.swift */; };
 		618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */; };
+		618C77422BC6FEF50033CD0D /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77412BC6FEF50033CD0D /* SignUpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +88,7 @@
 		618C77382BC6FAED0033CD0D /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		618C773B2BC6FB260033CD0D /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		618C77412BC6FEF50033CD0D /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -328,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */,
+				618C77412BC6FEF50033CD0D /* SignUpView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				618C77292BC6F60F0033CD0D /* SignInViewController.swift in Sources */,
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
+				618C77422BC6FEF50033CD0D /* SignUpView.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,

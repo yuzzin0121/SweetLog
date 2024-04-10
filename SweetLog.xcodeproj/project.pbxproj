@@ -24,6 +24,7 @@
 		618C76FA2BC6EFCE0033CD0D /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 618C76F12BC6EFCE0033CD0D /* Pretendard-Regular.otf */; };
 		618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76FC2BC6EFFA0033CD0D /* UIFont+Pretendard.swift */; };
 		618C77002BC6F03A0033CD0D /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76FF2BC6F03A0033CD0D /* Color.swift */; };
+		618C77032BC6F0D50033CD0D /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77022BC6F0D50033CD0D /* Image.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		618C76F12BC6EFCE0033CD0D /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		618C76FC2BC6EFFA0033CD0D /* UIFont+Pretendard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Pretendard.swift"; sourceTree = "<group>"; };
 		618C76FF2BC6F03A0033CD0D /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		618C77022BC6F0D50033CD0D /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				618C76FF2BC6F03A0033CD0D /* Color.swift */,
+				618C77022BC6F0D50033CD0D /* Image.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
+				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

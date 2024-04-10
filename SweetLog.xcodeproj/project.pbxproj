@@ -10,7 +10,6 @@
 		618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */; };
 		618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */; };
 		618C76CD2BC6EE4B0033CD0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76CC2BC6EE4B0033CD0D /* ViewController.swift */; };
-		618C76D02BC6EE4B0033CD0D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 618C76CF2BC6EE4B0033CD0D /* Base */; };
 		618C76D22BC6EE4D0033CD0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618C76D12BC6EE4D0033CD0D /* Assets.xcassets */; };
 		618C76D52BC6EE4D0033CD0D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 618C76D42BC6EE4D0033CD0D /* Base */; };
 		618C76DD2BC6EEA90033CD0D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 618C76DC2BC6EEA90033CD0D /* .gitignore */; };
@@ -21,7 +20,6 @@
 		618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		618C76CC2BC6EE4B0033CD0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		618C76CF2BC6EE4B0033CD0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		618C76D12BC6EE4D0033CD0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		618C76D42BC6EE4D0033CD0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		618C76D62BC6EE4D0033CD0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,7 +60,6 @@
 				618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */,
 				618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */,
 				618C76CC2BC6EE4B0033CD0D /* ViewController.swift */,
-				618C76CE2BC6EE4B0033CD0D /* Main.storyboard */,
 				618C76D12BC6EE4D0033CD0D /* Assets.xcassets */,
 				618C76D32BC6EE4D0033CD0D /* LaunchScreen.storyboard */,
 				618C76D62BC6EE4D0033CD0D /* Info.plist */,
@@ -131,7 +128,6 @@
 				618C76DD2BC6EEA90033CD0D /* .gitignore in Resources */,
 				618C76D22BC6EE4D0033CD0D /* Assets.xcassets in Resources */,
 				618C76D52BC6EE4D0033CD0D /* Base in Resources */,
-				618C76D02BC6EE4B0033CD0D /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,14 +147,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		618C76CE2BC6EE4B0033CD0D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				618C76CF2BC6EE4B0033CD0D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		618C76D32BC6EE4D0033CD0D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -299,11 +287,12 @@
 				DEVELOPMENT_TEAM = T2Q8P9627P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SweetLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -311,9 +300,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuz.SweetLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -327,11 +320,12 @@
 				DEVELOPMENT_TEAM = T2Q8P9627P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SweetLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -339,9 +333,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuz.SweetLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

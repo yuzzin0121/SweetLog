@@ -21,9 +21,14 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.white
         bind()
+        configureNavigationItem()
     }
     
     func bind() {
+        
+    }
+    
+    func configureNavigationItem() {
         
     }
     

@@ -43,6 +43,9 @@
 		618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77302BC6F8130033CD0D /* UIView+Extension.swift */; };
 		618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77322BC6F8E70033CD0D /* UIViewController+Extension.swift */; };
 		618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77342BC6F9AD0033CD0D /* UITextField+Extension.swift */; };
+		618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77382BC6FAED0033CD0D /* SignInViewModel.swift */; };
+		618C773C2BC6FB260033CD0D /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C773B2BC6FB260033CD0D /* ViewModelType.swift */; };
+		618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +84,9 @@
 		618C77302BC6F8130033CD0D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		618C77322BC6F8E70033CD0D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		618C77342BC6F9AD0033CD0D /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		618C77382BC6FAED0033CD0D /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		618C773B2BC6FB260033CD0D /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,7 @@
 		618C76DE2BC6EF320033CD0D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				618C773A2BC6FB180033CD0D /* Protocol */,
 				618C76FE2BC6F0310033CD0D /* Enum */,
 				618C76FB2BC6EFE70033CD0D /* Extension */,
 			);
@@ -277,8 +284,8 @@
 		618C77262BC6F5E60033CD0D /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
-				618C77282BC6F60F0033CD0D /* SignInViewController.swift */,
-				618C772A2BC6F6220033CD0D /* SingInView.swift */,
+				618C77362BC6FACB0033CD0D /* View */,
+				618C77372BC6FAD20033CD0D /* ViewModel */,
 			);
 			name = SignIn;
 			sourceTree = "<group>";
@@ -286,8 +293,50 @@
 		618C77272BC6F5ED0033CD0D /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				618C773D2BC6FC780033CD0D /* View */,
+				618C773E2BC6FC7B0033CD0D /* ViewModel */,
 			);
 			name = SignUp;
+			sourceTree = "<group>";
+		};
+		618C77362BC6FACB0033CD0D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				618C77282BC6F60F0033CD0D /* SignInViewController.swift */,
+				618C772A2BC6F6220033CD0D /* SingInView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		618C77372BC6FAD20033CD0D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				618C77382BC6FAED0033CD0D /* SignInViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		618C773A2BC6FB180033CD0D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				618C773B2BC6FB260033CD0D /* ViewModelType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		618C773D2BC6FC780033CD0D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				618C773F2BC6FC8B0033CD0D /* SignUpViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		618C773E2BC6FC7B0033CD0D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,14 +429,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618C773C2BC6FB260033CD0D /* ViewModelType.swift in Sources */,
 				618C77292BC6F60F0033CD0D /* SignInViewController.swift in Sources */,
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
+				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
+				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,

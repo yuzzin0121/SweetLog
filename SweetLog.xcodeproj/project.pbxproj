@@ -54,6 +54,7 @@
 		618C774F2BC705080033CD0D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 618C774E2BC705080033CD0D /* Alamofire */; };
 		618C77512BC705310033CD0D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77502BC705310033CD0D /* Router.swift */; };
 		618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77522BC7065D0033CD0D /* SignUpViewModel.swift */; };
+		618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77572BC8379D0033CD0D /* SignLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		618C774B2BC704F40033CD0D /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
 		618C77502BC705310033CD0D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		618C77522BC7065D0033CD0D /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		618C77572BC8379D0033CD0D /* SignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 			children = (
 				618C772C2BC6F6A60033CD0D /* SignTextField.swift */,
 				618C772E2BC6F7950033CD0D /* SignButton.swift */,
+				618C77572BC8379D0033CD0D /* SignLabel.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */,
+				618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,

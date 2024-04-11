@@ -53,6 +53,7 @@
 		618C774C2BC704F40033CD0D /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C774B2BC704F40033CD0D /* TargetType.swift */; };
 		618C774F2BC705080033CD0D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 618C774E2BC705080033CD0D /* Alamofire */; };
 		618C77512BC705310033CD0D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77502BC705310033CD0D /* Router.swift */; };
+		618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77522BC7065D0033CD0D /* SignUpViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		618C77492BC7046E0033CD0D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		618C774B2BC704F40033CD0D /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
 		618C77502BC705310033CD0D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		618C77522BC7065D0033CD0D /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +357,7 @@
 		618C773E2BC6FC7B0033CD0D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				618C77522BC7065D0033CD0D /* SignUpViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
 				618C774C2BC704F40033CD0D /* TargetType.swift in Sources */,
 				618C77512BC705310033CD0D /* Router.swift in Sources */,
+				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,

@@ -10,8 +10,14 @@ import UIKit
 final class SignUpViewController: BaseViewController {
     let mainView = SignUpView()
     
+    let viewModel = SignUpViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    override func bind() {
         
     }
     

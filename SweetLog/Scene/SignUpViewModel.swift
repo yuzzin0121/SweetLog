@@ -23,16 +23,17 @@ final class SignUpViewModel: ViewModelType {
     
     struct Output {
         let validEmail: Driver<Bool>
+        let emailCanUse: Driver<Void>
         let validPassword: Driver<Bool>
         let validNickname: Driver<Bool>
         let signUpSuccessTrigger: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
-        let emailValid = BehaviorRelay(value: false)
-        let emailCanUse = BehaviorRelay(value: false)   // + 중복체크
-        let passwordValid = BehaviorRelay(value: false)
-        let nicknameValid = BehaviorRelay(value: false)
+        let emailValid = PublishRelay<Bool>()
+        let emailCanUse = PublishRelay<v>()   // + 중복체크
+        let passwordValid = PublishRelay<Bool>()
+        let nicknameValid = PublishRelay<Bool>()
         let signUpSuccessTrigger = PublishRelay<Void>()
         
         input.duplicateCheckButtonTapped
@@ -52,7 +53,7 @@ final class SignUpViewModel: ViewModelType {
             .debug()
             .subscribe(with: self, onNext: { owner, validationMessage in
                 print(validationMessage)
-                emailCanUse.accept(true)
+                emailCanUse.accept(())
             })
             .disposed(by: disposeBag)
         
@@ -77,6 +78,10 @@ final class SignUpViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(validEmail: emailValid.asDriver(), validPassword: passwordValid.asDriver(), validNickname: nicknameValid.asDriver(), signUpSuccessTrigger: signUpSuccessTrigger.asDriver(onErrorJustReturn: ()))
+        return Output(validEmail: emailValid.asDriver(onErrorJustReturn: false),
+                      emailCanUse: emailCanUse.asDriver(onErrorJustReturn: ()),
+                      validPassword: passwordValid.asDriver(onErrorJustReturn: false),
+                      validNickname: nicknameValid.asDriver(onErrorJustReturn: false),
+                      signUpSuccessTrigger: signUpSuccessTrigger.asDriver(onErrorJustReturn: ()))
     }
 }

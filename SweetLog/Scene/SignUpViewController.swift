@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toast
 
 final class SignUpViewController: BaseViewController {
     let mainView = SignUpView()
@@ -32,6 +33,12 @@ final class SignUpViewController: BaseViewController {
                 owner.mainView.emailMessageLabel.text = isValid ? "" : "@ 포함, 6글자 이상 입력, 중복체크 필요"
                 owner.mainView.duplicateCheckButton.isEnabled = isValid
                 print(isValid)
+            }
+            .disposed(by: disposeBag)
+        
+        output.emailCanUse
+            .drive(with: self) { owner, _ in
+                owner.mainView.makeToast("", duration: <#T##TimeInterval#>, point: <#T##CGPoint#>, title: <#T##String?#>, image: <#T##UIImage?#>, style: <#T##ToastStyle#>, completion: <#T##((Bool) -> Void)?#>)
             }
             .disposed(by: disposeBag)
         

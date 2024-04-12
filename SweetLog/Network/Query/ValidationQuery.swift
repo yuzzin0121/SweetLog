@@ -1,0 +1,12 @@
+//
+//  ValidationQuery.swift
+//  SweetLog
+//
+//  Created by 조유진 on 4/12/24.
+//
+
+import Foundation
+
+struct ValidationQuery: Encodable {
+    let email: String
+}

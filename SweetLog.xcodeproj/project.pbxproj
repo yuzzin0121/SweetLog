@@ -55,6 +55,11 @@
 		618C77512BC705310033CD0D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77502BC705310033CD0D /* Router.swift */; };
 		618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77522BC7065D0033CD0D /* SignUpViewModel.swift */; };
 		618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77572BC8379D0033CD0D /* SignLabel.swift */; };
+		618C775A2BC846C50033CD0D /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77592BC846C50033CD0D /* BaseResponse.swift */; };
+		618C775C2BC847FD0033CD0D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C775B2BC847FD0033CD0D /* NetworkManager.swift */; };
+		618C775E2BC848450033CD0D /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C775D2BC848450033CD0D /* Auth.swift */; };
+		618C77602BC848580033CD0D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C775F2BC848580033CD0D /* Profile.swift */; };
+		618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77612BC8D3C80033CD0D /* ValidationQuery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +109,11 @@
 		618C77502BC705310033CD0D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		618C77522BC7065D0033CD0D /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		618C77572BC8379D0033CD0D /* SignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignLabel.swift; sourceTree = "<group>"; };
+		618C77592BC846C50033CD0D /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		618C775B2BC847FD0033CD0D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		618C775D2BC848450033CD0D /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		618C775F2BC848580033CD0D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		618C77612BC8D3C80033CD0D /* ValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationQuery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +202,7 @@
 				618C774B2BC704F40033CD0D /* TargetType.swift */,
 				618C77492BC7046E0033CD0D /* APIKey.swift */,
 				618C77452BC703B30033CD0D /* Query */,
+				618C775B2BC847FD0033CD0D /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -219,6 +230,9 @@
 		618C76E62BC6EF8D0033CD0D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				618C77592BC846C50033CD0D /* BaseResponse.swift */,
+				618C775D2BC848450033CD0D /* Auth.swift */,
+				618C775F2BC848580033CD0D /* Profile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -369,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				618C77462BC703BD0033CD0D /* LoginQuery.swift */,
+				618C77612BC8D3C80033CD0D /* ValidationQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -470,8 +485,10 @@
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
 				618C77422BC6FEF50033CD0D /* SignUpView.swift in Sources */,
+				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				618C77472BC703BD0033CD0D /* LoginQuery.swift in Sources */,
+				618C775E2BC848450033CD0D /* Auth.swift in Sources */,
 				618C774A2BC7046E0033CD0D /* APIKey.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
@@ -480,6 +497,7 @@
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
+				618C775C2BC847FD0033CD0D /* NetworkManager.swift in Sources */,
 				618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */,
 				618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
@@ -488,11 +506,13 @@
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
 				618C774C2BC704F40033CD0D /* TargetType.swift in Sources */,
 				618C77512BC705310033CD0D /* Router.swift in Sources */,
+				618C775A2BC846C50033CD0D /* BaseResponse.swift in Sources */,
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
+				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,

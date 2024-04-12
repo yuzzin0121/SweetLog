@@ -98,5 +98,9 @@ final class SignUpView: BaseView {
         duplicateCheckButton.setTitleColor(Color.black, for: .normal)
         duplicateCheckButton.titleLabel?.font = .pretendard(size: 15, weight: .semiBold)
         duplicateCheckButton.layer.cornerRadius = 12
+        
+        emailMessageLabel.font = .pretendard(size: 14, weight: .regular)
+        passwordMessageLabel.font = .pretendard(size: 14, weight: .regular)
+        nicknameMessageLabel.font = .pretendard(size: 14, weight: .regular)
     }
 }

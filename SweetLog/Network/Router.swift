@@ -10,6 +10,7 @@ import Alamofire
 
 enum Router {
     case login(query: LoginQuery)
+    case validation(email: ValidationQuery)
 //    case join
 }
 
@@ -21,7 +22,7 @@ extension Router: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .login:
+        case .login, .validation:
             return .post
         }
     }
@@ -29,13 +30,15 @@ extension Router: TargetType {
     var path: String {
         switch self {
         case .login:
-            return "/users/login"
+            return "/v1/users/login"
+        case .validation:
+            return "/v1/validation/email"
         }
     }
     
     var header: [String : String] {
         switch self {
-        case .login:
+        case .login, .validation:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
@@ -56,6 +59,9 @@ extension Router: TargetType {
         case .login(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
+        case .validation(let email):
+            let encoder = JSONEncoder()
+            return try? encoder.encode(email)
         }
     }
     

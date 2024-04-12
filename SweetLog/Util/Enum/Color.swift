@@ -15,4 +15,7 @@ enum Color {
     static let brown: UIColor = .customBrown
     static let darkBrown: UIColor = .darkBrown
     static let buttonGray: UIColor = .buttonGray
+    
+    static let validGreen: UIColor = .validGreen
+    static let validRed: UIColor = .validRed
 }

@@ -61,6 +61,8 @@
 		618C77602BC848580033CD0D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C775F2BC848580033CD0D /* Profile.swift */; };
 		618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C77612BC8D3C80033CD0D /* ValidationQuery.swift */; };
 		618C77652BC97F560033CD0D /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 618C77642BC97F560033CD0D /* Toast */; };
+		618C78132BC994570033CD0D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78122BC994570033CD0D /* APIError.swift */; };
+		618C78152BC994610033CD0D /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78142BC994610033CD0D /* AuthError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +117,8 @@
 		618C775D2BC848450033CD0D /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		618C775F2BC848580033CD0D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		618C77612BC8D3C80033CD0D /* ValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationQuery.swift; sourceTree = "<group>"; };
+		618C78122BC994570033CD0D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		618C78142BC994610033CD0D /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,7 @@
 		618C76E32BC6EF620033CD0D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				618C78112BC994270033CD0D /* Error */,
 				618C77502BC705310033CD0D /* Router.swift */,
 				618C77432BC703960033CD0D /* HTTPHeader.swift */,
 				618C774B2BC704F40033CD0D /* TargetType.swift */,
@@ -390,6 +395,15 @@
 			path = Query;
 			sourceTree = "<group>";
 		};
+		618C78112BC994270033CD0D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				618C78122BC994570033CD0D /* APIError.swift */,
+				618C78142BC994610033CD0D /* AuthError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -494,6 +508,7 @@
 				618C77472BC703BD0033CD0D /* LoginQuery.swift in Sources */,
 				618C775E2BC848450033CD0D /* Auth.swift in Sources */,
 				618C774A2BC7046E0033CD0D /* APIKey.swift in Sources */,
+				618C78132BC994570033CD0D /* APIError.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
@@ -517,6 +532,7 @@
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
+				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,

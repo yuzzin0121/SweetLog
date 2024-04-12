@@ -49,7 +49,16 @@ struct NetworkManager {
                             single(.success(message))
                         case .failure(let error):
                             print(error)
-                            single(.failure(error))
+                            if let statusCode = response.response?.statusCode {
+                                if let validEmailError = ValidationEmailError(rawValue: statusCode) {
+                                    print("ValidEmailError")
+                                    single(.failure(validEmailError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
                         }
                     }
             } catch {

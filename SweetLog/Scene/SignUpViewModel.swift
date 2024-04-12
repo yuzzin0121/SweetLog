@@ -27,14 +27,16 @@ final class SignUpViewModel: ViewModelType {
         let validPassword: Driver<Bool>
         let validNickname: Driver<Bool>
         let signUpSuccessTrigger: Driver<Void>
+        let errorString: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let emailValid = PublishRelay<Bool>()
-        let emailCanUse = PublishRelay<v>()   // + 중복체크
+        let emailCanUse = PublishRelay<Void>()   // + 중복체크
         let passwordValid = PublishRelay<Bool>()
         let nicknameValid = PublishRelay<Bool>()
         let signUpSuccessTrigger = PublishRelay<Void>()
+        let errorString = PublishRelay<String>()
         
         input.duplicateCheckButtonTapped
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
@@ -47,6 +49,8 @@ final class SignUpViewModel: ViewModelType {
             .flatMap {
                 return NetworkManager.validationEmail(email: $0)
                     .catch { error in
+                        print(error.localizedDescription)
+                        errorString.accept(error.localizedDescription)
                         return Single<ValidationModel>.never()
                     }
             }
@@ -82,6 +86,7 @@ final class SignUpViewModel: ViewModelType {
                       emailCanUse: emailCanUse.asDriver(onErrorJustReturn: ()),
                       validPassword: passwordValid.asDriver(onErrorJustReturn: false),
                       validNickname: nicknameValid.asDriver(onErrorJustReturn: false),
-                      signUpSuccessTrigger: signUpSuccessTrigger.asDriver(onErrorJustReturn: ()))
+                      signUpSuccessTrigger: signUpSuccessTrigger.asDriver(onErrorJustReturn: ()),
+                      errorString: errorString.asDriver(onErrorJustReturn: ""))
     }
 }

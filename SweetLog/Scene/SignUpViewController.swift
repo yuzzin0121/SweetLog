@@ -38,7 +38,7 @@ final class SignUpViewController: BaseViewController {
         
         output.emailCanUse
             .drive(with: self) { owner, _ in
-                owner.mainView.makeToast("", duration: <#T##TimeInterval#>, point: <#T##CGPoint#>, title: <#T##String?#>, image: <#T##UIImage?#>, style: <#T##ToastStyle#>, completion: <#T##((Bool) -> Void)?#>)
+                owner.mainView.makeToast("사용 가능한 이메일입니다.")
             }
             .disposed(by: disposeBag)
         
@@ -53,6 +53,12 @@ final class SignUpViewController: BaseViewController {
             .drive(with: self) { owner, isValid in
                 owner.mainView.nicknameMessageLabel.textColor = isValid ? Color.validGreen : Color.validRed
                 owner.mainView.nicknameMessageLabel.text = isValid ? "" : "2글자 이상 입력해주세요"
+            }
+            .disposed(by: disposeBag)
+        
+        output.errorString
+            .drive(with: self) { owner, errorMessage in
+                owner.mainView.makeToast(errorMessage)
             }
             .disposed(by: disposeBag)
     }

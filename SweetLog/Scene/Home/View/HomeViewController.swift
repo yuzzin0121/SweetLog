@@ -7,12 +7,17 @@
 
 import UIKit
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
+    let mainView = HomeView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
        
+    }
+    
+    override func loadView() {
+        view = mainView
     }
    
 }

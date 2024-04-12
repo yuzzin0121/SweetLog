@@ -65,6 +65,8 @@
 		618C78152BC994610033CD0D /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78142BC994610033CD0D /* AuthError.swift */; };
 		618C78172BC9A03A0033CD0D /* JoinQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78162BC9A03A0033CD0D /* JoinQuery.swift */; };
 		618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78192BC9A9090033CD0D /* UserDefaultManager.swift */; };
+		618C781E2BC9AC6E0033CD0D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C781D2BC9AC6E0033CD0D /* HomeView.swift */; };
+		618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C781F2BC9ACA60033CD0D /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +125,8 @@
 		618C78142BC994610033CD0D /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		618C78162BC9A03A0033CD0D /* JoinQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinQuery.swift; sourceTree = "<group>"; };
 		618C78192BC9A9090033CD0D /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		618C781D2BC9AC6E0033CD0D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		618C781F2BC9ACA60033CD0D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,7 +305,8 @@
 		618C77092BC6F1400033CD0D /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				618C770C2BC6F15E0033CD0D /* HomeViewController.swift */,
+				618C781C2BC9AC490033CD0D /* ViewModel */,
+				618C781B2BC9AC450033CD0D /* View */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -418,6 +423,23 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		618C781B2BC9AC450033CD0D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				618C770C2BC6F15E0033CD0D /* HomeViewController.swift */,
+				618C781D2BC9AC6E0033CD0D /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		618C781C2BC9AC490033CD0D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				618C781F2BC9ACA60033CD0D /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -524,6 +546,7 @@
 				618C774A2BC7046E0033CD0D /* APIKey.swift in Sources */,
 				618C78132BC994570033CD0D /* APIError.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
+				618C781E2BC9AC6E0033CD0D /* HomeView.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
@@ -548,6 +571,7 @@
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
 				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
+				618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */,
 				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,

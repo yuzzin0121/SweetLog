@@ -8,9 +8,15 @@
 import Foundation
 
 struct LoginModel: Decodable {
-    let user_id: String
+    let userId: String
     let accessToken: String
     let refreshToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case accessToken
+        case refreshToken
+    }
 }
 
 struct RefreshModel: Decodable {

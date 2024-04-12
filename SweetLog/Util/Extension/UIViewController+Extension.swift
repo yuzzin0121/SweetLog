@@ -16,4 +16,11 @@ extension UIViewController {
         sceneDelegate?.window?.makeKey()
     }
 
+    func changeHome() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        let sceneDelegate = windowScene.delegate as? SceneDelegate
+        let tab = TabBarController()
+        sceneDelegate?.window?.rootViewController = tab
+        sceneDelegate?.window?.makeKey()
+    }
 }

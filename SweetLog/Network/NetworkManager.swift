@@ -23,7 +23,17 @@ struct NetworkManager {
                         case .success(let loginModel):
                             single(.success(loginModel))
                         case .failure(let error):
-                            single(.failure(error))
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let loginError = LoginError(rawValue: statusCode) {
+                                    print("loginError")
+                                    single(.failure(loginError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
                         }
                     }
             } catch {

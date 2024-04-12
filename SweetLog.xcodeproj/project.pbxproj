@@ -64,6 +64,7 @@
 		618C78132BC994570033CD0D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78122BC994570033CD0D /* APIError.swift */; };
 		618C78152BC994610033CD0D /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78142BC994610033CD0D /* AuthError.swift */; };
 		618C78172BC9A03A0033CD0D /* JoinQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78162BC9A03A0033CD0D /* JoinQuery.swift */; };
+		618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78192BC9A9090033CD0D /* UserDefaultManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +122,7 @@
 		618C78122BC994570033CD0D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		618C78142BC994610033CD0D /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		618C78162BC9A03A0033CD0D /* JoinQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinQuery.swift; sourceTree = "<group>"; };
+		618C78192BC9A9090033CD0D /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 		618C76DE2BC6EF320033CD0D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				618C78182BC9A8FD0033CD0D /* Manager */,
 				618C773A2BC6FB180033CD0D /* Protocol */,
 				618C76FE2BC6F0310033CD0D /* Enum */,
 				618C76FB2BC6EFE70033CD0D /* Extension */,
@@ -407,6 +410,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		618C78182BC9A8FD0033CD0D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				618C78192BC9A9090033CD0D /* UserDefaultManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -535,6 +546,7 @@
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
+				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,

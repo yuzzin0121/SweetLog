@@ -63,6 +63,7 @@
 		618C77652BC97F560033CD0D /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 618C77642BC97F560033CD0D /* Toast */; };
 		618C78132BC994570033CD0D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78122BC994570033CD0D /* APIError.swift */; };
 		618C78152BC994610033CD0D /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78142BC994610033CD0D /* AuthError.swift */; };
+		618C78172BC9A03A0033CD0D /* JoinQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78162BC9A03A0033CD0D /* JoinQuery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,7 @@
 		618C77612BC8D3C80033CD0D /* ValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationQuery.swift; sourceTree = "<group>"; };
 		618C78122BC994570033CD0D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		618C78142BC994610033CD0D /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
+		618C78162BC9A03A0033CD0D /* JoinQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinQuery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +393,7 @@
 			children = (
 				618C77462BC703BD0033CD0D /* LoginQuery.swift */,
 				618C77612BC8D3C80033CD0D /* ValidationQuery.swift */,
+				618C78162BC9A03A0033CD0D /* JoinQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				618C775C2BC847FD0033CD0D /* NetworkManager.swift in Sources */,
 				618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */,
+				618C78172BC9A03A0033CD0D /* JoinQuery.swift in Sources */,
 				618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,

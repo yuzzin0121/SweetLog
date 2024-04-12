@@ -30,15 +30,18 @@ final class SignUpViewController: BaseViewController {
         output.validEmail
             .drive(with: self) { owner, isValid in
                 owner.mainView.emailMessageLabel.textColor = isValid ? Color.validGreen : Color.validRed
-                owner.mainView.emailMessageLabel.text = isValid ? "" : "@ 포함, 6글자 이상 입력, 중복체크 필요"
+                owner.mainView.emailMessageLabel.text = isValid ? "" : "@ 포함, 6글자 이상 입력"
                 owner.mainView.duplicateCheckButton.isEnabled = isValid
                 print(isValid)
             }
             .disposed(by: disposeBag)
         
         output.emailCanUse
-            .drive(with: self) { owner, _ in
-                owner.mainView.makeToast("사용 가능한 이메일입니다.")
+            .drive(with: self) { owner, canUse in
+                if canUse {
+                    owner.mainView.makeToast("사용 가능한 이메일입니다.")
+                    owner.mainView.emailMessageLabel.text = ""
+                }
             }
             .disposed(by: disposeBag)
         
@@ -61,7 +64,22 @@ final class SignUpViewController: BaseViewController {
                 owner.mainView.makeToast(errorMessage)
             }
             .disposed(by: disposeBag)
+        
+        output.totalValid
+            .drive(with: self) { owner, isValid in
+                owner.mainView.signUpButton.isEnabled = isValid
+                owner.mainView.signUpButton.backgroundColor = isValid ? Color.brown : Color.gray
+            }
+            .disposed(by: disposeBag)
+        
+        output.signUpSuccessTrigger
+            .drive(with: self) { owner, _ in
+                owner.popView()
+            }
+            .disposed(by: disposeBag)
     }
+    
+
     
     override func configureNavigationItem() {
         navigationItem.title = "회원가입"

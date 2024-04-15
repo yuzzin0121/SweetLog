@@ -20,4 +20,6 @@ enum Image {
     static let heart: UIImage = .heart
     static let heartFill: UIImage = .heartFill
     static let current: UIImage = .currentLocation
+    
+    static let setting: UIImage = .setting
 }

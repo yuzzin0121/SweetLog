@@ -61,7 +61,7 @@ final class SignUpViewModel: ViewModelType {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(signUpObservable)
             .flatMap { joinQuery in
-                return NetworkManager.createJoin(query: joinQuery)
+                return AuthNetworkManager.createJoin(query: joinQuery)
                     .catch { error in
                         errorString.accept(error.localizedDescription)
                         return Single<JoinModel>.never()
@@ -83,7 +83,7 @@ final class SignUpViewModel: ViewModelType {
                 return ValidationQuery(email: text)
             }
             .flatMap {
-                return NetworkManager.validationEmail(email: $0)
+                return AuthNetworkManager.validationEmail(email: $0)
                     .catch { error in
                         print(error.localizedDescription)
                         errorString.accept(error.localizedDescription)

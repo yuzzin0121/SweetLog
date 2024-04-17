@@ -9,12 +9,12 @@ import Foundation
 import Alamofire
 import RxSwift
 
-struct NetworkManager {
-    
+struct AuthNetworkManager {
+    // 로그인
     static func createLogin(query: LoginQuery) -> Single<LoginModel> {
         return Single<LoginModel>.create { single in
             do {
-                let urlRequest = try Router.login(query: query).asURLRequest()
+                let urlRequest = try AuthRouter.login(query: query).asURLRequest()
                                 
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<300)
@@ -44,11 +44,12 @@ struct NetworkManager {
         }
     }
     
+    // 이메일 중복 확인
     static func validationEmail(email: ValidationQuery) -> Single<ValidationModel> {
         print(#function, email)
         return Single<ValidationModel>.create { single in
             do {
-                let urlRequest = try Router.validation(email: email).asURLRequest()
+                let urlRequest = try AuthRouter.validation(email: email).asURLRequest()
                 print(urlRequest)
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<300)
@@ -79,11 +80,12 @@ struct NetworkManager {
         }
     }
     
+    // 회원가입
     static func createJoin(query: JoinQuery) -> Single<JoinModel> {
         print(query.email, query.password, query.nick)
         return Single<JoinModel>.create { single in
             do {
-                let urlRequest = try Router.join(query: query).asURLRequest()
+                let urlRequest = try AuthRouter.join(query: query).asURLRequest()
                                 
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<300)
@@ -110,6 +112,77 @@ struct NetworkManager {
             }
             
             return Disposables.create()
+        }
+    }
+    
+    static func withdraw() -> Single<JoinModel> {
+        return Single<JoinModel>.create { single in
+            do {
+                let urlRequest = try AuthRouter.withdraw.asURLRequest()
+                                
+                AF.request(urlRequest)
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: JoinModel.self) { response in
+                        switch response.result {
+                        case .success(let joinModel):
+                            single(.success(joinModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let withdrawError = withdrawError(rawValue: statusCode) {
+                                    print("withdrawError")
+                                    single(.failure(withdrawError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    if apiError == APIError.accessTokenExpired {
+                                        AuthNetworkManager.refreshAccessToken { isSuccess in
+                                            if isSuccess {
+                                                AuthNetworkManager.withdraw()
+                                            } else {
+                                                single(.failure(apiError))
+                                            }
+                                        }
+                                    }
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    static func refreshAccessToken(completionHandler: @escaping (Bool) -> Void) {
+        do {
+            let urlRequest = try AuthRouter.refresh.asURLRequest()
+                            
+            AF.request(urlRequest)
+                .validate(statusCode: 200..<300)
+                .responseDecodable(of: RefreshModel.self) { response in
+                    switch response.result {
+                    case .success(let refreshModel):
+                        completionHandler(true)
+                    case .failure(let error):
+                        print(error)
+                        if let statusCode = response.response?.statusCode {
+                            if let refreshError = refreshError(rawValue: statusCode) {
+                                print("withdrawError")
+                                completionHandler(false)
+                            } else if let apiError = APIError(rawValue: statusCode) {
+                                completionHandler(false)
+                            }
+                        } else {
+                            completionHandler(false)
+                        }
+                    }
+                }
+        } catch {
+            completionHandler(false)
         }
     }
 }

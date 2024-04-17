@@ -8,13 +8,15 @@
 import Foundation
 import Alamofire
 
-enum Router {
+enum AuthRouter {
     case login(query: LoginQuery)
     case validation(email: ValidationQuery)
     case join(query: JoinQuery)
+    case withdraw
+    case refresh
 }
 
-extension Router: TargetType {
+extension AuthRouter: TargetType {
     
     var baseURL: String {
         return APIKey.baseURL.rawValue
@@ -22,6 +24,8 @@ extension Router: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
+        case .withdraw, .refresh:
+            return .get
         case .login, .validation, .join:
             return .post
         }
@@ -35,6 +39,10 @@ extension Router: TargetType {
             return "/v1/validation/email"
         case .join:
             return "/v1/users/join"
+        case .withdraw:
+            return "/v1/users/withdraw"
+        case .refresh:
+            return "/v1/auth/refresh"
         }
     }
     
@@ -44,6 +52,19 @@ extension Router: TargetType {
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
+            ]
+        case .withdraw:
+            return [
+                HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
+                HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
+                HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken
+            ]
+        case .refresh:
+            return [
+                HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
+                HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
+                HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken,
+                HTTPHeader.refresh.rawValue: UserDefaultManager.shared.refreshToken
             ]
         }
     }
@@ -67,6 +88,8 @@ extension Router: TargetType {
         case .join(let query):
             let encoder = JSONEncoder()
             return try? encoder.encode(query)
+        case .withdraw, .refresh:
+            return nil
         }
     }
     

@@ -12,6 +12,7 @@ enum APIError: Int, Error, LocalizedError{
     case toomanyRequest = 429
     case invalidURL = 444
     case serverError = 500
+    case accessTokenExpired = 419
     
     var errorDescription: String {
         switch self {
@@ -23,6 +24,8 @@ enum APIError: Int, Error, LocalizedError{
             return "비정상적인 요청입니다."
         case .serverError:
             return "비정상 및 사전에 정의되지 않은 에러가 발생했습니다."
+        case .accessTokenExpired:
+            return "액세스 토큰이 만료되었습니다. 토큰을 갱신해주세요."
         }
     }
 }

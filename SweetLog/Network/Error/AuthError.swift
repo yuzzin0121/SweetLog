@@ -51,3 +51,35 @@ enum LoginError: Int, Error, LocalizedError {
         }
     }
 }
+
+enum withdrawError: Int, Error, LocalizedError {
+    case cannotBeAuthenticated = 401
+    case forbidden = 403
+
+    var errorDescription: String? {
+        switch self {
+        case .cannotBeAuthenticated:
+            return "인증에 오류가 발생했습니다."
+        case .forbidden:
+            return "접근할 수 없습니다."
+        }
+    }
+}
+
+
+enum refreshError: Int, Error, LocalizedError {
+    case cannotBeAuthenticated = 401
+    case forbidden = 403
+    case expiredRefreshToken = 418
+    
+    var errorDescription: String? {
+        switch self {
+        case .cannotBeAuthenticated:
+            return "인증에 오류가 발생했습니다."
+        case .forbidden:
+            return "접근할 수 없습니다."
+        case .expiredRefreshToken:
+            return "리프레시 토큰이 만료되었습니다. 다시 로그인 해주세요."
+        }
+    }
+}

@@ -71,7 +71,9 @@ final class SettingViewController: BaseViewController {
         let confirmAction = UIAlertAction(title: actionTitle, style: .destructive) { _ in
             actionHandler?()
         }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true)
     }

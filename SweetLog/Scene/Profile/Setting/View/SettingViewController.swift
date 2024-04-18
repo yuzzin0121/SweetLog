@@ -60,7 +60,7 @@ final class SettingViewController: BaseViewController {
         
         output.errorString
             .drive(with: self) { owner, errorString in
-                owner.showAlert(title: "에러", message: errorString)
+                owner.showAlert(title: "에러", message: errorString, actionHandler: nil)
             }
             .disposed(by: disposeBag)
     }

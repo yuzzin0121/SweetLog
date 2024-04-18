@@ -75,6 +75,9 @@
 		618C78692BCD6FF40033CD0D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78682BCD6FF40033CD0D /* SettingViewController.swift */; };
 		618C786B2BCD70120033CD0D /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C786A2BCD70120033CD0D /* SettingView.swift */; };
 		618C786D2BCD70830033CD0D /* Reuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C786C2BCD70830033CD0D /* Reuse.swift */; };
+		618C78A62BD04F0D0033CD0D /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */; };
+		618C78A82BD0502C0033CD0D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78A72BD0502C0033CD0D /* NetworkManager.swift */; };
+		618C78AC2BD051DE0033CD0D /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,6 +146,9 @@
 		618C78682BCD6FF40033CD0D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		618C786A2BCD70120033CD0D /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		618C786C2BCD70830033CD0D /* Reuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reuse.swift; sourceTree = "<group>"; };
+		618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
+		618C78A72BD0502C0033CD0D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +241,8 @@
 				618C77492BC7046E0033CD0D /* APIKey.swift */,
 				618C77452BC703B30033CD0D /* Query */,
 				618C775B2BC847FD0033CD0D /* AuthNetworkManager.swift */,
+				618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */,
+				618C78A72BD0502C0033CD0D /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -304,6 +312,7 @@
 				618C77302BC6F8130033CD0D /* UIView+Extension.swift */,
 				618C77322BC6F8E70033CD0D /* UIViewController+Extension.swift */,
 				618C77342BC6F9AD0033CD0D /* UITextField+Extension.swift */,
+				618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -598,6 +607,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618C78A62BD04F0D0033CD0D /* AuthInterceptor.swift in Sources */,
 				618C773C2BC6FB260033CD0D /* ViewModelType.swift in Sources */,
 				618C77292BC6F60F0033CD0D /* SignInViewController.swift in Sources */,
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
@@ -613,6 +623,7 @@
 				618C786D2BCD70830033CD0D /* Reuse.swift in Sources */,
 				618C78132BC994570033CD0D /* APIError.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
+				618C78A82BD0502C0033CD0D /* NetworkManager.swift in Sources */,
 				618C781E2BC9AC6E0033CD0D /* HomeView.swift in Sources */,
 				618C78242BC9AF5E0033CD0D /* ProfileView.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
@@ -631,6 +642,7 @@
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
+				618C78AC2BD051DE0033CD0D /* NotificationName+Extension.swift in Sources */,
 				618C774C2BC704F40033CD0D /* TargetType.swift in Sources */,
 				618C77512BC705310033CD0D /* AuthRouter.swift in Sources */,
 				618C775A2BC846C50033CD0D /* BaseResponse.swift in Sources */,

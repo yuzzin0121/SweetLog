@@ -22,15 +22,27 @@ class BaseViewController: UIViewController {
         view.backgroundColor = Color.white
         bind()
         configureNavigationItem()
+        NotificationCenter.default.addObserver(self, selector: #selector(showLoginVC), name: .refreshTokenExpired, object: nil)
     }
     
     func bind() {
         
     }
     
-    func showAlert(title: String, message: String) {
+    @objc func showLoginVC(notification: Notification) {
+        showAlert(title: "세션이 만료되었습니다", message: "다시 로그인해주세요") { [weak self] in
+            self?.changeRootView(to: SignInViewController(), isNav: true)
+            [UserDefaultManager.UDKey.userId.rawValue, UserDefaultManager.UDKey.accessToken.rawValue, UserDefaultManager.UDKey.refreshToken.rawValue].forEach {
+                UserDefaults.standard.removeObject(forKey: $0)
+            }
+        }
+    }
+    
+    func showAlert(title: String, message: String, actionHandler: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
+        let action = UIAlertAction(title: "확인", style: .default) { _ in
+            actionHandler?()
+        }
         alert.addAction(action)
         present(alert, animated: true)
     }

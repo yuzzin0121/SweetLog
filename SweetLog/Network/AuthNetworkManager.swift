@@ -120,7 +120,7 @@ struct AuthNetworkManager {
             do {
                 let urlRequest = try AuthRouter.withdraw.asURLRequest()
                                 
-                AF.request(urlRequest)
+                AF.request(urlRequest, interceptor: AuthInterceptor())
                     .validate(statusCode: 200..<300)
                     .responseDecodable(of: JoinModel.self) { response in
                         switch response.result {
@@ -133,15 +133,6 @@ struct AuthNetworkManager {
                                     print("withdrawError")
                                     single(.failure(withdrawError))
                                 } else if let apiError = APIError(rawValue: statusCode) {
-                                    if apiError == APIError.accessTokenExpired {
-                                        AuthNetworkManager.refreshAccessToken { isSuccess in
-                                            if isSuccess {
-                                                AuthNetworkManager.withdraw()
-                                            } else {
-                                                single(.failure(apiError))
-                                            }
-                                        }
-                                    }
                                     single(.failure(apiError))
                                 }
                             } else {
@@ -157,32 +148,32 @@ struct AuthNetworkManager {
         }
     }
     
-    static func refreshAccessToken(completionHandler: @escaping (Bool) -> Void) {
-        do {
-            let urlRequest = try AuthRouter.refresh.asURLRequest()
-                            
-            AF.request(urlRequest)
-                .validate(statusCode: 200..<300)
-                .responseDecodable(of: RefreshModel.self) { response in
-                    switch response.result {
-                    case .success(let refreshModel):
-                        completionHandler(true)
-                    case .failure(let error):
-                        print(error)
-                        if let statusCode = response.response?.statusCode {
-                            if let refreshError = refreshError(rawValue: statusCode) {
-                                print("withdrawError")
-                                completionHandler(false)
-                            } else if let apiError = APIError(rawValue: statusCode) {
-                                completionHandler(false)
-                            }
-                        } else {
-                            completionHandler(false)
-                        }
-                    }
-                }
-        } catch {
-            completionHandler(false)
-        }
-    }
+//    static func refreshAccessToken(completionHandler: @escaping (Bool) -> Void) {
+//        do {
+//            let urlRequest = try AuthRouter.refresh.asURLRequest()
+//                            
+//            AF.request(urlRequest)
+//                .validate(statusCode: 200..<300)
+//                .responseDecodable(of: RefreshModel.self) { response in
+//                    switch response.result {
+//                    case .success(let refreshModel):
+//                        completionHandler(true)
+//                    case .failure(let error):
+//                        print(error)
+//                        if let statusCode = response.response?.statusCode {
+//                            if let refreshError = refreshError(rawValue: statusCode) {
+//                                print("withdrawError")
+//                                completionHandler(false)
+//                            } else if let apiError = APIError(rawValue: statusCode) {
+//                                completionHandler(false)
+//                            }
+//                        } else {
+//                            completionHandler(false)
+//                        }
+//                    }
+//                }
+//        } catch {
+//            completionHandler(false)
+//        }
+//    }
 }

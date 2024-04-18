@@ -42,6 +42,7 @@ final class SignInView: BaseView {
         }
     }
     override func configureView() {
+        super.configureView()
         signUpButton.backgroundColor = Color.white
         signUpButton.setTitleColor(Color.brown, for: .normal)
         signUpButton.layer.borderColor = Color.brown.cgColor

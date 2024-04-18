@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 
 class AuthInterceptor: RequestInterceptor {
-    
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
         var urlRequest = urlRequest
         
@@ -35,7 +34,6 @@ class AuthInterceptor: RequestInterceptor {
                 completion(.doNotRetry)
             }
         }
-        
     }
     
     private func refreshAccessToken(completion: @escaping(Bool) -> Void) {

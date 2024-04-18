@@ -78,6 +78,16 @@
 		618C78A62BD04F0D0033CD0D /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */; };
 		618C78A82BD0502C0033CD0D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78A72BD0502C0033CD0D /* NetworkManager.swift */; };
 		618C78AC2BD051DE0033CD0D /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */; };
+		61B5287D2BD1034C00974CA0 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5287C2BD1034C00974CA0 /* PostCollectionViewCell.swift */; };
+		61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B528802BD10C6000974CA0 /* PostRouter.swift */; };
+		61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B528822BD10E8A00974CA0 /* FetchPostQuery.swift */; };
+		61B528852BD10F9800974CA0 /* PostNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B528842BD10F9800974CA0 /* PostNetworkManager.swift */; };
+		61B528872BD10FF600974CA0 /* PostError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B528862BD10FF600974CA0 /* PostError.swift */; };
+		61B528892BD1107A00974CA0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B528882BD1107A00974CA0 /* Post.swift */; };
+		61B5288B2BD12F6E00974CA0 /* FormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5288A2BD12F6E00974CA0 /* FormatterManager.swift */; };
+		61B5288D2BD1313B00974CA0 /* PostInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5288C2BD1313A00974CA0 /* PostInfoView.swift */; };
+		61B5288F2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5288E2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift */; };
+		61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 61B528912BD13B8E00974CA0 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -149,6 +159,15 @@
 		618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		618C78A72BD0502C0033CD0D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		61B5287C2BD1034C00974CA0 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
+		61B528802BD10C6000974CA0 /* PostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRouter.swift; sourceTree = "<group>"; };
+		61B528822BD10E8A00974CA0 /* FetchPostQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPostQuery.swift; sourceTree = "<group>"; };
+		61B528842BD10F9800974CA0 /* PostNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNetworkManager.swift; sourceTree = "<group>"; };
+		61B528862BD10FF600974CA0 /* PostError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostError.swift; sourceTree = "<group>"; };
+		61B528882BD1107A00974CA0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		61B5288A2BD12F6E00974CA0 /* FormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterManager.swift; sourceTree = "<group>"; };
+		61B5288C2BD1313A00974CA0 /* PostInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoView.swift; sourceTree = "<group>"; };
+		61B5288E2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingfisherWrapper+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
 				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
 				618C774F2BC705080033CD0D /* Alamofire in Frameworks */,
 				618C77202BC6F5370033CD0D /* RxCocoa in Frameworks */,
@@ -234,15 +254,14 @@
 		618C76E32BC6EF620033CD0D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				61B5287F2BD10C4300974CA0 /* Manager */,
+				61B5287E2BD10C2D00974CA0 /* Router */,
 				618C78112BC994270033CD0D /* Error */,
-				618C77502BC705310033CD0D /* AuthRouter.swift */,
 				618C77432BC703960033CD0D /* HTTPHeader.swift */,
 				618C774B2BC704F40033CD0D /* TargetType.swift */,
 				618C77492BC7046E0033CD0D /* APIKey.swift */,
 				618C77452BC703B30033CD0D /* Query */,
-				618C775B2BC847FD0033CD0D /* AuthNetworkManager.swift */,
 				618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */,
-				618C78A72BD0502C0033CD0D /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -263,6 +282,7 @@
 				618C772C2BC6F6A60033CD0D /* SignTextField.swift */,
 				618C772E2BC6F7950033CD0D /* SignButton.swift */,
 				618C77572BC8379D0033CD0D /* SignLabel.swift */,
+				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -273,6 +293,7 @@
 				618C77592BC846C50033CD0D /* BaseResponse.swift */,
 				618C775D2BC848450033CD0D /* Auth.swift */,
 				618C775F2BC848580033CD0D /* Profile.swift */,
+				61B528882BD1107A00974CA0 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -313,6 +334,7 @@
 				618C77322BC6F8E70033CD0D /* UIViewController+Extension.swift */,
 				618C77342BC6F9AD0033CD0D /* UITextField+Extension.swift */,
 				618C78AB2BD051DE0033CD0D /* NotificationName+Extension.swift */,
+				61B5288E2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -431,6 +453,7 @@
 				618C77462BC703BD0033CD0D /* LoginQuery.swift */,
 				618C77612BC8D3C80033CD0D /* ValidationQuery.swift */,
 				618C78162BC9A03A0033CD0D /* JoinQuery.swift */,
+				61B528822BD10E8A00974CA0 /* FetchPostQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -440,6 +463,7 @@
 			children = (
 				618C78122BC994570033CD0D /* APIError.swift */,
 				618C78142BC994610033CD0D /* AuthError.swift */,
+				61B528862BD10FF600974CA0 /* PostError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -448,6 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				618C78192BC9A9090033CD0D /* UserDefaultManager.swift */,
+				61B5288A2BD12F6E00974CA0 /* FormatterManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -457,6 +482,7 @@
 			children = (
 				618C770C2BC6F15E0033CD0D /* HomeViewController.swift */,
 				618C781D2BC9AC6E0033CD0D /* HomeView.swift */,
+				61B5287C2BD1034C00974CA0 /* PostCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -513,6 +539,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		61B5287E2BD10C2D00974CA0 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				618C77502BC705310033CD0D /* AuthRouter.swift */,
+				61B528802BD10C6000974CA0 /* PostRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		61B5287F2BD10C4300974CA0 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				618C78A72BD0502C0033CD0D /* NetworkManager.swift */,
+				618C775B2BC847FD0033CD0D /* AuthNetworkManager.swift */,
+				61B528842BD10F9800974CA0 /* PostNetworkManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -535,6 +580,7 @@
 				618C77212BC6F5370033CD0D /* RxSwift */,
 				618C774E2BC705080033CD0D /* Alamofire */,
 				618C77642BC97F560033CD0D /* Toast */,
+				61B528912BD13B8E00974CA0 /* Kingfisher */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -569,6 +615,7 @@
 				618C771E2BC6F5370033CD0D /* XCRemoteSwiftPackageReference "RxSwift" */,
 				618C774D2BC705080033CD0D /* XCRemoteSwiftPackageReference "Alamofire" */,
 				618C77632BC97F560033CD0D /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -612,6 +659,7 @@
 				618C77292BC6F60F0033CD0D /* SignInViewController.swift in Sources */,
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
+				61B528892BD1107A00974CA0 /* Post.swift in Sources */,
 				618C77422BC6FEF50033CD0D /* SignUpView.swift in Sources */,
 				618C78672BCD6FD80033CD0D /* SettingItem.swift in Sources */,
 				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
@@ -628,17 +676,21 @@
 				618C78242BC9AF5E0033CD0D /* ProfileView.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
+				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
 				618C78262BC9AF7B0033CD0D /* ProfileViewModel.swift in Sources */,
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
+				61B5287D2BD1034C00974CA0 /* PostCollectionViewCell.swift in Sources */,
 				618C775C2BC847FD0033CD0D /* AuthNetworkManager.swift in Sources */,
 				618C77332BC6F8E70033CD0D /* UIViewController+Extension.swift in Sources */,
 				618C78172BC9A03A0033CD0D /* JoinQuery.swift in Sources */,
 				618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */,
 				618C78632BCD6F850033CD0D /* SettingViewModel.swift in Sources */,
+				61B5288D2BD1313B00974CA0 /* PostInfoView.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
+				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
@@ -648,14 +700,18 @@
 				618C775A2BC846C50033CD0D /* BaseResponse.swift in Sources */,
 				618C78692BCD6FF40033CD0D /* SettingViewController.swift in Sources */,
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
+				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
+				61B5288B2BD12F6E00974CA0 /* FormatterManager.swift in Sources */,
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
+				61B528852BD10F9800974CA0 /* PostNetworkManager.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
 				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */,
 				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
+				61B5288F2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift in Sources */,
 				618C786B2BCD70120033CD0D /* SettingView.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
@@ -918,6 +974,14 @@
 				minimumVersion = 5.1.1;
 			};
 		};
+		61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -945,6 +1009,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 618C77632BC97F560033CD0D /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		61B528912BD13B8E00974CA0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

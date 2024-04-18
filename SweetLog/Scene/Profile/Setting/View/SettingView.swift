@@ -19,6 +19,7 @@ final class SettingView: BaseView {
         }
     }
     override func configureView() {
+        super.configureView()
         collectionView.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.identifier)
     }
 }

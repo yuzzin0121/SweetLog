@@ -11,7 +11,6 @@ import SnapKit
 class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Color.white
         configureHierarchy()
         configureLayout()
         configureView()
@@ -24,7 +23,7 @@ class BaseView: UIView {
         
     }
     func configureView() {
-        
+        backgroundColor = Color.white
     }
     
     required init?(coder: NSCoder) {

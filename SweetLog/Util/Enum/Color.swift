@@ -18,4 +18,6 @@ enum Color {
     
     static let validGreen: UIColor = .validGreen
     static let validRed: UIColor = .validRed
+    
+    static let backgroundGray: UIColor = .backgroundGray
 }

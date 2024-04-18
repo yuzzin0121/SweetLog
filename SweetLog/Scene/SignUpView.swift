@@ -93,6 +93,7 @@ final class SignUpView: BaseView {
         }
     }
     override func configureView() {
+        super.configureView()
         duplicateCheckButton.backgroundColor = Color.borderGray
         duplicateCheckButton.setTitle("중복체크", for: .normal)
         duplicateCheckButton.setTitleColor(Color.black, for: .normal)

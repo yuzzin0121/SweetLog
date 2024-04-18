@@ -19,7 +19,7 @@ enum AuthRouter {
 extension AuthRouter: TargetType {
     
     var baseURL: String {
-        return APIKey.authTestURL.rawValue
+        return APIKey.baseURL.rawValue
     }
     
     var method: Alamofire.HTTPMethod {

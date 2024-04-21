@@ -60,8 +60,10 @@ final class HomeView: BaseView {
         
         let plus = Image.plusCircleFill.withTintColor(Color.brown, renderingMode: .alwaysOriginal)
         addPostButton.setImage(plus, for: .normal)
+        
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 45)
         addPostButton.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
+        addPostButton.tintColor = .white
         
         titleLabel.text = "달콤로그"
         titleLabel.font = .pretendard(size: 26, weight: .extraBold)

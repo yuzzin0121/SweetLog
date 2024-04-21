@@ -16,7 +16,7 @@ final class PostInfoView: UIView {
         super.init(frame: .zero)
         configureHierarchy()
         configureLayout()
-        configureView()
+        configureView(image: image, count: count)
     }
     
     func configureHierarchy() {
@@ -27,20 +27,22 @@ final class PostInfoView: UIView {
     }
     
     func configureLayout() {
+        stackView.snp.makeConstraints { make in
+            make.height.equalTo(20)
+        }
         imageView.snp.makeConstraints { make in
             make.size.equalTo(20)
         }
-        countLabel.snp.makeConstraints { make in
-            make.height.equalTo(18)
-        }
     }
     
-    func configureView() {
+    func configureView(image: UIImage, count: Int) {
         stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.spacing = 4
         
-        
+        imageView.image = image
+        imageView.tintColor = Color.gray
+        countLabel.text = "\(count)"
     }
     
     required init?(coder: NSCoder) {

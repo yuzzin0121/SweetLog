@@ -11,6 +11,7 @@ import Alamofire
 enum PostRouter {
     case postFiles
     case createPost
+    case loadImage(url: String)
     case fetchPost(query: FetchPostQuery)
 }
 
@@ -25,7 +26,7 @@ extension PostRouter: TargetType {
         case .postFiles, .createPost:
             return .post
             
-        case .fetchPost:
+        case .fetchPost, .loadImage:
             return .get
         }
     }
@@ -33,9 +34,11 @@ extension PostRouter: TargetType {
     var path: String {
         switch self {
         case .postFiles:
-            return "v1/posts/files"
+            return "v1/"
         case .createPost, .fetchPost:
             return "v1/posts"
+        case .loadImage(let url):
+            return "v1/\(url)"
         }
     }
     
@@ -55,7 +58,7 @@ extension PostRouter: TargetType {
             ]
        
             
-        case .fetchPost:
+        case .loadImage, .fetchPost:
             return [
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                 HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken
@@ -68,19 +71,20 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .postFiles, .createPost:
+        case .postFiles, .createPost, .loadImage:
             return nil
         case .fetchPost(let query):
-            return [URLQueryItem(name: "next", value: query.next),
-                    URLQueryItem(name: "limit", value: query.limit),
-                    URLQueryItem(name: "product_id", value: query.product_id)
+            return [
+                URLQueryItem(name: "next", value: query.next),
+                URLQueryItem(name: "limit", value: query.limit),
+                URLQueryItem(name: "product_id", value: query.product_id)
             ]
         }
     }
     
     var body: Data? {
         switch self {
-        case .createPost, .postFiles:
+        case .createPost, .postFiles, .loadImage:
             return nil
         case .fetchPost:
             return nil

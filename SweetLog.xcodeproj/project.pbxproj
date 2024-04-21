@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
 		618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */; };
 		618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */; };
 		618C76D22BC6EE4D0033CD0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618C76D12BC6EE4D0033CD0D /* Assets.xcassets */; };
@@ -91,6 +92,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		618C76C52BC6EE4B0033CD0D /* SweetLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SweetLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				618C772E2BC6F7950033CD0D /* SignButton.swift */,
 				618C77572BC8379D0033CD0D /* SignLabel.swift */,
 				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
+				616DCE072BD4FABD0042BDC0 /* PostImageView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				61B5288D2BD1313B00974CA0 /* PostInfoView.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
 				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
+				616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,

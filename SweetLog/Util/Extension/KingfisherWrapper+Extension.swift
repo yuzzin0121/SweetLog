@@ -11,27 +11,31 @@ import Kingfisher
 
 extension KingfisherWrapper where Base: UIImageView {
     func setImageWithAuthHeaders(
-        with resource: Resource?,
-        placeholder: Placeholder? = nil,
-        options: KingfisherOptionsInfo? = nil,
-        progressBlock: DownloadProgressBlock? = nil,
-        completionHandler: ((Result<RetrieveImageResult, KingfisherError>) -> Void)? = nil
-    ) {
-   
-        let modifier = AnyModifier { request in
-            var request = request
-            request.setValue(UserDefaultManager.shared.accessToken, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-            return request
-        }
-        
-        let newOptions: KingfisherOptionsInfo = options ?? [] + [.requestModifier(modifier)]
-        
-        self.setImage(
-            with: resource,
-            placeholder: placeholder,
-            options: newOptions,
-            progressBlock: progressBlock,
-            completionHandler: completionHandler
-        )
+        with urlString: String,
+        completionHandler: @escaping (Bool) -> Void)
+     {
+         do {
+             let request = try PostRouter.loadImage(url: urlString).asURLRequest()
+             
+             let modifier = AnyModifier { _ in
+                    return request
+             }
+             
+             setImage(
+                with: request.url,
+                placeholder: nil,
+                options: [.requestModifier(modifier)]
+             ) { response in
+                 switch response {
+                 case .success(_):
+                     completionHandler(true)
+                 case .failure(let error):
+                     print(error.errorCode)
+                     completionHandler(false)
+                 }
+             }
+         } catch {
+             completionHandler(false)
+         }
     }
 }

@@ -22,11 +22,13 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageStackView = UIStackView()
+        profileImageView.image = Image.emptyProfileImage
         configureCell(fetchPostItem: nil)
     }
     
     func configureCell(fetchPostItem: FetchPostItem?) {
         guard let item = fetchPostItem else { return }
+        setProfileImage(url: item.creator.profileImage)
         userNicknameLabel.text = item.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         contentLabel.text = item.content
@@ -35,6 +37,17 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         commentInfoView.countLabel.text = "\(item.comments.count)"
         
         setImageUI(files: item.files)
+    }
+    
+    private func setProfileImage(url: String?) {
+        if let profileImageUrl = url {
+            profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { [weak self] isSuccess in
+                guard let self else { return }
+                if !isSuccess {
+                    self.profileImageView.image = Image.emptyProfileImage
+                }
+            }
+        }
     }
     
     private func setImageUI(files: [String]) {
@@ -50,18 +63,103 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
+    // 이미지 한개일 때
     private func setOneImage(files: [String]) {
-        let imageView = UIImageView()
-//        imageView.kf.setImageWithAuthHeaders(with: <#T##(any Resource)?#>)
-//        imageStackView.
+        guard let imageUrl = files.first else {
+            return
+        }
+        let imageView = PostImageView(frame: .zero)
+       
+        imageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
+            if !isSuccess {
+                imageView.backgroundColor = Color.gray
+            }
+        }
+        imageStackView.addArrangedSubview(imageView)
+        
+        
     }
     
     private func setTwoImage(files: [String]) {
+        guard let firstImageUrl = files.first else {
+            return
+        }
+        let secondImageUrl = files[1]
         
+        let firstImageView = PostImageView(frame: .zero)
+        let secondImageView = PostImageView(frame: .zero)
+       
+        firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
+            if !isSuccess {
+                firstImageView.backgroundColor = .black
+            }
+        }
+        secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
+            if !isSuccess {
+                secondImageView.backgroundColor = .black
+            }
+        }
+        imageStackView.addArrangedSubview(firstImageView)
+        imageStackView.addArrangedSubview(secondImageView)
         
+        firstImageView.snp.makeConstraints {
+            $0.height.equalTo(firstImageView.snp.width).multipliedBy(140.0 / 193.0)
+        }
+        
+        secondImageView.snp.makeConstraints {
+            $0.height.equalTo(secondImageView.snp.width).multipliedBy(140.0 / 102.0)
+        }
     }
     private func setThreeImage(files: [String]) {
+        guard let firstImageUrl = files.first else {
+            return
+        }
+        let secondImageUrl = files[1]
+        let thridImageUrl = files[2]
         
+        let firstImageView = PostImageView(frame: .zero)
+        let secondImageView = PostImageView(frame: .zero)
+        let thirdImageView = PostImageView(frame: .zero)
+       
+        firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
+            if !isSuccess {
+                firstImageView.backgroundColor = .black
+            }
+        }
+        secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
+            if !isSuccess {
+                secondImageView.backgroundColor = .black
+            }
+        }
+        thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
+            if !isSuccess {
+                thirdImageView.backgroundColor = .black
+            }
+        }
+        
+        var imageVStackView = UIStackView()
+        imageVStackView.axis = .vertical
+        imageVStackView.alignment = .fill
+        imageVStackView.distribution = .fill
+        imageVStackView.spacing = 4
+        
+        imageStackView.addArrangedSubview(firstImageView)
+        imageStackView.addArrangedSubview(imageVStackView)
+        
+        [secondImageView, thirdImageView].forEach {
+            imageVStackView.addArrangedSubview($0)
+        }
+        firstImageView.snp.makeConstraints {
+            $0.height.equalTo(imageVStackView.snp.width).multipliedBy(163.0 / 136.0)
+        }
+        
+        secondImageView.snp.makeConstraints {
+            $0.height.equalTo(secondImageView.snp.width).multipliedBy(66.0 / 102.0)
+        }
+        
+        thirdImageView.snp.makeConstraints {
+            $0.height.equalTo(thirdImageView.snp.width).multipliedBy(66.0 / 102.0)
+        }
         
     }
     
@@ -71,7 +169,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(16)
-            make.size.equalTo(45)
+            make.size.equalTo(36)
         }
         
         userNicknameLabel.snp.makeConstraints { make in
@@ -91,7 +189,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.top.equalTo(userNicknameLabel.snp.bottom).offset(8)
             make.leading.equalTo(userNicknameLabel)
             make.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(16)
+            make.height.greaterThanOrEqualTo(16)
         }
         
         imageStackView.snp.makeConstraints { make in
@@ -105,6 +203,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.top.equalTo(imageStackView.snp.bottom).offset(12)
             make.leading.equalTo(userNicknameLabel)
             make.bottom.equalToSuperview().inset(16)
+            make.width.equalTo(40)
         }
         
         commentInfoView.snp.makeConstraints { make in
@@ -122,6 +221,10 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height / 2
             self.profileImageView.clipsToBounds = true
         }
+        DispatchQueue.main.async {
+            self.imageStackView.layer.cornerRadius = 6
+            self.imageStackView.clipsToBounds = true
+        }
     }
     
     override func configureView() {
@@ -132,5 +235,9 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         profileImageView.image = Image.emptyProfileImage
         profileImageView.contentMode = .scaleAspectFill
         
+        imageStackView.spacing = 4
+        imageStackView.alignment = .fill
+        imageStackView.distribution = .equalSpacing
+        imageStackView.layer.cornerRadius = 12
     }
 }

@@ -25,7 +25,7 @@ final class HomeViewModel: ViewModelType {
         
         input.viewDidLoad
             .map {
-                return FetchPostQuery(next: nil, limit: nil, product_id: "냠냠이")
+                return FetchPostQuery(next: nil, product_id: nil)
             }
             .flatMap { fetchPostQuery in
                 return PostNetworkManager.fetchPosts(fetchPostQuery: fetchPostQuery)

@@ -52,7 +52,7 @@ final class SignInViewModel: ViewModelType {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(loginObservable)
             .flatMap { loginQuery in
-                return AuthNetworkManager.createLogin(query: loginQuery)
+                return AuthNetworkManager.shared.createLogin(query: loginQuery)
                     .catch { error in
                         print(error.localizedDescription)
                         errorString.accept(error.localizedDescription)

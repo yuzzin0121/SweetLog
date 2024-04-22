@@ -46,6 +46,18 @@ final class HomeViewController: BaseViewController {
                 cell.layoutIfNeeded()
             }
             .disposed(by: disposeBag)
+        
+        mainView.addPostButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.showSelectPlaceVC()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showSelectPlaceVC() {
+        let selectPlaceVC = SelectPlaceViewController()
+        navigationController?.pushViewController(selectPlaceVC, animated: true)
     }
     
     override func viewDidLayoutSubviews() {

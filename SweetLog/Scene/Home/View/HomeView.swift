@@ -65,6 +65,7 @@ final class HomeView: BaseView {
         searchTextField.layer.cornerRadius = 24
         searchTextField.clipsToBounds = true
         searchTextField.placeholder = "해시태그를 검색해보세요"
+        searchTextField.backgroundColor = Color.gray1
         
         filterCollectionView.backgroundColor = Color.backgroundGray
         filterCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

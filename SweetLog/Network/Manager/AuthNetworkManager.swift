@@ -9,9 +9,11 @@ import Foundation
 import Alamofire
 import RxSwift
 
-struct AuthNetworkManager {
+class AuthNetworkManager {
+    static let shared = AuthNetworkManager()
+    
     // 로그인
-    static func createLogin(query: LoginQuery) -> Single<LoginModel> {
+    func createLogin(query: LoginQuery) -> Single<LoginModel> {
         return Single<LoginModel>.create { single in
             do {
                 let urlRequest = try AuthRouter.login(query: query).asURLRequest()
@@ -45,7 +47,7 @@ struct AuthNetworkManager {
     }
     
     // 이메일 중복 확인
-    static func validationEmail(email: ValidationQuery) -> Single<ValidationModel> {
+    func validationEmail(email: ValidationQuery) -> Single<ValidationModel> {
         print(#function, email)
         return Single<ValidationModel>.create { single in
             do {
@@ -81,7 +83,7 @@ struct AuthNetworkManager {
     }
     
     // 회원가입
-    static func createJoin(query: JoinQuery) -> Single<JoinModel> {
+    func createJoin(query: JoinQuery) -> Single<JoinModel> {
         print(query.email, query.password, query.nick)
         return Single<JoinModel>.create { single in
             do {
@@ -115,7 +117,7 @@ struct AuthNetworkManager {
         }
     }
     
-    static func withdraw() -> Single<JoinModel> {
+    func withdraw() -> Single<JoinModel> {
         return Single<JoinModel>.create { single in
             do {
                 let urlRequest = try AuthRouter.withdraw.asURLRequest()
@@ -147,33 +149,4 @@ struct AuthNetworkManager {
             return Disposables.create()
         }
     }
-    
-//    static func refreshAccessToken(completionHandler: @escaping (Bool) -> Void) {
-//        do {
-//            let urlRequest = try AuthRouter.refresh.asURLRequest()
-//                            
-//            AF.request(urlRequest)
-//                .validate(statusCode: 200..<300)
-//                .responseDecodable(of: RefreshModel.self) { response in
-//                    switch response.result {
-//                    case .success(let refreshModel):
-//                        completionHandler(true)
-//                    case .failure(let error):
-//                        print(error)
-//                        if let statusCode = response.response?.statusCode {
-//                            if let refreshError = refreshError(rawValue: statusCode) {
-//                                print("withdrawError")
-//                                completionHandler(false)
-//                            } else if let apiError = APIError(rawValue: statusCode) {
-//                                completionHandler(false)
-//                            }
-//                        } else {
-//                            completionHandler(false)
-//                        }
-//                    }
-//                }
-//        } catch {
-//            completionHandler(false)
-//        }
-//    }
 }

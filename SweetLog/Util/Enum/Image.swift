@@ -26,4 +26,6 @@ enum Image {
     static let plusCircleFill: UIImage = UIImage(systemName: "plus.circle.fill")!
     static let emptyProfileImage: UIImage = .emptyProfile
     static let messages: UIImage = .messages
+    
+    static let markFill: UIImage = .markFill
 }

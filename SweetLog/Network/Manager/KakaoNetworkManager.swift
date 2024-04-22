@@ -1,34 +1,34 @@
 //
-//  PostNetworkManager.swift
+//  SearchPlaceManager.swift
 //  SweetLog
 //
-//  Created by 조유진 on 4/18/24.
+//  Created by 조유진 on 4/22/24.
 //
 
 import Foundation
 import Alamofire
 import RxSwift
 
-class PostNetworkManager {
+class KakaoNetworkManager {
     
-    static let shared = PostNetworkManager()
+    static let shared = KakaoNetworkManager()
     
-    func fetchPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
-        return Single<FetchPostModel>.create { single in
+    func searchPlace(query: String) -> Single<PlaceModel> {
+        return Single<PlaceModel>.create { single in
             do {
-                let urlRequest = try PostRouter.fetchPost(query: fetchPostQuery).asURLRequest()
+                let urlRequest = try KakaoPlaceRouter.searchPlace(query: query).asURLRequest()
                                 
-                AF.request(urlRequest, interceptor: AuthInterceptor())
+                AF.request(urlRequest)
                     .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostModel.self) { response in
+                    .responseDecodable(of: PlaceModel.self) { response in
                         switch response.result {
-                        case .success(let fetchPostModel):
-                            single(.success(fetchPostModel))
+                        case .success(let placeModel):
+                            single(.success(placeModel))
                         case .failure(let error):
                             print(error)
                             if let statusCode = response.response?.statusCode {
                                 if let fetchPostError = fetchPostError(rawValue: statusCode) {
-                                    print("fetchPostError")
+                                    print("searchPlaceError")
                                     single(.failure(fetchPostError))
                                 } else if let apiError = APIError(rawValue: statusCode) {
                                     single(.failure(apiError))

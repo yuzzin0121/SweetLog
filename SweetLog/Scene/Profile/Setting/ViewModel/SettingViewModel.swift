@@ -29,7 +29,7 @@ final class SettingViewModel {
         input.withdrawTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap {
-                AuthNetworkManager.withdraw()
+                AuthNetworkManager.shared.withdraw()
                     .catch { error in
                         errorString.accept(error.localizedDescription)
                         return Single<JoinModel>.never()

@@ -38,7 +38,7 @@ final class HomeViewModel: ViewModelType {
                 return FetchPostQuery(next: nil, product_id: $0?.title)
             }
             .flatMap { fetchPostQuery in
-                return PostNetworkManager.fetchPosts(fetchPostQuery: fetchPostQuery)
+                return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
             }
             .subscribe(with: self) { owner, fetchPostModel in
                 guard let list = fetchPostModel.data else { return }

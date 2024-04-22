@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
+		616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */; };
+		616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */; };
+		616DCE102BD513150042BDC0 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0F2BD513150042BDC0 /* FilterCollectionViewCell.swift */; };
 		618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */; };
 		618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */; };
 		618C76D22BC6EE4D0033CD0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618C76D12BC6EE4D0033CD0D /* Assets.xcassets */; };
@@ -93,6 +96,9 @@
 
 /* Begin PBXFileReference section */
 		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
+		616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
+		616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
+		616DCE0F2BD513150042BDC0 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		618C76C52BC6EE4B0033CD0D /* SweetLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SweetLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		618C76C82BC6EE4B0033CD0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618C76CA2BC6EE4B0033CD0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +292,7 @@
 				618C77572BC8379D0033CD0D /* SignLabel.swift */,
 				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
 				616DCE072BD4FABD0042BDC0 /* PostImageView.swift */,
+				616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -349,6 +356,7 @@
 				618C77022BC6F0D50033CD0D /* Image.swift */,
 				618C77042BC6F0FD0033CD0D /* TabItem.swift */,
 				618C78662BCD6FD80033CD0D /* SettingItem.swift */,
+				616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -486,6 +494,7 @@
 				618C770C2BC6F15E0033CD0D /* HomeViewController.swift */,
 				618C781D2BC9AC6E0033CD0D /* HomeView.swift */,
 				61B5287C2BD1034C00974CA0 /* PostCollectionViewCell.swift */,
+				616DCE0F2BD513150042BDC0 /* FilterCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -674,6 +683,7 @@
 				618C786D2BCD70830033CD0D /* Reuse.swift in Sources */,
 				618C78132BC994570033CD0D /* APIError.swift in Sources */,
 				618C77052BC6F0FD0033CD0D /* TabItem.swift in Sources */,
+				616DCE102BD513150042BDC0 /* FilterCollectionViewCell.swift in Sources */,
 				618C78A82BD0502C0033CD0D /* NetworkManager.swift in Sources */,
 				618C781E2BC9AC6E0033CD0D /* HomeView.swift in Sources */,
 				618C78242BC9AF5E0033CD0D /* ProfileView.swift in Sources */,
@@ -692,7 +702,9 @@
 				618C77582BC8379D0033CD0D /* SignLabel.swift in Sources */,
 				618C78632BCD6F850033CD0D /* SettingViewModel.swift in Sources */,
 				61B5288D2BD1313B00974CA0 /* PostInfoView.swift in Sources */,
+				616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
+				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
 				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
 				616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */,
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,

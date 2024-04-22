@@ -103,11 +103,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         imageStackView.addArrangedSubview(secondImageView)
         
         firstImageView.snp.makeConstraints {
-            $0.height.equalTo(firstImageView.snp.width).multipliedBy(140.0 / 193.0)
+            $0.height.equalTo(firstImageView.snp.width).multipliedBy(136.0 / 163.0)
         }
         
         secondImageView.snp.makeConstraints {
-            $0.height.equalTo(secondImageView.snp.width).multipliedBy(140.0 / 102.0)
+            $0.height.equalTo(secondImageView.snp.width).multipliedBy(136.0 / 102.0)
         }
     }
     private func setThreeImage(files: [String]) {
@@ -174,7 +174,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         
         userNicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.top).offset(4)
-            make.leading.equalTo(profileImageView.snp.trailing).offset(16)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(12)
             make.height.equalTo(20)
         }
         

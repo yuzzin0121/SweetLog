@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignLabel: UILabel {
+final class SignLabel: UILabel {
     
     init(title: String) {
         super.init(frame: .zero)

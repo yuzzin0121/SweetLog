@@ -19,14 +19,14 @@ final class PostInfoView: UIView {
         configureView(image: image, count: count)
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         addSubview(stackView)
         [imageView, countLabel].forEach {
             stackView.addArrangedSubview($0)
         }
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         stackView.snp.makeConstraints { make in
             make.height.equalTo(20)
         }
@@ -35,7 +35,7 @@ final class PostInfoView: UIView {
         }
     }
     
-    func configureView(image: UIImage, count: Int) {
+    private func configureView(image: UIImage, count: Int) {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.spacing = 4

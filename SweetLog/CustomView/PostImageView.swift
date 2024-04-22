@@ -7,12 +7,12 @@
 
 import UIKit
 
-class PostImageView: UIImageView {
+final class PostImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    func configureView() {
+    private func configureView() {
         contentMode = .scaleAspectFill
     }
 

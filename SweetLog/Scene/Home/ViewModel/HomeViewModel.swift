@@ -15,7 +15,7 @@ final class HomeViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
-        let filterItemClicked = BehaviorSubject(value: FilterItem.etc)
+        let filterItemClicked: Observable<Int>
     }
     
     struct Output {
@@ -27,28 +27,26 @@ final class HomeViewModel: ViewModelType {
         let outputFilterList = PublishRelay<[FilterItem]>()
         let outputPostList = PublishRelay<[FetchPostItem]>()
         
-        input.viewDidLoad
-            .map {
-                return FilterItem.allCases
+        let filterItem = input.filterItemClicked
+            .map { index in
+                FilterItem(rawValue: index)
             }
-            .subscribe { filterList in
-                print("=============\(filterList)")
-                outputFilterList.accept(filterList)
-            }
-            .disposed(by: disposeBag)
         
-        input.viewDidLoad
+        filterItem
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .map {
-                return FetchPostQuery(next: nil, product_id: nil)
+                return FetchPostQuery(next: nil, product_id: $0?.title)
             }
             .flatMap { fetchPostQuery in
                 return PostNetworkManager.fetchPosts(fetchPostQuery: fetchPostQuery)
             }
             .subscribe(with: self) { owner, fetchPostModel in
                 guard let list = fetchPostModel.data else { return }
+                print(list)
                 outputPostList.accept(list)
             }
             .disposed(by: disposeBag)
+        
         
         return Output(outputFilterList: outputFilterList.asDriver(onErrorJustReturn: []), outputPostList: outputPostList.asDriver(onErrorJustReturn: []))
     }

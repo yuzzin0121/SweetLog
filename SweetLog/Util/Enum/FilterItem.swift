@@ -8,7 +8,7 @@
 import Foundation
 
 enum FilterItem: Int, CaseIterable {
-    case total
+//    case total
     case bread
     case cake
     case bakedSnack
@@ -16,7 +16,7 @@ enum FilterItem: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .total: return "전체"
+//        case .total: return "전체"
         case .bread: return "빵"
         case .cake: return "케이크"
         case .bakedSnack: return "구움과자"

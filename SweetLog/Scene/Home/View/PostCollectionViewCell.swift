@@ -19,6 +19,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     private var likeInfoView = PostInfoView(image: Image.heart, count: 0)
     private var commentInfoView = PostInfoView(image: Image.messages, count: 0)
     
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageStackView = UIStackView()

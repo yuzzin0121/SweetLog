@@ -19,24 +19,26 @@ final class HomeViewController: BaseViewController {
     }
     
     override func bind() {
-        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()))
-        let output = viewModel.transform(input: input)
+        
+        let filterItemClicked = BehaviorSubject(value: 0)
         
         viewModel.filterList
             .asDriver(onErrorJustReturn: [])
             .drive(mainView.filterCollectionView.rx.items(cellIdentifier: FilterCollectionViewCell.identifier, cellType: FilterCollectionViewCell.self)) { index, item, cell in
                 cell.configureCell(item: item)
                 cell.filterButton.tag = index
-                
+                cell.filterButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        print(item)
+                        filterItemClicked.onNext(index)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
+        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), filterItemClicked: filterItemClicked.asObserver())
+        let output = viewModel.transform(input: input)
         
-        Observable.zip(mainView.filterCollectionView.rx.itemSelected, mainView.filterCollectionView.rx.modelSelected(FilterItem.self))
-            .bind(with: self) { owner, value in
-                print(value.1)
-            }
-            .disposed(by: disposeBag)
             
         output.outputPostList
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
@@ -49,7 +51,6 @@ final class HomeViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let filterLayout = UICollectionViewFlowLayout()
-        filterLayout.itemSize = CGSize(width: view.frame.width - 40, height: 50)
         filterLayout.scrollDirection = .horizontal
         filterLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         mainView.filterCollectionView.collectionViewLayout = filterLayout

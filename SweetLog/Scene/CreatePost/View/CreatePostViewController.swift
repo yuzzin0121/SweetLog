@@ -91,6 +91,7 @@ class CreatePostViewController: BaseViewController {
     
     override func configureNavigationItem() {
         navigationItem.title = "리뷰 작성"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.createButton)
     }
     
     override func loadView() {

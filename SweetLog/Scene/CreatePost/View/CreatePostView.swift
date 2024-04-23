@@ -23,6 +23,7 @@ final class CreatePostView: BaseView {
     let addPhotoImageView = AddPhotoImageView(frame: .zero)
     let photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    let createButton = UIButton()
     
     lazy var selectedCategorySubject = BehaviorSubject(value: categoryButton.configuration?.title ?? "")
     
@@ -92,12 +93,19 @@ final class CreatePostView: BaseView {
         
         textView.layer.cornerRadius = 12
         textView.clipsToBounds = true
-        textView.text = "리뷰를 작성해주세요"
+        textView.text = "후기를 작성해주세요"
         textView.font = .pretendard(size: 17, weight: .regular)
         textView.textColor = Color.gray
         
         photoCollectionView.showsHorizontalScrollIndicator = false
         photoCollectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = Color.brown
+        config.baseForegroundColor = Color.white
+        config.title = "후기 공유"
+        config.cornerStyle = .capsule
+        createButton.configuration = config
     }
     
     private func setSugarButton() {

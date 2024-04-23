@@ -15,7 +15,17 @@ class CreatePostViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setData()
+    }
+    
+    override func bind() {
+        
+    }
+    
+    private func setData() {
+        guard let placeItem = viewModel.placeItem else { return }
+        mainView.placeInfoView.addressLabel.text = placeItem.address
+        mainView.placeInfoView.placeNameLabel.text = placeItem.placeName
     }
     
     override func configureNavigationItem() {

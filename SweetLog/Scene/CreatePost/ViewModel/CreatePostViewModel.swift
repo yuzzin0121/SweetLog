@@ -12,14 +12,17 @@ import RxCocoa
 final class CreatePostViewModel: ViewModelType {
     var placeItem: PlaceItem?
     let filterList = FilterItem.allCases
+    let contentTextViewPlaceholder = "리뷰를 작성해주세요"
     var disposeBag = DisposeBag()
     
     struct Input {
         let sugarContent: Observable<Int>
+        let reviewText: Observable<String>
+        let imageDataList: Observable<[Data]>
     }
     
     struct Output {
-        
+        let imageDataList: Driver<[Data]>
     }
     
     func transform(input: Input) -> Output {
@@ -29,6 +32,6 @@ final class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output()
+        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []))
     }
 }

@@ -9,35 +9,30 @@ import UIKit
 import RxSwift
 
 final class CreatePostView: BaseView {
-    let scrollView = UIScrollView()
-    let contentView = UIView()
     let placeInfoView = PlaceInfoView() // 주소 정보 뷰
     
-    let selectCategoryLabel = UILabel() // 카테고리
+    private let selectCategoryLabel = UILabel() // 카테고리
     var categoryButton = MenuButton(title: FilterItem.allCases[0].title)    // 선택버튼
     
     let selectSugarContentLabel = UILabel() // 당도
     let sugarStackView = UIStackView()  // 당도 선택버튼 스택뷰
+    
+    let textView = UITextView()
+    
     var buttonList: [UIButton] = []
+    let addPhotoImageView = AddPhotoImageView(frame: .zero)
+    let photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
     
     lazy var selectedCategorySubject = BehaviorSubject(value: categoryButton.configuration?.title ?? "")
     
     
     override func configureHierarchy() {
-        addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView])
+        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView, textView, addPhotoImageView, photoCollectionView])
     }
     override func configureLayout() {
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(safeAreaLayoutGuide)
-        }
-        contentView.snp.makeConstraints { make in
-            make.width.equalTo(scrollView)
-            make.verticalEdges.equalTo(scrollView)
-        }
         placeInfoView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+            make.top.equalTo(safeAreaLayoutGuide).offset(12)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(70)
         }
@@ -58,19 +53,35 @@ final class CreatePostView: BaseView {
             make.top.equalTo(selectCategoryLabel.snp.bottom).offset(50)
             make.leading.equalTo(selectCategoryLabel)
             make.height.equalTo(18)
-            make.bottom.greaterThanOrEqualToSuperview().offset(-12)
         }
         
         sugarStackView.snp.makeConstraints { make in
             make.centerY.equalTo(selectSugarContentLabel)
-            make.leading.greaterThanOrEqualTo(selectSugarContentLabel.snp.trailing).offset(12)
+            make.leading.equalTo(selectSugarContentLabel.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(20)
+        }
+        
+        textView.snp.makeConstraints { make in
+            make.top.equalTo(selectSugarContentLabel.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(24)
+            make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-40)
+        }
+        
+        addPhotoImageView.snp.makeConstraints { make in
+            make.leading.equalTo(safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(30)
+            make.size.equalTo(100)
+        }
+        
+        photoCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(addPhotoImageView)
+            make.leading.equalTo(addPhotoImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(addPhotoImageView)
         }
     }
     override func configureView() {
         super.configureView()
-        contentView.isUserInteractionEnabled = true
-        
         selectCategoryLabel.design(text: "카테고리", font: .pretendard(size: 18, weight: .semiBold))
         selectSugarContentLabel.design(text: "당도", font: .pretendard(size: 18, weight: .semiBold))
         
@@ -78,6 +89,15 @@ final class CreatePostView: BaseView {
         
         sugarStackView.design(axis: .horizontal, spacing: 20)
         setSugarButton()
+        
+        textView.layer.cornerRadius = 12
+        textView.clipsToBounds = true
+        textView.text = "리뷰를 작성해주세요"
+        textView.font = .pretendard(size: 17, weight: .regular)
+        textView.textColor = Color.gray
+        
+        photoCollectionView.showsHorizontalScrollIndicator = false
+        photoCollectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
     }
     
     private func setSugarButton() {

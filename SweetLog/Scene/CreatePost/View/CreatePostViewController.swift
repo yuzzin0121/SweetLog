@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class CreatePostViewController: BaseViewController {
     private let mainView = CreatePostView()
@@ -14,14 +15,26 @@ class CreatePostViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setData()
     }
     
     override func bind() {
+        let sugarContent = BehaviorSubject(value: 1)
         
+        for button in mainView.buttonList {
+            button.rx.tap
+                .subscribe(with: self) { owner, _ in
+                    owner.mainView.selectSugarButton(button.tag)
+                    sugarContent.onNext(button.tag)
+                }
+                .disposed(by: disposeBag)
+        }
+        
+        let input = CreatePostViewModel.Input(sugarContent: sugarContent.asObserver())
+        let output = viewModel.transform(input: input)
     }
     
+    // 선택한 장소 뷰에 반영
     private func setData() {
         guard let placeItem = viewModel.placeItem else { return }
         mainView.placeInfoView.addressLabel.text = placeItem.address

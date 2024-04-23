@@ -15,7 +15,7 @@ final class CreatePostViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     
     struct Input {
-        
+        let sugarContent: Observable<Int>
     }
     
     struct Output {
@@ -23,6 +23,11 @@ final class CreatePostViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
+        input.sugarContent
+            .subscribe(with: self) { owner, index in
+                print(index)
+            }
+            .disposed(by: disposeBag)
         
         return Output()
     }

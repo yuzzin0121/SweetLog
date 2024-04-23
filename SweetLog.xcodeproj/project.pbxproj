@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		61130D0F2BD7C1CA002D03C1 /* PlaceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */; };
+		61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D102BD7DCA5002D03C1 /* MenuButton.swift */; };
+		61130D132BD7DFC8002D03C1 /* SugarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D122BD7DFC8002D03C1 /* SugarButton.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -109,6 +111,8 @@
 
 /* Begin PBXFileReference section */
 		61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoView.swift; sourceTree = "<group>"; };
+		61130D102BD7DCA5002D03C1 /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
+		61130D122BD7DFC8002D03C1 /* SugarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarButton.swift; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -221,6 +225,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61130D142BD7E05B002D03C1 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				618C772E2BC6F7950033CD0D /* SignButton.swift */,
+				616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */,
+				61130D102BD7DCA5002D03C1 /* MenuButton.swift */,
+				61130D122BD7DFC8002D03C1 /* SugarButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		61130D152BD7E06B002D03C1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */,
+				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		61130D162BD7E07C002D03C1 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				618C77572BC8379D0033CD0D /* SignLabel.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
 		614746F42BD6A39800B9B670 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,13 +408,11 @@
 		618C76E52BC6EF850033CD0D /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				61130D162BD7E07C002D03C1 /* Label */,
+				61130D152BD7E06B002D03C1 /* View */,
+				61130D142BD7E05B002D03C1 /* Button */,
 				618C772C2BC6F6A60033CD0D /* SignTextField.swift */,
-				618C772E2BC6F7950033CD0D /* SignButton.swift */,
-				618C77572BC8379D0033CD0D /* SignLabel.swift */,
-				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
 				616DCE072BD4FABD0042BDC0 /* PostImageView.swift */,
-				616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */,
-				61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -773,6 +803,7 @@
 				618C78672BCD6FD80033CD0D /* SettingItem.swift in Sources */,
 				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
+				61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */,
 				614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */,
 				618C78652BCD6FC20033CD0D /* SettingCollectionViewCell.swift in Sources */,
 				618C77472BC703BD0033CD0D /* LoginQuery.swift in Sources */,
@@ -827,6 +858,7 @@
 				614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */,
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				61B528852BD10F9800974CA0 /* PostNetworkManager.swift in Sources */,
+				61130D132BD7DFC8002D03C1 /* SugarButton.swift in Sources */,
 				6147470A2BD6AC4800B9B670 /* KakaoNetworkManager.swift in Sources */,
 				61130D0F2BD7C1CA002D03C1 /* PlaceInfoView.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,

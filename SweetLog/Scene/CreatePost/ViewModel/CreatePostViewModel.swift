@@ -12,7 +12,7 @@ import RxCocoa
 final class CreatePostViewModel: ViewModelType {
     var placeItem: PlaceItem?
     let filterList = FilterItem.allCases
-    let contentTextViewPlaceholder = "리뷰를 작성해주세요"
+    let contentTextViewPlaceholder = "후기를 작성해주세요"
     var disposeBag = DisposeBag()
     
     struct Input {

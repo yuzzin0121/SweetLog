@@ -29,14 +29,13 @@ final class HomeViewController: BaseViewController {
                 cell.filterButton.tag = index
                 cell.filterButton.rx.tap
                     .subscribe(with: self) { owner, _ in
-                        print(item)
                         filterItemClicked.onNext(index)
                     }
                     .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
-        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), filterItemClicked: filterItemClicked.asObserver())
+        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), filterItemClicked: filterItemClicked)
         let output = viewModel.transform(input: input)
         
             
@@ -47,6 +46,7 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        // + 버튼 클릭 시
         mainView.addPostButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in

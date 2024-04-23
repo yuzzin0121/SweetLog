@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 
-class KakaoNetworkManager {
+final class KakaoNetworkManager {
     
     static let shared = KakaoNetworkManager()
     

@@ -16,6 +16,9 @@
 		614747082BD6AAF500B9B670 /* KakaoPlaceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614747072BD6AAF500B9B670 /* KakaoPlaceRouter.swift */; };
 		6147470A2BD6AC4800B9B670 /* KakaoNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614747092BD6AC4700B9B670 /* KakaoNetworkManager.swift */; };
 		6147470C2BD6BA4600B9B670 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147470B2BD6BA4600B9B670 /* Place.swift */; };
+		614747102BD6C4B400B9B670 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147470F2BD6C4B400B9B670 /* CreatePostViewController.swift */; };
+		614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614747112BD6C4E100B9B670 /* CreatePostView.swift */; };
+		614747142BD6C51100B9B670 /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614747132BD6C51100B9B670 /* CreatePostViewModel.swift */; };
 		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
 		616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */; };
 		616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */; };
@@ -113,6 +116,9 @@
 		614747072BD6AAF500B9B670 /* KakaoPlaceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoPlaceRouter.swift; sourceTree = "<group>"; };
 		614747092BD6AC4700B9B670 /* KakaoNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoNetworkManager.swift; sourceTree = "<group>"; };
 		6147470B2BD6BA4600B9B670 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		6147470F2BD6C4B400B9B670 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
+		614747112BD6C4E100B9B670 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		614747132BD6C51100B9B670 /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
@@ -262,6 +268,8 @@
 		6147470D2BD6C37100B9B670 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6147470F2BD6C4B400B9B670 /* CreatePostViewController.swift */,
+				614747112BD6C4E100B9B670 /* CreatePostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -269,6 +277,7 @@
 		6147470E2BD6C37700B9B670 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				614747132BD6C51100B9B670 /* CreatePostViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -751,6 +760,7 @@
 			files = (
 				618C78A62BD04F0D0033CD0D /* AuthInterceptor.swift in Sources */,
 				618C773C2BC6FB260033CD0D /* ViewModelType.swift in Sources */,
+				614747142BD6C51100B9B670 /* CreatePostViewModel.swift in Sources */,
 				618C77292BC6F60F0033CD0D /* SignInViewController.swift in Sources */,
 				618C76FD2BC6EFFA0033CD0D /* UIFont+Pretendard.swift in Sources */,
 				618C77002BC6F03A0033CD0D /* Color.swift in Sources */,
@@ -779,6 +789,7 @@
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
+				614747102BD6C4B400B9B670 /* CreatePostViewController.swift in Sources */,
 				618C78262BC9AF7B0033CD0D /* ProfileViewModel.swift in Sources */,
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
@@ -791,6 +802,7 @@
 				61B5288D2BD1313B00974CA0 /* PostInfoView.swift in Sources */,
 				616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
+				614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */,
 				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
 				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
 				616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */,

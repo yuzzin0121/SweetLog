@@ -27,15 +27,15 @@ final class HomeViewModel: ViewModelType {
         let outputFilterList = PublishRelay<[FilterItem]>()
         let outputPostList = PublishRelay<[FetchPostItem]>()
         
-        let filterItem = input.filterItemClicked
-            .map { index in
-                FilterItem(rawValue: index)
-            }
-        
-        filterItem
+        input.filterItemClicked
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .map { index in
+                print(index)
+                return FilterItem(rawValue: index)!
+            }
             .map {
-                return FetchPostQuery(next: nil, product_id: $0?.title)
+                print($0.title)
+                return FetchPostQuery(next: nil, product_id: $0.title)
             }
             .flatMap { fetchPostQuery in
                 return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)

@@ -34,11 +34,11 @@ extension PostRouter: TargetType {
     var path: String {
         switch self {
         case .postFiles:
-            return "v1/"
+            return "/v1/"
         case .createPost, .fetchPost:
-            return "v1/posts"
+            return "/v1/posts"
         case .loadImage(let url):
-            return "v1/\(url)"
+            return "/v1/\(url)"
         }
     }
     
@@ -75,18 +75,16 @@ extension PostRouter: TargetType {
             return nil
         case .fetchPost(let query):
             return [
-                URLQueryItem(name: "next", value: query.next),
-                URLQueryItem(name: "limit", value: query.limit),
-                URLQueryItem(name: "product_id", value: query.product_id)
+                URLQueryItem(name: "next", value: nil),
+                URLQueryItem(name: "limit", value: "200"),
+                URLQueryItem(name: "product_id", value: nil)
             ]
         }
     }
     
     var body: Data? {
         switch self {
-        case .createPost, .postFiles, .loadImage:
-            return nil
-        case .fetchPost:
+        case .createPost, .postFiles, .loadImage, .fetchPost:
             return nil
         }
     }

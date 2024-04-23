@@ -21,7 +21,9 @@ protocol TargetType: URLRequestConvertible {
 extension TargetType {
     
     func asURLRequest() throws -> URLRequest {
+        print(#function)
         var components = URLComponents(string: baseURL.appending(path))
+        print(components)
         components?.queryItems = queryItems
 
         guard let componentsURL = components?.url else { throw URLError(.badURL) }

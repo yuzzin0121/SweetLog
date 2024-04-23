@@ -32,7 +32,7 @@ final class SelectPlaceView: BaseView {
         searchBar.searchTextField.backgroundColor = nil
         searchBar.layer.cornerRadius = 24
         searchBar.clipsToBounds = true
-        searchBar.placeholder = "해시태그를 검색해보세요"
+        searchBar.placeholder = "리뷰를 작성할 장소를 검색하세요"
         searchBar.backgroundColor = Color.gray1
         
         placeCollectionView.backgroundColor = Color.white

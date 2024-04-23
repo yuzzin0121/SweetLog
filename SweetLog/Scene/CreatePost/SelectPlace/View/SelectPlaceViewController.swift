@@ -33,8 +33,15 @@ final class SelectPlaceViewController: BaseViewController {
         mainView.placeCollectionView.rx.modelSelected(PlaceItem.self)
             .bind(with: self) { owner, placeItem in
                 print(placeItem)
+                owner.showCreatePostVC(placeItem: placeItem)
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func showCreatePostVC(placeItem: PlaceItem) {
+        let createPostVC = CreatePostViewController()
+        createPostVC.viewModel.placeItem = placeItem
+        navigationController?.pushViewController(createPostVC, animated: true)
     }
     
     override func loadView() {
@@ -50,7 +57,7 @@ final class SelectPlaceViewController: BaseViewController {
     }
     
     override func configureNavigationItem() {
-        navigationItem.title = "후기 작성"
+        navigationItem.title = "리뷰 작성"
     }
 
 }

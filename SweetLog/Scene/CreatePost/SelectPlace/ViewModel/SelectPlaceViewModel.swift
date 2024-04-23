@@ -42,7 +42,6 @@ final class SelectPlaceViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, placeModel in
-                print(placeModel.documents)
                 placeList.onNext(placeModel.documents)
             }
             .disposed(by: disposeBag)

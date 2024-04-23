@@ -14,18 +14,15 @@ final class PostNetworkManager {
     static let shared = PostNetworkManager()
     
     func fetchPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
-        print(#function, "\(fetchPostQuery)")
         return Single<FetchPostModel>.create { single in
             do {
                 let urlRequest = try PostRouter.fetchPost(query: fetchPostQuery).asURLRequest()
-                print("=======\(urlRequest)")
                                 
                 AF.request(urlRequest, interceptor: AuthInterceptor())
                     .validate(statusCode: 200..<300)
                     .responseDecodable(of: FetchPostModel.self) { response in
                         switch response.result {
                         case .success(let fetchPostModel):
-                            print("포스트 조회 결과=========\(fetchPostModel.data)========")
                             single(.success(fetchPostModel))
                         case .failure(let error):
                             print(error)
@@ -46,6 +43,6 @@ final class PostNetworkManager {
             }
             
             return Disposables.create()
-        }.debug()
+        }
     }
 }

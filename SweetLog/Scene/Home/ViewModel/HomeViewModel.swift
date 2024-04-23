@@ -42,7 +42,6 @@ final class HomeViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, fetchPostModel in
                 guard let list = fetchPostModel.data else { return }
-                print(list)
                 outputPostList.accept(list)
             }
             .disposed(by: disposeBag)

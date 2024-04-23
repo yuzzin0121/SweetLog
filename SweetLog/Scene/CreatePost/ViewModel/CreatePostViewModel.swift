@@ -11,6 +11,7 @@ import RxCocoa
 
 final class CreatePostViewModel: ViewModelType {
     var placeItem: PlaceItem?
+    let filterList = FilterItem.allCases
     var disposeBag = DisposeBag()
     
     struct Input {

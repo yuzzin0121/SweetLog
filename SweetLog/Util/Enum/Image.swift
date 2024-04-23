@@ -28,4 +28,5 @@ enum Image {
     static let messages: UIImage = .messages
     
     static let markFill: UIImage = .markFill
+    static let arrowDown: UIImage = .arrowDown
 }

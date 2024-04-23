@@ -9,7 +9,7 @@ import UIKit
 
 class CreatePostViewController: BaseViewController {
     private let mainView = CreatePostView()
-    
+    private var menuChildren: [UIMenuElement] = []
     let viewModel = CreatePostViewModel()
 
     override func viewDidLoad() {

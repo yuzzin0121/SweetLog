@@ -18,6 +18,8 @@
 		61130D262BD97852002D03C1 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D252BD97852002D03C1 /* PostDetailViewController.swift */; };
 		61130D292BD97869002D03C1 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D282BD97869002D03C1 /* PostDetailView.swift */; };
 		61130D2C2BD978D2002D03C1 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D2B2BD978D2002D03C1 /* PostDetailViewModel.swift */; };
+		61130D2F2BD98A62002D03C1 /* PostInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */; };
+		61130D312BD98A79002D03C1 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D302BD98A79002D03C1 /* BaseTableViewCell.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -128,6 +130,8 @@
 		61130D252BD97852002D03C1 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		61130D282BD97869002D03C1 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		61130D2B2BD978D2002D03C1 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoTableViewCell.swift; sourceTree = "<group>"; };
+		61130D302BD98A79002D03C1 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 		61130D272BD9785E002D03C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				61130D2D2BD98A31002D03C1 /* Cell */,
 				61130D252BD97852002D03C1 /* PostDetailViewController.swift */,
 				61130D282BD97869002D03C1 /* PostDetailView.swift */,
 			);
@@ -311,6 +316,14 @@
 				61130D2B2BD978D2002D03C1 /* PostDetailViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		61130D2D2BD98A31002D03C1 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		614746F42BD6A39800B9B670 /* Cell */ = {
@@ -462,6 +475,7 @@
 				618C77172BC6F4B70033CD0D /* BaseView.swift */,
 				618C771C2BC6F51B0033CD0D /* BaseViewController.swift */,
 				618C77232BC6F5850033CD0D /* BaseCollectionViewCell.swift */,
+				61130D302BD98A79002D03C1 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -914,11 +928,13 @@
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
 				614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
+				61130D312BD98A79002D03C1 /* BaseTableViewCell.swift in Sources */,
 				618C78AC2BD051DE0033CD0D /* NotificationName+Extension.swift in Sources */,
 				618C774C2BC704F40033CD0D /* TargetType.swift in Sources */,
 				618C77512BC705310033CD0D /* AuthRouter.swift in Sources */,
 				618C775A2BC846C50033CD0D /* BaseResponse.swift in Sources */,
 				61130D182BD7EEEC002D03C1 /* AddPhotoImageView.swift in Sources */,
+				61130D2F2BD98A62002D03C1 /* PostInfoTableViewCell.swift in Sources */,
 				618C78692BCD6FF40033CD0D /* SettingViewController.swift in Sources */,
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,

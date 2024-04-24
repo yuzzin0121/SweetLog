@@ -15,18 +15,23 @@ final class PostDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        setDelegate()
+    }
+    
+    private func setDelegate() {
+        mainView.tableView.dataSource = self
+        mainView.tableView.delegate = self
     }
     
     private func setData(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
         
         navigationItem.title = "\(fetchPostItem.creator.nickname)님의 후기"
+        mainView.tableView.reloadData()
     }
     
     override func bind() {
         guard let postId = viewModel.postId else { return }
-        print("postId: \(postId)")
         let postIdSubejct = BehaviorSubject(value: postId)
         let input = PostDetailViewModel.Input(postId: postIdSubejct.asObserver())
         let output = viewModel.transform(input: input)
@@ -44,5 +49,27 @@ final class PostDetailViewController: BaseViewController {
     
     override func configureNavigationItem() {
         navigationItem.title = "후기"
+    }
+}
+
+
+extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostInfoTableViewCell.identifier, for: indexPath) as? PostInfoTableViewCell,
+                let fetchPostItem = viewModel.fetchPostItem else {
+            return UITableViewCell()
+        }
+        
+        cell.configureCell(fetchPostItem: fetchPostItem)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }

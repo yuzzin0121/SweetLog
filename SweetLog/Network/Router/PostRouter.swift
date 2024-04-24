@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum PostRouter {
-    case postFiles
-    case createPost
+    case uploadFiles
+    case createPost(postQuery: PostRequestModel)
     case loadImage(url: String)
     case fetchPost(query: FetchPostQuery)
 }
@@ -23,7 +23,7 @@ extension PostRouter: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .postFiles, .createPost:
+        case .uploadFiles, .createPost:
             return .post
             
         case .fetchPost, .loadImage:
@@ -33,8 +33,8 @@ extension PostRouter: TargetType {
     
     var path: String {
         switch self {
-        case .postFiles:
-            return "/v1/"
+        case .uploadFiles:
+            return "/v1/posts/files"
         case .createPost, .fetchPost:
             return "/v1/posts"
         case .loadImage(let url):
@@ -44,7 +44,7 @@ extension PostRouter: TargetType {
     
     var header: [String : String] {
         switch self {
-        case .postFiles:
+        case .uploadFiles:
             return [
                 HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken,
                 HTTPHeader.contentType.rawValue:HTTPHeader.multipart.rawValue,
@@ -71,7 +71,7 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .postFiles, .createPost, .loadImage:
+        case .uploadFiles, .createPost, .loadImage:
             return nil
         case .fetchPost(let query):
             return [
@@ -84,8 +84,11 @@ extension PostRouter: TargetType {
     
     var body: Data? {
         switch self {
-        case .createPost, .postFiles, .loadImage, .fetchPost:
+        case .uploadFiles, .loadImage, .fetchPost:
             return nil
+        case .createPost(let postQuery):
+            let encoder = JSONEncoder()
+            return try? encoder.encode(postQuery)
         }
     }
 }

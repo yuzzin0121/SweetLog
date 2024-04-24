@@ -78,15 +78,13 @@ extension AuthRouter: TargetType {
     }
     
     var body: Data? {
+        let encoder = JSONEncoder()
         switch self {
         case .login(let query):
-            let encoder = JSONEncoder()
             return try? encoder.encode(query)
         case .validation(let email):
-            let encoder = JSONEncoder()
             return try? encoder.encode(email)
         case .join(let query):
-            let encoder = JSONEncoder()
             return try? encoder.encode(query)
         case .withdraw, .refresh:
             return nil

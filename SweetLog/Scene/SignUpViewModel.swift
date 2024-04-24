@@ -38,7 +38,7 @@ final class SignUpViewModel: ViewModelType {
         let emailCanUse = PublishRelay<Bool>()   // + 중복체크
         let passwordValid = PublishRelay<Bool>()
         let nicknameValid = PublishRelay<Bool>()
-        var totalValid = BehaviorRelay(value: false)
+        let totalValid = BehaviorRelay(value: false)
         let signUpSuccessTrigger = PublishRelay<Void>()
         let errorString = PublishRelay<String>()
         

@@ -32,7 +32,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         setProfileImage(url: item.creator.profileImage)
         userNicknameLabel.text = item.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
-        contentLabel.text = item.content
+        contentLabel.text = item.review
         
         likeInfoView.countLabel.text = "\(item.likes.count)"
         commentInfoView.countLabel.text = "\(item.comments.count)"

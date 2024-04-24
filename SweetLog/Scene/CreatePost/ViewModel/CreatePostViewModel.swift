@@ -16,6 +16,7 @@ final class CreatePostViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     
     struct Input {
+        let categoryString: Observable<String>
         let sugarContent: Observable<Int>
         let reviewText: Observable<String>
         let imageDataList: Observable<[Data]>
@@ -25,10 +26,22 @@ final class CreatePostViewModel: ViewModelType {
     struct Output {
         let imageDataList: Driver<[Data]>
         let createValid: Driver<Bool>
+        let createPostSuccessTrigger: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
         let createValid = BehaviorRelay(value: false)
+        let fileStringList = PublishSubject<[String]>()
+        let createPostSuccessTrigger = PublishRelay<Void>()
+        
+        let contentObservable = Observable.combineLatest(input.categoryString, input.sugarContent, input.reviewText, fileStringList)
+            .map { [weak self] categoryString, sugar, review, fileStringList in
+                let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
+                                                           sugar: sugar,
+                                                           review: review,
+                                                           fileStringList: fileStringList)
+                return postRequestModel
+            }
         
         Observable.combineLatest(input.reviewText, input.imageDataList)
             .map {
@@ -49,17 +62,54 @@ final class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        // 이미지 파일들 서버로 post
         input.createPostButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .map {
-                
+            .withLatestFrom(input.imageDataList)
+            .flatMap { imageDataList in
+                return PostNetworkManager.shared.uploadImages(imageDataList: imageDataList)
+                    .catch { error in
+                        return Single<FilesModel>.never()
+                    }
             }
+            .debug()
+            .subscribe(with: self) { owner, filesModel in
+                print(filesModel)
+                fileStringList.onNext(filesModel.files)
+            }
+            .disposed(by: disposeBag)
+        
+        fileStringList
+            .withLatestFrom(contentObservable)
+            .flatMap { postRequestModel in
+                PostNetworkManager.shared.createPost(postRequestModel: postRequestModel)
+                    .catch { error in
+                        return Single<FetchPostItem>.never()
+                    }
+            }
+            .debug()
+            .subscribe { fetchPostItem in
+                print(fetchPostItem)
+                createPostSuccessTrigger.accept(())
+            }
+            .disposed(by: disposeBag)
             
         
-        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []), createValid: createValid.asDriver(onErrorJustReturn: false))
+        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []), createValid: createValid.asDriver(onErrorJustReturn: false), createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
     }
     
-    func getCreateModel() {
-        
+    private func getPostRequestModel(categoryString: String, sugar: Int, review: String, fileStringList: [String]) -> PostRequestModel? {
+        guard let placeItem else { return nil }
+        guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }
+        let lonLat = [x, y].description
+        let postRequestModel = PostRequestModel(review: review,
+                                                placeName: placeItem.placeName,
+                                                address: placeItem.address,
+                                                link: placeItem.placeUrl,
+                                                lonlat: lonLat,
+                                                sugar: String(sugar),
+                                                product_id: categoryString,
+                                                files: fileStringList)
+        return postRequestModel
     }
 }

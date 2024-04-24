@@ -41,7 +41,8 @@ class CreatePostViewController: BaseViewController {
                 .disposed(by: disposeBag)
         }
         
-        let input = CreatePostViewModel.Input(sugarContent: sugarContent.asObserver(),
+        let input = CreatePostViewModel.Input(categoryString: mainView.selectedCategorySubject.asObserver(),
+                                              sugarContent: sugarContent.asObserver(),
                                               reviewText: reviewText.asObserver(),
                                               imageDataList: dataSubject.asObserver(),
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
@@ -60,6 +61,21 @@ class CreatePostViewController: BaseViewController {
                 owner.mainView.createButton.isEnabled = isValid
             }
             .disposed(by: disposeBag)
+        
+        output.createPostSuccessTrigger
+            .drive(with: self) { owner, _ in
+                owner.successPost()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func successPost() {
+        guard let viewControllerStack = navigationController?.viewControllers else { return }
+        for viewController in viewControllerStack {
+            if let homeVC = viewController as? HomeViewController {
+                navigationController?.popToViewController(homeVC, animated: true)
+            }
+        }
     }
     
     private func setDelegate() {

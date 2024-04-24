@@ -23,6 +23,8 @@ final class PostDetailView: BaseView {
         super.configureView()
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 400
         tableView.register(PostInfoTableViewCell.self, forCellReuseIdentifier: PostInfoTableViewCell.identifier)
     }
 }

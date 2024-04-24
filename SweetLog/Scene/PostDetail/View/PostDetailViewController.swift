@@ -20,7 +20,6 @@ final class PostDetailViewController: BaseViewController {
     
     private func setDelegate() {
         mainView.tableView.dataSource = self
-        mainView.tableView.delegate = self
     }
     
     private func setData(fetchPostItem: FetchPostItem?) {
@@ -64,12 +63,33 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.selectionStyle = .none
         cell.configureCell(fetchPostItem: fetchPostItem)
+        cell.imageCollectionView.dataSource = self
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+extension PostDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let fetchPostItem = viewModel.fetchPostItem else { return 0 }
+        return fetchPostItem.files.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostImageCollectionViewCell.identifier, for: indexPath) as? PostImageCollectionViewCell,
+              let fetchPostItem = viewModel.fetchPostItem else {
+            return UICollectionViewCell()
+        }
+        
+        let fileString = fetchPostItem.files[indexPath.item]
+        cell.configureCell(fileString: fileString)
+        
+        return cell
     }
 }

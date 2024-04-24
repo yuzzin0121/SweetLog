@@ -18,16 +18,26 @@ final class PostInfoTableViewCell: BaseTableViewCell {
     private let userStackView = UIStackView()
     private let profileImageView = UIImageView()
     private let userNicknameLabel = UILabel()
+    private let reviewLabel = UILabel()
 
     override func prepareForReuse() {
         super.prepareForReuse()
         configureCell(fetchPostItem: nil)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: contentView.frame.width, height: 300)
+        layout.scrollDirection = .horizontal
+        imageCollectionView.collectionViewLayout = layout
+    }
+    
     func configureCell(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
         placeNameLabel.text = fetchPostItem.placeName
         userNicknameLabel.text = fetchPostItem.creator.nickname
+        reviewLabel.text = fetchPostItem.review
     }
     
     override func draw(_ rect: CGRect) {
@@ -39,7 +49,7 @@ final class PostInfoTableViewCell: BaseTableViewCell {
     }
     
     override func configureHierarchy() {
-        addSubviews([placeStackView, imageCollectionView, pageControl, userStackView])
+        addSubviews([placeStackView, imageCollectionView, pageControl, userStackView, reviewLabel])
         [markImageView, placeNameLabel].forEach {
             placeStackView.addArrangedSubview($0)
         }
@@ -73,16 +83,34 @@ final class PostInfoTableViewCell: BaseTableViewCell {
         profileImageView.snp.makeConstraints { make in
             make.size.equalTo(30)
         }
+        
+        reviewLabel.snp.makeConstraints { make in
+            make.top.equalTo(userStackView.snp.bottom).offset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(20)
+        }
     }
     override func configureView() {
         placeStackView.design(axis: .horizontal, spacing: 12)
         markImageView.image = Image.markFill
         pageControl.hidesForSinglePage = true
-        pageControl.pageIndicatorTintColor = Color.backgroundGray.withAlphaComponent(0.4)
+        pageControl.pageIndicatorTintColor = Color.backgroundGray.withAlphaComponent(0.7)
         
         imageCollectionView.backgroundColor = .systemGray6
+        imageCollectionView.isPagingEnabled = true
+        imageCollectionView.delegate = self
+        imageCollectionView.register(PostImageCollectionViewCell.self, forCellWithReuseIdentifier: PostImageCollectionViewCell.identifier)
         
         userStackView.design(axis: .horizontal, spacing: 12)
         profileImageView.image = Image.emptyProfileImage
+    }
+}
+
+
+extension PostInfoTableViewCell: UICollectionViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("오잉")
+        let page = Int(targetContentOffset.pointee.x / contentView.frame.width)
+        pageControl.currentPage = page
     }
 }

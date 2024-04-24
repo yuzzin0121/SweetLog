@@ -77,7 +77,7 @@ extension PostRouter: TargetType {
             return [
                 URLQueryItem(name: "next", value: nil),
                 URLQueryItem(name: "limit", value: "200"),
-                URLQueryItem(name: "product_id", value: nil)
+                URLQueryItem(name: "product_id", value: query.product_id)
             ]
         }
     }

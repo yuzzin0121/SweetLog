@@ -35,14 +35,22 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), filterItemClicked: filterItemClicked)
+        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
+                                        filterItemClicked: filterItemClicked,
+                                        postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self))
         let output = viewModel.transform(input: input)
         
             
-        output.outputPostList
+        output.postList
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
                 cell.configureCell(fetchPostItem: item)
                 cell.layoutIfNeeded()
+            }
+            .disposed(by: disposeBag)
+        
+        output.postCellTapped
+            .drive(with: self) { owner, postId in
+                owner.showPostDetailVC(postId: postId)
             }
             .disposed(by: disposeBag)
         
@@ -53,6 +61,11 @@ final class HomeViewController: BaseViewController {
                 owner.showSelectPlaceVC()
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func showPostDetailVC(postId: String) {
+        let postDetailVC = PostDetailViewController()
+        navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     private func showSelectPlaceVC() {

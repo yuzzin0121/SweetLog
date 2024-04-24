@@ -16,7 +16,7 @@ final class PostNetworkManager {
     func fetchPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
         return Single<FetchPostModel>.create { single in
             do {
-                let urlRequest = try PostRouter.fetchPost(query: fetchPostQuery).asURLRequest()
+                let urlRequest = try PostRouter.fetchPosts(query: fetchPostQuery).asURLRequest()
                                 
                 AF.request(urlRequest, interceptor: AuthInterceptor())
                     .validate(statusCode: 200..<300)
@@ -24,6 +24,39 @@ final class PostNetworkManager {
                         switch response.result {
                         case .success(let fetchPostModel):
                             single(.success(fetchPostModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
+                                    print("fetchPostError")
+                                    single(.failure(fetchPostError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func fetchPost(postId: String) -> Single<FetchPostItem> {
+        return Single<FetchPostItem>.create { single in
+            do {
+                let urlRequest = try PostRouter.fetchPost(postId: postId).asURLRequest()
+                                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FetchPostItem.self) { response in
+                        switch response.result {
+                        case .success(let fetchPostItem):
+                            single(.success(fetchPostItem))
                         case .failure(let error):
                             print(error)
                             if let statusCode = response.response?.statusCode {

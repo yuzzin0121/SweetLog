@@ -12,7 +12,8 @@ enum PostRouter {
     case uploadFiles
     case createPost(postQuery: PostRequestModel)
     case loadImage(url: String)
-    case fetchPost(query: FetchPostQuery)
+    case fetchPosts(query: FetchPostQuery)
+    case fetchPost(postId: String)
 }
 
 extension PostRouter: TargetType {
@@ -26,7 +27,7 @@ extension PostRouter: TargetType {
         case .uploadFiles, .createPost:
             return .post
             
-        case .fetchPost, .loadImage:
+        case .fetchPosts, .loadImage, .fetchPost:
             return .get
         }
     }
@@ -35,10 +36,12 @@ extension PostRouter: TargetType {
         switch self {
         case .uploadFiles:
             return "/v1/posts/files"
-        case .createPost, .fetchPost:
+        case .createPost, .fetchPosts:
             return "/v1/posts"
         case .loadImage(let url):
             return "/v1/\(url)"
+        case .fetchPost(let postId):
+            return "/v1/posts/\(postId)"
         }
     }
     
@@ -50,7 +53,7 @@ extension PostRouter: TargetType {
                 HTTPHeader.contentType.rawValue:HTTPHeader.multipart.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
             ]
-        case .createPost:
+        case .createPost, .fetchPost:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -58,7 +61,7 @@ extension PostRouter: TargetType {
             ]
        
             
-        case .loadImage, .fetchPost:
+        case .loadImage, .fetchPosts:
             return [
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                 HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken
@@ -71,9 +74,9 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .uploadFiles, .createPost, .loadImage:
+        case .uploadFiles, .createPost, .loadImage, .fetchPost:
             return nil
-        case .fetchPost(let query):
+        case .fetchPosts(let query):
             return [
                 URLQueryItem(name: "next", value: nil),
                 URLQueryItem(name: "limit", value: "200"),
@@ -84,7 +87,7 @@ extension PostRouter: TargetType {
     
     var body: Data? {
         switch self {
-        case .uploadFiles, .loadImage, .fetchPost:
+        case .uploadFiles, .loadImage, .fetchPosts, .fetchPost:
             return nil
         case .createPost(let postQuery):
             let encoder = JSONEncoder()

@@ -11,17 +11,32 @@ import RxCocoa
 
 final class PostDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
+    var postId: String?
     
     struct Input {
-        
+        let postId: Observable<String>
     }
     
     struct Output {
-        
+        let fetchPostItem: Driver<FetchPostItem?>
     }
     
     func transform(input: Input) -> Output {
+        let fetchPostItemRelay = PublishRelay<FetchPostItem?>()
         
-        return Output()
+        input.postId
+            .flatMap {
+                return PostNetworkManager.shared.fetchPost(postId: $0)
+                        .catch { error in
+                            return Single<FetchPostItem>.never()
+                        }
+            }
+            .subscribe(with: self) { owner, fetchPostItem in
+                print(fetchPostItem)
+                fetchPostItemRelay.accept(fetchPostItem)
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil))
     }
 }

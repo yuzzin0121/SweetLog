@@ -65,6 +65,7 @@ final class HomeViewController: BaseViewController {
     
     private func showPostDetailVC(postId: String) {
         let postDetailVC = PostDetailViewController()
+        postDetailVC.viewModel.postId = postId
         navigationController?.pushViewController(postDetailVC, animated: true)
     }
     

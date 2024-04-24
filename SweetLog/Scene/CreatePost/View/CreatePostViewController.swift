@@ -43,11 +43,21 @@ class CreatePostViewController: BaseViewController {
         
         let input = CreatePostViewModel.Input(sugarContent: sugarContent.asObserver(),
                                               reviewText: reviewText.asObserver(),
-                                              imageDataList: dataSubject.asObserver())
+                                              imageDataList: dataSubject.asObserver(),
+                                              createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
+        
+        // 추가한 이미지 collectionView에 반영
         output.imageDataList
             .drive(mainView.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier, cellType: PhotoCollectionViewCell.self)) { index, data, cell in
                 cell.configureCell(data: data)
+            }
+            .disposed(by: disposeBag)
+        
+        output.createValid
+            .drive(with: self) { owner, isValid in
+                owner.mainView.createButton.configuration?.baseBackgroundColor = isValid ? Color.brown : Color.buttonGray
+                owner.mainView.createButton.isEnabled = isValid
             }
             .disposed(by: disposeBag)
     }
@@ -90,7 +100,7 @@ class CreatePostViewController: BaseViewController {
     }
     
     override func configureNavigationItem() {
-        navigationItem.title = "리뷰 작성"
+        navigationItem.title = "후기 작성"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.createButton)
     }
     

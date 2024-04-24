@@ -19,19 +19,47 @@ final class CreatePostViewModel: ViewModelType {
         let sugarContent: Observable<Int>
         let reviewText: Observable<String>
         let imageDataList: Observable<[Data]>
+        let createPostButtonTapped: Observable<Void>
     }
     
     struct Output {
         let imageDataList: Driver<[Data]>
+        let createValid: Driver<Bool>
     }
     
     func transform(input: Input) -> Output {
+        let createValid = BehaviorRelay(value: false)
+        
+        Observable.combineLatest(input.reviewText, input.imageDataList)
+            .map {
+                let text = $0.0.trimmingCharacters(in: [" "])
+                print("내용 \(text.isEmpty), 이미지 \($0.1.isEmpty)")
+                return !text.isEmpty && !$0.1.isEmpty
+            }
+            .subscribe { isValid in
+                print(isValid)
+                createValid.accept(isValid)
+            }
+            .disposed(by: disposeBag)
+        
+        
         input.sugarContent
             .subscribe(with: self) { owner, index in
                 print(index)
             }
             .disposed(by: disposeBag)
         
-        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []))
+        input.createPostButtonTapped
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .map {
+                
+            }
+            
+        
+        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []), createValid: createValid.asDriver(onErrorJustReturn: false))
+    }
+    
+    func getCreateModel() {
+        
     }
 }

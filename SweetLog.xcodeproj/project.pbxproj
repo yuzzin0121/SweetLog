@@ -13,6 +13,7 @@
 		61130D182BD7EEEC002D03C1 /* AddPhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D172BD7EEEC002D03C1 /* AddPhotoImageView.swift */; };
 		61130D1B2BD7F189002D03C1 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D1A2BD7F189002D03C1 /* PhotoCollectionViewCell.swift */; };
 		61130D1E2BD7F1DB002D03C1 /* PhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D1D2BD7F1DB002D03C1 /* PhotoImageView.swift */; };
+		61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -219,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
 				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
 				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
 				618C774F2BC705080033CD0D /* Alamofire in Frameworks */,
@@ -743,6 +745,7 @@
 				618C774E2BC705080033CD0D /* Alamofire */,
 				618C77642BC97F560033CD0D /* Toast */,
 				61B528912BD13B8E00974CA0 /* Kingfisher */,
+				61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -778,6 +781,7 @@
 				618C774D2BC705080033CD0D /* XCRemoteSwiftPackageReference "Alamofire" */,
 				618C77632BC97F560033CD0D /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -1126,6 +1130,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.2;
+			};
+		};
 		618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1169,6 +1181,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		618C771A2BC6F4D80033CD0D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */;

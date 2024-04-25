@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
 
 final class PostCollectionViewCell: BaseCollectionViewCell {
     private let profileImageView = UIImageView()
@@ -18,12 +19,14 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     
     private var likeInfoView = PostInfoView(image: Image.heart, count: 0)
     private var commentInfoView = PostInfoView(image: Image.messages, count: 0)
-    
+    var disposeBag = DisposeBag()
     
     override func prepareForReuse() {
         super.prepareForReuse()
+
+        disposeBag = DisposeBag()
         imageStackView = UIStackView()
-        profileImageView.image = Image.emptyProfileImage
+        profileImageView.image = nil
         configureCell(fetchPostItem: nil)
     }
     
@@ -70,15 +73,17 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             return
         }
         let imageView = PostImageView(frame: .zero)
+        self.imageStackView.addArrangedSubview(imageView)
        
-        imageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
-            if !isSuccess {
-                imageView.backgroundColor = Color.gray
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            imageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
+                if !isSuccess {
+                    imageView.image = nil
+                    imageView.backgroundColor = Color.gray
+                }
             }
         }
-        imageStackView.addArrangedSubview(imageView)
-        
-        
     }
     
     private func setTwoImage(files: [String]) {
@@ -89,17 +94,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         
         let firstImageView = PostImageView(frame: .zero)
         let secondImageView = PostImageView(frame: .zero)
-       
-        firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
-            if !isSuccess {
-                firstImageView.backgroundColor = .black
-            }
-        }
-        secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
-            if !isSuccess {
-                secondImageView.backgroundColor = .black
-            }
-        }
+        
         imageStackView.addArrangedSubview(firstImageView)
         imageStackView.addArrangedSubview(secondImageView)
         
@@ -110,6 +105,27 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         secondImageView.snp.makeConstraints {
             $0.height.equalTo(secondImageView.snp.width).multipliedBy(136.0 / 102.0)
         }
+       
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
+                if !isSuccess {
+                    firstImageView.image = nil
+                    firstImageView.backgroundColor = .black
+                }
+            }
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
+                if !isSuccess {
+                    secondImageView.image = nil
+                    secondImageView.backgroundColor = .black
+                }
+            }
+        }
+        
     }
     private func setThreeImage(files: [String]) {
         guard let firstImageUrl = files.first else {
@@ -121,22 +137,6 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         let firstImageView = PostImageView(frame: .zero)
         let secondImageView = PostImageView(frame: .zero)
         let thirdImageView = PostImageView(frame: .zero)
-       
-        firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
-            if !isSuccess {
-                firstImageView.backgroundColor = .black
-            }
-        }
-        secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
-            if !isSuccess {
-                secondImageView.backgroundColor = .black
-            }
-        }
-        thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
-            if !isSuccess {
-                thirdImageView.backgroundColor = .black
-            }
-        }
         
         var imageVStackView = UIStackView()
         imageVStackView.axis = .vertical
@@ -161,6 +161,36 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         thirdImageView.snp.makeConstraints {
             $0.height.equalTo(thirdImageView.snp.width).multipliedBy(66.0 / 102.0)
         }
+        
+       
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
+                if !isSuccess {
+                    firstImageView.image = nil
+                    firstImageView.backgroundColor = .black
+                }
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
+                if !isSuccess {
+                    secondImageView.image = nil
+                    secondImageView.backgroundColor = .black
+                }
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
+                if !isSuccess {
+                    thirdImageView.image = nil
+                    thirdImageView.backgroundColor = .black
+                }
+            }
+        }
+        
         
     }
     

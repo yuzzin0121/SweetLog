@@ -20,7 +20,7 @@ extension KingfisherWrapper where Base: UIImageView {
              let modifier = AnyModifier { _ in
                     return request
              }
-             
+             print(urlString)
              setImage(
                 with: request.url,
                 placeholder: nil,

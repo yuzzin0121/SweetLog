@@ -21,6 +21,8 @@
 		61130D2F2BD98A62002D03C1 /* PostInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */; };
 		61130D312BD98A79002D03C1 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D302BD98A79002D03C1 /* BaseTableViewCell.swift */; };
 		61130D332BD9935B002D03C1 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D322BD9935B002D03C1 /* PostImageCollectionViewCell.swift */; };
+		61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */; };
+		61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D362BDA368E002D03C1 /* ViewProtocol.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -134,6 +136,8 @@
 		61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoTableViewCell.swift; sourceTree = "<group>"; };
 		61130D302BD98A79002D03C1 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		61130D322BD9935B002D03C1 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailHeaderView.swift; sourceTree = "<group>"; };
+		61130D362BDA368E002D03C1 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -325,6 +329,7 @@
 			children = (
 				61130D2E2BD98A62002D03C1 /* PostInfoTableViewCell.swift */,
 				61130D322BD9935B002D03C1 /* PostImageCollectionViewCell.swift */,
+				61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -640,6 +645,7 @@
 			children = (
 				618C773B2BC6FB260033CD0D /* ViewModelType.swift */,
 				618C786C2BCD70830033CD0D /* Reuse.swift */,
+				61130D362BDA368E002D03C1 /* ViewProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -955,6 +961,7 @@
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,
 				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
+				61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */,
 				618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */,
 				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
 				6147470C2BD6BA4600B9B670 /* Place.swift in Sources */,
@@ -963,6 +970,7 @@
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,
+				61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */,
 				61130D262BD97852002D03C1 /* PostDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

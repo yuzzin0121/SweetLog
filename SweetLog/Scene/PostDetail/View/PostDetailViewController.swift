@@ -69,21 +69,29 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         return 400
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude //Remove space between sections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        guard let fetchPostItem = viewModel.fetchPostItem else { return 10 }
+        return fetchPostItem.comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostInfoTableViewCell.identifier, for: indexPath) as? PostInfoTableViewCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCommentTableViewCell.identifier, for: indexPath) as? PostCommentTableViewCell,
                 let fetchPostItem = viewModel.fetchPostItem else {
             return UITableViewCell()
         }
-        
-        cell.configureCell(fetchPostItem: fetchPostItem)
+//        let comment = fetchPostItem.comments[indexPath.row]
+//        cell.configureCell(comment: comment)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
    
 }
 

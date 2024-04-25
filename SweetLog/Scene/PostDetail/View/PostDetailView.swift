@@ -26,9 +26,15 @@ final class PostDetailView: BaseView {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.isUserInteractionEnabled = true
+        tableView.estimatedRowHeight = 55
         tableView.rowHeight = UITableView.automaticDimension
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.register(PostDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: PostDetailHeaderView.identifier)
+        tableView.register(PostCommentTableViewCell.self, forCellReuseIdentifier: PostCommentTableViewCell.identifier)
+        
+        tableView.tableFooterView = UIView(frame: CGRect(origin: .zero,
+                                                         size: CGSize(width:CGFloat.leastNormalMagnitude,
+                                                                      height: CGFloat.leastNormalMagnitude)))
     }
 }
 

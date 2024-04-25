@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
+final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     private let placeStackView = UIStackView()
     private let markImageView = UIImageView()
@@ -58,7 +58,7 @@ class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
             imageView.contentMode = .scaleAspectFill
             
             imageView.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index),
-                                     y: 0,
+                                     y: imageScrollView.frame.minY,
                                      width: UIScreen.main.bounds.width,
                                      height: 300)
             imageScrollView.addSubview(imageView)
@@ -102,12 +102,12 @@ class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
             make.height.equalTo(300)
         }
         pageControl.snp.makeConstraints { make in
-            make.top.equalTo(imageScrollView.snp.bottom).offset(6)
+            make.bottom.equalTo(imageScrollView.snp.bottom).offset(-6)
             make.centerX.equalToSuperview()
             make.height.equalTo(14)
         }
         userStackView.snp.makeConstraints { make in
-            make.top.equalTo(pageControl.snp.bottom).offset(14)
+            make.top.equalTo(imageScrollView.snp.bottom).offset(14)
             make.leading.equalToSuperview().offset(14)
         }
         profileImageView.snp.makeConstraints { make in

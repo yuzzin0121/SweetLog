@@ -49,6 +49,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         pageControl.numberOfPages = fetchPostItem.files.count
         setImages(fileList: fetchPostItem.files)
         setSugar(sugarValue: fetchPostItem.sugar)
+        commentCountLabel.text = "\(fetchPostItem.comments.count)개"
+        likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
     }
     
     private func setSugar(sugarValue: String?) {

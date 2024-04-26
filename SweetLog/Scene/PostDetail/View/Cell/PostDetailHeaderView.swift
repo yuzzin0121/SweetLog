@@ -13,7 +13,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     private let markImageView = UIImageView()
     private let placeNameLabel = UILabel()
     
-    let imageScrollView = UIScrollView()
+    private var imageScrollView = UIScrollView()
     private let pageControl = UIPageControl()
     
     private let userStackView = UIStackView()
@@ -30,6 +30,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageScrollView = UIScrollView()
         configureHeader(fetchPostItem: nil)
     }
     
@@ -48,20 +49,22 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         pageControl.numberOfPages = fileList.count
         imageScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(fileList.count), height: 300)
         for index in 0..<fileList.count {
-            let imageView = PostImageView(frame: .zero)
-            imageView.kf.setImageWithAuthHeaders(with: fileList[index]) { isSuccess in
-                if !isSuccess { // 실패할 경우
-                    imageView.image = nil
-                    imageView.backgroundColor = .gray
-                }
-            }
-            imageView.contentMode = .scaleAspectFill
+            let imageView = PhotoImageView(frame: .zero)
+            imageScrollView.addSubview(imageView)
             
             imageView.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index),
-                                     y: imageScrollView.frame.minY,
+                                     y: 0,
                                      width: UIScreen.main.bounds.width,
                                      height: 300)
-            imageScrollView.addSubview(imageView)
+            DispatchQueue.main.async {
+                imageView.kf.setImageWithAuthHeaders(with: fileList[index]) { isSuccess in
+                    if !isSuccess { // 실패할 경우
+                        imageView.image = nil
+                    }
+                }
+            }
+            
+            print(imageView.frame.minX)
         }
     }
     
@@ -89,7 +92,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     func configureLayout() {
         placeStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(20)
             make.leading.equalToSuperview().offset(14)
         }
         markImageView.snp.makeConstraints { make in
@@ -126,15 +129,14 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         markImageView.image = Image.markFill
         
         imageScrollView.isPagingEnabled = true
-        imageScrollView.isScrollEnabled = true
-        imageScrollView.backgroundColor = .systemGray6
+        imageScrollView.backgroundColor = Color.white
         imageScrollView.showsVerticalScrollIndicator = false
         imageScrollView.showsHorizontalScrollIndicator = false
         imageScrollView.delegate = self
         
         pageControl.hidesForSinglePage = true
-        pageControl.pageIndicatorTintColor = Color.gray
-        pageControl.currentPageIndicatorTintColor = Color.darkBrown
+        pageControl.pageIndicatorTintColor = Color.white.withAlphaComponent(0.5)
+        pageControl.currentPageIndicatorTintColor = Color.white
         pageControl.currentPage = 0
         pageControl.isUserInteractionEnabled = false
     

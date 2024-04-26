@@ -83,6 +83,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
                 let fetchPostItem = viewModel.fetchPostItem else {
             return UITableViewCell()
         }
+        cell.selectionStyle = .none
 //        let comment = fetchPostItem.comments[indexPath.row]
 //        cell.configureCell(comment: comment)
         

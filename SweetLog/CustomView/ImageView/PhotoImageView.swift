@@ -15,8 +15,6 @@ final class PhotoImageView: UIImageView {
     
     private func configureView() {
         contentMode = .scaleAspectFill
-        layer.cornerRadius = 12
-        clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {

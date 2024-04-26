@@ -25,8 +25,12 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         super.prepareForReuse()
 
         disposeBag = DisposeBag()
-        imageStackView = UIStackView()
-        profileImageView.image = nil
+        imageStackView.arrangedSubviews.forEach {
+//            imageStackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+        print(imageStackView.arrangedSubviews.count)
+        profileImageView.image = Image.emptyProfileImage
         configureCell(fetchPostItem: nil)
     }
     
@@ -48,6 +52,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { [weak self] isSuccess in
                 guard let self else { return }
                 if !isSuccess {
+                    print("프로필 이미지 로드 실패")
                     self.profileImageView.image = Image.emptyProfileImage
                 }
             }
@@ -75,12 +80,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         let imageView = PostImageView(frame: .zero)
         self.imageStackView.addArrangedSubview(imageView)
        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             imageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
                 if !isSuccess {
+                    print("이미지 하나일때 로드 실패")
                     imageView.image = nil
-                    imageView.backgroundColor = Color.gray
                 }
             }
         }
@@ -106,26 +110,24 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             $0.height.equalTo(secondImageView.snp.width).multipliedBy(136.0 / 102.0)
         }
        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
                 if !isSuccess {
+                    print("이미지 두개일때 1로드 실패")
                     firstImageView.image = nil
-                    firstImageView.backgroundColor = .black
                 }
             }
         }
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
                 if !isSuccess {
+                    print("이미지 두개일때 2로드 실패")
                     secondImageView.image = nil
-                    secondImageView.backgroundColor = .black
                 }
             }
         }
-        
+        imageStackView.backgroundColor = Color.white
     }
     private func setThreeImage(files: [String]) {
         guard let firstImageUrl = files.first else {
@@ -138,7 +140,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         let secondImageView = PostImageView(frame: .zero)
         let thirdImageView = PostImageView(frame: .zero)
         
-        var imageVStackView = UIStackView()
+        let imageVStackView = UIStackView()
         imageVStackView.axis = .vertical
         imageVStackView.alignment = .fill
         imageVStackView.distribution = .fill
@@ -163,30 +165,25 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
                 if !isSuccess {
+                    print("이미지 세개 로드 실패")
                     firstImageView.image = nil
-                    firstImageView.backgroundColor = .black
                 }
             }
         }
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
                 if !isSuccess {
                     secondImageView.image = nil
-                    secondImageView.backgroundColor = .black
                 }
             }
         }
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        DispatchQueue.main.async {
             thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
                 if !isSuccess {
                     thirdImageView.image = nil
-                    thirdImageView.backgroundColor = .black
                 }
             }
         }

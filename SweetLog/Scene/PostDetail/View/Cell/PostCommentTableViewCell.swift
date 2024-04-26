@@ -16,7 +16,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        profileImageView.image = nil
+        profileImageView.image = Image.emptyProfileImage
         configureCell(comment: nil)
     }
     
@@ -63,7 +63,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
             make.leading.equalTo(nicknameLabel)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(12)
-            make.height.equalTo(14)
+            make.height.equalTo(15)
         }
     }
     override func configureView() {
@@ -71,7 +71,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         
         nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .light))
         dateLabel.design(text: "날짜", font: .pretendard(size: 11, weight: .light))
-        commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 14, weight: .regular))
+        commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 15, weight: .regular))
     }
     
     override func draw(_ rect: CGRect) {

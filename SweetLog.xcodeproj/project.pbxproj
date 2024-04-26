@@ -22,6 +22,8 @@
 		61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */; };
 		61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D362BDA368E002D03C1 /* ViewProtocol.swift */; };
 		61130D392BDABDBC002D03C1 /* PostCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D382BDABDBC002D03C1 /* PostCommentTableViewCell.swift */; };
+		61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D402BDBAD53002D03C1 /* SugarView.swift */; };
+		61130D432BDC0194002D03C1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D422BDC0194002D03C1 /* UIImage+Extension.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -136,6 +138,8 @@
 		61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailHeaderView.swift; sourceTree = "<group>"; };
 		61130D362BDA368E002D03C1 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
 		61130D382BDABDBC002D03C1 /* PostCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTableViewCell.swift; sourceTree = "<group>"; };
+		61130D402BDBAD53002D03C1 /* SugarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarView.swift; sourceTree = "<group>"; };
+		61130D422BDC0194002D03C1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 			children = (
 				61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */,
 				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
+				61130D402BDBAD53002D03C1 /* SugarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -550,6 +555,7 @@
 				61B5288E2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift */,
 				614747032BD6A8CD00B9B670 /* UILabel+Extension.swift */,
 				614747052BD6A96100B9B670 /* UIStackView+Extension.swift */,
+				61130D422BDC0194002D03C1 /* UIImage+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -895,6 +901,7 @@
 				618C78652BCD6FC20033CD0D /* SettingCollectionViewCell.swift in Sources */,
 				618C77472BC703BD0033CD0D /* LoginQuery.swift in Sources */,
 				614747082BD6AAF500B9B670 /* KakaoPlaceRouter.swift in Sources */,
+				61130D432BDC0194002D03C1 /* UIImage+Extension.swift in Sources */,
 				618C775E2BC848450033CD0D /* Auth.swift in Sources */,
 				61130D392BDABDBC002D03C1 /* PostCommentTableViewCell.swift in Sources */,
 				614747042BD6A8CD00B9B670 /* UILabel+Extension.swift in Sources */,
@@ -945,6 +952,7 @@
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
+				61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
 				61B5288B2BD12F6E00974CA0 /* FormatterManager.swift in Sources */,
 				614747022BD6A87F00B9B670 /* PlaceCollectionViewCell.swift in Sources */,

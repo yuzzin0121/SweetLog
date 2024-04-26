@@ -8,10 +8,10 @@
 import UIKit
 
 final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
-    
-    private let placeStackView = UIStackView()
-    private let markImageView = UIImageView()
-    private let placeNameLabel = UILabel()
+    let placeButton = UIButton()
+    private let sugarContentLabel = UILabel()
+    private let sugarStackView = UIStackView()
+    var sugarViewList: [SugarView] = []
     
     private var imageScrollView = UIScrollView()
     private let pageControl = UIPageControl()
@@ -19,7 +19,13 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     private let userStackView = UIStackView()
     private let profileImageView = UIImageView()
     private let userNicknameLabel = UILabel()
+    
+    let likeButton = UIButton()
     private let reviewLabel = UILabel()
+    
+    let commentStackView = UIStackView()
+    let commentImageView = UIImageView()
+    let commentCountLabel = UILabel()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -36,7 +42,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     func configureHeader(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
-        placeNameLabel.text = fetchPostItem.placeName
+        placeButton.configuration?.title = fetchPostItem.placeName
         userNicknameLabel.text = fetchPostItem.creator.nickname
         reviewLabel.text = fetchPostItem.review
         pageControl.numberOfPages = fetchPostItem.files.count
@@ -81,26 +87,35 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     }
     
     func configureHierarchy() {
-        addSubviews([placeStackView, imageScrollView, pageControl, userStackView, reviewLabel])
-        [markImageView, placeNameLabel].forEach {
-            placeStackView.addArrangedSubview($0)
-        }
+        addSubviews([placeButton, sugarContentLabel, sugarStackView, imageScrollView, pageControl, userStackView, likeButton, reviewLabel, commentStackView])
+        
         [profileImageView, userNicknameLabel].forEach {
             userStackView.addArrangedSubview($0)
+        }
+        
+        [commentImageView, commentCountLabel].forEach {
+            commentStackView.addArrangedSubview($0)
         }
     }
     
     func configureLayout() {
-        placeStackView.snp.makeConstraints { make in
+        placeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
-            make.leading.equalToSuperview().offset(14)
+            make.leading.equalToSuperview().offset(15)
         }
-        markImageView.snp.makeConstraints { make in
-            make.size.equalTo(20)
+        sugarContentLabel.snp.makeConstraints { make in
+            make.top.equalTo(placeButton.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(18)
+            make.height.equalTo(15)
+        }
+        
+        sugarStackView.snp.makeConstraints { make in
+            make.centerY.equalTo(sugarContentLabel)
+            make.leading.equalTo(sugarContentLabel.snp.trailing).offset(8)
         }
         
         imageScrollView.snp.makeConstraints { make in
-            make.top.equalTo(placeStackView.snp.bottom).offset(20)
+            make.top.equalTo(sugarContentLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(300)
         }
@@ -111,22 +126,36 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         }
         userStackView.snp.makeConstraints { make in
             make.top.equalTo(imageScrollView.snp.bottom).offset(14)
-            make.leading.equalToSuperview().offset(14)
+            make.leading.equalToSuperview().offset(18)
         }
         profileImageView.snp.makeConstraints { make in
             make.size.equalTo(30)
         }
         
+        likeButton.snp.makeConstraints { make in
+            make.centerY.equalTo(userStackView)
+            make.trailing.equalToSuperview().inset(18)
+        }
+        
         reviewLabel.snp.makeConstraints { make in
             make.top.equalTo(userStackView.snp.bottom).offset(16)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(18)
             make.bottom.equalToSuperview().inset(20)
         }
     }
     
     func configureView() {
-        placeStackView.design(axis: .horizontal, spacing: 12)
-        markImageView.image = Image.markFill
+        var placeConfig = UIButton.Configuration.filled()
+        placeConfig.baseBackgroundColor = Color.white
+        placeConfig.image = Image.markFill
+        placeConfig.title = "장소 이름"
+        placeConfig.imagePadding = 8
+        placeConfig.baseForegroundColor = Color.black
+        placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        placeButton.configuration = placeConfig
+        
+        sugarContentLabel.design(text: "당도", font: .pretendard(size: 17, weight: .medium))
+        
         
         imageScrollView.isPagingEnabled = true
         imageScrollView.backgroundColor = Color.white
@@ -142,6 +171,36 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
         userStackView.design(axis: .horizontal, spacing: 12)
         profileImageView.image = Image.emptyProfileImage
+        
+        var likeConfig = UIButton.Configuration.filled()
+        likeConfig.image = Image.heart.resized(to: CGSize(width: 20, height: 20))
+        likeConfig.title = "\(0)"
+        likeConfig.imagePadding = 4
+        likeConfig.baseBackgroundColor = Color.white
+        likeConfig.baseForegroundColor = Color.black
+        likeConfig.cornerStyle = .capsule
+        likeConfig.background.strokeColor = Color.buttonStrokeGray
+        likeConfig.background.strokeWidth = 1
+        placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
+        likeButton.configuration = likeConfig
+        
+        setSugarView()
+        
+        commentStackView.design(axis: .horizontal)
+    }
+    
+    private func setSugarView() {
+        sugarStackView.design(axis: .horizontal, spacing: 8)
+        for index in 1...5 {
+            let sugarView = SugarView()
+            sugarView.tag = index
+            sugarViewList.append(sugarView)
+            sugarStackView.addArrangedSubview(sugarView)
+            
+            DispatchQueue.main.async {
+                sugarView.layer.cornerRadius = sugarView.frame.height / 2
+            }
+        }
     }
 }
 

@@ -45,7 +45,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         profileImageView.snp.makeConstraints { make in
             make.size.equalTo(30)
             make.top.equalToSuperview().offset(12)
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(18)
         }
         
         nicknameLabel.snp.makeConstraints { make in
@@ -61,7 +61,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         commentLabel.snp.makeConstraints { make in
             make.top.equalTo(nicknameLabel.snp.bottom).offset(8)
             make.leading.equalTo(nicknameLabel)
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(18)
             make.bottom.equalToSuperview().inset(12)
             make.height.equalTo(15)
         }

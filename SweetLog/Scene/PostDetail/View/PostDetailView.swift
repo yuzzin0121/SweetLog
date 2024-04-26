@@ -21,7 +21,8 @@ final class PostDetailView: BaseView {
     override func configureLayout() {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
-            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(commentBackgroundView.snp.top)
         }
         commentBackgroundView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)

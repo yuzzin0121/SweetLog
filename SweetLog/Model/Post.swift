@@ -38,7 +38,7 @@ struct FetchPostItem: Decodable {
     let files: [String]
     let likes: [String]
     let hashTags: [String]
-    let comments: [Comment]
+    var comments: [Comment]
     
     enum CodingKeys: String, CodingKey {
         case postId = "post_id"

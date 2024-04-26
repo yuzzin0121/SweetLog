@@ -25,6 +25,9 @@
 		61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D402BDBAD53002D03C1 /* SugarView.swift */; };
 		61130D432BDC0194002D03C1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D422BDC0194002D03C1 /* UIImage+Extension.swift */; };
 		61130D452BDC19A3002D03C1 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */; };
+		61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D462BDC227A002D03C1 /* CommentRouter.swift */; };
+		61130D492BDC2335002D03C1 /* CommentNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */; };
+		61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D4A2BDC2389002D03C1 /* ContentQuery.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -142,6 +145,9 @@
 		61130D402BDBAD53002D03C1 /* SugarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarView.swift; sourceTree = "<group>"; };
 		61130D422BDC0194002D03C1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		61130D462BDC227A002D03C1 /* CommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRouter.swift; sourceTree = "<group>"; };
+		61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNetworkManager.swift; sourceTree = "<group>"; };
+		61130D4A2BDC2389002D03C1 /* ContentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentQuery.swift; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -681,6 +687,7 @@
 				618C78162BC9A03A0033CD0D /* JoinQuery.swift */,
 				61B528822BD10E8A00974CA0 /* FetchPostQuery.swift */,
 				61130D222BD9393D002D03C1 /* PostQuery.swift */,
+				61130D4A2BDC2389002D03C1 /* ContentQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -772,6 +779,7 @@
 				618C77502BC705310033CD0D /* AuthRouter.swift */,
 				61B528802BD10C6000974CA0 /* PostRouter.swift */,
 				614747072BD6AAF500B9B670 /* KakaoPlaceRouter.swift */,
+				61130D462BDC227A002D03C1 /* CommentRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -783,6 +791,7 @@
 				618C775B2BC847FD0033CD0D /* AuthNetworkManager.swift */,
 				61B528842BD10F9800974CA0 /* PostNetworkManager.swift */,
 				614747092BD6AC4700B9B670 /* KakaoNetworkManager.swift */,
+				61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -919,6 +928,7 @@
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
+				61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */,
 				61130D232BD9393D002D03C1 /* PostQuery.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
@@ -926,6 +936,7 @@
 				618C78262BC9AF7B0033CD0D /* ProfileViewModel.swift in Sources */,
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
+				61130D492BDC2335002D03C1 /* CommentNetworkManager.swift in Sources */,
 				61130D292BD97869002D03C1 /* PostDetailView.swift in Sources */,
 				61B5287D2BD1034C00974CA0 /* PostCollectionViewCell.swift in Sources */,
 				618C775C2BC847FD0033CD0D /* AuthNetworkManager.swift in Sources */,
@@ -975,6 +986,7 @@
 				6147470C2BD6BA4600B9B670 /* Place.swift in Sources */,
 				61B5288F2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift in Sources */,
 				618C786B2BCD70120033CD0D /* SettingView.swift in Sources */,
+				61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,

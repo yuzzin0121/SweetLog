@@ -10,7 +10,13 @@ import RxSwift
 
 final class PostDetailViewController: BaseViewController {
     let mainView = PostDetailView()
+    
     let viewModel = PostDetailViewModel()
+    var fetchPostItem: FetchPostItem? {
+        didSet {
+            mainView.tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,21 +31,30 @@ final class PostDetailViewController: BaseViewController {
     
     private func setData(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
-        
-        navigationItem.title = "\(fetchPostItem.creator.nickname)님의 후기"
+        self.fetchPostItem = fetchPostItem
         mainView.tableView.reloadData()
+        navigationItem.title = "\(fetchPostItem.creator.nickname)님의 후기"
     }
     
     override func bind() {
         guard let postId = viewModel.postId else { return }
+        
         let postIdSubejct = BehaviorSubject(value: postId)
-        let input = PostDetailViewModel.Input(postId: postIdSubejct.asObserver())
+        let input = PostDetailViewModel.Input(postId: postIdSubejct.asObserver(),
+                                              commentText: mainView.commentTextField.rx.text.orEmpty.asObservable(),
+                                              commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable())
         let output = viewModel.transform(input: input)
         
         output.fetchPostItem
             .drive(with: self) { owner, fetchPostItem in
                 owner.setData(fetchPostItem: fetchPostItem)
             }
+            .disposed(by: disposeBag)
+        
+        output.createCommentSuccessTrigger
+            .drive(with: self, onNext: { owner, _ in
+                owner.mainView.tableView.reloadData()
+            })
             .disposed(by: disposeBag)
     }
     
@@ -69,23 +84,21 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         return 400
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return .leastNormalMagnitude //Remove space between sections
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let fetchPostItem = viewModel.fetchPostItem else { return 10 }
+        guard let fetchPostItem = self.fetchPostItem else { return 0 }
+        print("댓글 개수 \(fetchPostItem.comments.count)")
         return fetchPostItem.comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCommentTableViewCell.identifier, for: indexPath) as? PostCommentTableViewCell,
-                let fetchPostItem = viewModel.fetchPostItem else {
+                let fetchPostItem = self.fetchPostItem else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-//        let comment = fetchPostItem.comments[indexPath.row]
-//        cell.configureCell(comment: comment)
+        print("댓글 개수 \(fetchPostItem.comments.count)")
+        let comment = fetchPostItem.comments[indexPath.row]
+        cell.configureCell(comment: comment)
         
         return cell
     }

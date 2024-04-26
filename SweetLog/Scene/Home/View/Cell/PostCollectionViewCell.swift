@@ -87,6 +87,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
                     imageView.image = nil
                 }
             }
+            imageView.layer.cornerRadius = 8
+        }
+        DispatchQueue.main.async {
+            imageView.layer.cornerRadius = 6
+            imageView.clipsToBounds = true
         }
     }
     
@@ -127,7 +132,12 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
                 }
             }
         }
-        imageStackView.backgroundColor = Color.white
+        DispatchQueue.main.async {
+            firstImageView.layer.cornerRadius = 6
+            secondImageView.layer.cornerRadius = 6
+            firstImageView.clipsToBounds = true
+            secondImageView.clipsToBounds = true
+        }
     }
     private func setThreeImage(files: [String]) {
         guard let firstImageUrl = files.first else {
@@ -172,6 +182,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
                     firstImageView.image = nil
                 }
             }
+            firstImageView.layer.cornerRadius = 8
         }
         DispatchQueue.main.async {
             secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
@@ -179,6 +190,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
                     secondImageView.image = nil
                 }
             }
+            secondImageView.layer.cornerRadius = 8
         }
         DispatchQueue.main.async {
             thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
@@ -186,9 +198,17 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
                     thirdImageView.image = nil
                 }
             }
+            thirdImageView.layer.cornerRadius = 8
         }
         
-        
+        DispatchQueue.main.async {
+            firstImageView.layer.cornerRadius = 6
+            secondImageView.layer.cornerRadius = 6
+            thirdImageView.layer.cornerRadius = 6
+            firstImageView.clipsToBounds = true
+            secondImageView.clipsToBounds = true
+            thirdImageView.clipsToBounds = true
+        }
     }
     
     override func configureHierarchy() {
@@ -256,6 +276,13 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureView() {
+        layer.masksToBounds = false
+        layer.shadowColor =  Color.gray.cgColor
+        layer.shadowRadius = 10
+        layer.shadowOpacity = 0.1
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.cornerRadius = 12
+        
         contentView.backgroundColor = Color.white
         contentView.layer.cornerRadius = 12
         contentView.clipsToBounds = true

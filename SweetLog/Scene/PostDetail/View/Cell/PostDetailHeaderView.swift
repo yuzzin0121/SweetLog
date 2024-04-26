@@ -54,7 +54,6 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     private func setSugar(sugarValue: String?) {
         if sugarViewList.isEmpty { return }
         guard let sugarString = sugarValue, let sugar = Int(sugarString) else { return }
-        print("당도 - \(sugar)")
         for index in 0..<sugar {
             sugarViewList[index].backgroundColor = Color.brown
         }
@@ -220,6 +219,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeConfig.background.strokeWidth = 2
         placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         likeButton.configuration = likeConfig
+        
+        reviewLabel.design(font: .pretendard(size: 16, weight: .regular), numberOfLines: 0)
         
         commentStackView.design(axis: .horizontal, spacing: 8)
         commentImageView.image = Image.messages

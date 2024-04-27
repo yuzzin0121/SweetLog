@@ -36,7 +36,7 @@ struct FetchPostItem: Decodable {
     let createdAt: String
     let creator: Creator
     let files: [String]
-    let likes: [String]
+    var likes: [String]
     let hashTags: [String]
     var comments: [Comment]
     
@@ -114,3 +114,4 @@ struct Comment: Decodable {
 struct FilesModel: Decodable {
     let files: [String]
 }
+

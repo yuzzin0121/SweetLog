@@ -160,4 +160,38 @@ final class PostNetworkManager {
             return Disposables.create()
         }
     }
+    
+    func likePost(postId: String, likeStatusModel: LikeStatusModel) -> Single<LikeStatusModel> {
+        return Single<LikeStatusModel>.create { single in
+            do {
+                let urlRequest = try PostRouter.likePost(postId: postId, likeStatusModel: likeStatusModel).asURLRequest()
+                print(urlRequest.url)
+                                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: LikeStatusModel.self) { response in
+                        switch response.result {
+                        case .success(let likeStatusModel):
+                            single(.success(likeStatusModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let likePostError = LikePostError(rawValue: statusCode) {
+                                    print("likePostError")
+                                    single(.failure(likePostError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
 }

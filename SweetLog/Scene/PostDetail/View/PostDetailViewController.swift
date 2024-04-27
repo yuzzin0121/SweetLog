@@ -17,6 +17,7 @@ final class PostDetailViewController: BaseViewController {
             mainView.tableView.reloadData()
         }
     }
+    let likeStatus = PublishSubject<Bool>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,8 @@ final class PostDetailViewController: BaseViewController {
         let postIdSubejct = BehaviorSubject(value: postId)
         let input = PostDetailViewModel.Input(postId: postIdSubejct.asObserver(),
                                               commentText: mainView.commentTextField.rx.text.orEmpty.asObservable(),
-                                              commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable())
+                                              commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
+                                              likeButtonStatus: likeStatus.asObservable())
         let output = viewModel.transform(input: input)
         
         output.fetchPostItem
@@ -76,6 +78,13 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         headerView.configureHeader(fetchPostItem: fetchPostItem)
+        headerView.likeButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                headerView.likeButton.isSelected.toggle()
+                print(headerView.likeButton.isSelected)
+                owner.likeStatus.onNext(headerView.likeButton.isSelected)
+            }
+            .disposed(by: headerView.disposeBag)
         
         return headerView
     }
@@ -86,7 +95,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let fetchPostItem = self.fetchPostItem else { return 0 }
-        print("댓글 개수 \(fetchPostItem.comments.count)")
         return fetchPostItem.comments.count
     }
     
@@ -96,7 +104,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-        print("댓글 개수 \(fetchPostItem.comments.count)")
         let comment = fetchPostItem.comments[indexPath.row]
         cell.configureCell(comment: comment)
         

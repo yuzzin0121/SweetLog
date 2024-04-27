@@ -13,9 +13,9 @@ final class NetworkManager {
     static let shared = NetworkManager()
     
     func tokenRefresh(completionHandler: @escaping (Bool) -> Void) {
-        let url = URL(string: APIKey.authTestURL.rawValue + "/auth/refresh")!
-        let accessToken = UserDefaults.standard.string(forKey: "accessToken") ?? ""
-        let refreshToken = UserDefaults.standard.string(forKey: "refreshToken") ?? ""
+        let url = URL(string: APIKey.baseURL.rawValue + "/v1/auth/refresh")!
+        let accessToken = UserDefaultManager.shared.accessToken
+        let refreshToken = UserDefaultManager.shared.refreshToken
         let headers: HTTPHeaders = [HTTPHeader.contentType.rawValue:HTTPHeader.json.rawValue,
                                     HTTPHeader.sesacKey.rawValue:APIKey.sesacKey.rawValue,
                                     HTTPHeader.authorization.rawValue:accessToken,
@@ -30,7 +30,7 @@ final class NetworkManager {
             switch response.result {
             case .success(let success):
                 let accessToken = success.accessToken
-                UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                UserDefaultManager.shared.accessToken = accessToken
                 completionHandler(true)
             case .failure(let failure):
                 print(failure)

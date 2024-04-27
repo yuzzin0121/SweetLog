@@ -14,6 +14,7 @@ enum PostRouter {
     case loadImage(url: String)
     case fetchPosts(query: FetchPostQuery)
     case fetchPost(postId: String)
+    case likePost(postId: String, likeStatusModel: LikeStatusModel)
 }
 
 extension PostRouter: TargetType {
@@ -24,7 +25,7 @@ extension PostRouter: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .uploadFiles, .createPost:
+        case .uploadFiles, .createPost, .likePost:
             return .post
             
         case .fetchPosts, .loadImage, .fetchPost:
@@ -42,6 +43,8 @@ extension PostRouter: TargetType {
             return "/v1/\(url)"
         case .fetchPost(let postId):
             return "/v1/posts/\(postId)"
+        case .likePost(let postId, _):
+            return "/v1/posts/\(postId)/like"
         }
     }
     
@@ -53,7 +56,7 @@ extension PostRouter: TargetType {
                 HTTPHeader.contentType.rawValue:HTTPHeader.multipart.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
             ]
-        case .createPost, .fetchPost:
+        case .createPost, .fetchPost, .likePost:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -74,7 +77,7 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .uploadFiles, .createPost, .loadImage, .fetchPost:
+        case .uploadFiles, .createPost, .loadImage, .fetchPost, .likePost:
             return nil
         case .fetchPosts(let query):
             return [
@@ -86,12 +89,14 @@ extension PostRouter: TargetType {
     }
     
     var body: Data? {
+        let encoder = JSONEncoder()
         switch self {
         case .uploadFiles, .loadImage, .fetchPosts, .fetchPost:
             return nil
         case .createPost(let postQuery):
-            let encoder = JSONEncoder()
             return try? encoder.encode(postQuery)
+        case .likePost(let postId, let likeStatusModel):
+            return try? encoder.encode(likeStatusModel)
         }
     }
 }

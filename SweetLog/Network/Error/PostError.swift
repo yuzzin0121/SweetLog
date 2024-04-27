@@ -8,18 +8,28 @@
 import Foundation
 
 enum fetchPostError: Int, Error, LocalizedError {
-    case badRequest = 400
     case cannotBeAuthenticated = 401
-    case forbidden = 403
     
     var errorDescription: String? {
         switch self {
-        case .badRequest:
-            return "잘못된 요청입니다"
         case .cannotBeAuthenticated:
             return "인증에 오류가 발생했습니다."
-        case .forbidden:
-            return "접근할 수 없습니다."
         }
     }
 }
+
+
+enum LikePostError: Int, Error, LocalizedError {
+    case cannotBeAuthenticated = 401
+    case canNotFindPost = 410
+    
+    var errorDescription: String? {
+        switch self {
+        case .cannotBeAuthenticated:
+            return "인증에 오류가 발생했습니다."
+        case .canNotFindPost:
+            return "게시글을 찾을 수 없습니다"
+        }
+    }
+}
+

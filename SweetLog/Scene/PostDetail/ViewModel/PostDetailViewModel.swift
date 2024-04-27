@@ -18,6 +18,7 @@ final class PostDetailViewModel: ViewModelType {
         let postId: Observable<String>
         let commentText: Observable<String>
         let commentCreateButtonTapped: Observable<Void>
+        let likeButtonStatus: Observable<Bool>
     }
     
     struct Output {
@@ -87,6 +88,37 @@ final class PostDetailViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         
+        input.likeButtonStatus
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .map {
+                LikeStatusModel(likeStatus: $0)
+            }
+            .flatMap {
+                guard let postId = self.postId else {
+                    return Single<LikeStatusModel>.never()
+                }
+                print(postId)
+                return PostNetworkManager.shared.likePost(postId: postId, likeStatusModel: $0)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return Single<LikeStatusModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, likeStatusModel in
+                guard var fetchPostItem = owner.fetchPostItem else { return }
+                print(likeStatusModel)
+                let likeStatus = likeStatusModel.likeStatus
+                if likeStatus == true {
+                    fetchPostItem.likes.append(UserDefaultManager.shared.userId)
+                } else {
+                    if let index = fetchPostItem.likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
+                        fetchPostItem.likes.remove(at: index)
+                    }
+                }
+                owner.fetchPostItem = fetchPostItem
+                fetchPostItemRelay.accept(fetchPostItem)
+            }
+            .disposed(by: disposeBag)
         
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
                       createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()))

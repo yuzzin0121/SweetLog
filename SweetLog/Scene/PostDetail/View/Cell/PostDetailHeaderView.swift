@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     let placeButton = UIButton()
@@ -27,6 +28,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     private let commentImageView = UIImageView()
     let commentCountLabel = UILabel()
     
+    var disposeBag = DisposeBag()
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         configureHierarchy()
@@ -36,6 +39,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        disposeBag = DisposeBag()
         imageScrollView = UIScrollView()
         configureHeader(fetchPostItem: nil)
     }
@@ -51,6 +55,14 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         setSugar(sugarValue: fetchPostItem.sugar)
         commentCountLabel.text = "\(fetchPostItem.comments.count)개"
         likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
+        
+        let ifILike = fetchPostItem.likes.contains(UserDefaultManager.shared.userId)
+        likeButton.isSelected = ifILike
+        print("내가 좋아요함? \(ifILike)")
+        likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown : Color.gray
+        likeButton.configuration?.background.strokeColor = ifILike ? Color.brown : Color.borderGray
+        likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
+       
     }
     
     private func setSugar(sugarValue: String?) {
@@ -218,7 +230,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeConfig.baseForegroundColor = Color.gray
         likeConfig.cornerStyle = .capsule
         likeConfig.background.strokeColor = Color.borderGray
-        likeConfig.background.strokeWidth = 2
+        likeConfig.background.strokeWidth = 1.5
         placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         likeButton.configuration = likeConfig
         

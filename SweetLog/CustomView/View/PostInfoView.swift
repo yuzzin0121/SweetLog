@@ -36,9 +36,7 @@ final class PostInfoView: UIView {
     }
     
     private func configureView(image: UIImage, count: Int) {
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 4
+        stackView.design(axis: .horizontal)
         
         imageView.image = image
         imageView.tintColor = Color.gray

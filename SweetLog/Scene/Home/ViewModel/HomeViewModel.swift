@@ -17,6 +17,7 @@ final class HomeViewModel: ViewModelType {
         let viewDidLoad: Observable<Void>
         let filterItemClicked: Observable<Int>
         let postCellTapped: ControlEvent<FetchPostItem>
+        let likeObservable: Observable<(Int, Bool)>
     }
     
     struct Output {
@@ -29,6 +30,8 @@ final class HomeViewModel: ViewModelType {
         let filterList = PublishRelay<[FilterItem]>()
         let postList = PublishRelay<[FetchPostItem]>()
         let postCellTapped = PublishRelay<String>() // postId
+        var postListValue: [FetchPostItem] = []
+        var likeIndex: Int?
         
         input.filterItemClicked
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
@@ -47,6 +50,7 @@ final class HomeViewModel: ViewModelType {
                 guard let list = fetchPostModel.data else { return }
                 print(list)
                 postList.accept(list)
+                postListValue = list
             }
             .disposed(by: disposeBag)
         
@@ -54,6 +58,34 @@ final class HomeViewModel: ViewModelType {
             .subscribe { fetchPostItem in
                 guard let postId = fetchPostItem.element?.postId else { return }
                 postCellTapped.accept(postId)
+            }
+            .disposed(by: disposeBag)
+        
+        input.likeObservable
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .flatMap { value in
+                let postItem = postListValue[value.0]
+                likeIndex = value.0
+                return PostNetworkManager.shared.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: value.1))
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return Single<LikeStatusModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, likeStatusModel in
+                print(likeStatusModel)
+                guard let likeIndex else { return }
+                let likeStatus = likeStatusModel.likeStatus
+                var postItem = postListValue[likeIndex]
+                if likeStatus == true {
+                    postItem.likes.append(UserDefaultManager.shared.userId)
+                } else {
+                    if let index = postItem.likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
+                        postItem.likes.remove(at: index)
+                    }
+                }
+                postListValue[likeIndex] = postItem
+                postList.accept(postListValue)
             }
             .disposed(by: disposeBag)
         

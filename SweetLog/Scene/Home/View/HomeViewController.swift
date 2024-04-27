@@ -35,9 +35,14 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        let likeIndex = PublishRelay<Int>()
+        let likeStatus = PublishRelay<Bool>()
+        let likeObservable = Observable.zip(likeIndex, likeStatus)
+        
         let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
                                         filterItemClicked: filterItemClicked,
-                                        postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self))
+                                        postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
+                                        likeObservable: likeObservable)
         let output = viewModel.transform(input: input)
         
             
@@ -45,7 +50,13 @@ final class HomeViewController: BaseViewController {
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
                 print("\(item.postId)----\(item.files)")
                 cell.configureCell(fetchPostItem: item)
-                cell.layoutIfNeeded()
+                cell.likeButton.rx.tap  // 좋아요 버튼 클릭 시
+                    .subscribe(with: self) { owner, _ in
+                        cell.likeButton.isSelected.toggle()
+                        likeIndex.accept(index)
+                        likeStatus.accept(cell.likeButton.isSelected)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

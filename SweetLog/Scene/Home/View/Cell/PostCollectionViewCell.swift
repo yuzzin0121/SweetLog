@@ -17,8 +17,10 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     
     private var imageStackView = UIStackView()
     
-    private var likeInfoView = PostInfoView(image: Image.heart, count: 0)
+    var likeInfoView = PostInfoView(image: Image.heart, count: 0)
+    var likeButton = UIButton()
     private var commentInfoView = PostInfoView(image: Image.messages, count: 0)
+    
     var disposeBag = DisposeBag()
     
     override func prepareForReuse() {
@@ -41,10 +43,16 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         contentLabel.text = item.review
         
-        likeInfoView.countLabel.text = "\(item.likes.count)"
+        likeButton.configuration?.title = "\(item.likes.count)"
         commentInfoView.countLabel.text = "\(item.comments.count)"
         
         setImageUI(files: item.files)
+        
+        let ifILike = item.likes.contains(UserDefaultManager.shared.userId)
+        likeButton.isSelected = ifILike
+        print("내가 좋아요함? \(ifILike)")
+        likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
+        likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
     }
     
     private func setProfileImage(url: String?) {
@@ -154,7 +162,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         imageVStackView.axis = .vertical
         imageVStackView.alignment = .fill
         imageVStackView.distribution = .fill
-        imageVStackView.spacing = 4
+        imageVStackView.spacing = 5
         
         imageStackView.addArrangedSubview(firstImageView)
         imageStackView.addArrangedSubview(imageVStackView)
@@ -212,7 +220,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureHierarchy() {
-        contentView.addSubviews([profileImageView, userNicknameLabel, createdAtLabel, contentLabel, imageStackView, likeInfoView, commentInfoView])
+        contentView.addSubviews([profileImageView, userNicknameLabel, createdAtLabel, contentLabel, imageStackView, likeButton, commentInfoView])
     }
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
@@ -247,16 +255,16 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.height.equalTo(140)
         }
         
-        likeInfoView.snp.makeConstraints { make in
+        likeButton.snp.makeConstraints { make in
             make.top.equalTo(imageStackView.snp.bottom).offset(12)
             make.leading.equalTo(userNicknameLabel)
             make.bottom.equalToSuperview().inset(16)
-            make.width.equalTo(40)
+            make.height.equalTo(20)
         }
         
         commentInfoView.snp.makeConstraints { make in
-            make.top.equalTo(likeInfoView)
-            make.leading.equalTo(likeInfoView.snp.trailing).offset(12)
+            make.centerY.equalTo(likeButton)
+            make.leading.equalTo(likeButton.snp.trailing).offset(12)
             make.bottom.equalToSuperview().inset(16)
         }
         
@@ -290,9 +298,19 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         profileImageView.image = Image.emptyProfileImage
         profileImageView.contentMode = .scaleAspectFill
         
-        imageStackView.spacing = 4
-        imageStackView.alignment = .fill
-        imageStackView.distribution = .equalSpacing
+        imageStackView.design(axis: .horizontal, spacing: 5)
+//        imageStackView.spacing = 5
+//        imageStackView.alignment = .fill
+//        imageStackView.distribution = .equalSpacing
         imageStackView.layer.cornerRadius = 12
+        
+        var likeConfig = UIButton.Configuration.filled()
+        likeConfig.image = Image.heart.resized(to: CGSize(width: 20, height: 20))
+        likeConfig.title = "\(0)"
+        likeConfig.imagePadding = 4
+        likeConfig.baseBackgroundColor = Color.white
+        likeConfig.baseForegroundColor = Color.black
+        likeConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        likeButton.configuration = likeConfig
     }
 }

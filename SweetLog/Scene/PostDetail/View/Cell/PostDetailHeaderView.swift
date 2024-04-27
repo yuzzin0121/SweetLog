@@ -59,8 +59,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         let ifILike = fetchPostItem.likes.contains(UserDefaultManager.shared.userId)
         likeButton.isSelected = ifILike
         print("내가 좋아요함? \(ifILike)")
-        likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown : Color.gray
-        likeButton.configuration?.background.strokeColor = ifILike ? Color.brown : Color.borderGray
+        likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
+        likeButton.configuration?.background.strokeColor = ifILike ? Color.brown2 : Color.borderGray
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
        
     }
@@ -231,7 +231,6 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeConfig.cornerStyle = .capsule
         likeConfig.background.strokeColor = Color.borderGray
         likeConfig.background.strokeWidth = 1.5
-        placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8)
         likeButton.configuration = likeConfig
         
         reviewLabel.design(font: .pretendard(size: 16, weight: .regular), numberOfLines: 0)

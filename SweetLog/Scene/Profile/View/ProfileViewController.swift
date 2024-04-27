@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ProfileViewController: BaseViewController {
     lazy var settingButton = UIBarButtonItem(image: Image.setting, style: .plain, target: self, action: nil)
     let mainView = ProfileView()
-    
+    let viewModel = ProfileViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +21,44 @@ final class ProfileViewController: BaseViewController {
     
     override func bind() {
         
+        // 설정버튼 클릭 시
         settingButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.showSettingVC()
             }
             .disposed(by: disposeBag)
+        
+        let input = ProfileViewModel.Input(fetchMyProfileTrigger: Observable.just(()))
+        let output = viewModel.transform(input: input)
+        
+        output.fetchMyProfileSuccessTrigger
+            .drive(with: self) { owner, profileModel in
+                guard let profileModel else { return }
+                owner.updateProfileInfo(profileModel)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func updateProfileInfo(_ profileModel: ProfileModel) {
+        if let profileImageUrl = profileModel.profileImage {
+            setProfileImage(imageUrl: profileImageUrl)
+        }
+        
+        mainView.profileSectionView.nicknameLabel.text = profileModel.nickname
+        mainView.profileSectionView.emailLabel.text = profileModel.email
+        
+        mainView.profileSectionView.postInfoView.countLabel.text = "\(profileModel.posts.count)"
+        mainView.profileSectionView.followInfoView.countLabel.text = "\(profileModel.followers.count)"
+        mainView.profileSectionView.followingInfoView.countLabel.text = "\(profileModel.following.count)"
+    }
+    
+    private func setProfileImage(imageUrl: String) {
+        mainView.profileSectionView.profileImageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
+            if !isSuccess {
+                print("프로필 사진 로드 실패")
+            }
+        }
     }
     
     private func showSettingVC() {

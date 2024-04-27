@@ -13,15 +13,29 @@ final class ProfileViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     
     struct Input {
-        
+        let fetchMyProfileTrigger: Observable<Void>
     }
     
     struct Output {
-        
+        let fetchMyProfileSuccessTrigger: Driver<ProfileModel?>
     }
     
     func transform(input: Input) -> Output {
+        let fetchMyProfileSuccessTrigger = PublishRelay<ProfileModel?>()
         
-        return Output()
+        input.fetchMyProfileTrigger
+            .flatMap {
+                return ProfileNetworkManager.shared.fetchMyProfile()
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, profileModel in
+                print(profileModel)
+                fetchMyProfileSuccessTrigger.accept(profileModel)
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(fetchMyProfileSuccessTrigger: fetchMyProfileSuccessTrigger.asDriver(onErrorJustReturn: nil))
     }
 }

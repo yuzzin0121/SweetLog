@@ -32,7 +32,7 @@ final class ProfileSectionView: BaseView {
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(30)
-            make.leading.equalToSuperview().offset(36)
+            make.leading.equalToSuperview().offset(32)
             make.size.equalTo(80)
         }
         

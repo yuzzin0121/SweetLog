@@ -22,6 +22,7 @@ enum Color {
     static let backgroundGray: UIColor = .backgroundGray
     static let buttonStrokeGray: UIColor = .buttonStrokeGray
     static let gray1: UIColor = .gray1
+    static let gray2: UIColor = .gray2
     static let separatorGray: UIColor = .separator
     static let sugarBrown: UIColor = .sugarBrown
     static let brown2: UIColor = .customBrown2

@@ -11,6 +11,7 @@ import RxCocoa
 
 final class ProfileViewModel: ViewModelType {
     var disposeBag = DisposeBag()
+    var profileModel: ProfileModel?
     
     struct Input {
         let fetchMyProfileTrigger: Observable<Void>
@@ -33,6 +34,7 @@ final class ProfileViewModel: ViewModelType {
             .subscribe(with: self) { owner, profileModel in
                 print(profileModel)
                 fetchMyProfileSuccessTrigger.accept(profileModel)
+                owner.profileModel = profileModel
             }
             .disposed(by: disposeBag)
         

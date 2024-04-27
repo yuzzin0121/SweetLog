@@ -15,8 +15,33 @@ class EditProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setCurrentProfile()
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        mainView.nicknameTextField.becomeFirstResponder()
+    }
+    
+    override func bind() {
+        
+    }
+    
+    private func setCurrentProfile() {
+        if let profileImageUrl = viewModel.currentProfileImageUrl {
+            mainView.profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { isSuccess in
+                if !isSuccess {
+                    print("프로필 이미지 로드 실패")
+                }
+            }
+        }
+        if !viewModel.currentNickname.isEmpty {
+            mainView.nicknameTextField.text = viewModel.currentNickname
+        }
+    }
+    
+
 
     override func configureNavigationItem() {
         navigationItem.title = "프로필 수정"

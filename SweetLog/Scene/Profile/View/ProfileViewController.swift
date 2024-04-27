@@ -48,7 +48,10 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func showEditProfileVC() {
+        guard let profileModel = viewModel.profileModel else { return }
         let editProfileVC = EditProfileViewController()
+        editProfileVC.viewModel.currentProfileImageUrl = profileModel.profileImage
+        editProfileVC.viewModel.currentNickname = profileModel.nickname
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     

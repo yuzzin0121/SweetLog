@@ -11,6 +11,8 @@ import RxCocoa
 
 final class EditProfileViewModel: ViewModelType {
     var disposeBag = DisposeBag()
+    var currentProfileImageUrl: String?
+    var currentNickname: String = ""
     
     struct Input {
         

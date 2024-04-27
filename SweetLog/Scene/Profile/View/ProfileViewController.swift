@@ -38,6 +38,18 @@ final class ProfileViewController: BaseViewController {
                 owner.updateProfileInfo(profileModel)
             }
             .disposed(by: disposeBag)
+        
+        mainView.profileSectionView.editProfileButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.showEditProfileVC()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showEditProfileVC() {
+        let editProfileVC = EditProfileViewController()
+        navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
     private func updateProfileInfo(_ profileModel: ProfileModel) {

@@ -22,7 +22,7 @@ final class EditProfileView: BaseView {
         profileImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(120)
             make.centerX.equalToSuperview()
-            make.size.equalTo(100)
+            make.size.equalTo(140)
         }
         editProfileImageButton.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.bottom).offset(12)

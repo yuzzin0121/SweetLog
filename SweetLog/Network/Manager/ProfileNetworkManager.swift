@@ -46,6 +46,50 @@ class ProfileNetworkManager {
         }
     }
  
-    
+    // 프로필 수정 - 닉네임, 프로필 이미지
+    func editMyProfile(nickname: String, profile: Data) -> Single<ProfileModel> {
+        return Single<ProfileModel>.create { single in
+            do {
+                let urlRequest = try PostRouter.uploadFiles.asURLRequest()
+                
+                guard let url = urlRequest.url else {
+                    single(.failure(APIError.invalidURL))
+                    return Disposables.create()
+                }
+                
+                AF.upload(multipartFormData: { multipartFormData in
+                    multipartFormData.append("\(nickname)".data(using: .utf8)!, withName: "nick")
+                    multipartFormData.append(profile,
+                                             withName: "profile",
+                                             fileName: "profile.jpg",
+                                             mimeType: "image/jpg")
+                    
+                }, to: url,headers: urlRequest.headers, interceptor: AuthInterceptor())
+                .validate(statusCode: 200..<300)
+                .responseDecodable(of: ProfileModel.self) { response in
+                    switch response.result {
+                    case .success(let profileModel):
+                        single(.success(profileModel))
+                    case .failure(let error):
+                        print(error)
+                        if let statusCode = response.response?.statusCode {
+                            if let editProfileError = fetchPostError(rawValue: statusCode) {
+                                print("editProfileError")
+                                single(.failure(editProfileError))
+                            } else if let apiError = APIError(rawValue: statusCode) {
+                                single(.failure(apiError))
+                            }
+                        } else {
+                            single(.failure(error))
+                        }
+                    }
+                }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
     
 }

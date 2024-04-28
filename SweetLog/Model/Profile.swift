@@ -35,7 +35,7 @@ struct ProfileModel: Decodable {
         self.followers = try container.decode([User].self, forKey: .followers)
         self.following = try container.decode([User].self, forKey: .following)
         self.posts = try container.decode([String].self, forKey: .posts)
-        self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage) ?? ""
+        self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage)
         // 서버에서 값이 오지 않을 경우 옵셔널 처리를 할 수 있다.
     }
 }

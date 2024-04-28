@@ -74,9 +74,9 @@ final class EditProfileView: BaseView {
         
         nicknameTextField.placeholder = "닉네임"
         nicknameTextField.borderStyle = .none
-        nicknameValidMessage.design(font: .pretendard(size: 15, weight: .regular))
+        nicknameValidMessage.design(textColor: Color.validRed, font: .pretendard(size: 15, weight: .regular))
         
-        editProfileButton.backgroundColor = Color.buttonGray
+        editProfileButton.backgroundColor = Color.gray1
         editProfileButton.titleLabel?.textColor = Color.white
         editProfileButton.setTitle("프로필 수정", for: .normal)
         editProfileButton.layer.cornerRadius = 12

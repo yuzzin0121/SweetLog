@@ -47,10 +47,12 @@ class ProfileNetworkManager {
     }
  
     // 프로필 수정 - 닉네임, 프로필 이미지
-    func editMyProfile(nickname: String, profile: Data) -> Single<ProfileModel> {
+    func editMyProfile(nickname: String?, profile: Data?) -> Single<ProfileModel> {
+        print("nickname: \(nickname), profile: \(profile)")
+        
         return Single<ProfileModel>.create { single in
             do {
-                let urlRequest = try PostRouter.uploadFiles.asURLRequest()
+                let urlRequest = try ProfileRouter.editMyProfile.asURLRequest()
                 
                 guard let url = urlRequest.url else {
                     single(.failure(APIError.invalidURL))
@@ -58,13 +60,18 @@ class ProfileNetworkManager {
                 }
                 
                 AF.upload(multipartFormData: { multipartFormData in
-                    multipartFormData.append("\(nickname)".data(using: .utf8)!, withName: "nick")
-                    multipartFormData.append(profile,
-                                             withName: "profile",
-                                             fileName: "profile.jpg",
-                                             mimeType: "image/jpg")
+                    if let nickname {
+                        multipartFormData.append("\(nickname)".data(using: .utf8)!, withName: "nick")
+                    }
                     
-                }, to: url,headers: urlRequest.headers, interceptor: AuthInterceptor())
+                    if let profileData = profile {
+                        multipartFormData.append(profileData,
+                                                 withName: "profile",
+                                                 fileName: "profile.jpg",
+                                                 mimeType: "image/jpg")
+                    }
+                    
+                }, with: urlRequest, interceptor: AuthInterceptor())
                 .validate(statusCode: 200..<300)
                 .responseDecodable(of: ProfileModel.self) { response in
                     switch response.result {

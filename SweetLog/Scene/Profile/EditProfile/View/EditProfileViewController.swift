@@ -10,20 +10,20 @@ import PhotosUI
 import RxSwift
 import RxCocoa
 
-class EditProfileViewController: BaseViewController {
+final class EditProfileViewController: BaseViewController {
     let mainView = EditProfileView()
     
     let viewModel = EditProfileViewModel()
     let profileImageData = PublishRelay<Data?>()
+    weak var sendProfileDelegate: SendProfileDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setCurrentProfile()
         
     }
     
     override func bind() {
+        setCurrentProfile()
         mainView.editProfileImageButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -38,12 +38,46 @@ class EditProfileViewController: BaseViewController {
                 owner.setProfileImage(profileImageData)
             }
             .disposed(by: disposeBag)
+        
+        let input = EditProfileViewModel.Input(nicknameText: mainView.nicknameTextField.rx.text.orEmpty.asObservable(), 
+                                               prfileImageData: profileImageData.asObservable(),
+                                               editProfileButtonTapped: mainView.editProfileButton.rx.tap.asObservable())
+        
+        let output = viewModel.transform(input: input)
+        
+        output.validNickname
+            .drive(with: self) { owner, isValid in
+                owner.mainView.nicknameValidMessage.text = isValid ? "" : "2글자 이상 입력해주세요"
+            }
+            .disposed(by: disposeBag)
+        
+        output.totalValid
+            .drive(with: self) { owner, isValid in
+                owner.mainView.editProfileButton.backgroundColor = isValid ? Color.brown : Color.gray1
+                owner.mainView.editProfileButton.isEnabled = isValid
+            }
+            .disposed(by: disposeBag)
+        
+        output.editProfileSuccessTrigger
+            .drive(with: self) { owner, profileModel in
+                owner.editSuccess(profileModel)
+            }
+            .disposed(by: disposeBag)
     }
     
+    private func editSuccess(_ profileModel: ProfileModel?) {
+        guard let profileModel else { return }
+        sendProfileDelegate?.sendProfile(profileModel: profileModel)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // 기존 프로필 정보 적용
     private func setCurrentProfile() {
         if let profileImageUrl = viewModel.currentProfileImageUrl {
-            mainView.profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { isSuccess in
+            mainView.profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { [weak self] isSuccess in
+                guard let self else { return }
                 if !isSuccess {
+                    self.mainView.profileImageView.image = Image.emptyProfileImage
                     print("프로필 이미지 로드 실패")
                 }
             }

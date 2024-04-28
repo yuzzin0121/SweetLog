@@ -102,7 +102,7 @@ final class SignUpViewModel: ViewModelType {
         input.emailText
             .map {
                 currentEmailText = $0
-                let isValid = $0.contains("@") && $0.count > 6
+                let isValid = $0.contains("@") && $0.trimmingCharacters(in: [" "]).count > 6 
                 return isValid
             }
             .bind(with: self) { owner, isValid in
@@ -116,14 +116,14 @@ final class SignUpViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.passwordText
-            .map { $0.count > 5 }
+            .map { $0.trimmingCharacters(in: [" "]).count > 5 }
             .bind(with: self) { owner, isValid in
                 passwordValid.accept(isValid)
             }
             .disposed(by: disposeBag)
         
         input.nicknameText
-            .map { $0.count > 2 }
+            .map { $0.trimmingCharacters(in: [" "]).count > 1 }
             .bind(with: self) { owner, isValid in
                 nicknameValid.accept(isValid)
             }

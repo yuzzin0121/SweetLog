@@ -50,6 +50,7 @@ final class ProfileViewController: BaseViewController {
     private func showEditProfileVC() {
         guard let profileModel = viewModel.profileModel else { return }
         let editProfileVC = EditProfileViewController()
+        editProfileVC.sendProfileDelegate = self
         editProfileVC.viewModel.currentProfileImageUrl = profileModel.profileImage
         editProfileVC.viewModel.currentNickname = profileModel.nickname
         navigationController?.pushViewController(editProfileVC, animated: true)
@@ -89,4 +90,14 @@ final class ProfileViewController: BaseViewController {
         navigationItem.title = "내 프로필"
         navigationItem.rightBarButtonItem = settingButton
     }
+}
+
+extension ProfileViewController: SendProfileDelegate {
+    func sendProfile(profileModel: ProfileModel) {
+        updateProfileInfo(profileModel)
+    }
+}
+
+protocol SendProfileDelegate: AnyObject {
+    func sendProfile(profileModel: ProfileModel)
 }

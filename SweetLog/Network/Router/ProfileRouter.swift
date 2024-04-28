@@ -30,9 +30,7 @@ extension ProfileRouter: TargetType {
     
     var path: String {
         switch self {
-        case .fetchMyProfile:
-            return "/v1/users/me/profile"
-        case .editMyProfile:
+        case .fetchMyProfile, .editMyProfile:
             return "/v1/users/me/profile"
         }
     }

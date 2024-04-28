@@ -49,6 +49,12 @@
 		615C03B62BDD50880078E45A /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615C03B52BDD50880078E45A /* EditProfileViewController.swift */; };
 		615C03B82BDD50A70078E45A /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615C03B72BDD50A70078E45A /* EditProfileView.swift */; };
 		615C03BA2BDD50CF0078E45A /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615C03B92BDD50CF0078E45A /* EditProfileViewModel.swift */; };
+		6164DF072BDE4E9500F57A97 /* UserPostSegmentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF062BDE4E9500F57A97 /* UserPostSegmentedViewController.swift */; };
+		6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 6164DF092BDE4EEC00F57A97 /* Tabman */; };
+		6164DF0C2BDE4FB800F57A97 /* UserPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF0B2BDE4FB800F57A97 /* UserPostViewController.swift */; };
+		6164DF0E2BDE4FDA00F57A97 /* UserPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */; };
+		6164DF112BDE505100F57A97 /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF102BDE505100F57A97 /* PostType.swift */; };
+		6164DF132BDE506E00F57A97 /* UserPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF122BDE506E00F57A97 /* UserPostViewModel.swift */; };
 		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
 		616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */; };
 		616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */; };
@@ -178,6 +184,11 @@
 		615C03B52BDD50880078E45A /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		615C03B72BDD50A70078E45A /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		615C03B92BDD50CF0078E45A /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		6164DF062BDE4E9500F57A97 /* UserPostSegmentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSegmentedViewController.swift; sourceTree = "<group>"; };
+		6164DF0B2BDE4FB800F57A97 /* UserPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostViewController.swift; sourceTree = "<group>"; };
+		6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostView.swift; sourceTree = "<group>"; };
+		6164DF102BDE505100F57A97 /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
+		6164DF122BDE506E00F57A97 /* UserPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostViewModel.swift; sourceTree = "<group>"; };
 		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
@@ -267,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
+				6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */,
 				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
 				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
 				618C774F2BC705080033CD0D /* Alamofire in Frameworks */,
@@ -453,6 +465,33 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		6164DF042BDE4E7A00F57A97 /* UserPost */ = {
+			isa = PBXGroup;
+			children = (
+				6164DF0F2BDE504400F57A97 /* ViewModel */,
+				6164DF052BDE4E8100F57A97 /* View */,
+			);
+			path = UserPost;
+			sourceTree = "<group>";
+		};
+		6164DF052BDE4E8100F57A97 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6164DF062BDE4E9500F57A97 /* UserPostSegmentedViewController.swift */,
+				6164DF0B2BDE4FB800F57A97 /* UserPostViewController.swift */,
+				6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6164DF0F2BDE504400F57A97 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6164DF122BDE506E00F57A97 /* UserPostViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		618C76BC2BC6EE4B0033CD0D = {
 			isa = PBXGroup;
 			children = (
@@ -622,6 +661,7 @@
 				618C77042BC6F0FD0033CD0D /* TabItem.swift */,
 				618C78662BCD6FD80033CD0D /* SettingItem.swift */,
 				616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */,
+				6164DF102BDE505100F57A97 /* PostType.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -646,6 +686,7 @@
 		618C770B2BC6F1490033CD0D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				6164DF042BDE4E7A00F57A97 /* UserPost */,
 				615C03B22BDD506A0078E45A /* EditProfile */,
 				618C785F2BCD6F710033CD0D /* Setting */,
 				618C78222BC9AF380033CD0D /* ViewModel */,
@@ -871,6 +912,7 @@
 				618C77642BC97F560033CD0D /* Toast */,
 				61B528912BD13B8E00974CA0 /* Kingfisher */,
 				61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */,
+				6164DF092BDE4EEC00F57A97 /* Tabman */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -907,6 +949,7 @@
 				618C77632BC97F560033CD0D /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				6164DF082BDE4EEC00F57A97 /* XCRemoteSwiftPackageReference "Tabman" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -981,16 +1024,19 @@
 				618C78242BC9AF5E0033CD0D /* ProfileSectionView.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
+				6164DF112BDE505100F57A97 /* PostType.swift in Sources */,
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */,
 				61130D232BD9393D002D03C1 /* PostQuery.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
+				6164DF072BDE4E9500F57A97 /* UserPostSegmentedViewController.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
 				614747102BD6C4B400B9B670 /* CreatePostViewController.swift in Sources */,
 				618C78262BC9AF7B0033CD0D /* ProfileViewModel.swift in Sources */,
 				618C77392BC6FAED0033CD0D /* SignInViewModel.swift in Sources */,
 				618C770F2BC6F1740033CD0D /* MapViewController.swift in Sources */,
 				61130D492BDC2335002D03C1 /* CommentNetworkManager.swift in Sources */,
+				6164DF0C2BDE4FB800F57A97 /* UserPostViewController.swift in Sources */,
 				615C03B82BDD50A70078E45A /* EditProfileView.swift in Sources */,
 				61130D292BD97869002D03C1 /* PostDetailView.swift in Sources */,
 				61B5287D2BD1034C00974CA0 /* PostCollectionViewCell.swift in Sources */,
@@ -1041,6 +1087,7 @@
 				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */,
+				6164DF132BDE506E00F57A97 /* UserPostViewModel.swift in Sources */,
 				618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */,
 				618C78152BC994610033CD0D /* AuthError.swift in Sources */,
 				6147470C2BD6BA4600B9B670 /* Place.swift in Sources */,
@@ -1052,6 +1099,7 @@
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,
 				61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */,
 				61130D262BD97852002D03C1 /* PostDetailViewController.swift in Sources */,
+				6164DF0E2BDE4FDA00F57A97 /* UserPostView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1286,6 +1334,14 @@
 				minimumVersion = 7.0.2;
 			};
 		};
+		6164DF082BDE4EEC00F57A97 /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 		618C77192BC6F4D80033CD0D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1333,6 +1389,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		6164DF092BDE4EEC00F57A97 /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6164DF082BDE4EEC00F57A97 /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
 		};
 		618C771A2BC6F4D80033CD0D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

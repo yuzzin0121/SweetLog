@@ -16,7 +16,16 @@ final class ProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        configureView()
+    }
+    
+    private func configureView() {
+        addChild(mainView.userPostSementedVC)
+        mainView.containerView.addSubview(mainView.userPostSementedVC.view)
+        mainView.userPostSementedVC.didMove(toParent: self)
+        mainView.userPostSementedVC.view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     override func bind() {

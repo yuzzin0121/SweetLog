@@ -31,7 +31,7 @@ class FollowDetailTableViewCell: BaseTableViewCell {
         nicknameLabel.text = user.nickname
         switch type {
         case .follow:
-            followButton.configuration?.title = "삭제"
+            followButton.isHidden = true
         case .following:
             followButton.configuration?.title = "팔로잉"
         }

@@ -30,6 +30,12 @@ final class FollowDetailViewController: BaseViewController {
                 cell.configureCell(user: user, type: followType)
             }
             .disposed(by: disposeBag)
+        
+        output.userList
+            .drive(with: self) { owner, users in
+                owner.mainView.emptyLabel.isHidden = users.isEmpty ? false : true
+            }
+            .disposed(by: disposeBag)
     }
     
     override func configureNavigationItem() {

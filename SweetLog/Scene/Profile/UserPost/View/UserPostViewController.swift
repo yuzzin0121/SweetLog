@@ -26,7 +26,8 @@ class UserPostViewController: BaseViewController {
     }
     
     override func bind() {
-        let input = UserPostViewModel.Input(fetchPostTrigger: fetchPostsTrigger.asObserver())
+        let input = UserPostViewModel.Input(fetchPostTrigger: fetchPostsTrigger.asObserver(), 
+                                            postCellTapped: mainView.collectionView.rx.modelSelected(FetchPostItem.self).asObservable())
         let output = viewModel.transform(input: input)
         
         output.fetchPostList
@@ -34,6 +35,18 @@ class UserPostViewController: BaseViewController {
                 cell.configureCell(postItem: postItem)
             }
             .disposed(by: disposeBag)
+        
+        output.postCellTapped
+            .drive(with: self) { owner, postId in
+                owner.showPostDetailVC(postId: postId)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showPostDetailVC(postId: String) {
+        let postDetailVC = PostDetailViewController()
+        postDetailVC.viewModel.postId = postId
+        navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     override func viewDidLayoutSubviews() {

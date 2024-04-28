@@ -17,14 +17,19 @@ final class UserPostViewModel: ViewModelType {
     
     struct Input {
         let fetchPostTrigger: Observable<Void>
+        let postCellTapped: Observable<FetchPostItem>
     }
     
     struct Output {
         let fetchPostList: Driver<[FetchPostItem]>
+        let postCellTapped: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let fetchPostList = PublishRelay<[FetchPostItem]>()
+        let postCellTapped = PublishRelay<String>() // postId
+        
+        
         input.fetchPostTrigger
             .flatMap { [weak self] _ in
                 print("음낭ㄹ머ㅏㄴㅇ로민ㅇ루민ㅇㄹㅁ니ㅏ얾너알;문ㅇㄹ")
@@ -58,9 +63,18 @@ final class UserPostViewModel: ViewModelType {
                 fetchPostList.accept(fetchPostModel.data)
             }
             .disposed(by: disposeBag)
+        
+        // 포스트 셀 클릭 시
+        input.postCellTapped
+            .subscribe { fetchPostItem in
+                guard let postId = fetchPostItem.element?.postId else { return }
+                postCellTapped.accept(postId)
+            }
+            .disposed(by: disposeBag)
                    
                 
-        return Output(fetchPostList: fetchPostList.asDriver(onErrorJustReturn: []))
+        return Output(fetchPostList: fetchPostList.asDriver(onErrorJustReturn: []), 
+                      postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""))
             
     }
 }

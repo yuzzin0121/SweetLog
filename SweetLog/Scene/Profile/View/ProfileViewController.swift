@@ -29,6 +29,9 @@ final class ProfileViewController: BaseViewController {
     }
     
     override func bind() {
+        print(viewModel.isMyProfile, viewModel.userId)
+        mainView.userPostSementedVC.isMyProfile = viewModel.isMyProfile
+        mainView.userPostSementedVC.userId = viewModel.userId
         
         // 설정버튼 클릭 시
         settingButton.rx.tap

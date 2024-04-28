@@ -19,6 +19,8 @@ class UserPostSegmentedViewController: TabmanViewController {
     
     var viewControllers: [UIViewController] = []
     let tabTitles = ["후기", "좋아요"]
+    var isMyProfile: Bool?
+    var userId: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +50,18 @@ class UserPostSegmentedViewController: TabmanViewController {
     private func addViewControllers() {
         let myPostVC = UserPostViewController()
         myPostVC.viewModel.postType = .myPost
+        if let userId, let isMyProfile {
+            print("있음")
+            myPostVC.viewModel.isMyPofile = isMyProfile
+            myPostVC.viewModel.userId = userId
+        }
         
         let likePostVC = UserPostViewController()
+        if let isMyProfile {
+            print("like 있음")
+            likePostVC.viewModel.isMyPofile = isMyProfile
+            likePostVC.viewModel.userId = userId
+        }
         likePostVC.viewModel.postType = .like
         
         viewControllers.append(contentsOf: [myPostVC, likePostVC])
@@ -62,11 +74,11 @@ class UserPostSegmentedViewController: TabmanViewController {
         bar.layout.contentInset = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 20.0)
         bar.buttons.customize { (button) in
             button.tintColor = Color.gray
-            button.font = .pretendard(size: 16, weight: .regular)
+            button.font = .pretendard(size: 16, weight: .light)
             button.selectedFont = .pretendard(size: 16, weight: .bold)
             button.selectedTintColor = Color.black
         }
-        bar.indicator.weight = .custom(value: 1)
+        bar.indicator.weight = .custom(value: 0)
         bar.indicator.tintColor = Color.black
         bar.indicator.overscrollBehavior = .compress
 //        bar.layout.interButtonSpacing = 35 // 버튼 사이 간격
@@ -89,6 +101,7 @@ extension UserPostSegmentedViewController: PageboyViewControllerDataSource, TMBa
     }
     
     func viewController(for pageboyViewController: Pageboy.PageboyViewController, at index: Pageboy.PageboyViewController.PageIndex) -> UIViewController? {
+        
         return viewControllers[index]
     }
     

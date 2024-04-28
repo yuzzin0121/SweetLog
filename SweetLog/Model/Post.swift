@@ -8,7 +8,7 @@
 import Foundation
 
 struct FetchPostModel: Decodable {
-    let data: [FetchPostItem]?
+    let data: [FetchPostItem]
     let nextCursor: String
     
     enum CodingKeys: String, CodingKey {
@@ -18,7 +18,7 @@ struct FetchPostModel: Decodable {
     
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.decodeIfPresent([FetchPostItem].self, forKey: .data)
+        self.data = try container.decode([FetchPostItem].self, forKey: .data)
         self.nextCursor = try container.decode(String.self, forKey: .nextCursor)
     }
 }

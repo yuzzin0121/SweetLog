@@ -12,6 +12,8 @@ import RxCocoa
 final class ProfileViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     var profileModel: ProfileModel?
+    var isMyProfile: Bool = true
+    var userId = UserDefaultManager.shared.userId
     
     struct Input {
         let fetchMyProfileTrigger: Observable<Void>

@@ -22,5 +22,7 @@ final class UserPostView: BaseView {
     override func configureView() {
         super.configureView()
         collectionView.backgroundColor = .systemGray6
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        collectionView.register(UserPostCollectionViewCell.self, forCellWithReuseIdentifier: UserPostCollectionViewCell.identifier)
     }
 }

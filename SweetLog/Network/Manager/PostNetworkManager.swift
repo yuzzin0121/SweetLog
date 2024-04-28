@@ -79,6 +79,7 @@ final class PostNetworkManager {
         }
     }
     
+    // 이미지 업로드
     func uploadImages(imageDataList: [Data]) -> Single<FilesModel> {
         return Single<FilesModel>.create { single in
             do {
@@ -179,6 +180,72 @@ final class PostNetworkManager {
                                 if let likePostError = LikePostError(rawValue: statusCode) {
                                     print("likePostError")
                                     single(.failure(likePostError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func fetchUserPosts(fetchPostQuery: FetchPostQuery, userId: String) -> Single<FetchPostModel> {
+        return Single<FetchPostModel>.create { single in
+            do {
+                let urlRequest = try PostRouter.fetchUserPost(query: fetchPostQuery, userId: userId).asURLRequest()
+                                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FetchPostModel.self) { response in
+                        switch response.result {
+                        case .success(let fetchPostModel):
+                            single(.success(fetchPostModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
+                                    print("fetchPostError")
+                                    single(.failure(fetchPostError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    func fetchMyLikePost(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
+        return Single<FetchPostModel>.create { single in
+            do {
+                let urlRequest = try PostRouter.fetchMyLikePost(query: fetchPostQuery).asURLRequest()
+                                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FetchPostModel.self) { response in
+                        switch response.result {
+                        case .success(let fetchPostModel):
+                            single(.success(fetchPostModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
+                                    print("fetchPostError")
+                                    single(.failure(fetchPostError))
                                 } else if let apiError = APIError(rawValue: statusCode) {
                                     single(.failure(apiError))
                                 }

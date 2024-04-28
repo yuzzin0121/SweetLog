@@ -47,8 +47,9 @@ final class HomeViewModel: ViewModelType {
                 return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
             }
             .subscribe(with: self) { owner, fetchPostModel in
-                guard let list = fetchPostModel.data else { return }
-                print(list)
+//                guard let list = fetchPostModel.data else { return }
+                let list = fetchPostModel.data
+//                print(list)
                 postList.accept(list)
                 postListValue = list
             }

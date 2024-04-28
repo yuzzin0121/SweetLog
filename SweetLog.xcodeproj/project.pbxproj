@@ -55,6 +55,7 @@
 		6164DF0E2BDE4FDA00F57A97 /* UserPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */; };
 		6164DF112BDE505100F57A97 /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF102BDE505100F57A97 /* PostType.swift */; };
 		6164DF132BDE506E00F57A97 /* UserPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF122BDE506E00F57A97 /* UserPostViewModel.swift */; };
+		6164DF152BDEC87E00F57A97 /* UserPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF142BDEC87E00F57A97 /* UserPostCollectionViewCell.swift */; };
 		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
 		616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */; };
 		616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */; };
@@ -189,6 +190,7 @@
 		6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostView.swift; sourceTree = "<group>"; };
 		6164DF102BDE505100F57A97 /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
 		6164DF122BDE506E00F57A97 /* UserPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostViewModel.swift; sourceTree = "<group>"; };
+		6164DF142BDEC87E00F57A97 /* UserPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				6164DF062BDE4E9500F57A97 /* UserPostSegmentedViewController.swift */,
 				6164DF0B2BDE4FB800F57A97 /* UserPostViewController.swift */,
 				6164DF0D2BDE4FDA00F57A97 /* UserPostView.swift */,
+				6164DF142BDEC87E00F57A97 /* UserPostCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1025,6 +1028,7 @@
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
 				6164DF112BDE505100F57A97 /* PostType.swift in Sources */,
+				6164DF152BDEC87E00F57A97 /* UserPostCollectionViewCell.swift in Sources */,
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */,
 				61130D232BD9393D002D03C1 /* PostQuery.swift in Sources */,

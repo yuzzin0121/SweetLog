@@ -17,6 +17,36 @@ final class ProfileViewController: BaseViewController {
         super.viewDidLoad()
 
         configureView()
+        setAction()
+    }
+    
+    private func setAction() {
+        let followInfoTapGesture = UITapGestureRecognizer(target: self, action: #selector(followInfoTapped))
+        mainView.profileSectionView.followInfoView.addGestureRecognizer(followInfoTapGesture)
+        mainView.profileSectionView.followInfoView.isUserInteractionEnabled = true
+        
+        let followingInfoTapGesture = UITapGestureRecognizer(target: self, action: #selector(followingInfoTapped))
+        mainView.profileSectionView.followingInfoView.addGestureRecognizer(followingInfoTapGesture)
+        mainView.profileSectionView.followingInfoView.isUserInteractionEnabled = true
+    }
+    
+    @objc func followInfoTapped() {
+        print(#function)
+        guard let profileModel = viewModel.profileModel else { return }
+        showFollowOrFollowingDetailVC(followType: .follow, users: profileModel.followers)
+    }
+    
+    @objc func followingInfoTapped() {
+        print(#function)
+        guard let profileModel = viewModel.profileModel else { return }
+        showFollowOrFollowingDetailVC(followType: .following, users: profileModel.following)
+    }
+    
+    private func showFollowOrFollowingDetailVC(followType: FollowType, users: [User]) {
+        let followDetailVC = FollowDetailViewController()
+        followDetailVC.viewModel.followType = followType
+        followDetailVC.viewModel.users = users
+        navigationController?.pushViewController(followDetailVC, animated: true)
     }
     
     private func configureView() {
@@ -72,6 +102,8 @@ final class ProfileViewController: BaseViewController {
         if let profileImageUrl = profileModel.profileImage {
             setProfileImage(imageUrl: profileImageUrl)
         }
+        
+        mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
         
         mainView.profileSectionView.nicknameLabel.text = profileModel.nickname
         mainView.profileSectionView.emailLabel.text = profileModel.email

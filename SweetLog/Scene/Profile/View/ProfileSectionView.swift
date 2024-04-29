@@ -44,6 +44,7 @@ final class ProfileSectionView: BaseView {
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.top).offset(2)
             make.leading.equalTo(profileImageView.snp.trailing).offset(50)
+            nicknameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
         
         emailLabel.snp.makeConstraints { make in
@@ -53,7 +54,9 @@ final class ProfileSectionView: BaseView {
         
         followButton.snp.makeConstraints { make in
             make.centerY.equalTo(nicknameLabel)
+            make.leading.greaterThanOrEqualTo(nicknameLabel.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(24)
+            followButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         }
         
         postInfoStackView.snp.makeConstraints { make in

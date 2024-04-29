@@ -40,7 +40,6 @@ final class PostDetailViewModel: ViewModelType {
                         }
             }
             .subscribe(with: self) { owner, fetchPostItem in
-                print(fetchPostItem)
                 fetchPostItemRelay.accept(fetchPostItem)
                 owner.fetchPostItem = fetchPostItem
             }
@@ -53,7 +52,6 @@ final class PostDetailViewModel: ViewModelType {
             }
             .subscribe { text in
                 guard let text = text.element else { return }
-                print(text)
                 commentIsValid.accept(text.isEmpty)
             }
             .disposed(by: disposeBag)
@@ -73,7 +71,6 @@ final class PostDetailViewModel: ViewModelType {
                 guard let self, let postId = self.postId else {
                     return Single<Comment>.never()
                 }
-                print("댓글 생성 고고 \(postId), \(content)")
                 return CommentNetworkManager.shared.createComment(postId: postId, contentQuery: ContentQuery(content: content))
                     .catch { error in
                         print(error)
@@ -106,7 +103,6 @@ final class PostDetailViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, likeStatusModel in
                 guard var fetchPostItem = owner.fetchPostItem else { return }
-                print(likeStatusModel)
                 let likeStatus = likeStatusModel.likeStatus
                 if likeStatus == true {
                     fetchPostItem.likes.append(UserDefaultManager.shared.userId)

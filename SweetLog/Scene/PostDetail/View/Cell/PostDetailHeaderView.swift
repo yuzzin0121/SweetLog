@@ -56,13 +56,23 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         commentCountLabel.text = "\(fetchPostItem.comments.count)개"
         likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
         
+        setProfileImage(profileUrl: fetchPostItem.creator.profileImage)
+        
         let ifILike = fetchPostItem.likes.contains(UserDefaultManager.shared.userId)
         likeButton.isSelected = ifILike
-        print("내가 좋아요함? \(ifILike)")
         likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
         likeButton.configuration?.background.strokeColor = ifILike ? Color.brown2 : Color.borderGray
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
        
+    }
+    
+    private func setProfileImage(profileUrl: String?) {
+        guard let profileUrl else { return }
+        profileImageView.kf.setImageWithAuthHeaders(with: profileUrl) { isSuccess in
+            if !isSuccess {
+                print("프로필 사진 로드 에러")
+            }
+        }
     }
     
     private func setSugar(sugarValue: String?) {
@@ -92,8 +102,6 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
                     }
                 }
             }
-            
-            print(imageView.frame.minX)
         }
     }
     

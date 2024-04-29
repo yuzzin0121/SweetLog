@@ -42,7 +42,7 @@ final class ProfileViewModel: ViewModelType {
                 }
             }
             .subscribe(with: self) { owner, profileModel in
-                print(profileModel)
+//                print(profileModel)
                 fetchMyProfileSuccessTrigger.accept(profileModel)
                 owner.profileModel = profileModel
                 owner.setFollowing(following: profileModel.following)   // 팔로잉 저장

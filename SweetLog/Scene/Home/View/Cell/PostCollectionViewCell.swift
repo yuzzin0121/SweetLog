@@ -50,7 +50,6 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         
         let ifILike = item.likes.contains(UserDefaultManager.shared.userId)
         likeButton.isSelected = ifILike
-        print("내가 좋아요함? \(ifILike)")
         likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
     }

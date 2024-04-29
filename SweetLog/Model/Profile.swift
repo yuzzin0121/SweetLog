@@ -9,7 +9,7 @@ import Foundation
 
 struct ProfileModel: Decodable {
     let userId: String
-    let email: String
+    let email: String?
     let nickname: String
     let followers: [User]
     let following: [User]
@@ -26,17 +26,15 @@ struct ProfileModel: Decodable {
         case profileImage
     }
     
-    // 17회차
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.userId = try container.decode(String.self, forKey: .userId)
-        self.email = try container.decode(String.self, forKey: .email)
+        self.email = try container.decodeIfPresent(String.self, forKey: .email)
         self.nickname = try container.decode(String.self, forKey: .nickname)
         self.followers = try container.decode([User].self, forKey: .followers)
         self.following = try container.decode([User].self, forKey: .following)
         self.posts = try container.decode([String].self, forKey: .posts)
         self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage)
-        // 서버에서 값이 오지 않을 경우 옵셔널 처리를 할 수 있다.
     }
 }
 

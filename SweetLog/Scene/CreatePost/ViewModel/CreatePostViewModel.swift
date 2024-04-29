@@ -46,11 +46,9 @@ final class CreatePostViewModel: ViewModelType {
         Observable.combineLatest(input.reviewText, input.imageDataList)
             .map {
                 let text = $0.0.trimmingCharacters(in: [" "])
-                print("내용 \(text.isEmpty), 이미지 \($0.1.isEmpty)")
                 return !text.isEmpty && !$0.1.isEmpty
             }
             .subscribe { isValid in
-                print(isValid)
                 createValid.accept(isValid)
             }
             .disposed(by: disposeBag)
@@ -74,7 +72,6 @@ final class CreatePostViewModel: ViewModelType {
             }
             .debug()
             .subscribe(with: self) { owner, filesModel in
-                print(filesModel)
                 fileStringList.onNext(filesModel.files)
             }
             .disposed(by: disposeBag)
@@ -89,7 +86,6 @@ final class CreatePostViewModel: ViewModelType {
             }
             .debug()
             .subscribe { fetchPostItem in
-                print(fetchPostItem)
                 createPostSuccessTrigger.accept(())
             }
             .disposed(by: disposeBag)

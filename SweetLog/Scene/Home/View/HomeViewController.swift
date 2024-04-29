@@ -48,7 +48,6 @@ final class HomeViewController: BaseViewController {
             
         output.postList
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
-                print("\(item.postId)----\(item.files)")
                 cell.configureCell(fetchPostItem: item)
                 cell.likeButton.rx.tap  // 좋아요 버튼 클릭 시
                     .subscribe(with: self) { owner, _ in

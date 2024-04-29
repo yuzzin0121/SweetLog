@@ -50,21 +50,21 @@ class UserPostSegmentedViewController: TabmanViewController {
     private func addViewControllers() {
         let myPostVC = UserPostViewController()
         myPostVC.viewModel.postType = .myPost
-        if let userId, let isMyProfile {
-            print("있음")
-            myPostVC.viewModel.isMyPofile = isMyProfile
-            myPostVC.viewModel.userId = userId
-        }
         
-        let likePostVC = UserPostViewController()
-        if let isMyProfile {
-            print("like 있음")
+        guard let userId, let isMyProfile else  { return }
+        
+        myPostVC.viewModel.isMyPofile = isMyProfile
+        myPostVC.viewModel.userId = userId
+        
+        if isMyProfile {
+            let likePostVC = UserPostViewController()
             likePostVC.viewModel.isMyPofile = isMyProfile
             likePostVC.viewModel.userId = userId
+            likePostVC.viewModel.postType = .like
+            viewControllers.append(contentsOf: [myPostVC, likePostVC])
+        } else {
+            viewControllers.append(myPostVC)
         }
-        likePostVC.viewModel.postType = .like
-        
-        viewControllers.append(contentsOf: [myPostVC, likePostVC])
     }
     
     func createBar() {

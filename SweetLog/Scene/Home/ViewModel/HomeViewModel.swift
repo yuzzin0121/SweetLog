@@ -36,11 +36,9 @@ final class HomeViewModel: ViewModelType {
         input.filterItemClicked
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .map { index in
-                print(index)
                 return FilterItem(rawValue: index)!
             }
             .map {
-                print($0.title)
                 return FetchPostQuery(next: nil, product_id: $0.title)
             }
             .flatMap { fetchPostQuery in
@@ -74,7 +72,6 @@ final class HomeViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, likeStatusModel in
-                print(likeStatusModel)
                 guard let likeIndex else { return }
                 let likeStatus = likeStatusModel.likeStatus
                 var postItem = postListValue[likeIndex]

@@ -95,7 +95,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.likeButton.rx.tap
             .subscribe(with: self) { owner, _ in
                 headerView.likeButton.isSelected.toggle()
-                print(headerView.likeButton.isSelected)
                 owner.likeStatus.onNext(headerView.likeButton.isSelected)
             }
             .disposed(by: headerView.disposeBag)

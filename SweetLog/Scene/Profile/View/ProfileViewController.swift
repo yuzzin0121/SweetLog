@@ -105,7 +105,9 @@ final class ProfileViewController: BaseViewController {
             setProfileImage(imageUrl: profileImageUrl)
         }
         
+        print("내 프로필이야? --- \(viewModel.isMyProfile)")
         mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
+        mainView.profileSectionView.editProfileButton.isHidden = !(viewModel.isMyProfile)
         
         mainView.profileSectionView.nicknameLabel.text = profileModel.nickname
         mainView.profileSectionView.emailLabel.text = profileModel.email

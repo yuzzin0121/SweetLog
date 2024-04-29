@@ -32,7 +32,6 @@ final class UserPostViewModel: ViewModelType {
         
         input.fetchPostTrigger
             .flatMap { [weak self] _ in
-                print("음낭ㄹ머ㅏㄴㅇ로민ㅇ루민ㅇㄹㅁ니ㅏ얾너알;문ㅇㄹ")
                 guard let self = self, let userId = self.userId else { return  Single<FetchPostModel>.never() }
                 print("UserPostViewModel: \(userId), postType: \(postType), isMyProfile: \(isMyPofile)")
                 if isMyPofile {    // 내 프로필일 경우
@@ -59,7 +58,6 @@ final class UserPostViewModel: ViewModelType {
                 return Single<FetchPostModel>.never()
             }
             .subscribe(with: self) { owner, fetchPostModel in
-                print(fetchPostModel)
                 fetchPostList.accept(fetchPostModel.data)
             }
             .disposed(by: disposeBag)

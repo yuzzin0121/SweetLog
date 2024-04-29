@@ -37,9 +37,15 @@ final class ProfileViewModel: ViewModelType {
                 print(profileModel)
                 fetchMyProfileSuccessTrigger.accept(profileModel)
                 owner.profileModel = profileModel
+                owner.setFollowing(following: profileModel.following)   // 팔로잉 저장
             }
             .disposed(by: disposeBag)
         
         return Output(fetchMyProfileSuccessTrigger: fetchMyProfileSuccessTrigger.asDriver(onErrorJustReturn: nil))
+    }
+    
+    func setFollowing(following: [User]) {
+        let userIdList = following.map { $0.userId }
+        UserDefaultManager.shared.following = userIdList
     }
 }

@@ -30,12 +30,14 @@ final class ProfileViewController: BaseViewController {
         mainView.profileSectionView.followingInfoView.isUserInteractionEnabled = true
     }
     
+    // 팔로우 클릭 시
     @objc func followInfoTapped() {
         print(#function)
         guard let profileModel = viewModel.profileModel else { return }
         showFollowOrFollowingDetailVC(followType: .follow, users: profileModel.followers)
     }
     
+    // 팔로잉 클릭 시
     @objc func followingInfoTapped() {
         print(#function)
         guard let profileModel = viewModel.profileModel else { return }

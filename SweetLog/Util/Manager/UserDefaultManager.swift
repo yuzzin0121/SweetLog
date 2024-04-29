@@ -18,6 +18,7 @@ final class UserDefaultManager {
         case userId
         case accessToken
         case refreshToken
+        case following
     }
     
     let ud = UserDefaults.standard
@@ -33,5 +34,9 @@ final class UserDefaultManager {
     var refreshToken: String{
         get { ud.string(forKey: UDKey.refreshToken.rawValue) ?? "" }
         set { ud.set(newValue, forKey: UDKey.refreshToken.rawValue) }
+    }
+    var following: [String] {
+        get { ud.array(forKey: UDKey.following.rawValue) as? [String] ?? [] }
+        set { ud.set(newValue, forKey: UDKey.following.rawValue) }
     }
 }

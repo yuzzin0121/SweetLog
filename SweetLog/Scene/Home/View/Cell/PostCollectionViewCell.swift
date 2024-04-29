@@ -10,8 +10,8 @@ import Kingfisher
 import RxSwift
 
 final class PostCollectionViewCell: BaseCollectionViewCell {
-    private let profileImageView = UIImageView()
-    private let userNicknameLabel = UILabel()
+    let profileImageView = UIImageView()
+    let userNicknameButton = UIButton()
     private let createdAtLabel = UILabel()
     private let contentLabel = UILabel()
     
@@ -39,7 +39,13 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     func configureCell(fetchPostItem: FetchPostItem?) {
         guard let item = fetchPostItem else { return }
         setProfileImage(url: item.creator.profileImage)
-        userNicknameLabel.text = item.creator.nickname
+        
+        userNicknameButton.setTitle(item.creator.nickname, for: .normal)
+        
+        var titleContainer = AttributeContainer()
+        titleContainer.font = .pretendard(size: 14, weight: .semiBold)
+        userNicknameButton.configuration?.attributedTitle = AttributedString(item.creator.nickname, attributes: titleContainer)
+        
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         contentLabel.text = item.review
         
@@ -219,7 +225,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureHierarchy() {
-        contentView.addSubviews([profileImageView, userNicknameLabel, createdAtLabel, contentLabel, imageStackView, likeButton, commentInfoView])
+        contentView.addSubviews([profileImageView, userNicknameButton, createdAtLabel, contentLabel, imageStackView, likeButton, commentInfoView])
     }
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
@@ -227,36 +233,36 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.size.equalTo(36)
         }
         
-        userNicknameLabel.snp.makeConstraints { make in
+        userNicknameButton.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.top).offset(4)
             make.leading.equalTo(profileImageView.snp.trailing).offset(12)
             make.height.equalTo(20)
         }
         
         createdAtLabel.snp.makeConstraints { make in
-            make.leading.equalTo(userNicknameLabel.snp.trailing).offset(6)
-            make.centerY.equalTo(userNicknameLabel)
+            make.leading.greaterThanOrEqualTo(userNicknameButton.snp.trailing).offset(6)
+            make.centerY.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.equalTo(16)
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNicknameLabel.snp.bottom).offset(8)
-            make.leading.equalTo(userNicknameLabel)
+            make.top.equalTo(userNicknameButton.snp.bottom).offset(8)
+            make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.greaterThanOrEqualTo(16)
         }
         
         imageStackView.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(20)
-            make.leading.equalTo(userNicknameLabel)
+            make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.equalTo(140)
         }
         
         likeButton.snp.makeConstraints { make in
             make.top.equalTo(imageStackView.snp.bottom).offset(12)
-            make.leading.equalTo(userNicknameLabel)
+            make.leading.equalTo(userNicknameButton)
             make.bottom.equalToSuperview().inset(16)
             make.height.equalTo(20)
         }
@@ -297,10 +303,15 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         profileImageView.image = Image.emptyProfileImage
         profileImageView.contentMode = .scaleAspectFill
         
+        var nicknameConfig = UIButton.Configuration.filled()
+        
+        nicknameConfig.baseForegroundColor = Color.black
+        nicknameConfig.baseBackgroundColor = Color.white
+        nicknameConfig.titleAlignment = .leading
+        nicknameConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        userNicknameButton.configuration = nicknameConfig
+        
         imageStackView.design(axis: .horizontal, spacing: 5)
-//        imageStackView.spacing = 5
-//        imageStackView.alignment = .fill
-//        imageStackView.distribution = .equalSpacing
         imageStackView.layer.cornerRadius = 12
         
         var likeConfig = UIButton.Configuration.filled()

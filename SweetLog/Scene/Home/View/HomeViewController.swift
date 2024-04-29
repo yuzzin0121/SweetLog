@@ -56,6 +56,17 @@ final class HomeViewController: BaseViewController {
                         likeStatus.accept(cell.likeButton.isSelected)
                     }
                     .disposed(by: cell.disposeBag)
+                
+                cell.userNicknameButton.rx.tap  // 닉네임 클릭 시
+                    .subscribe(with: self) { owner, _ in
+                        owner.showProfileVC(userId: item.creator.userId)
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                let profileTapGesture = ProfileTapGestureRecognizer(target: self, action: #selector(self.profileImageTapped))
+                profileTapGesture.userId = item.creator.userId
+                cell.profileImageView.addGestureRecognizer(profileTapGesture)
+                cell.profileImageView.isUserInteractionEnabled = true
             }
             .disposed(by: disposeBag)
         
@@ -72,6 +83,20 @@ final class HomeViewController: BaseViewController {
                 owner.showSelectPlaceVC()
             }
             .disposed(by: disposeBag)
+    }
+    
+    @objc
+    private func profileImageTapped(_ sender: ProfileTapGestureRecognizer) {
+        let userId = sender.userId
+        showProfileVC(userId: userId)
+    }
+    
+    private func showProfileVC(userId: String?) {
+        guard let userId else { return }
+        let profileVC = ProfileViewController()
+        profileVC.viewModel.userId = userId
+        profileVC.viewModel.isMyProfile = userId == UserDefaultManager.shared.userId ? true : false
+        navigationController?.pushViewController(profileVC, animated: true)
     }
     
     private func showPostDetailVC(postId: String) {

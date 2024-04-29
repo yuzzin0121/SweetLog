@@ -17,8 +17,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     private var imageScrollView = UIScrollView()
     private let pageControl = UIPageControl()
     
-    private let profileImageView = UIImageView()
-    private let userNicknameLabel = UILabel()
+    let profileImageView = UIImageView()
+    let userNicknameLabel = UILabel()
     private let createdAtLabel = UILabel()
     
     let likeButton = UIButton()

@@ -67,6 +67,20 @@ final class PostDetailViewController: BaseViewController {
     override func configureNavigationItem() {
         navigationItem.title = "후기"
     }
+    
+    @objc
+    private func profileButtonTapped(_ sender: ProfileTapGestureRecognizer) {
+        print(#function)
+        guard let userId = sender.userId else { return }
+        var isMyProfile = false
+        if userId == UserDefaultManager.shared.userId { // 내가 작성한 포스트일 경우
+            isMyProfile = true
+        }
+        let profileVC = ProfileViewController()
+        profileVC.viewModel.isMyProfile = isMyProfile
+        profileVC.viewModel.userId = userId
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
 }
 
 
@@ -85,6 +99,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
                 owner.likeStatus.onNext(headerView.likeButton.isSelected)
             }
             .disposed(by: headerView.disposeBag)
+        
+        let profileTapGesture = ProfileTapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
+        profileTapGesture.userId = fetchPostItem.creator.userId
+        
+        headerView.profileImageView.addGestureRecognizer(profileTapGesture)
+        headerView.userNicknameLabel.addGestureRecognizer(profileTapGesture)
+        
+        headerView.profileImageView.isUserInteractionEnabled = true
+        headerView.userNicknameLabel.isUserInteractionEnabled = true
         
         return headerView
     }
@@ -107,6 +130,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         let comment = fetchPostItem.comments[indexPath.row]
         cell.configureCell(comment: comment)
         
+        let profileTapGesture = ProfileTapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
+        profileTapGesture.userId = comment.creator.userId
+        
+        cell.profileImageView.addGestureRecognizer(profileTapGesture)
+        cell.nicknameLabel.addGestureRecognizer(profileTapGesture)
+        
+        cell.profileImageView.isUserInteractionEnabled = true
+        cell.nicknameLabel.isUserInteractionEnabled = true
+        
         return cell
     }
     
@@ -117,4 +149,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-
+class ProfileTapGestureRecognizer: UITapGestureRecognizer {
+    var userId: String?
+}

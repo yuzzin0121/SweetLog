@@ -27,11 +27,19 @@ final class ProfileViewModel: ViewModelType {
         let fetchMyProfileSuccessTrigger = PublishRelay<ProfileModel?>()
         
         input.fetchMyProfileTrigger
-            .flatMap {
-                return ProfileNetworkManager.shared.fetchMyProfile()
-                    .catch { error in
-                        return Single<ProfileModel>.never()
-                    }
+            .flatMap { [weak self] in
+                guard let self else { return Single<ProfileModel>.never() }
+                if isMyProfile {
+                    return ProfileNetworkManager.shared.fetchMyProfile()
+                        .catch { error in
+                            return Single<ProfileModel>.never()
+                        }
+                } else {
+                    return ProfileNetworkManager.shared.fetchUserProfile(userId: userId)
+                        .catch { error in
+                            return Single<ProfileModel>.never()
+                        }
+                }
             }
             .subscribe(with: self) { owner, profileModel in
                 print(profileModel)

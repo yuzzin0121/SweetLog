@@ -45,6 +45,40 @@ class ProfileNetworkManager {
             return Disposables.create()
         }
     }
+    
+    // 사용자 프로필 조회
+    func fetchUserProfile(userId: String) -> Single<ProfileModel> {
+        return Single<ProfileModel>.create { single in
+            do {
+                let urlRequest = try ProfileRouter.fetchUserProfile(userId: userId).asURLRequest()
+                                
+                AF.request(urlRequest)
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: ProfileModel.self) { response in
+                        switch response.result {
+                        case .success(let profileModel):
+                            single(.success(profileModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let fetchMyProfileError = LoginError(rawValue: statusCode) {
+                                    print("fetchMyProfileError")
+                                    single(.failure(fetchMyProfileError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
  
     // 프로필 수정 - 닉네임, 프로필 이미지
     func editMyProfile(nickname: String?, profile: Data?) -> Single<ProfileModel> {

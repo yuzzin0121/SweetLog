@@ -10,6 +10,7 @@ import Alamofire
 
 enum ProfileRouter {
     case fetchMyProfile
+    case fetchUserProfile(userId: String)
     case editMyProfile
 }
 
@@ -21,7 +22,7 @@ extension ProfileRouter: TargetType {
     
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .fetchMyProfile:
+        case .fetchMyProfile, .fetchUserProfile:
             return .get
         case .editMyProfile:
             return .put
@@ -32,12 +33,14 @@ extension ProfileRouter: TargetType {
         switch self {
         case .fetchMyProfile, .editMyProfile:
             return "/v1/users/me/profile"
+        case .fetchUserProfile(let userId):
+            return "/v1/users/\(userId)/profile"
         }
     }
     
     var header: [String : String] {
         switch self {
-        case .fetchMyProfile:
+        case .fetchMyProfile, .fetchUserProfile:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -62,7 +65,7 @@ extension ProfileRouter: TargetType {
     
     var body: Data? {
         switch self {
-        case .fetchMyProfile, .editMyProfile:
+        case .fetchMyProfile, .editMyProfile, .fetchUserProfile:
             return nil
         }
     }

@@ -12,6 +12,7 @@ import RxCocoa
 final class FollowDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     var followType: FollowType?
+    var isMyProfile: Bool = true
     var users: [User]?
     
     struct Input {

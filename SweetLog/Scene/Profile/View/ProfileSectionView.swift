@@ -23,14 +23,16 @@ final class ProfileSectionView: BaseView {
     let seperatorView = UIView()
     
     func setFollowStatus(status: Bool) {
-        guard var followConfig = followButton.configuration,
-              let text = followInfoView.countLabel.text,
-                var count = Int(text) else { return }
+        guard var followConfig = followButton.configuration else { return }
         followConfig.baseBackgroundColor = status ? Color.backgroundGray : Color.brown
         followConfig.baseForegroundColor = status ? Color.black : Color.white
         followConfig.title = status ? "팔로잉": "팔로우"
         followButton.configuration = followConfig
-        
+    }
+    
+    func setFollowCount(status: Bool) {
+        guard let text = followInfoView.countLabel.text,
+          var count = Int(text) else { return }
         followInfoView.countLabel.text = status ? "\(count + 1)" : "\(count - 1)"
     }
     

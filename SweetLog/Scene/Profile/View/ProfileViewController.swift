@@ -12,12 +12,18 @@ final class ProfileViewController: BaseViewController {
     lazy var settingButton = UIBarButtonItem(image: Image.setting, style: .plain, target: self, action: nil)
     let mainView = ProfileView()
     let viewModel = ProfileViewModel()
-
+    let fetchObservable = PublishSubject<Void>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureView()
         setAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchObservable.onNext(())
     }
     
     private func setAction() {
@@ -48,6 +54,7 @@ final class ProfileViewController: BaseViewController {
         let followDetailVC = FollowDetailViewController()
         followDetailVC.viewModel.followType = followType
         followDetailVC.viewModel.users = users
+        followDetailVC.viewModel.isMyProfile = viewModel.isMyProfile
         navigationController?.pushViewController(followDetailVC, animated: true)
     }
     
@@ -72,34 +79,32 @@ final class ProfileViewController: BaseViewController {
                 owner.showSettingVC()
             }
             .disposed(by: disposeBag)
-        let followStatus = PublishSubject<Bool>()
         
-        mainView.profileSectionView.followButton.rx.tap
-            .subscribe(with: self) { owner, _ in
-                owner.mainView.profileSectionView.followButton.isSelected.toggle()
-                followStatus.onNext(owner.mainView.profileSectionView.followButton.isSelected)
-            }
-            .disposed(by: disposeBag)
         
-        let input = ProfileViewModel.Input(fetchProfileTrigger: Observable.just(()),
-                                           followButtonTapped: followStatus.asObserver())
+        let input = ProfileViewModel.Input(fetchProfileTrigger: fetchObservable,
+                                           followButtonTapped: mainView.profileSectionView.followButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
         
-        if viewModel.isMyProfile {
-            output.fetchMyProfileSuccessTrigger
-                .drive(with: self) { owner, profileModel in
-                    guard let profileModel else { return }
-                    owner.updateProfileInfo(profileModel)
-                }
-                .disposed(by: disposeBag)
-        }
         
-        output.fetchUserProfileSuccessTrigger
+        output.fetchMyProfileSuccessTrigger
             .drive(with: self) { owner, profileModel in
                 guard let profileModel else { return }
-                owner.updateProfileInfo(profileModel)
+                if owner.viewModel.isMyProfile {
+                    owner.updateProfileInfo(profileModel)
+                }
             }
             .disposed(by: disposeBag)
+        
+        // 다른 유저 프로필일 경우 -> 나의 프로필에서 팔로잉 리스트, 유저 프로필 조회
+        output.fetchMeAndUserProfileSuccessTrigger
+            .drive(with: self) { owner, listAndUserProfileModel in
+                guard let userProfileModel = listAndUserProfileModel.1 else { return }
+                owner.viewModel.setFollowing(myFollowingList: listAndUserProfileModel.0, userId: userProfileModel.userId)
+                owner.mainView.profileSectionView.setFollowStatus(status: owner.viewModel.isFollowing)
+                owner.updateProfileInfo(userProfileModel)
+            }
+            .disposed(by: disposeBag)
+        
         
         mainView.profileSectionView.editProfileButton.rx.tap
             .asDriver()
@@ -113,6 +118,7 @@ final class ProfileViewController: BaseViewController {
                 guard let followStatus else { return }
                 let status = followStatus.followingStatus
                 owner.mainView.profileSectionView.setFollowStatus(status: status)
+                owner.mainView.profileSectionView.setFollowCount(status: status)
             }
             .disposed(by: disposeBag)
     }
@@ -131,8 +137,7 @@ final class ProfileViewController: BaseViewController {
             setProfileImage(imageUrl: profileImageUrl)
         }
         
-        print("내 프로필이야? --- \(viewModel.isMyProfile)")
-        mainView.profileSectionView.setFollowStatus(status: viewModel.isFollowing())
+        print("내 프로필이야? --- \(viewModel.isMyProfile), 팔로우중? \(viewModel.isFollowing)")
         mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
         mainView.profileSectionView.editProfileButton.isHidden = !(viewModel.isMyProfile)
         

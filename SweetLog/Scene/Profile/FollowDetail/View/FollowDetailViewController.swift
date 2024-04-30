@@ -27,7 +27,9 @@ final class FollowDetailViewController: BaseViewController {
         
         output.userList
             .drive(mainView.tableView.rx.items(cellIdentifier: FollowDetailTableViewCell.identifier, cellType: FollowDetailTableViewCell.self)) { index, user, cell in
-                cell.configureCell(user: user, type: followType)
+                cell.selectionStyle = .none
+                print(user)
+                cell.configureCell(user: user, type: followType, isMyProfile: self.viewModel.isMyProfile)
             }
             .disposed(by: disposeBag)
         

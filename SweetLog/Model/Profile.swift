@@ -45,7 +45,7 @@ struct User: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
-        case nickname
+        case nickname = "nick"
         case profileImage
     }
     

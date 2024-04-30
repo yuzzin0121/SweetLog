@@ -81,11 +81,20 @@ final class ProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        let input = ProfileViewModel.Input(fetchMyProfileTrigger: Observable.just(()),
+        let input = ProfileViewModel.Input(fetchProfileTrigger: Observable.just(()),
                                            followButtonTapped: followStatus.asObserver())
         let output = viewModel.transform(input: input)
         
-        output.fetchMyProfileSuccessTrigger
+        if viewModel.isMyProfile {
+            output.fetchMyProfileSuccessTrigger
+                .drive(with: self) { owner, profileModel in
+                    guard let profileModel else { return }
+                    owner.updateProfileInfo(profileModel)
+                }
+                .disposed(by: disposeBag)
+        }
+        
+        output.fetchUserProfileSuccessTrigger
             .drive(with: self) { owner, profileModel in
                 guard let profileModel else { return }
                 owner.updateProfileInfo(profileModel)
@@ -123,10 +132,7 @@ final class ProfileViewController: BaseViewController {
         }
         
         print("내 프로필이야? --- \(viewModel.isMyProfile)")
-        let following = UserDefaultManager.shared.following
-        let isFollowing = following.contains(profileModel.userId)
-        print(following)
-        mainView.profileSectionView.setFollowStatus(status: isFollowing)
+        mainView.profileSectionView.setFollowStatus(status: viewModel.isFollowing())
         mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
         mainView.profileSectionView.editProfileButton.isHidden = !(viewModel.isMyProfile)
         

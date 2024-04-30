@@ -28,6 +28,7 @@ final class FollowDetailView: BaseView {
         super.configureView()
         tableView.backgroundColor = Color.white
         tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
         tableView.register(FollowDetailTableViewCell.self, forCellReuseIdentifier: FollowDetailTableViewCell.identifier)
         tableView.rowHeight = 50
         

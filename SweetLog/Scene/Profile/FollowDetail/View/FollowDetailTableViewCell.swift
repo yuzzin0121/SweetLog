@@ -57,7 +57,7 @@ class FollowDetailTableViewCell: BaseTableViewCell {
     }
     override func configureView() {
         profileImageView.image = Image.emptyProfileImage
-        nicknameLabel.design(text: "닉네임", font: .pretendard(size: 16, weight: .semiBold))
+        nicknameLabel.design(text: "닉네임", font: .pretendard(size: 15, weight: .semiBold))
         
         var titleContainer = AttributeContainer()
         titleContainer.font = UIFont.boldSystemFont(ofSize: 14)
@@ -69,5 +69,14 @@ class FollowDetailTableViewCell: BaseTableViewCell {
         followConfig.attributedTitle = AttributedString("팔로우", attributes: titleContainer)
         followConfig.cornerStyle = .capsule
         followButton.configuration = followConfig
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height / 2
+            self.profileImageView.clipsToBounds = true
+        }
     }
 }

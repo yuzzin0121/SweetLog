@@ -72,8 +72,17 @@ final class ProfileViewController: BaseViewController {
                 owner.showSettingVC()
             }
             .disposed(by: disposeBag)
+        let followStatus = PublishSubject<Bool>()
         
-        let input = ProfileViewModel.Input(fetchMyProfileTrigger: Observable.just(()))
+        mainView.profileSectionView.followButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                owner.mainView.profileSectionView.followButton.isSelected.toggle()
+                followStatus.onNext(owner.mainView.profileSectionView.followButton.isSelected)
+            }
+            .disposed(by: disposeBag)
+        
+        let input = ProfileViewModel.Input(fetchMyProfileTrigger: Observable.just(()),
+                                           followButtonTapped: followStatus.asObserver())
         let output = viewModel.transform(input: input)
         
         output.fetchMyProfileSuccessTrigger
@@ -87,6 +96,14 @@ final class ProfileViewController: BaseViewController {
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.showEditProfileVC()
+            }
+            .disposed(by: disposeBag)
+        
+        output.followStatusSuccessTrigger
+            .drive(with: self) { owner, followStatus in
+                guard let followStatus else { return }
+                let status = followStatus.followingStatus
+                owner.mainView.profileSectionView.setFollowStatus(status: status)
             }
             .disposed(by: disposeBag)
     }
@@ -106,6 +123,10 @@ final class ProfileViewController: BaseViewController {
         }
         
         print("내 프로필이야? --- \(viewModel.isMyProfile)")
+        let following = UserDefaultManager.shared.following
+        let isFollowing = following.contains(profileModel.userId)
+        print(following)
+        mainView.profileSectionView.setFollowStatus(status: isFollowing)
         mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
         mainView.profileSectionView.editProfileButton.isHidden = !(viewModel.isMyProfile)
         

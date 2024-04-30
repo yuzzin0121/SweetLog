@@ -12,6 +12,8 @@ enum ProfileRouter {
     case fetchMyProfile
     case fetchUserProfile(userId: String)
     case editMyProfile
+    case follow(userId: String)
+    case unfollow(userId: String)
 }
 
 extension ProfileRouter: TargetType {
@@ -24,8 +26,12 @@ extension ProfileRouter: TargetType {
         switch self {
         case .fetchMyProfile, .fetchUserProfile:
             return .get
+        case .follow:
+            return .post
         case .editMyProfile:
             return .put
+        case.unfollow:
+            return .delete
         }
     }
     
@@ -35,12 +41,14 @@ extension ProfileRouter: TargetType {
             return "/v1/users/me/profile"
         case .fetchUserProfile(let userId):
             return "/v1/users/\(userId)/profile"
+        case .follow(let userId), .unfollow(let userId):
+            return "/v1/follow/\(userId)"
         }
     }
     
     var header: [String : String] {
         switch self {
-        case .fetchMyProfile, .fetchUserProfile:
+        case .fetchMyProfile, .fetchUserProfile, .follow, .unfollow:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -65,7 +73,7 @@ extension ProfileRouter: TargetType {
     
     var body: Data? {
         switch self {
-        case .fetchMyProfile, .editMyProfile, .fetchUserProfile:
+        case .fetchMyProfile, .editMyProfile, .fetchUserProfile, .follow, .unfollow:
             return nil
         }
     }

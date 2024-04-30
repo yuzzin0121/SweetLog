@@ -56,3 +56,16 @@ struct User: Decodable {
         self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage)
     }
 }
+
+
+struct FollowStatus: Decodable {
+    let nickname: String
+    let opponentNick: String
+    let followingStatus: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case nickname = "nick"
+        case opponentNick = "opponent_nick"
+        case followingStatus = "following_status"
+    }
+}

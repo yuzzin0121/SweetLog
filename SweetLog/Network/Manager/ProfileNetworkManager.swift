@@ -61,9 +61,9 @@ class ProfileNetworkManager {
                         case .failure(let error):
                             print(error)
                             if let statusCode = response.response?.statusCode {
-                                if let fetchMyProfileError = LoginError(rawValue: statusCode) {
-                                    print("fetchMyProfileError")
-                                    single(.failure(fetchMyProfileError))
+                                if let fetchUserProfileError = LoginError(rawValue: statusCode) {
+                                    print("fetchUserProfileError")
+                                    single(.failure(fetchUserProfileError))
                                 } else if let apiError = APIError(rawValue: statusCode) {
                                     single(.failure(apiError))
                                 }
@@ -133,4 +133,73 @@ class ProfileNetworkManager {
         }
     }
     
+    // 사용자 팔로우
+    func followUser(userId: String) -> Single<FollowStatus> {
+        return Single<FollowStatus>.create { single in
+            do {
+                print(#function, userId)
+                let urlRequest = try ProfileRouter.follow(userId: userId).asURLRequest()
+                                
+                AF.request(urlRequest)
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FollowStatus.self) { response in
+                        switch response.result {
+                        case .success(let followStatus):
+                            single(.success(followStatus))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let followUserError = LoginError(rawValue: statusCode) {
+                                    print("followUserError")
+                                    single(.failure(followUserError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    // 사용자 언팔로우
+    func unfollowUser(userId: String) -> Single<FollowStatus> {
+        return Single<FollowStatus>.create { single in
+            print(#function, userId)
+            do {
+                let urlRequest = try ProfileRouter.unfollow(userId: userId).asURLRequest()
+                                
+                AF.request(urlRequest)
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FollowStatus.self) { response in
+                        switch response.result {
+                        case .success(let followStatus):
+                            single(.success(followStatus))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let unfollowUserError = LoginError(rawValue: statusCode) {
+                                    print("unfollowUserError")
+                                    single(.failure(unfollowUserError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
 }

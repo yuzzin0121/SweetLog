@@ -15,12 +15,24 @@ final class ProfileSectionView: BaseView {
     let emailLabel = UILabel()
     let followButton = UIButton()
     
-    let postInfoStackView = UIStackView()
+    private let postInfoStackView = UIStackView()
     let postInfoView = ProfileInfoView()
     let followInfoView = ProfileInfoView()
     let followingInfoView = ProfileInfoView()
     
     let seperatorView = UIView()
+    
+    func setFollowStatus(status: Bool) {
+        guard var followConfig = followButton.configuration,
+              let text = followInfoView.countLabel.text,
+                var count = Int(text) else { return }
+        followConfig.baseBackgroundColor = status ? Color.backgroundGray : Color.brown
+        followConfig.baseForegroundColor = status ? Color.black : Color.white
+        followConfig.title = status ? "팔로잉": "팔로우"
+        followButton.configuration = followConfig
+        
+        followInfoView.countLabel.text = status ? "\(count + 1)" : "\(count - 1)"
+    }
     
     override func configureHierarchy() {
         addSubviews([profileImageView, editProfileButton, nicknameLabel, emailLabel, followButton, postInfoStackView, seperatorView])

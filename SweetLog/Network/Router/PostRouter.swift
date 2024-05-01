@@ -88,8 +88,8 @@ extension PostRouter: TargetType {
             return nil
         case .fetchPosts(let query):
             return [
-                URLQueryItem(name: "next", value: nil),
-                URLQueryItem(name: "limit", value: "200"),
+                URLQueryItem(name: "next", value: query.next),
+                URLQueryItem(name: "limit", value: "5"),
                 URLQueryItem(name: "product_id", value: query.product_id)
             ]
         case .fetchUserPost(let query, _):

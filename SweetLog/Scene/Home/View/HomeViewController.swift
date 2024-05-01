@@ -38,14 +38,16 @@ final class HomeViewController: BaseViewController {
         let likeIndex = PublishRelay<Int>()
         let likeStatus = PublishRelay<Bool>()
         let likeObservable = Observable.zip(likeIndex, likeStatus)
+        let prefetchTrigger = PublishRelay<Void>()
         
         let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
                                         filterItemClicked: filterItemClicked,
                                         postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
-                                        likeObservable: likeObservable)
+                                        likeObservable: likeObservable,
+                                        prefetchTrigger: prefetchTrigger.asObservable())
         let output = viewModel.transform(input: input)
         
-            
+        // 
         output.postList
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
                 cell.configureCell(fetchPostItem: item)
@@ -70,6 +72,25 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        Observable.combineLatest(mainView.postCollectionView.rx.prefetchItems, output.postList.asObservable())
+            .subscribe(with: self) { owner, prefetchInfo in
+                guard let indexPath = prefetchInfo.0.first else { return }
+                guard indexPath.item == prefetchInfo.1.count - 2 else { return }
+                prefetchTrigger.accept(())
+            }
+            .disposed(by: disposeBag)
+      
+        mainView.postCollectionView.rx.prefetchItems
+            .subscribe(with: self) { owner, indexPath in
+                guard let indexPath = indexPath.first else { return }
+                print(indexPath.item)
+                if indexPath.item == 4 {
+                    prefetchTrigger.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 게시물 셀 클릭 시
         output.postCellTapped
             .drive(with: self) { owner, postId in
                 owner.showPostDetailVC(postId: postId)

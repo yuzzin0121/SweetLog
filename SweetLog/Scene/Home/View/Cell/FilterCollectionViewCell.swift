@@ -17,9 +17,27 @@ final class FilterCollectionViewCell: BaseCollectionViewCell {
         disposeBag = DisposeBag()
     }
     
-    func configureCell(item: FilterItem) {
+    func configureCell(item: FilterItem, selectedCategory: String) {
+        var titleContainer = AttributeContainer()
+        titleContainer.font = UIFont.boldSystemFont(ofSize: 15)
+        
         var config = filterButton.configuration
         config?.title = item.title
+        config?.attributedTitle = AttributedString(item.title, attributes: titleContainer)
+        filterButton.configuration = config
+        
+        if item.title == selectedCategory {
+            setSelectStatus(true)
+        } else {
+            setSelectStatus(false)
+        }
+    }
+    
+    func setSelectStatus(_ isSelected: Bool) {
+        guard var config = filterButton.configuration else { return }
+        config.baseBackgroundColor = isSelected ? Color.brown : Color.white
+        config.baseForegroundColor = isSelected ? Color.white : Color.darkBrown
+        config.background.strokeColor = isSelected ? Color.darkBrown : Color.buttonStrokeGray
         filterButton.configuration = config
     }
     

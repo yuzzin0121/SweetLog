@@ -40,10 +40,10 @@ final class HomeViewController: BaseViewController {
                                         prefetchTrigger: prefetchTrigger.asObservable())
         let output = viewModel.transform(input: input)
         
-        viewModel.filterList
-            .asDriver(onErrorJustReturn: [])
-            .drive(mainView.filterCollectionView.rx.items(cellIdentifier: FilterCollectionViewCell.identifier, cellType: FilterCollectionViewCell.self)) { index, item, cell in
-                cell.configureCell(item: item)
+        output.filterList
+            .drive(mainView.filterCollectionView.rx.items(cellIdentifier: FilterCollectionViewCell.identifier, cellType: FilterCollectionViewCell.self)) { [weak self] index, item, cell in
+                guard let self else { return }
+                cell.configureCell(item: item, selectedCategory: self.viewModel.selectedCategory.value)
                 cell.filterButton.tag = index
                 cell.filterButton.rx.tap
                     .subscribe(with: self) { owner, _ in
@@ -86,10 +86,8 @@ final class HomeViewController: BaseViewController {
         
         Observable.combineLatest(mainView.postCollectionView.rx.prefetchItems, output.postList.asObservable())
             .subscribe(with: self) { owner, prefetchInfo in
-                print("prefetch 할 수 없나? \(owner.isLoading)")
                 guard !owner.isLoading else { return }
                 if let maxIndexPath = prefetchInfo.0.max(by: { $0.row < $1.row }) {
-                    print("프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 1)")
                     guard maxIndexPath.item == prefetchInfo.1.count - 1 else { return }
                     print("일치함!!! - 프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 1)")
                     owner.isLoading = true
@@ -139,10 +137,6 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let filterLayout = UICollectionViewFlowLayout()
-        filterLayout.scrollDirection = .horizontal
-        filterLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        mainView.filterCollectionView.collectionViewLayout = filterLayout
         
         let postlayout = UICollectionViewFlowLayout()
         postlayout.itemSize = CGSize(width: view.frame.width - 40, height: 280)

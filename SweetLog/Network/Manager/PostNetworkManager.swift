@@ -47,6 +47,7 @@ final class PostNetworkManager {
     }
     
     func fetchPost(postId: String) -> Single<FetchPostItem> {
+        print(#function)
         return Single<FetchPostItem>.create { single in
             do {
                 let urlRequest = try PostRouter.fetchPost(postId: postId).asURLRequest()
@@ -166,7 +167,6 @@ final class PostNetworkManager {
         return Single<LikeStatusModel>.create { single in
             do {
                 let urlRequest = try PostRouter.likePost(postId: postId, likeStatusModel: likeStatusModel).asURLRequest()
-                print(urlRequest.url)
                                 
                 AF.request(urlRequest, interceptor: AuthInterceptor())
                     .validate(statusCode: 200..<300)

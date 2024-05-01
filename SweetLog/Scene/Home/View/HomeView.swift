@@ -14,24 +14,8 @@ final class HomeView: BaseView {
     
     let addPostButton = UIButton()
     
-    lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: categoryCreateLayout())
     lazy var postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        
-   
-//    func createCollectionViewLayout() -> UICollectionViewLayout {
-//        let collectionViewLayout = UICollectionViewCompositionalLayout(section: createLayout())
-//    }
-//    
-//    func createLayout() -> NSCollectionLayoutSection {
-//        
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        let group = NSCollectionLayoutGroup.vertical(layoutSize: itemSize, subitems: [item])
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.interGroupSpacing = 12
-//        
-//        return section
-//    }
     
     override func configureHierarchy() {
         addSubviews([searchTextField, filterCollectionView, postCollectionView, addPostButton])
@@ -85,5 +69,38 @@ final class HomeView: BaseView {
         
         titleLabel.text = "달콤로그"
         titleLabel.font = .pretendard(size: 26, weight: .extraBold)
+    }
+}
+
+extension HomeView {
+    private func categoryCreateLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(90),
+            heightDimension: .absolute(38)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(40)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.interItemSpacing = .fixed(8)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .horizontal
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        layout.configuration = config
+        return layout
     }
 }

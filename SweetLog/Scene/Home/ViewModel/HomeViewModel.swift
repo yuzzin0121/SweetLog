@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 final class HomeViewModel: ViewModelType {
-    let filterList = Observable.just(FilterItem.allCases)
-    private var currentCategory: String = ""
+    let filterList = FilterItem.allCases
+    let selectedCategory = BehaviorRelay(value: FilterItem.bread.title)
     var disposeBag = DisposeBag()
     
     struct Input {
@@ -29,7 +29,7 @@ final class HomeViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        let filterList = PublishRelay<[FilterItem]>()
+        let filterList = BehaviorRelay<[FilterItem]>(value: FilterItem.allCases)
         let currentCategory = PublishSubject<String>()
         let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let postCellTapped = PublishRelay<String>() // postId
@@ -43,8 +43,11 @@ final class HomeViewModel: ViewModelType {
             .map { index in
                 return FilterItem(rawValue: index)!
             }
-            .map {
+            .map { [weak self] in
+                guard let self else { return FetchPostQuery(next: nil, product_id: $0.title) }
+                selectedCategory.accept($0.title)
                 currentCategory.onNext($0.title)
+                filterList.accept(self.filterList)
                 return FetchPostQuery(next: nil, product_id: $0.title)
             }
             .flatMap { fetchPostQuery in
@@ -53,7 +56,7 @@ final class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, fetchPostModel in
                 postList.accept(fetchPostModel.data)
                 postListValue = fetchPostModel.data
-                print("커서 값 - \(fetchPostModel.nextCursor)")
+//                print("커서 값 - \(fetchPostModel.nextCursor)")
                 next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
@@ -64,7 +67,7 @@ final class HomeViewModel: ViewModelType {
                 return FetchPostQuery(next: prefetchInfo.0, product_id: prefetchInfo.1)
             }
             .flatMap { fetchPostQuery in
-                print("현재 커서값 \(fetchPostQuery.next)")
+//                print("현재 커서값 \(fetchPostQuery.next)")
                 if fetchPostQuery.next == "0" {
                     return Single<FetchPostModel>.never()
                 } else {

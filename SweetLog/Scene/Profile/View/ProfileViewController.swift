@@ -30,7 +30,6 @@ final class ProfileViewController: BaseViewController {
     
     // 팔로우 클릭 시
     @objc func followInfoTapped() {
-        print(#function)
         if viewModel.isMyProfile {
             guard let myProfileModel = viewModel.myProfileModel else { return }
             showFollowOrFollowingDetailVC(followType: .follow, profileModel: myProfileModel)
@@ -43,7 +42,6 @@ final class ProfileViewController: BaseViewController {
     
     // 팔로잉 클릭 시
     @objc func followingInfoTapped() {
-        print(#function)
         if viewModel.isMyProfile {
             guard let myProfileModel = viewModel.myProfileModel else {
                 print("내 프로필 없음")

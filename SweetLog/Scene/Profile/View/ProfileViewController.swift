@@ -66,9 +66,10 @@ final class ProfileViewController: BaseViewController {
         }
         let followDetailVC = FollowDetailViewController(followType: followType,
                                                         isMyProfile: viewModel.isMyProfile,
-                                                        users: followType == .follow ? profileModel.followers : profileModel.following)
+                                                        userId: profileModel.userId)
     
         followDetailVC.viewModel.myProfile = myProfileModel
+        
         navigationController?.pushViewController(followDetailVC, animated: true)
     }
     

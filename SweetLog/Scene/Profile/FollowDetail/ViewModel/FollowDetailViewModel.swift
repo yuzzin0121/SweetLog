@@ -9,19 +9,24 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct CellFollow {
+    let user: User
+    var isFollowing: Bool
+}
+
 final class FollowDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     
     var followType: FollowType
     var isMyProfile: Bool
     var myProfile: ProfileModel?
-    var users: [User]
+    var userId: String
     var currentUser: User?
     
-    init(followType: FollowType, isMyProfile: Bool, users: [User]) {
+    init(followType: FollowType, isMyProfile: Bool, userId: String) {
         self.followType = followType
         self.isMyProfile = isMyProfile
-        self.users = users
+        self.userId = userId
     }
     
     struct Input {
@@ -31,11 +36,14 @@ final class FollowDetailViewModel: ViewModelType {
     
     struct Output {
         let userList: Driver<[User]>
+        let userFollow: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
         print(#function)
+        let myProfileModel = FetchTriggerManager.shared.myProfileModel.compactMap { $0 }
         let fetchUserList = PublishRelay<[User]>()
+        let userFollow = PublishRelay<Void>()
         
         FetchTriggerManager.shared.myProfileModel
             .subscribe(with: self) { owner, myProfile in
@@ -45,9 +53,16 @@ final class FollowDetailViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.fetchUserList
-            .subscribe(with: self) { owner, _ in
-                print("fetchUserList - \(owner.users)")
-                fetchUserList.accept(owner.users)
+            .flatMap { [weak self] in
+                guard let self else { return Single<ProfileModel>.never() }
+                return ProfileNetworkManager.shared.fetchUserProfile(userId: userId)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, profileModel in
+                let userList = owner.followType == .follow ? profileModel.followers : profileModel.following
+                fetchUserList.accept(userList)
             }
             .disposed(by: disposeBag)
         
@@ -74,25 +89,12 @@ final class FollowDetailViewModel: ViewModelType {
             .subscribe(with: self) { owner, followStatus in
                 print(followStatus)
                 guard let user = owner.currentUser else { return }
-                owner.setUserList(followStatus: followStatus.followingStatus, user: user)
-                fetchUserList.accept(owner.users)
+                userFollow.accept(())
             }
             .disposed(by: disposeBag)
         
-        return Output(userList: fetchUserList.asDriver(onErrorJustReturn: []))
-    }
-    
-    private func setUserList(followStatus: Bool, user: User) {
-        guard var myProfile else { return }
-        if followStatus {   // 팔로우 성공 시
-            myProfile.following.append(User(user_id: user.user_id,
-                                            nick: user.nick,
-                                            profileImage: user.profileImage))
-        } else {
-            if let index = myProfile.following.firstIndex(where: { $0.user_id == user.user_id }) {
-                myProfile.following.remove(at: index)
-            }
-        }
+        return Output(userList: fetchUserList.asDriver(onErrorJustReturn: []), 
+                      userFollow: userFollow.asDriver(onErrorJustReturn: ()))
     }
     
     private func isFollowingUser(userId: String) -> Bool {

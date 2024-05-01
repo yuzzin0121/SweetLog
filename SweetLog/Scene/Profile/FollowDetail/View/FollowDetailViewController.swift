@@ -14,8 +14,10 @@ final class FollowDetailViewController: BaseViewController {
     let viewModel: FollowDetailViewModel
     let fetchUserList = PublishSubject<Void>()
     
-    init(followType: FollowType, isMyProfile: Bool, users: [User]) {
-        viewModel = FollowDetailViewModel(followType: followType, isMyProfile: isMyProfile, users: users)
+    init(followType: FollowType, isMyProfile: Bool, userId: String) {
+        viewModel = FollowDetailViewModel(followType: followType,
+                                          isMyProfile: isMyProfile,
+                                          userId: userId)
         super.init()
     }
 
@@ -58,6 +60,12 @@ final class FollowDetailViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.userFollow
+            .drive(with: self) { owner, _ in
+                FetchTriggerManager.shared.profileFetchTrigger.onNext(())
+                owner.fetchUserList.onNext(())
+            }
+            .disposed(by: disposeBag)
         
         output.userList
             .drive(with: self) { owner, users in

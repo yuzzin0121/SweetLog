@@ -13,14 +13,32 @@ final class HomeViewController: BaseViewController {
     let mainView = HomeView()
     
     let viewModel = HomeViewModel()
+    var lastContentOffset: CGFloat = 0 // 스크롤 방향 감지를 위한 변수
+    var isLoading = false // 현재 데이터 로딩 중인지 확인
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    private func setDelegate() {
+        mainView.postCollectionView.delegate = self
+    }
+    
     override func bind() {
         
         let filterItemClicked = BehaviorSubject(value: 0)
+        
+        let likeIndex = PublishRelay<Int>()
+        let likeStatus = PublishRelay<Bool>()
+        let likeObservable = Observable.zip(likeIndex, likeStatus)
+        let prefetchTrigger = PublishRelay<Void>()
+        
+        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
+                                        filterItemClicked: filterItemClicked,
+                                        postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
+                                        likeObservable: likeObservable,
+                                        prefetchTrigger: prefetchTrigger.asObservable())
+        let output = viewModel.transform(input: input)
         
         viewModel.filterList
             .asDriver(onErrorJustReturn: [])
@@ -35,19 +53,13 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        let likeIndex = PublishRelay<Int>()
-        let likeStatus = PublishRelay<Bool>()
-        let likeObservable = Observable.zip(likeIndex, likeStatus)
-        let prefetchTrigger = PublishRelay<Void>()
+        filterItemClicked
+            .subscribe(with: self) { owner, _ in
+                owner.lastContentOffset = 0
+                owner.isLoading = false
+            }
+            .disposed(by: disposeBag)
         
-        let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
-                                        filterItemClicked: filterItemClicked,
-                                        postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
-                                        likeObservable: likeObservable,
-                                        prefetchTrigger: prefetchTrigger.asObservable())
-        let output = viewModel.transform(input: input)
-        
-        // 
         output.postList
             .drive(mainView.postCollectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)) {index,item,cell in
                 cell.configureCell(fetchPostItem: item)
@@ -74,17 +86,13 @@ final class HomeViewController: BaseViewController {
         
         Observable.combineLatest(mainView.postCollectionView.rx.prefetchItems, output.postList.asObservable())
             .subscribe(with: self) { owner, prefetchInfo in
-                guard let indexPath = prefetchInfo.0.first else { return }
-                guard indexPath.item == prefetchInfo.1.count - 2 else { return }
-                prefetchTrigger.accept(())
-            }
-            .disposed(by: disposeBag)
-      
-        mainView.postCollectionView.rx.prefetchItems
-            .subscribe(with: self) { owner, indexPath in
-                guard let indexPath = indexPath.first else { return }
-                print(indexPath.item)
-                if indexPath.item == 4 {
+                print("prefetch 할 수 없나? \(owner.isLoading)")
+                guard !owner.isLoading else { return }
+                if let maxIndexPath = prefetchInfo.0.max(by: { $0.row < $1.row }) {
+                    print("프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 1)")
+                    guard maxIndexPath.item == prefetchInfo.1.count - 1 else { return }
+                    print("일치함!!! - 프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 1)")
+                    owner.isLoading = true
                     prefetchTrigger.accept(())
                 }
             }
@@ -152,4 +160,18 @@ final class HomeViewController: BaseViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: mainView.titleLabel)
     }
    
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > lastContentOffset {
+           // 아래로 스크롤
+            isLoading = false
+        } else if scrollView.contentOffset.y < lastContentOffset {
+           // 위로 스크롤
+            isLoading = true // 데이터 로딩 방지
+        }
+
+        lastContentOffset = scrollView.contentOffset.y
+    }
 }

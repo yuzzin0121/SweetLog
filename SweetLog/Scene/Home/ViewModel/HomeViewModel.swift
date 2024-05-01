@@ -76,14 +76,15 @@ final class HomeViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, fetchPostModel in
                 print("prefetch - next: \(fetchPostModel.nextCursor)")
-                if fetchPostModel.nextCursor ==  "0" {
+                if fetchPostModel.nextCursor ==  "" {
                     postList.accept(fetchPostModel.data)
-                    return
+                } else {
+                    var tempList = postList.value
+                    tempList.append(contentsOf: fetchPostModel.data)
+                    postListValue = tempList
+                    postList.accept(tempList)
                 }
-                var tempList = postList.value
-                tempList.append(contentsOf: fetchPostModel.data)
-                postListValue = tempList
-                postList.accept(tempList)
+                next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
         

@@ -9,11 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-struct CellFollow {
-    let user: User
-    var isFollowing: Bool
-}
-
 final class FollowDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     

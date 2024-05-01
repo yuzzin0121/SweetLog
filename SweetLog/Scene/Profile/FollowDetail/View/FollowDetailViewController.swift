@@ -60,6 +60,13 @@ final class FollowDetailViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        mainView.tableView.rx.modelSelected(User.self)
+            .asDriver()
+            .drive(with: self) { owner, user in
+                owner.showProfileVC(userId: user.user_id)
+            }
+            .disposed(by: disposeBag)
+        
         output.userFollow
             .drive(with: self) { owner, _ in
                 FetchTriggerManager.shared.profileFetchTrigger.onNext(())
@@ -73,6 +80,12 @@ final class FollowDetailViewController: BaseViewController {
                 owner.mainView.emptyLabel.isHidden = users.isEmpty ? false : true
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func showProfileVC(userId: String?) {
+        guard let userId else { return }
+        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId)
+        navigationController?.pushViewController(profileVC, animated: true)
     }
     
     override func configureNavigationItem() {

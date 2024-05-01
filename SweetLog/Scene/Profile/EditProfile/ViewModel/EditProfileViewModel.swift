@@ -12,7 +12,12 @@ import RxCocoa
 final class EditProfileViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     var currentProfileImageUrl: String?
-    var currentNickname: String = ""
+    var currentNickname: String
+    
+    init(currentProfileImage: String?, currentNickname: String) {
+        self.currentProfileImageUrl = currentProfileImage
+        self.currentNickname = currentNickname
+    }
     
     struct Input {
         let nicknameText: Observable<String>

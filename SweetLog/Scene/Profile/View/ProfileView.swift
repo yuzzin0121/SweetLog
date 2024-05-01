@@ -17,6 +17,7 @@ final class ProfileView: BaseView {
     
     let userPostSementedVC = UserPostSegmentedViewController()
     
+    
     override func configureHierarchy() {
         addSubviews([profileSectionView, containerView])
     }

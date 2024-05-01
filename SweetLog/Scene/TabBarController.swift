@@ -31,8 +31,6 @@ final class TabBarController: UITabBarController {
         mapNav.tabBarItem = UITabBarItem(title: nil, image: TabItem.map.image, selectedImage: TabItem.map.selectedImage)
         
         let profileVC = ProfileViewController()
-        profileVC.viewModel.isMyProfile = true
-        profileVC.viewModel.userId = UserDefaultManager.shared.userId
         let profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.tabBarItem = UITabBarItem(title: nil, image: TabItem.profile.image, selectedImage: TabItem.profile.selectedImage)
         

@@ -20,8 +20,12 @@ final class ProfileSectionView: BaseView {
     let followInfoView = ProfileInfoView()
     let followingInfoView = ProfileInfoView()
     
+    let followTapGesture = UITapGestureRecognizer()
+    let followingTapGesture  = UITapGestureRecognizer()
+    
     let seperatorView = UIView()
     
+    // 팔로우 상태 갱신
     func setFollowStatus(status: Bool) {
         guard var followConfig = followButton.configuration else { return }
         followConfig.baseBackgroundColor = status ? Color.backgroundGray : Color.brown
@@ -30,11 +34,32 @@ final class ProfileSectionView: BaseView {
         followButton.configuration = followConfig
     }
     
-    func setFollowCount(status: Bool) {
-        guard let text = followInfoView.countLabel.text,
-          var count = Int(text) else { return }
-        followInfoView.countLabel.text = status ? "\(count + 1)" : "\(count - 1)"
+    // 프로필 정보 업데이트
+    func updateProfileInfo(_ profileModel: ProfileModel, isMyProfile: Bool) {
+        if let profileImageUrl = profileModel.profileImage {
+            setProfileImage(imageUrl: profileImageUrl)
+        }
+        
+        followButton.isHidden = isMyProfile
+        editProfileButton.isHidden = !isMyProfile
+        
+        nicknameLabel.text = profileModel.nickname
+        emailLabel.text = profileModel.email
+        
+        postInfoView.countLabel.text = "\(profileModel.posts.count)"
+        followInfoView.countLabel.text = "\(profileModel.followers.count)"
+        followingInfoView.countLabel.text = "\(profileModel.following.count)"
     }
+    
+    // 프로필 이미지 설정
+    private func setProfileImage(imageUrl: String) {
+        profileImageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
+            if !isSuccess {
+                print("프로필 사진 로드 실패")
+            }
+        }
+    }
+    
     
     override func configureHierarchy() {
         addSubviews([profileImageView, editProfileButton, nicknameLabel, emailLabel, followButton, postInfoStackView, seperatorView])
@@ -129,9 +154,13 @@ final class ProfileSectionView: BaseView {
         
         followInfoView.countLabel.text = "\(0)"
         followInfoView.titleLabel.text = "팔로우"
+        followInfoView.addGestureRecognizer(followTapGesture)
+        followInfoView.isUserInteractionEnabled = true
         
         followingInfoView.countLabel.text = "\(0)"
         followingInfoView.titleLabel.text = "팔로잉"
+        followingInfoView.addGestureRecognizer(followingTapGesture)
+        followingInfoView.isUserInteractionEnabled = true
         
         seperatorView.backgroundColor = Color.gray2
     }

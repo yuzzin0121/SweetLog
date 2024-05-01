@@ -11,8 +11,8 @@ struct ProfileModel: Decodable {
     let userId: String
     let email: String?
     let nickname: String
-    let followers: [User]
-    let following: [User]
+    var followers: [User]
+    var following: [User]
     let posts: [String]
     let profileImage: String?
     
@@ -39,22 +39,9 @@ struct ProfileModel: Decodable {
 }
 
 struct User: Decodable {
-    let userId: String
-    let nickname: String
+    let user_id: String
+    let nick: String
     let profileImage: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
-        case nickname = "nick"
-        case profileImage
-    }
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.decode(String.self, forKey: .userId)
-        self.nickname = try container.decode(String.self, forKey: .nickname)
-        self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage)
-    }
 }
 
 

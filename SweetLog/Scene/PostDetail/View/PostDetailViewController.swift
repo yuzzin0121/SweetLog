@@ -72,13 +72,7 @@ final class PostDetailViewController: BaseViewController {
     private func profileButtonTapped(_ sender: ProfileTapGestureRecognizer) {
         print(#function)
         guard let userId = sender.userId else { return }
-        var isMyProfile = false
-        if userId == UserDefaultManager.shared.userId { // 내가 작성한 포스트일 경우
-            isMyProfile = true
-        }
-        let profileVC = ProfileViewController()
-        profileVC.viewModel.isMyProfile = isMyProfile
-        profileVC.viewModel.userId = userId
+        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId)
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }

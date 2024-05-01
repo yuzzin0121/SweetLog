@@ -6,20 +6,24 @@
 //
 
 import UIKit
+import RxSwift
 
 class FollowDetailTableViewCell: BaseTableViewCell {
     let profileImageView = UIImageView()
     let nicknameLabel = UILabel()
     let followButton = UIButton()
     
+    var disposeBag = DisposeBag()
+    
     override func prepareForReuse() {
         super.prepareForReuse()
+        disposeBag = DisposeBag()
         profileImageView.image = Image.emptyProfileImage
-        configureCell(user: nil, type: nil, isMyProfile: nil)
+        configureCell(user: nil, followType: nil, isMyProfile: nil, following: nil)
     }
     
-    func configureCell(user: User?, type: FollowType?, isMyProfile: Bool?) {
-        guard let user, let type, let isMyProfile else { return }
+    func configureCell(user: User?, followType: FollowType?, isMyProfile: Bool?, following: [User]?) {
+        guard let user,  let followType, let isMyProfile, let following else { return }
         if let profileImageUrl = user.profileImage {
             profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { isSuccess in
                 if !isSuccess {
@@ -28,18 +32,19 @@ class FollowDetailTableViewCell: BaseTableViewCell {
             }
         }
         
-        nicknameLabel.text = user.nickname
+        nicknameLabel.text = user.nick
+        let followingUserIdList = following.map { $0.user_id }
         
-        if type == .follow && isMyProfile {
+        if followType == .follow && isMyProfile {
             followButton.isHidden = true    // 팔로우 버튼 안보이게
-        } else if type == .following && isMyProfile {
+        } else if followType == .following && isMyProfile {
             setFollowStatus(status: true)
         } else {
-            if user.userId == UserDefaultManager.shared.userId {    // 유저가 나일 경우
+            if user.user_id == UserDefaultManager.shared.userId {    // 유저가 나일 경우
                 followButton.isHidden = true
-            } else if UserDefaultManager.shared.following.contains(user.userId) {   // 내가 팔로잉하는 유저일 경우
+            } else if followingUserIdList.contains(user.user_id) {   // 내가 팔로잉하는 유저일 경우
                 setFollowStatus(status: true)
-            } else if !UserDefaultManager.shared.following.contains(user.userId) {
+            } else if followingUserIdList.contains(user.user_id) {
                 setFollowStatus(status: false)
             }
         }

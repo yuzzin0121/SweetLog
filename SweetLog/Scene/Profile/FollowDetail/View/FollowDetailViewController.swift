@@ -11,7 +11,13 @@ import RxSwift
 final class FollowDetailViewController: BaseViewController {
     let mainView = FollowDetailView()
     
-    let viewModel = FollowDetailViewModel()
+    let viewModel: FollowDetailViewModel
+    let fetchUserList = PublishSubject<Void>()
+    
+    init(followType: FollowType, isMyProfile: Bool, users: [User]) {
+        viewModel = FollowDetailViewModel(followType: followType, isMyProfile: isMyProfile, users: users)
+        super.init()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,21 +26,42 @@ final class FollowDetailViewController: BaseViewController {
     }
     
     override func bind() {
-        guard let users = viewModel.users, let followType = viewModel.followType else { return }
-        let input = FollowDetailViewModel.Input(userList: Observable.just(users))
+        
+        let followButtonTapped = PublishSubject<User>()
+        
+        let input = FollowDetailViewModel.Input(fetchUserList: fetchUserList,
+                                                followButtonTapped: followButtonTapped.asObservable())
         
         let output = viewModel.transform(input: input)
         
+        fetchUserList.onNext(())
+        
+        // 유저들 셀에 표현
         output.userList
-            .drive(mainView.tableView.rx.items(cellIdentifier: FollowDetailTableViewCell.identifier, cellType: FollowDetailTableViewCell.self)) { index, user, cell in
+            .drive(mainView.tableView.rx.items(cellIdentifier: FollowDetailTableViewCell.identifier, cellType: FollowDetailTableViewCell.self)) { [weak self] index, user, cell in
+                print("하이하이")
+                guard let self, let myProfile = viewModel.myProfile else {
+                    return
+                }
                 cell.selectionStyle = .none
                 print(user)
-                cell.configureCell(user: user, type: followType, isMyProfile: self.viewModel.isMyProfile)
+                cell.configureCell(user: user,
+                                   followType: viewModel.followType,
+                                   isMyProfile: self.viewModel.isMyProfile,
+                                   following: myProfile.following)
+                
+                cell.followButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        followButtonTapped.onNext(user)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
+        
         output.userList
             .drive(with: self) { owner, users in
+                print("userList \(users)")
                 owner.mainView.emptyLabel.isHidden = users.isEmpty ? false : true
             }
             .disposed(by: disposeBag)
@@ -42,9 +69,7 @@ final class FollowDetailViewController: BaseViewController {
     
     override func configureNavigationItem() {
         // TODO: - 팔로우 or 팔로잉
-        if let followType = viewModel.followType {
-            navigationItem.title = followType.rawValue
-        }
+        navigationItem.title = viewModel.followType.rawValue
     }
     
     override func loadView() {

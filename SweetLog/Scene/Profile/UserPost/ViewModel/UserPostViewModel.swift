@@ -33,7 +33,7 @@ final class UserPostViewModel: ViewModelType {
         input.fetchPostTrigger
             .flatMap { [weak self] _ in
                 guard let self = self, let userId = self.userId else { return  Single<FetchPostModel>.never() }
-                print("UserPostViewModel: \(userId), postType: \(postType), isMyProfile: \(isMyPofile)")
+//                print("UserPostViewModel: \(userId), postType: \(postType), isMyProfile: \(isMyPofile)")
                 if isMyPofile {    // 내 프로필일 경우
                     if postType == .myPost {
                         return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil), userId: userId)

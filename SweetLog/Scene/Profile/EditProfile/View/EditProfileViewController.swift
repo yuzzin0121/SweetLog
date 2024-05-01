@@ -13,9 +13,14 @@ import RxCocoa
 final class EditProfileViewController: BaseViewController {
     let mainView = EditProfileView()
     
-    let viewModel = EditProfileViewModel()
+    let viewModel: EditProfileViewModel
     let profileImageData = PublishRelay<Data?>()
     weak var sendProfileDelegate: SendProfileDelegate?
+    
+    init(currentProfileImage: String?, currentNickname: String) {
+        viewModel = EditProfileViewModel(currentProfileImage: currentProfileImage, currentNickname: currentNickname)
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +29,14 @@ final class EditProfileViewController: BaseViewController {
     
     override func bind() {
         setCurrentProfile()
+
+        
+        let input = EditProfileViewModel.Input(nicknameText: mainView.nicknameTextField.rx.text.orEmpty.asObservable(), 
+                                               prfileImageData: profileImageData.asObservable(),
+                                               editProfileButtonTapped: mainView.editProfileButton.rx.tap.asObservable())
+        
+        let output = viewModel.transform(input: input)
+        
         mainView.editProfileImageButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -38,12 +51,6 @@ final class EditProfileViewController: BaseViewController {
                 owner.setProfileImage(profileImageData)
             }
             .disposed(by: disposeBag)
-        
-        let input = EditProfileViewModel.Input(nicknameText: mainView.nicknameTextField.rx.text.orEmpty.asObservable(), 
-                                               prfileImageData: profileImageData.asObservable(),
-                                               editProfileButtonTapped: mainView.editProfileButton.rx.tap.asObservable())
-        
-        let output = viewModel.transform(input: input)
         
         output.validNickname
             .drive(with: self) { owner, isValid in
@@ -82,9 +89,9 @@ final class EditProfileViewController: BaseViewController {
                 }
             }
         }
-        if !viewModel.currentNickname.isEmpty {
-            mainView.nicknameTextField.text = viewModel.currentNickname
-        }
+        
+        mainView.nicknameTextField.text = viewModel.currentNickname
+        
     }
     
     private func setProfileImage(_ data: Data) {

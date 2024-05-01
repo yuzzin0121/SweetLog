@@ -13,6 +13,7 @@ final class PostDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     var postId: String?
     var fetchPostItem: FetchPostItem?
+    var myProfileModel: ProfileModel?
     
     struct Input {
         let postId: Observable<String>

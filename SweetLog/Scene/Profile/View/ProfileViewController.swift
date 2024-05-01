@@ -11,50 +11,64 @@ import RxSwift
 final class ProfileViewController: BaseViewController {
     lazy var settingButton = UIBarButtonItem(image: Image.setting, style: .plain, target: self, action: nil)
     let mainView = ProfileView()
-    let viewModel = ProfileViewModel()
-    let fetchObservable = PublishSubject<Void>()
+    let viewModel: ProfileViewModel
+    let fetchProfileTrigger = PublishSubject<String>()
+    
+    init(isMyProfile: Bool = true, userId: String = UserDefaultManager.shared.userId) {
+        print("isMyProfile: \(isMyProfile), userId: \(userId)")
+        self.viewModel = ProfileViewModel(isMyProfile: isMyProfile, userId: userId)
+        mainView.userPostSementedVC.isMyProfile = isMyProfile
+        mainView.userPostSementedVC.userId = userId
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureView()
-        setAction()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        fetchObservable.onNext(())
-    }
-    
-    private func setAction() {
-        let followInfoTapGesture = UITapGestureRecognizer(target: self, action: #selector(followInfoTapped))
-        mainView.profileSectionView.followInfoView.addGestureRecognizer(followInfoTapGesture)
-        mainView.profileSectionView.followInfoView.isUserInteractionEnabled = true
-        
-        let followingInfoTapGesture = UITapGestureRecognizer(target: self, action: #selector(followingInfoTapped))
-        mainView.profileSectionView.followingInfoView.addGestureRecognizer(followingInfoTapGesture)
-        mainView.profileSectionView.followingInfoView.isUserInteractionEnabled = true
     }
     
     // 팔로우 클릭 시
     @objc func followInfoTapped() {
         print(#function)
-        guard let profileModel = viewModel.profileModel else { return }
-        showFollowOrFollowingDetailVC(followType: .follow, users: profileModel.followers)
+        if viewModel.isMyProfile {
+            guard let myProfileModel = viewModel.myProfileModel else { return }
+            showFollowOrFollowingDetailVC(followType: .follow, profileModel: myProfileModel)
+        } else {
+            guard let profileModel = viewModel.profileModel else { return }
+            showFollowOrFollowingDetailVC(followType: .follow, profileModel: profileModel)
+        }
+        
     }
     
     // 팔로잉 클릭 시
     @objc func followingInfoTapped() {
         print(#function)
-        guard let profileModel = viewModel.profileModel else { return }
-        showFollowOrFollowingDetailVC(followType: .following, users: profileModel.following)
+        if viewModel.isMyProfile {
+            guard let myProfileModel = viewModel.myProfileModel else {
+                print("내 프로필 없음")
+                return
+            }
+            showFollowOrFollowingDetailVC(followType: .following, profileModel: myProfileModel)
+        } else {
+            guard let profileModel = viewModel.profileModel else {
+                print("없음")
+                return
+            }
+            showFollowOrFollowingDetailVC(followType: .following, profileModel: profileModel)
+        }
     }
     
-    private func showFollowOrFollowingDetailVC(followType: FollowType, users: [User]) {
-        let followDetailVC = FollowDetailViewController()
-        followDetailVC.viewModel.followType = followType
-        followDetailVC.viewModel.users = users
-        followDetailVC.viewModel.isMyProfile = viewModel.isMyProfile
+    private func showFollowOrFollowingDetailVC(followType: FollowType, profileModel: ProfileModel) {
+        guard let myProfileModel = viewModel.myProfileModel else {
+            print("없음")
+            return
+        }
+        let followDetailVC = FollowDetailViewController(followType: followType,
+                                                        isMyProfile: viewModel.isMyProfile,
+                                                        users: followType == .follow ? profileModel.followers : profileModel.following)
+    
+        followDetailVC.viewModel.myProfile = myProfileModel
         navigationController?.pushViewController(followDetailVC, animated: true)
     }
     
@@ -68,9 +82,69 @@ final class ProfileViewController: BaseViewController {
     }
     
     override func bind() {
-        print(viewModel.isMyProfile, viewModel.userId)
-        mainView.userPostSementedVC.isMyProfile = viewModel.isMyProfile
-        mainView.userPostSementedVC.userId = viewModel.userId
+        print(#function)
+        
+        let input = ProfileViewModel.Input(fetchProfileTrigger: fetchProfileTrigger,
+                                           followButtonTapped: mainView.profileSectionView.followButton.rx.tap.asObservable())
+        let output = viewModel.transform(input: input)
+        
+        fetchProfileTrigger.onNext(viewModel.userId)
+        
+        // 팔로우 또는 언팔로우 성공했을 때
+        FetchTriggerManager.shared.followTrigger
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { owner, _ in
+                owner.fetchProfileTrigger.onNext(owner.viewModel.userId)
+            }
+            .disposed(by: disposeBag)
+        
+        // 내 프로필 조회했을 때
+        output.fetchMyProfileSuccessTrigger
+            .drive(with: self) { owner, profileModel in
+                if owner.viewModel.isMyProfile {    // 내 프로필 화면일 경우
+                    owner.mainView.profileSectionView.updateProfileInfo(profileModel, isMyProfile: owner.viewModel.isMyProfile)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 다른 유저 프로필일 경우 -> 유저 프로필 뷰에 반영
+        output.fetchUserProfileSuccessTrigger
+            .drive(with: self) { owner, userProfileModel in
+                owner.mainView.profileSectionView.updateProfileInfo(userProfileModel, isMyProfile: owner.viewModel.isMyProfile)
+            }
+            .disposed(by: disposeBag)
+        
+        // 팔로우 상태
+        output.isFollowing
+            .drive(with: self) { owner, followStatus in
+                print("팔로우 상태\(followStatus)")
+                owner.mainView.profileSectionView.setFollowStatus(status: followStatus)
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.profileSectionView.followTapGesture.rx.event
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.followInfoTapped()
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.profileSectionView.followingTapGesture.rx.event
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.followingInfoTapped()
+            }
+            .disposed(by: disposeBag)
+        
+        
+        // 프로필 수정 버튼 클릭 시
+        mainView.profileSectionView.editProfileButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.showEditProfileVC()
+            }
+            .disposed(by: disposeBag)
+        
         
         // 설정버튼 클릭 시
         settingButton.rx.tap
@@ -79,84 +153,17 @@ final class ProfileViewController: BaseViewController {
                 owner.showSettingVC()
             }
             .disposed(by: disposeBag)
-        
-        
-        let input = ProfileViewModel.Input(fetchProfileTrigger: fetchObservable,
-                                           followButtonTapped: mainView.profileSectionView.followButton.rx.tap.asObservable())
-        let output = viewModel.transform(input: input)
-        
-        
-        output.fetchMyProfileSuccessTrigger
-            .drive(with: self) { owner, profileModel in
-                guard let profileModel else { return }
-                if owner.viewModel.isMyProfile {
-                    owner.updateProfileInfo(profileModel)
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        // 다른 유저 프로필일 경우 -> 나의 프로필에서 팔로잉 리스트, 유저 프로필 조회
-        output.fetchMeAndUserProfileSuccessTrigger
-            .drive(with: self) { owner, listAndUserProfileModel in
-                guard let userProfileModel = listAndUserProfileModel.1 else { return }
-                owner.viewModel.setFollowing(myFollowingList: listAndUserProfileModel.0, userId: userProfileModel.userId)
-                owner.mainView.profileSectionView.setFollowStatus(status: owner.viewModel.isFollowing)
-                owner.updateProfileInfo(userProfileModel)
-            }
-            .disposed(by: disposeBag)
-        
-        
-        mainView.profileSectionView.editProfileButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                owner.showEditProfileVC()
-            }
-            .disposed(by: disposeBag)
-        
-        output.followStatusSuccessTrigger
-            .drive(with: self) { owner, followStatus in
-                guard let followStatus else { return }
-                let status = followStatus.followingStatus
-                owner.mainView.profileSectionView.setFollowStatus(status: status)
-                owner.mainView.profileSectionView.setFollowCount(status: status)
-            }
-            .disposed(by: disposeBag)
     }
     
+    // 프로필 수정버튼 클릭 시
     private func showEditProfileVC() {
-        guard let profileModel = viewModel.profileModel else { return }
-        let editProfileVC = EditProfileViewController()
+        guard let profileModel = viewModel.myProfileModel else { return }
+        let editProfileVC = EditProfileViewController(currentProfileImage: profileModel.profileImage, currentNickname: profileModel.nickname)
         editProfileVC.sendProfileDelegate = self
-        editProfileVC.viewModel.currentProfileImageUrl = profileModel.profileImage
-        editProfileVC.viewModel.currentNickname = profileModel.nickname
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
-    private func updateProfileInfo(_ profileModel: ProfileModel) {
-        if let profileImageUrl = profileModel.profileImage {
-            setProfileImage(imageUrl: profileImageUrl)
-        }
-        
-        print("내 프로필이야? --- \(viewModel.isMyProfile), 팔로우중? \(viewModel.isFollowing)")
-        mainView.profileSectionView.followButton.isHidden = viewModel.isMyProfile
-        mainView.profileSectionView.editProfileButton.isHidden = !(viewModel.isMyProfile)
-        
-        mainView.profileSectionView.nicknameLabel.text = profileModel.nickname
-        mainView.profileSectionView.emailLabel.text = profileModel.email
-        
-        mainView.profileSectionView.postInfoView.countLabel.text = "\(profileModel.posts.count)"
-        mainView.profileSectionView.followInfoView.countLabel.text = "\(profileModel.followers.count)"
-        mainView.profileSectionView.followingInfoView.countLabel.text = "\(profileModel.following.count)"
-    }
-    
-    private func setProfileImage(imageUrl: String) {
-        mainView.profileSectionView.profileImageView.kf.setImageWithAuthHeaders(with: imageUrl) { isSuccess in
-            if !isSuccess {
-                print("프로필 사진 로드 실패")
-            }
-        }
-    }
-    
+    // 설정 화면으로 전환
     private func showSettingVC() {
         let settingVC = SettingViewController()
         navigationController?.pushViewController(settingVC, animated: true)
@@ -174,7 +181,7 @@ final class ProfileViewController: BaseViewController {
 
 extension ProfileViewController: SendProfileDelegate {
     func sendProfile(profileModel: ProfileModel) {
-        updateProfileInfo(profileModel)
+        mainView.profileSectionView.updateProfileInfo(profileModel, isMyProfile: viewModel.isMyProfile)
     }
 }
 

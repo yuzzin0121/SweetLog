@@ -40,18 +40,21 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         guard let item = fetchPostItem else { return }
         setProfileImage(url: item.creator.profileImage)
         
-        userNicknameButton.setTitle(item.creator.nickname, for: .normal)
+        userNicknameButton.configuration?.title = item.creator.nickname
         
         var titleContainer = AttributeContainer()
-        titleContainer.font = .pretendard(size: 14, weight: .semiBold)
+        titleContainer.font = .pretendard(size: 16, weight: .semiBold)
         userNicknameButton.configuration?.attributedTitle = AttributedString(item.creator.nickname, attributes: titleContainer)
         
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
+        
         contentLabel.text = item.review
-        let newSize = contentLabel.sizeThatFits(CGSize(width: imageStackView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-        contentLabel.snp.makeConstraints { make in
-            make.height.equalTo(newSize.height)
-        }
+        
+        // Label Dynamic Height
+//        let newSize = contentLabel.sizeThatFits(CGSize(width: imageStackView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+//        contentLabel.snp.makeConstraints { make in
+//            make.height.equalTo(newSize.height)
+//        }
        
         likeButton.configuration?.title = "\(item.likes.count)"
         commentInfoView.countLabel.text = "\(item.comments.count)"
@@ -180,7 +183,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             imageVStackView.addArrangedSubview($0)
         }
         firstImageView.snp.makeConstraints {
-            $0.height.equalTo(imageVStackView.snp.width).multipliedBy(163.0 / 136.0)
+            $0.height.equalTo(imageVStackView.snp.width).multipliedBy(163.0 / 140.0)
         }
         
         secondImageView.snp.makeConstraints {
@@ -254,7 +257,6 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.top.equalTo(userNicknameButton.snp.bottom).offset(10)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
-            make.height.greaterThanOrEqualTo(16)
         }
         
         imageStackView.snp.makeConstraints { make in
@@ -296,7 +298,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         layer.masksToBounds = false
         layer.shadowColor =  Color.gray.cgColor
         layer.shadowRadius = 10
-        layer.shadowOpacity = 0.1
+        layer.shadowOpacity = 0.25
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.cornerRadius = 12
         

@@ -13,7 +13,7 @@ final class PostImageView: UIImageView {
     }
     
     private func configureView() {
-        contentMode = .scaleAspectFill
+        contentMode = .scaleAspectFit
     }
 
     required init?(coder: NSCoder) {

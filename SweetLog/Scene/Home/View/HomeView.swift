@@ -59,6 +59,7 @@ final class HomeView: BaseView {
         
         postCollectionView.backgroundColor = Color.backgroundGray
         postCollectionView.alwaysBounceVertical = true
+//        postCollectionView.contentInset = UIEdgeInsets(top: 9, left: 20, bottom: 0, right: 20)
         postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
         
@@ -106,30 +107,46 @@ extension HomeView {
         return layout
     }
     
+//    private func createPostLayout() -> UICollectionViewLayout {
+//        let itemWidth = UIScreen.main.bounds.width - 40
+//        let itemSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1.0),
+//            heightDimension: .estimated(280))
+//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        
+//        let groupSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1.0),
+//            heightDimension: .estimated(280))
+//        
+//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+//        group.interItemSpacing = .fixed(8)
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+//        section.interGroupSpacing = 18
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+//        
+//        let config = UICollectionViewCompositionalLayoutConfiguration()
+//        config.scrollDirection = .vertical
+//        
+//        let layout = UICollectionViewCompositionalLayout(section: section)
+//        layout.configuration = config
+//        return layout
+//    
+//    }
     private func createPostLayout() -> UICollectionViewLayout {
-        let itemWidth = UIScreen.main.bounds.width - 40
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(280))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(280))
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(8)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 18
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-        
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.scrollDirection = .vertical
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        layout.configuration = config
-        return layout
-        
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+
+            var config = UICollectionLayoutListConfiguration(appearance: .plain)
+            config.showsSeparators = false
+
+            let section = NSCollectionLayoutSection.list(
+                using: config,
+                layoutEnvironment: layoutEnvironment
+            )
+//            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+
+            return section
+        }
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }

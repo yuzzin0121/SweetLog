@@ -50,6 +50,12 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         userNicknameLabel.text = fetchPostItem.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
         reviewLabel.text = fetchPostItem.review
+        
+        let newSize = reviewLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude))
+        reviewLabel.snp.makeConstraints { make in
+            make.height.equalTo(newSize.height)
+        }
+        
         pageControl.numberOfPages = fetchPostItem.files.count
         setImages(fileList: fetchPostItem.files)
         setSugar(sugarValue: fetchPostItem.sugar)
@@ -242,6 +248,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeButton.configuration = likeConfig
         
         reviewLabel.design(font: .pretendard(size: 16, weight: .regular), numberOfLines: 0)
+        reviewLabel.lineBreakMode = .byCharWrapping
         
         commentStackView.design(axis: .horizontal, spacing: 8)
         commentImageView.image = Image.messages

@@ -7,15 +7,17 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final class HomeView: BaseView {
     let titleLabel = UILabel()
     let searchTextField = UISearchTextField()
     
     let addPostButton = UIButton()
+    let disposeBag = DisposeBag()
     
-    lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: categoryCreateLayout())
-    lazy var postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCategoryLayout())
+    lazy var postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createPostLayout())
     
     override func configureHierarchy() {
         addSubviews([searchTextField, filterCollectionView, postCollectionView, addPostButton])
@@ -56,7 +58,7 @@ final class HomeView: BaseView {
         filterCollectionView.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: FilterCollectionViewCell.identifier)
         
         postCollectionView.backgroundColor = Color.backgroundGray
-        postCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        postCollectionView.alwaysBounceVertical = true
         postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
         
@@ -73,7 +75,7 @@ final class HomeView: BaseView {
 }
 
 extension HomeView {
-    private func categoryCreateLayout() -> UICollectionViewLayout {
+    private func createCategoryLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(90),
             heightDimension: .absolute(38)
@@ -102,5 +104,32 @@ extension HomeView {
         let layout = UICollectionViewCompositionalLayout(section: section)
         layout.configuration = config
         return layout
+    }
+    
+    private func createPostLayout() -> UICollectionViewLayout {
+        let itemWidth = UIScreen.main.bounds.width - 40
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(280))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(280))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(8)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 18
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .vertical
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        layout.configuration = config
+        return layout
+        
     }
 }

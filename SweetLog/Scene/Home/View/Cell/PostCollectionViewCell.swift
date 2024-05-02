@@ -48,7 +48,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         contentLabel.text = item.review
-        
+        let newSize = contentLabel.sizeThatFits(CGSize(width: imageStackView.frame.width, height: CGFloat.greatestFiniteMagnitude))
+        contentLabel.snp.makeConstraints { make in
+            make.height.equalTo(newSize.height)
+        }
+       
         likeButton.configuration?.title = "\(item.likes.count)"
         commentInfoView.countLabel.text = "\(item.comments.count)"
         
@@ -247,7 +251,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNicknameButton.snp.bottom).offset(8)
+            make.top.equalTo(userNicknameButton.snp.bottom).offset(10)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.greaterThanOrEqualTo(16)
@@ -310,6 +314,9 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         nicknameConfig.titleAlignment = .leading
         nicknameConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         userNicknameButton.configuration = nicknameConfig
+        
+        contentLabel.design(font: .pretendard(size: 16, weight: .regular),numberOfLines: 0)
+        contentLabel.lineBreakMode = .byCharWrapping
         
         imageStackView.design(axis: .horizontal, spacing: 5)
         imageStackView.layer.cornerRadius = 12

@@ -138,11 +138,11 @@ final class HomeViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let postlayout = UICollectionViewFlowLayout()
-        postlayout.itemSize = CGSize(width: view.frame.width - 40, height: 280)
-        postlayout.minimumLineSpacing = 18
-        postlayout.scrollDirection = .vertical
-        mainView.postCollectionView.collectionViewLayout = postlayout
+//        let postlayout = UICollectionViewFlowLayout()
+//        postlayout.itemSize = CGSize(width: view.frame.width - 40, height: 280)
+//        postlayout.minimumLineSpacing = 18
+//        postlayout.scrollDirection = .vertical
+//        mainView.postCollectionView.collectionViewLayout = postlayout
 
     }
     

@@ -149,6 +149,9 @@
 		61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 61B528912BD13B8E00974CA0 /* Kingfisher */; };
 		61BD280C2BE348E5000A5B81 /* MoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD280B2BE348E5000A5B81 /* MoreItem.swift */; };
 		61BD280E2BE34E24000A5B81 /* EditCommentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD280D2BE34E24000A5B81 /* EditCommentQuery.swift */; };
+		61BD28112BE3A688000A5B81 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD28102BE3A688000A5B81 /* PlaceDetailViewController.swift */; };
+		61BD28142BE3A6CA000A5B81 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD28132BE3A6CA000A5B81 /* PlaceDetailView.swift */; };
+		61BD28172BE3A9BC000A5B81 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -288,6 +291,9 @@
 		61B5288E2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingfisherWrapper+Extension.swift"; sourceTree = "<group>"; };
 		61BD280B2BE348E5000A5B81 /* MoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreItem.swift; sourceTree = "<group>"; };
 		61BD280D2BE34E24000A5B81 /* EditCommentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentQuery.swift; sourceTree = "<group>"; };
+		61BD28102BE3A688000A5B81 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
+		61BD28132BE3A6CA000A5B81 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
+		61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +366,7 @@
 		61130D242BD9783B002D03C1 /* PostDetail */ = {
 			isa = PBXGroup;
 			children = (
+				61BD280F2BE3A67A000A5B81 /* PlaceInfo */,
 				61130D2A2BD978C4002D03C1 /* ViewModel */,
 				61130D272BD9785E002D03C1 /* View */,
 			);
@@ -939,6 +946,32 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		61BD280F2BE3A67A000A5B81 /* PlaceInfo */ = {
+			isa = PBXGroup;
+			children = (
+				61BD28152BE3A9B0000A5B81 /* ViewModel */,
+				61BD28122BE3A6AD000A5B81 /* View */,
+			);
+			path = PlaceInfo;
+			sourceTree = "<group>";
+		};
+		61BD28122BE3A6AD000A5B81 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61BD28102BE3A688000A5B81 /* PlaceDetailViewController.swift */,
+				61BD28132BE3A6CA000A5B81 /* PlaceDetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		61BD28152BE3A9B0000A5B81 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1055,6 +1088,7 @@
 				618C78672BCD6FD80033CD0D /* SettingItem.swift in Sources */,
 				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
 				6164DF1E2BDED38A00F57A97 /* FollowDetailView.swift in Sources */,
+				61BD28112BE3A688000A5B81 /* PlaceDetailViewController.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */,
 				614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */,
@@ -1082,6 +1116,7 @@
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */,
 				61130D232BD9393D002D03C1 /* PostQuery.swift in Sources */,
+				61BD28172BE3A9BC000A5B81 /* PlaceDetailViewModel.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				6164DF072BDE4E9500F57A97 /* UserPostSegmentedViewController.swift in Sources */,
 				618C771D2BC6F51B0033CD0D /* BaseViewController.swift in Sources */,
@@ -1146,6 +1181,7 @@
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				6164DF1C2BDED38100F57A97 /* FollowDetailViewModel.swift in Sources */,
 				61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */,
+				61BD28142BE3A6CA000A5B81 /* PlaceDetailView.swift in Sources */,
 				6164DF132BDE506E00F57A97 /* UserPostViewModel.swift in Sources */,
 				61BD280C2BE348E5000A5B81 /* MoreItem.swift in Sources */,
 				618C78202BC9ACA60033CD0D /* HomeViewModel.swift in Sources */,

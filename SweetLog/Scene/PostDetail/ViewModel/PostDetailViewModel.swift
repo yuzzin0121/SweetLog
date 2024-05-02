@@ -22,12 +22,14 @@ final class PostDetailViewModel: ViewModelType {
         let likeButtonStatus: Observable<Bool>
         let commentMoreItemClicked: Observable<(Int, Int, String)>
         let postMoreItemClicked: Observable<(Int)>
+        let placeButtonTapped: Observable<Void>
     }
     
     struct Output {
         let fetchPostItem: Driver<FetchPostItem?>
         let createCommentSuccessTrigger: Driver<Void>
         let deleteSuccessTrigger: Driver<String>
+        let placeButtonTapped: Driver<FetchPostItem>
     }
     
     func transform(input: Input) -> Output {
@@ -38,6 +40,7 @@ final class PostDetailViewModel: ViewModelType {
         let deletePostTrigger = PublishSubject<String>()
         let deletePostSuccessTrigger = PublishRelay<String>()
         let deleteCommentTrigger = PublishSubject<(String, String)>()
+        let placeButtonTapped = PublishRelay<FetchPostItem>()
         
         // postId를 통해 특정 포스트 조회
         input.postId
@@ -50,6 +53,14 @@ final class PostDetailViewModel: ViewModelType {
             .subscribe(with: self) { owner, fetchPostItem in
                 owner.fetchPostItem = fetchPostItem
                 fetchPostItemRelay.accept(fetchPostItem)
+            }
+            .disposed(by: disposeBag)
+        
+        input.placeButtonTapped
+            .withLatestFrom(fetchPostItemRelay)
+            .subscribe(with: self) { owner, postItem in
+                guard let postItem else { return }
+                placeButtonTapped.accept(postItem)
             }
             .disposed(by: disposeBag)
         
@@ -185,7 +196,8 @@ final class PostDetailViewModel: ViewModelType {
         
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
                       createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()), 
-                      deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""))
+                      deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""), 
+                      placeButtonTapped: placeButtonTapped.asDriver(onErrorDriveWith: .empty()))
     }
     
     private func deleteComment(commentId: String) -> FetchPostItem? {

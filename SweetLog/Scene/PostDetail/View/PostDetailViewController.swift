@@ -17,6 +17,7 @@ final class PostDetailViewController: BaseViewController {
             mainView.tableView.reloadData()
         }
     }
+    let placeButtonTapped = PublishSubject<Void>()
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
     var deletePostDelegate: DeletePostDelegate?
@@ -51,13 +52,21 @@ final class PostDetailViewController: BaseViewController {
                                               commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
                                               likeButtonStatus: likeStatus.asObservable(), 
                                               commentMoreItemClicked: commentMoreItemClicked, 
-                                              postMoreItemClicked: mainView.postMoreItemClicked)
+                                              postMoreItemClicked: mainView.postMoreItemClicked, 
+                                              placeButtonTapped: placeButtonTapped)
+        
         let output = viewModel.transform(input: input)
         
         output.fetchPostItem
             .drive(with: self) { owner, fetchPostItem in
                 owner.setData(fetchPostItem: fetchPostItem)
                 owner.mainView.tableView.reloadData()
+            }
+            .disposed(by: disposeBag)
+        
+        output.placeButtonTapped
+            .drive(with: self) { owner, postItem in
+                owner.showPlaceInfoVC(postItem: postItem)
             }
             .disposed(by: disposeBag)
         
@@ -75,6 +84,12 @@ final class PostDetailViewController: BaseViewController {
                 owner.popView()
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func showPlaceInfoVC(postItem: FetchPostItem) {
+        let placeInfoVC = PlaceDetailViewController(postItem: postItem)
+        let nav = UINavigationController(rootViewController: placeInfoVC)
+        present(nav, animated: true)
     }
     
     override func loadView() {
@@ -109,6 +124,12 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             .subscribe(with: self) { owner, _ in
                 headerView.likeButton.isSelected.toggle()
                 owner.likeStatus.onNext(headerView.likeButton.isSelected)
+            }
+            .disposed(by: headerView.disposeBag)
+        
+        headerView.placeButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                owner.placeButtonTapped.onNext(())
             }
             .disposed(by: headerView.disposeBag)
         

@@ -6,11 +6,33 @@
 //
 
 import UIKit
+import RxSwift
 
 final class PostDetailView: BaseView {
     let tableView = UITableView(frame: .zero, style: .grouped)
     let commentBackgroundView = UIView()
     let commentTextField = UITextField()
+    let moreButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.plain()
+        config.image = Image.moreVertical
+        button.configuration = config
+        return button
+    }()
+    let postMoreItemClicked = PublishSubject<Int>()
+    
+    private func configureMoreMenu() {
+        moreButton.showsMenuAsPrimaryAction = true
+        let actions = MoreItem.allCases.map { moreItem in
+            UIAction(title: moreItem.title) { [weak self] _ in
+                guard let self else { return }
+                let title = moreItem.title
+                self.postMoreItemClicked.onNext(moreItem.rawValue)
+            }
+        }
+        
+        moreButton.menu = UIMenu(children: actions)
+    }
     
     override func configureHierarchy() {
         addSubview(tableView)
@@ -54,14 +76,12 @@ final class PostDetailView: BaseView {
         commentTextField.placeholder = "댓글 남기기"
         commentTextField.attributedPlaceholder = NSAttributedString(string: "댓글 남기기", attributes: [NSAttributedString.Key.font:UIFont(name: "Pretendard-Regular", size: 14)!])
         commentTextField.addLeftPadding()
+        configureMoreMenu()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.commentTextField.layer.cornerRadius = self.commentTextField.frame.height / 2
-        }
+        commentTextField.layer.cornerRadius = commentTextField.frame.height / 2
         commentBackgroundView.layer.addBorder([.top], color: Color.gray, width: 0.5)
     }
 }

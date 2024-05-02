@@ -13,6 +13,12 @@ final class HomeViewModel: ViewModelType {
     let filterList = FilterItem.allCases
     let selectedCategory = BehaviorRelay(value: FilterItem.bread.title)
     var disposeBag = DisposeBag()
+    let fetchPostsTrigger = PublishSubject<Void>()
+    let deletePostTrigger = PublishSubject<String>()
+    
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchPosts), name: .fetchPosts, object: nil)
+    }
     
     struct Input {
         let viewDidLoad: Observable<Void>
@@ -31,11 +37,21 @@ final class HomeViewModel: ViewModelType {
     func transform(input: Input) -> Output {
         let filterList = BehaviorRelay<[FilterItem]>(value: FilterItem.allCases)
         let currentCategory = PublishSubject<String>()
+        let fetchPostsTrigger = PublishSubject<Void>()
         let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let postCellTapped = PublishRelay<String>() // postId
         var postListValue: [FetchPostItem] = []
         let next = BehaviorSubject(value: "")
         var likeIndex: Int?
+        
+        deletePostTrigger
+            .subscribe(with: self) { owner, postId in
+                let deletedPostList = owner.deletePost(postList: postListValue, postId: postId)
+                postList.accept(deletedPostList)
+                postListValue = deletedPostList
+            }
+            .disposed(by: disposeBag)
+        
         
         // 카테고리 클릭 시
         input.filterItemClicked
@@ -135,5 +151,26 @@ final class HomeViewModel: ViewModelType {
         return Output(filterList: filterList.asDriver(onErrorJustReturn: []),
                       postList: postList.asDriver(onErrorJustReturn: []),
                       postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""))
+    }
+}
+
+extension HomeViewModel {
+    @objc
+    private func fetchPosts() {
+        fetchPostsTrigger.onNext(())
+    }
+    
+    
+    func emitDeletePostTrigger(_ postId: String) {
+        deletePostTrigger.onNext(postId)
+    }
+    
+    func deletePost(postList: [FetchPostItem], postId: String) -> [FetchPostItem] {
+        print(#function)
+        var postList = postList
+        if let index = postList.firstIndex(where: { $0.postId == postId }) {
+            postList.remove(at: index)
+        }
+        return postList
     }
 }

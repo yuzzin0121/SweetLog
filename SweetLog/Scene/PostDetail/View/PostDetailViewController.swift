@@ -19,6 +19,7 @@ final class PostDetailViewController: BaseViewController {
     }
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
+    var deletePostDelegate: DeletePostDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,9 @@ final class PostDetailViewController: BaseViewController {
         self.fetchPostItem = fetchPostItem
         mainView.tableView.reloadData()
         navigationItem.title = "\(fetchPostItem.creator.nickname)님의 후기"
+        if viewModel.checkIsMe() {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.moreButton)
+        }
     }
     
     override func bind() {
@@ -46,7 +50,8 @@ final class PostDetailViewController: BaseViewController {
                                               commentText: mainView.commentTextField.rx.text.orEmpty.asObservable(),
                                               commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
                                               likeButtonStatus: likeStatus.asObservable(), 
-                                              commentMoreItemClicked: commentMoreItemClicked)
+                                              commentMoreItemClicked: commentMoreItemClicked, 
+                                              postMoreItemClicked: mainView.postMoreItemClicked)
         let output = viewModel.transform(input: input)
         
         output.fetchPostItem
@@ -62,6 +67,14 @@ final class PostDetailViewController: BaseViewController {
                 owner.mainView.commentTextField.text = ""
             })
             .disposed(by: disposeBag)
+        
+        // 포스트 삭제 성공했을 때
+        output.deleteSuccessTrigger
+            .drive(with: self) { owner, postId in
+                owner.deletePostDelegate?.deletePost(postId)
+                owner.popView()
+            }
+            .disposed(by: disposeBag)
     }
     
     override func loadView() {
@@ -69,7 +82,9 @@ final class PostDetailViewController: BaseViewController {
     }
     
     override func configureNavigationItem() {
-        navigationItem.title = "후기"
+        if viewModel.checkIsMe() {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.moreButton)
+        }
     }
     
     @objc
@@ -136,7 +151,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.profileImageView.isUserInteractionEnabled = true
         cell.nicknameLabel.isUserInteractionEnabled = true
         
-        cell.moreItemClicked
+        cell.commentMoreItemClicked
             .subscribe(with: self) { owner, moreItemIndex in
                 owner.commentMoreItemClicked.onNext((moreItemIndex, indexPath.row, comment.commentId))
             }

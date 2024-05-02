@@ -15,7 +15,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     let commentLabel = UILabel()
     let moreButton = UIButton()
     
-    let moreItemClicked = PublishSubject<Int>()
+    let commentMoreItemClicked = PublishSubject<Int>()
     
     var disposeBag = DisposeBag()
     
@@ -90,16 +90,16 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         var moreConfig = UIButton.Configuration.plain()
         moreConfig.image = Image.moreVertical
         moreButton.configuration = moreConfig
-        configureCategoryMenu()
+        configureMoreMenu()
     }
     
-    private func configureCategoryMenu() {
+    private func configureMoreMenu() {
         moreButton.showsMenuAsPrimaryAction = true
         let actions = MoreItem.allCases.map { moreItem in
             UIAction(title: moreItem.title) { [weak self] _ in
                 guard let self else { return }
                 let title = moreItem.title
-                self.moreItemClicked.onNext(moreItem.rawValue)
+                self.commentMoreItemClicked.onNext(moreItem.rawValue)
             }
         }
         

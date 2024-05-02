@@ -261,4 +261,31 @@ final class PostNetworkManager {
             return Disposables.create()
         }
     }
+    
+    func deletePost(postId: String) -> Single<String> {
+        print(#function)
+        return Single<String>.create { single in
+            do {
+                let urlRequest = try PostRouter.deletePost(postId: postId).asURLRequest()
+                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .response(completionHandler: { response in
+                        switch response.result {
+                        case .success(let response):
+                            print("성공")
+                            single(.success(postId))
+                        case .failure(let error):
+                            print("실패ㅠㅠ\(response.response?.statusCode)")
+                            single(.failure(error))
+                        }
+                    })
+            } catch {
+                print("이건 Router 문제야")
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
 }

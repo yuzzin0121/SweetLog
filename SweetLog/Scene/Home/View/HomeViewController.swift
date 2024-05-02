@@ -127,6 +127,7 @@ final class HomeViewController: BaseViewController {
     private func showPostDetailVC(postId: String) {
         let postDetailVC = PostDetailViewController()
         postDetailVC.viewModel.postId = postId
+        postDetailVC.deletePostDelegate = self
         navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
@@ -168,4 +169,14 @@ extension HomeViewController: UICollectionViewDelegate {
 
         lastContentOffset = scrollView.contentOffset.y
     }
+}
+
+extension HomeViewController: DeletePostDelegate {
+    func deletePost(_ postId: String) {
+        viewModel.emitDeletePostTrigger(postId)
+    }
+}
+
+protocol DeletePostDelegate {
+    func deletePost(_ postId: String)
 }

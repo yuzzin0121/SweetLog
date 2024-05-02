@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let refreshTokenExpired = Notification.Name("refreshTokenExpired")
+    static let fetchPosts = Notification.Name("fetchPosts")
 }

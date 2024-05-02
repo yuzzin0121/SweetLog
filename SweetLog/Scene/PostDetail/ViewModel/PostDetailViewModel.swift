@@ -21,11 +21,13 @@ final class PostDetailViewModel: ViewModelType {
         let commentCreateButtonTapped: Observable<Void>
         let likeButtonStatus: Observable<Bool>
         let commentMoreItemClicked: Observable<(Int, Int, String)>
+        let postMoreItemClicked: Observable<(Int)>
     }
     
     struct Output {
         let fetchPostItem: Driver<FetchPostItem?>
         let createCommentSuccessTrigger: Driver<Void>
+        let deleteSuccessTrigger: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -33,6 +35,8 @@ final class PostDetailViewModel: ViewModelType {
         let commentIsValid = BehaviorRelay(value: false)
         let createCommentSuccessTrigger = PublishRelay<Void>()
         
+        let deletePostTrigger = PublishSubject<String>()
+        let deletePostSuccessTrigger = PublishRelay<String>()
         let deleteCommentTrigger = PublishSubject<(String, String)>()
         
         // postId를 통해 특정 포스트 조회
@@ -44,8 +48,8 @@ final class PostDetailViewModel: ViewModelType {
                         }
             }
             .subscribe(with: self) { owner, fetchPostItem in
-                fetchPostItemRelay.accept(fetchPostItem)
                 owner.fetchPostItem = fetchPostItem
+                fetchPostItemRelay.accept(fetchPostItem)
             }
             .disposed(by: disposeBag)
         
@@ -90,7 +94,7 @@ final class PostDetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        
+        // 좋아요 상태 변경됐을 때
         input.likeButtonStatus
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .map {
@@ -119,6 +123,32 @@ final class PostDetailViewModel: ViewModelType {
                 }
                 owner.fetchPostItem = fetchPostItem
                 fetchPostItemRelay.accept(fetchPostItem)
+            }
+            .disposed(by: disposeBag)
+        
+        // 포스트 더보기에서 아이템 클릭 시
+        input.postMoreItemClicked
+            .subscribe(with: self) { owner, moreItemIndex in
+                guard let moreItem = MoreItem(rawValue: moreItemIndex), let fetchPostItem = owner.fetchPostItem else { return }
+                switch moreItem {
+                case .edit:
+                    return
+                case .delete:
+                    deletePostTrigger.onNext(fetchPostItem.postId)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 포스트 삭제
+        deletePostTrigger
+            .flatMap { postId in
+                return PostNetworkManager.shared.deletePost(postId: postId)
+                    .catch { error in
+                        return Single<String>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, postId in
+                deletePostSuccessTrigger.accept(postId)
             }
             .disposed(by: disposeBag)
         
@@ -154,7 +184,8 @@ final class PostDetailViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
-                      createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()))
+                      createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()), 
+                      deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""))
     }
     
     private func deleteComment(commentId: String) -> FetchPostItem? {
@@ -164,5 +195,13 @@ final class PostDetailViewModel: ViewModelType {
         }
         self.fetchPostItem = fetchPostItem
         return fetchPostItem
+    }
+    
+    func checkIsMe() -> Bool {
+        guard let fetchPostItem else {
+            print("모델 없음")
+            return false
+        }
+        return fetchPostItem.creator.userId == UserDefaultManager.shared.userId
     }
 }

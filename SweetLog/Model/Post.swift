@@ -27,12 +27,12 @@ struct FetchPostItem: Decodable {
     let postId: String
     let productId: String?
     let title: String?
-    let review: String?
-    let placeName: String?
-    let address: String?
-    let link: String?
-    let lonlat: String?
-    let sugar: String?
+    let review: String
+    let placeName: String
+    let address: String
+    let link: String
+    let lonlat: String
+    let sugar: String
     let createdAt: String
     let creator: Creator
     let files: [String]
@@ -63,12 +63,12 @@ struct FetchPostItem: Decodable {
         self.postId = try container.decode(String.self, forKey: .postId)
         self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
-        self.review = try container.decodeIfPresent(String.self, forKey: .review)
-        self.placeName = try container.decodeIfPresent(String.self, forKey: .placeName)
-        self.address = try container.decodeIfPresent(String.self, forKey: .address)
-        self.link = try container.decodeIfPresent(String.self, forKey: .link)
-        self.lonlat = try container.decodeIfPresent(String.self, forKey: .lonlat)
-        self.sugar = try container.decodeIfPresent(String.self, forKey: .sugar)
+        self.review = try container.decode(String.self, forKey: .review)
+        self.placeName = try container.decode(String.self, forKey: .placeName)
+        self.address = try container.decode(String.self, forKey: .address)
+        self.link = try container.decode(String.self, forKey: .link)
+        self.lonlat = try container.decode(String.self, forKey: .lonlat)
+        self.sugar = try container.decode(String.self, forKey: .sugar)
         self.createdAt = try container.decode(String.self, forKey: .createdAt)
         self.creator = try container.decode(Creator.self, forKey: .creator)
         self.files = try container.decode([String].self, forKey: .files)

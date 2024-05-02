@@ -8,10 +8,16 @@
 import UIKit
 
 final class MapViewController: UIViewController {
-
+    let mainView = MapView()
+    let viewModel = MapViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+    }
+    
+    
+    override func loadView() {
+        view = mainView
     }
 }

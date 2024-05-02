@@ -20,6 +20,7 @@ final class PostDetailViewModel: ViewModelType {
         let commentText: Observable<String>
         let commentCreateButtonTapped: Observable<Void>
         let likeButtonStatus: Observable<Bool>
+        let commentMoreItemClicked: Observable<(Int, Int, String)>
     }
     
     struct Output {
@@ -31,6 +32,8 @@ final class PostDetailViewModel: ViewModelType {
         let fetchPostItemRelay = PublishRelay<FetchPostItem?>()
         let commentIsValid = BehaviorRelay(value: false)
         let createCommentSuccessTrigger = PublishRelay<Void>()
+        
+        let deleteCommentTrigger = PublishSubject<(String, String)>()
         
         // postId를 통해 특정 포스트 조회
         input.postId
@@ -46,6 +49,7 @@ final class PostDetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        // 댓글 타이핑할 때
         input.commentText
             .map {
                 let text = $0.trimmingCharacters(in: [" "])
@@ -57,6 +61,7 @@ final class PostDetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        // 댓글 작성 클릭
         input.commentCreateButtonTapped
             .map {
                 if !commentIsValid.value {
@@ -117,7 +122,47 @@ final class PostDetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        // 댓글의 더보기에서 수정 또는 삭제 클릭했을 때
+        input.commentMoreItemClicked
+            .subscribe(with: self) { owner, clickInfo in
+                print(clickInfo)
+                let (moreItemIndex, index, commentId) = clickInfo
+                guard let moreItem = MoreItem(rawValue: moreItemIndex), let fetchPostItem = owner.fetchPostItem else  { return }
+                switch moreItem {
+                case .edit: // 댓글 수정 클릭했을 때
+                    return
+                case .delete: // 댓글 삭제 클릭했을 때
+                    let postId = fetchPostItem.postId
+                    deleteCommentTrigger.onNext((postId, commentId))
+                    return
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 댓글 삭제
+        deleteCommentTrigger
+            .flatMap {  deleteInfo in
+                return CommentNetworkManager.shared.deleteComment(postId: deleteInfo.0, commentId: deleteInfo.1)
+                    .catch { error in
+                        return Single<String>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, commentId in
+                let postItem = owner.deleteComment(commentId: commentId)
+                fetchPostItemRelay.accept(postItem)
+            }
+            .disposed(by: disposeBag)
+        
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
                       createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()))
+    }
+    
+    private func deleteComment(commentId: String) -> FetchPostItem? {
+        guard var fetchPostItem else { return nil }
+        if let index = fetchPostItem.comments.firstIndex(where: { $0.commentId == commentId }) {
+            fetchPostItem.comments.remove(at: index)
+        }
+        self.fetchPostItem = fetchPostItem
+        return fetchPostItem
     }
 }

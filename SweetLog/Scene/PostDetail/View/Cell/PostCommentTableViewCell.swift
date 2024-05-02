@@ -6,16 +6,22 @@
 //
 
 import UIKit
+import RxSwift
 
 final class PostCommentTableViewCell: BaseTableViewCell {
     let profileImageView = UIImageView()
     let nicknameLabel = UILabel()
     let dateLabel = UILabel()
     let commentLabel = UILabel()
-    let 
+    let moreButton = UIButton()
+    
+    let moreItemClicked = PublishSubject<Int>()
+    
+    var disposeBag = DisposeBag()
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        disposeBag = DisposeBag()
         profileImageView.image = Image.emptyProfileImage
         configureCell(comment: nil)
     }
@@ -36,10 +42,12 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         nicknameLabel.text = comment.creator.nickname
         dateLabel.text = DateFormatterManager.shared.formattedUpdatedDate(comment.createdAt)
         commentLabel.text = comment.content
+        
+        moreButton.isHidden = comment.creator.userId != UserDefaultManager.shared.userId
     }
     
     override func configureHierarchy() {
-        contentView.addSubviews([profileImageView, nicknameLabel, dateLabel, commentLabel])
+        contentView.addSubviews([profileImageView, nicknameLabel, dateLabel, commentLabel, moreButton])
     }
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
@@ -56,6 +64,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(nicknameLabel)
             make.leading.equalTo(nicknameLabel.snp.trailing).offset(4)
+            make.trailing.greaterThanOrEqualTo(moreButton.snp.leading).offset(-12)
             make.height.equalTo(11)
         }
         commentLabel.snp.makeConstraints { make in
@@ -65,6 +74,11 @@ final class PostCommentTableViewCell: BaseTableViewCell {
             make.bottom.equalToSuperview().inset(12)
             make.height.equalTo(15)
         }
+        moreButton.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView)
+            make.trailing.equalToSuperview().inset(18)
+            make.size.equalTo(16)
+        }
     }
     override func configureView() {
         profileImageView.image = Image.emptyProfileImage
@@ -72,6 +86,24 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .semiBold))
         dateLabel.design(text: "날짜", font: .pretendard(size: 11, weight: .light))
         commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 15, weight: .regular))
+        
+        var moreConfig = UIButton.Configuration.plain()
+        moreConfig.image = Image.moreVertical
+        moreButton.configuration = moreConfig
+        configureCategoryMenu()
+    }
+    
+    private func configureCategoryMenu() {
+        moreButton.showsMenuAsPrimaryAction = true
+        let actions = MoreItem.allCases.map { moreItem in
+            UIAction(title: moreItem.title) { [weak self] _ in
+                guard let self else { return }
+                let title = moreItem.title
+                self.moreItemClicked.onNext(moreItem.rawValue)
+            }
+        }
+        
+        moreButton.menu = UIMenu(children: actions)
     }
     
     override func draw(_ rect: CGRect) {

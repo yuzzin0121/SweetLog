@@ -18,6 +18,7 @@ final class PostDetailViewController: BaseViewController {
         }
     }
     let likeStatus = PublishSubject<Bool>()
+    let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,12 +45,14 @@ final class PostDetailViewController: BaseViewController {
         let input = PostDetailViewModel.Input(postId: postIdSubejct.asObserver(),
                                               commentText: mainView.commentTextField.rx.text.orEmpty.asObservable(),
                                               commentCreateButtonTapped: mainView.commentTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
-                                              likeButtonStatus: likeStatus.asObservable())
+                                              likeButtonStatus: likeStatus.asObservable(), 
+                                              commentMoreItemClicked: commentMoreItemClicked)
         let output = viewModel.transform(input: input)
         
         output.fetchPostItem
             .drive(with: self) { owner, fetchPostItem in
                 owner.setData(fetchPostItem: fetchPostItem)
+                owner.mainView.tableView.reloadData()
             }
             .disposed(by: disposeBag)
         
@@ -132,6 +135,12 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.profileImageView.isUserInteractionEnabled = true
         cell.nicknameLabel.isUserInteractionEnabled = true
+        
+        cell.moreItemClicked
+            .subscribe(with: self) { owner, moreItemIndex in
+                owner.commentMoreItemClicked.onNext((moreItemIndex, indexPath.row, comment.commentId))
+            }
+            .disposed(by: disposeBag)
         
         return cell
     }

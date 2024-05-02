@@ -128,11 +128,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         imageStackView.addArrangedSubview(secondImageView)
         
         firstImageView.snp.makeConstraints {
-            $0.height.equalTo(firstImageView.snp.width).multipliedBy(136.0 / 163.0)
+            $0.height.equalTo(firstImageView.snp.width).multipliedBy(160.0 / 163.0)
         }
         
         secondImageView.snp.makeConstraints {
-            $0.height.equalTo(secondImageView.snp.width).multipliedBy(136.0 / 102.0)
+            $0.height.equalTo(secondImageView.snp.width).multipliedBy(126.0 / 92.0)
         }
        
         DispatchQueue.main.async {
@@ -183,15 +183,15 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             imageVStackView.addArrangedSubview($0)
         }
         firstImageView.snp.makeConstraints {
-            $0.height.equalTo(imageVStackView.snp.width).multipliedBy(163.0 / 140.0)
+            $0.height.equalTo(imageVStackView.snp.width).multipliedBy(163.0 / 120.0)
         }
         
         secondImageView.snp.makeConstraints {
-            $0.height.equalTo(secondImageView.snp.width).multipliedBy(66.0 / 102.0)
+            $0.height.equalTo(secondImageView.snp.width).multipliedBy(80.0 / 122.0)
         }
         
         thirdImageView.snp.makeConstraints {
-            $0.height.equalTo(thirdImageView.snp.width).multipliedBy(66.0 / 102.0)
+            $0.height.equalTo(thirdImageView.snp.width).multipliedBy(80.0 / 122.0)
         }
         
        
@@ -263,7 +263,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.top.equalTo(contentLabel.snp.bottom).offset(20)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(140)
+            make.height.equalTo(160)
         }
         
         likeButton.snp.makeConstraints { make in

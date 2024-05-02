@@ -60,6 +60,7 @@ final class EditProfileView: BaseView {
     override func configureView() {
         super.configureView()
         profileImageView.image = Image.emptyProfileImage
+        profileImageView.contentMode = .scaleToFill
         
         var titleContainer = AttributeContainer()
         titleContainer.font = UIFont.boldSystemFont(ofSize: 14)

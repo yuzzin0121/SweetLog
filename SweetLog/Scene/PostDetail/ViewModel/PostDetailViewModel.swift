@@ -79,7 +79,7 @@ final class PostDetailViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, comment in
-                owner.fetchPostItem?.comments.append(comment)
+                owner.fetchPostItem?.comments.insert(comment, at: 0)
                 fetchPostItemRelay.accept(owner.fetchPostItem)
                 createCommentSuccessTrigger.accept(())
             }

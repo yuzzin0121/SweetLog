@@ -143,7 +143,8 @@ extension HomeView {
                 using: config,
                 layoutEnvironment: layoutEnvironment
             )
-//            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+            section.interGroupSpacing = 18
 
             return section
         }

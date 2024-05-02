@@ -56,6 +56,7 @@ final class PostDetailViewController: BaseViewController {
         output.createCommentSuccessTrigger
             .drive(with: self, onNext: { owner, _ in
                 owner.mainView.tableView.reloadData()
+                owner.mainView.commentTextField.text = ""
             })
             .disposed(by: disposeBag)
     }

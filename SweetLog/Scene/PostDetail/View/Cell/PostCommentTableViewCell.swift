@@ -12,7 +12,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     let nicknameLabel = UILabel()
     let dateLabel = UILabel()
     let commentLabel = UILabel()
-    
+    let 
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -69,7 +69,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     override func configureView() {
         profileImageView.image = Image.emptyProfileImage
         
-        nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .light))
+        nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .semiBold))
         dateLabel.design(text: "날짜", font: .pretendard(size: 11, weight: .light))
         commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 15, weight: .regular))
     }

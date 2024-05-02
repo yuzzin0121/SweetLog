@@ -30,4 +30,5 @@ enum Image {
     static let markFill: UIImage = .markFill
     static let arrowDown: UIImage = .arrowDown
     static let addPhoto: UIImage = .addPhoto
+    static let moreVertical: UIImage = .moreVertical
 }

@@ -49,7 +49,8 @@ final class CreatePostViewModel: ViewModelType {
             .map { [weak self] categoryString, sugar, review, fileStringList in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
                                                                  sugar: sugar,
-                                                                 review: review,
+                                                                 review: review, 
+                                                                 tagList: tagList.value,
                                                                  fileStringList: fileStringList)
                 return postRequestModel
             }
@@ -154,10 +155,18 @@ final class CreatePostViewModel: ViewModelType {
         return tagList
     }
  
-    private func getPostRequestModel(categoryString: String, sugar: Int, review: String, fileStringList: [String]) -> PostRequestModel? {
+    private func getPostRequestModel(categoryString: String, sugar: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
         guard let placeItem else { return nil }
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }
         let lonLat = [x, y].description
+        
+        var review = review
+        if !tagList.isEmpty {
+            for tag in tagList {
+                review.append(" \(tag)")
+            }
+        }
+        
         let postRequestModel = PostRequestModel(review: review,
                                                 placeName: placeItem.placeName,
                                                 address: placeItem.address,

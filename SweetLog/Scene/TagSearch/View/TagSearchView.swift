@@ -8,15 +8,21 @@
 import UIKit
 
 final class TagSearchView: BaseView {
+    let titleLabel = UILabel()
     let tagSearchBar = SearchBar(placeholder: "해시태그로 검색해보세요")
     lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     override func configureHierarchy() {
-        addSubviews([tagSearchBar, tagCollectionView])
+        addSubviews([titleLabel, tagSearchBar, tagCollectionView])
     }
     override func configureLayout() {
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.equalToSuperview().offset(20)
+        }
+        
         tagSearchBar.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(12)
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(45)
         }
@@ -31,6 +37,9 @@ final class TagSearchView: BaseView {
         super.configureView()
         
         backgroundColor = Color.white
+        
+        titleLabel.text = "검색"
+        titleLabel.font = .pretendard(size: 30, weight: .bold)
         
         tagCollectionView.showsVerticalScrollIndicator = false
         tagCollectionView.register(TagPostCollectionViewCell.self,

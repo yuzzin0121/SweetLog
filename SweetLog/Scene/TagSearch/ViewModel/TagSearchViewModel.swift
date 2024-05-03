@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class TagSearchViewModel: ViewModelType {
+    let deletePostTrigger = PublishSubject<String>()
     var disposeBag = DisposeBag()
     
     struct Input {
@@ -23,12 +24,12 @@ final class TagSearchViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        let postList = PublishSubject<[FetchPostItem]>()
+        let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let next = BehaviorSubject(value: "")
         
         input.searchText
             .subscribe(with: self) { owner, text in
-                postList.onNext([])
+                postList.accept([])
             }
             .disposed(by: disposeBag)
         
@@ -50,10 +51,31 @@ final class TagSearchViewModel: ViewModelType {
             .subscribe(with: self) { owner, fetchPostModel in
                 print("검색된 포스트 개수 \(fetchPostModel.data.count)")
                 next.onNext(fetchPostModel.nextCursor)
-                postList.onNext(fetchPostModel.data)
+                postList.accept(fetchPostModel.data)
+            }
+            .disposed(by: disposeBag)
+        
+        deletePostTrigger
+            .subscribe(with: self) { owner, postId in
+                let listValue = postList.value
+                let deletedPostList = owner.deletePost(postList: listValue, postId: postId)
+                postList.accept(deletedPostList)
             }
             .disposed(by: disposeBag)
         
         return Output(postList: postList.asDriver(onErrorJustReturn: []))
+    }
+    
+    func emitDeletePostTrigger(postId: String) {
+        deletePostTrigger.onNext(postId)
+    }
+    
+    func deletePost(postList: [FetchPostItem], postId: String) -> [FetchPostItem] {
+        print(#function)
+        var postList = postList
+        if let index = postList.firstIndex(where: { $0.postId == postId }) {
+            postList.remove(at: index)
+        }
+        return postList
     }
 }

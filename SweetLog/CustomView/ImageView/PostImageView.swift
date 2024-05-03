@@ -10,10 +10,11 @@ import UIKit
 final class PostImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureView()
     }
     
     private func configureView() {
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
     }
 
     required init?(coder: NSCoder) {

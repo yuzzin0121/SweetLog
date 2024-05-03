@@ -30,15 +30,29 @@ class TagSearchViewController: BaseViewController {
                 cell.configureCell(postItem: postItem)
             }
             .disposed(by: disposeBag)
+        
+        mainView.tagCollectionView.rx.modelSelected(FetchPostItem.self)
+            .asDriver()
+            .drive(with: self) { owner, postItem in
+                owner.showPostDetailVC(postId: postItem.postId)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showPostDetailVC(postId: String) {
+        let postDetailVC = PostDetailViewController()
+        postDetailVC.viewModel.postId = postId
+        postDetailVC.deletePostDelegate = self
+        navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     override func loadView() {
         view = mainView
     }
-    
-    override func configureNavigationItem() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "검색"
+}
+
+extension TagSearchViewController: DeletePostDelegate {
+    func deletePost(_ postId: String) {
+        viewModel.emitDeletePostTrigger(postId: postId)
     }
 }

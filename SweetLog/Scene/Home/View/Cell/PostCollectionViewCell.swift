@@ -14,6 +14,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     let userNicknameButton = UIButton()
     private let createdAtLabel = UILabel()
     private let contentLabel = UILabel()
+    private let hashtagLabel = UILabel()
     
     private var imageStackView = UIStackView()
     
@@ -49,12 +50,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         
         contentLabel.text = String.unTaggedText(text: item.review)
-        
-        // Label Dynamic Height
-//        let newSize = contentLabel.sizeThatFits(CGSize(width: imageStackView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-//        contentLabel.snp.makeConstraints { make in
-//            make.height.equalTo(newSize.height)
-//        }
+        hashtagLabel.text = String.getListToString(array: item.hashTags)
        
         likeButton.configuration?.title = "\(item.likes.count)"
         commentInfoView.countLabel.text = "\(item.comments.count)"
@@ -232,16 +228,19 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureHierarchy() {
-        contentView.addSubviews([profileImageView, userNicknameButton, createdAtLabel, contentLabel, imageStackView, likeButton, commentInfoView])
+        contentView.addSubviews([profileImageView, userNicknameButton, createdAtLabel, 
+                                 contentLabel, hashtagLabel,
+                                 imageStackView,
+                                 likeButton, commentInfoView])
     }
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(16)
-            make.size.equalTo(36)
+            make.size.equalTo(32)
         }
         
         userNicknameButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.top).offset(4)
+            make.top.equalTo(profileImageView.snp.top).offset(2)
             make.leading.equalTo(profileImageView.snp.trailing).offset(12)
             make.height.equalTo(20)
         }
@@ -259,8 +258,13 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
             make.trailing.equalToSuperview().inset(16)
         }
         
+        hashtagLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentLabel.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(contentLabel)
+        }
+        
         imageStackView.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).offset(20)
+            make.top.equalTo(hashtagLabel.snp.bottom).offset(14)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.equalTo(160)
@@ -317,8 +321,12 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         nicknameConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         userNicknameButton.configuration = nicknameConfig
         
+        createdAtLabel.design(textColor: Color.gray, font: .pretendard(size: 14, weight: .light))
+        
         contentLabel.design(font: .pretendard(size: 16, weight: .regular),numberOfLines: 0)
         contentLabel.lineBreakMode = .byCharWrapping
+        
+        hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
         
         imageStackView.design(axis: .horizontal, spacing: 5)
         imageStackView.layer.cornerRadius = 12

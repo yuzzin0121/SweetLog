@@ -73,7 +73,6 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
         
         setProfileImage(profileUrl: fetchPostItem.creator.profileImage)
-    
         setLike(likes: fetchPostItem.likes)
     }
     
@@ -109,6 +108,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         
         for index in 0..<fileList.count {
             let imageView = PhotoImageView(frame: .zero)
+            imageScrollView.addSubview(imageView)
     
             DispatchQueue.main.async {
                 imageView.kf.setImageWithAuthHeaders(with: fileList[index]) { isSuccess in

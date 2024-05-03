@@ -63,7 +63,8 @@ final class CreatePostViewModel: ViewModelType {
         input.viewDidLoadTrigger
             .subscribe(with: self) { owner, _ in
                 var tagListValue = tagList.value
-                tagListValue.insert(owner.placeItem.placeName, at: 0)
+                let placeName = owner.getFirstWord(fullText: owner.placeItem.placeName)
+                tagListValue.insert(placeName, at: 0)
                 tagList.accept(tagListValue)
             }
             .disposed(by: disposeBag)
@@ -106,6 +107,7 @@ final class CreatePostViewModel: ViewModelType {
                 if tagValid {
                     var tagListValue = tagList.value
                     print("태그 값: \(tagText)")
+                    let tagText =  owner.getFirstWord(fullText: tagText)
                     tagListValue.append(tagText)
                     tagList.accept(tagListValue)
                     tagTextToEmpty.accept(())
@@ -193,5 +195,13 @@ final class CreatePostViewModel: ViewModelType {
             }
         }
         return review
+    }
+    
+    private func getFirstWord(fullText: String) -> String {
+        if let range = fullText.range(of: " ") { // 첫 번째 공백의 범위를 찾음
+            let firstWord = fullText[..<range.lowerBound] // 공백 전까지의 범위를 추출
+            return String(firstWord)
+        }
+        return fullText
     }
 }

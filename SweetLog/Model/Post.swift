@@ -61,7 +61,7 @@ struct FetchPostItem: Decodable {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.postId = try container.decode(String.self, forKey: .postId)
-        self.productId = try container.decodeIfPresent(String.self, forKey: .productId)
+        self.productId = try container.decodeIfPresent(String.self, forKey: .productId) ?? ""
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
         self.review = try container.decode(String.self, forKey: .review)
         self.placeName = try container.decode(String.self, forKey: .placeName)

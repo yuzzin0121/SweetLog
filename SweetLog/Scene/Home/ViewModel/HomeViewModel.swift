@@ -60,11 +60,11 @@ final class HomeViewModel: ViewModelType {
                 return FilterItem(rawValue: index)!
             }
             .map { [weak self] in
-                guard let self else { return FetchPostQuery(next: nil, product_id: $0.title) }
+                guard let self else { return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil) }
                 selectedCategory.accept($0.title)
                 currentCategory.onNext($0.title)
                 filterList.accept(self.filterList)
-                return FetchPostQuery(next: nil, product_id: $0.title)
+                return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil)
             }
             .flatMap { fetchPostQuery in
                 return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
@@ -80,7 +80,7 @@ final class HomeViewModel: ViewModelType {
         input.prefetchTrigger
             .withLatestFrom(Observable.combineLatest(next, currentCategory))
             .map { prefetchInfo in
-                return FetchPostQuery(next: prefetchInfo.0, product_id: prefetchInfo.1)
+                return FetchPostQuery(next: prefetchInfo.0, product_id: prefetchInfo.1, hashTag: nil)
             }
             .flatMap { fetchPostQuery in
 //                print("현재 커서값 \(fetchPostQuery.next)")

@@ -288,4 +288,37 @@ final class PostNetworkManager {
             return Disposables.create()
         }
     }
+    
+    func searchTagPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
+        return Single<FetchPostModel>.create { single in
+            do {
+                let urlRequest = try PostRouter.searchHashtag(query: fetchPostQuery).asURLRequest()
+                                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .validate(statusCode: 200..<300)
+                    .responseDecodable(of: FetchPostModel.self) { response in
+                        switch response.result {
+                        case .success(let fetchPostModel):
+                            single(.success(fetchPostModel))
+                        case .failure(let error):
+                            print(error)
+                            if let statusCode = response.response?.statusCode {
+                                if let searchTagPostError = fetchPostError(rawValue: statusCode) {
+                                    print("searchTagPostError")
+                                    single(.failure(searchTagPostError))
+                                } else if let apiError = APIError(rawValue: statusCode) {
+                                    single(.failure(apiError))
+                                }
+                            } else {
+                                single(.failure(error))
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            
+            return Disposables.create()
+        }
+    }
 }

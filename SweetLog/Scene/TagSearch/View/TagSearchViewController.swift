@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class TagSearchViewController: BaseViewController {
     let mainView = TagSearchView()
@@ -18,9 +20,16 @@ class TagSearchViewController: BaseViewController {
     }
     
     override func bind() {
-        let input = TagSearchViewModel.Input()
+        let input = TagSearchViewModel.Input(viewDidLoadTrigger: Observable.just(()),
+                                             searchText: mainView.tagSearchBar.rx.text.orEmpty.asObservable(),
+                                             searchButtonTap: mainView.tagSearchBar.rx.searchButtonClicked.asObservable())
         let output = viewModel.transform(input: input)
         
+        output.postList
+            .drive(mainView.tagCollectionView.rx.items(cellIdentifier: TagPostCollectionViewCell.identifier, cellType: TagPostCollectionViewCell.self)) { index, postItem, cell in
+                cell.configureCell(postItem: postItem)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func loadView() {

@@ -19,6 +19,8 @@ enum PostRouter {
     
     case fetchUserPost(query: FetchPostQuery, userId: String)
     case fetchMyLikePost(query: FetchPostQuery)
+    
+    case searchHashtag(query: FetchPostQuery)
 }
 
 extension PostRouter: TargetType {
@@ -32,7 +34,7 @@ extension PostRouter: TargetType {
         case .uploadFiles, .createPost, .likePost:
             return .post
             
-        case .fetchPosts, .loadImage, .fetchPost, .fetchUserPost, .fetchMyLikePost:
+        case .fetchPosts, .loadImage, .fetchPost, .fetchUserPost, .fetchMyLikePost, .searchHashtag:
             return .get
         case .deletePost:
             return .delete
@@ -55,7 +57,8 @@ extension PostRouter: TargetType {
             return "/v1/posts/users/\(userId)"
         case .fetchMyLikePost:
             return "/v1/posts/likes/me"
-            
+        case .searchHashtag:
+            return "/v1/posts/hashtags"
         }
     }
     
@@ -67,7 +70,7 @@ extension PostRouter: TargetType {
                 HTTPHeader.contentType.rawValue:HTTPHeader.multipart.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
             ]
-        case .createPost, .fetchPost, .likePost, .fetchUserPost, .fetchMyLikePost, .deletePost:
+        case .createPost, .fetchPost, .likePost, .fetchUserPost, .fetchMyLikePost, .deletePost, .searchHashtag:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -102,6 +105,13 @@ extension PostRouter: TargetType {
                 URLQueryItem(name: "limit", value: "200"),
                 URLQueryItem(name: "product_id", value: query.product_id)
             ]
+        case .searchHashtag(let query):
+            return [
+                URLQueryItem(name: "next", value: nil),
+                URLQueryItem(name: "limit", value: "200"),
+                URLQueryItem(name: "product_id", value: query.product_id),
+                URLQueryItem(name: "hashTag", value: query.hashTag)
+            ]
         case .fetchMyLikePost(let query):
             return [
                 URLQueryItem(name: "next", value: query.next),
@@ -113,7 +123,7 @@ extension PostRouter: TargetType {
     var body: Data? {
         let encoder = JSONEncoder()
         switch self {
-        case .uploadFiles, .loadImage, .fetchPosts, .fetchPost, .fetchUserPost, .fetchMyLikePost, .deletePost:
+        case .uploadFiles, .loadImage, .fetchPosts, .fetchPost, .fetchUserPost, .fetchMyLikePost, .deletePost, .searchHashtag:
             return nil
         case .createPost(let postQuery):
             return try? encoder.encode(postQuery)

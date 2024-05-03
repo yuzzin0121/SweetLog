@@ -36,20 +36,20 @@ final class UserPostViewModel: ViewModelType {
 //                print("UserPostViewModel: \(userId), postType: \(postType), isMyProfile: \(isMyPofile)")
                 if isMyPofile {    // 내 프로필일 경우
                     if postType == .myPost {
-                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil), userId: userId)
+                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId)
                             .catch { error in
                                 print(error.localizedDescription)
                                 return  Single<FetchPostModel>.never()
                             }
                     } else {    // 좋아요일 경우
-                        return PostNetworkManager.shared.fetchMyLikePost(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil))
+                        return PostNetworkManager.shared.fetchMyLikePost(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil))
                             .catch { error in
                                 return  Single<FetchPostModel>.never()
                             }
                     }
                 } else { // 다른 사용자일 경우
                     if postType == .myPost {
-                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil), userId: userId)
+                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId)
                             .catch { error in
                                 return  Single<FetchPostModel>.never()
                             }

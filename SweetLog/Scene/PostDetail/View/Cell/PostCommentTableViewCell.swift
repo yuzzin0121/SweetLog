@@ -66,7 +66,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(nicknameLabel)
             make.leading.equalTo(nicknameLabel.snp.trailing).offset(4)
-            make.trailing.greaterThanOrEqualTo(moreButton.snp.leading).offset(-12)
+            make.trailing.lessThanOrEqualTo(moreButton.snp.leading).offset(-12)
             make.height.equalTo(11)
         }
         commentLabel.snp.makeConstraints { make in

@@ -12,7 +12,7 @@ import RxSwift
 class CreatePostViewController: BaseViewController {
     private let mainView = CreatePostView()
     private var menuChildren: [UIMenuElement] = []
-    let viewModel = CreatePostViewModel()
+    let viewModel: CreatePostViewModel
     let reviewText = PublishSubject<String>()
     var imageDataList: [Data] = [] {
         didSet {
@@ -20,6 +20,11 @@ class CreatePostViewController: BaseViewController {
         }
     }
     let dataSubject: BehaviorSubject<[Data]> = BehaviorSubject(value: [])
+    
+    init(placeItem: PlaceItem) {
+        viewModel = CreatePostViewModel(placeItem: placeItem)
+        super.init()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +46,8 @@ class CreatePostViewController: BaseViewController {
                 .disposed(by: disposeBag)
         }
         
-        let input = CreatePostViewModel.Input(categoryString: mainView.selectedCategorySubject.asObserver(),
+        let input = CreatePostViewModel.Input(viewDidLoadTrigger: Observable.just(()), 
+                                              categoryString: mainView.selectedCategorySubject.asObserver(),
                                               sugarContent: sugarContent.asObserver(),
                                               reviewText: reviewText.asObserver(),
                                               tagText: mainView.tagTextField.rx.text.orEmpty.asObservable(),
@@ -67,8 +73,8 @@ class CreatePostViewController: BaseViewController {
         
         output.tagList
             .drive(mainView.tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, data, cell in
-                cell.configureCell(tagText: data)
                 cell.removeButton.tag = index
+                cell.configureCell(tagText: data)
                 cell.removeButton.rx.tap
                     .asDriver()
                     .drive(with: self) { owner, _ in
@@ -130,9 +136,8 @@ class CreatePostViewController: BaseViewController {
     
     // 선택한 장소 뷰에 반영
     private func setData() {
-        guard let placeItem = viewModel.placeItem else { return }
-        mainView.placeInfoView.addressLabel.text = placeItem.address
-        mainView.placeInfoView.placeNameLabel.text = placeItem.placeName
+        mainView.placeInfoView.addressLabel.text = viewModel.placeItem.address
+        mainView.placeInfoView.placeNameLabel.text = viewModel.placeItem.placeName
     }
     
     override func viewDidLayoutSubviews() {

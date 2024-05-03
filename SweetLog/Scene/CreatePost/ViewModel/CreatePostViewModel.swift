@@ -10,12 +10,17 @@ import RxSwift
 import RxCocoa
 
 final class CreatePostViewModel: ViewModelType {
-    var placeItem: PlaceItem?
+    var placeItem: PlaceItem
     let filterList = FilterItem.allCases
     let contentTextViewPlaceholder = "후기를 작성해주세요"
     var disposeBag = DisposeBag()
     
+    init(placeItem: PlaceItem) {
+        self.placeItem = placeItem
+    }
+    
     struct Input {
+        let viewDidLoadTrigger: Observable<Void>
         let categoryString: Observable<String>
         let sugarContent: Observable<Int>
         let reviewText: Observable<String>
@@ -45,15 +50,23 @@ final class CreatePostViewModel: ViewModelType {
         let fileStringList = PublishSubject<[String]>()
         let createPostSuccessTrigger = PublishRelay<Void>()
         
-        let contentObservable = Observable.combineLatest(input.categoryString, input.sugarContent, input.reviewText, fileStringList)
-            .map { [weak self] categoryString, sugar, review, fileStringList in
+        let contentObservable = Observable.combineLatest(input.categoryString, input.sugarContent, input.reviewText, tagList, fileStringList)
+            .map { [weak self] categoryString, sugar, review, tagList, fileStringList in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
                                                                  sugar: sugar,
                                                                  review: review, 
-                                                                 tagList: tagList.value,
+                                                                 tagList: tagList,
                                                                  fileStringList: fileStringList)
                 return postRequestModel
             }
+        
+        input.viewDidLoadTrigger
+            .subscribe(with: self) { owner, _ in
+                var tagListValue = tagList.value
+                tagListValue.insert(owner.placeItem.placeName, at: 0)
+                tagList.accept(tagListValue)
+            }
+            .disposed(by: disposeBag)
         
         Observable.combineLatest(input.reviewText, input.imageDataList)
             .map {
@@ -156,7 +169,6 @@ final class CreatePostViewModel: ViewModelType {
     }
  
     private func getPostRequestModel(categoryString: String, sugar: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
-        guard let placeItem else { return nil }
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }
         let lonLat = [x, y].description
         

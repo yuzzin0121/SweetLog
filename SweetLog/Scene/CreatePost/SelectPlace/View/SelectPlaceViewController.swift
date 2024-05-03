@@ -38,8 +38,7 @@ final class SelectPlaceViewController: BaseViewController {
     }
     
     private func showCreatePostVC(placeItem: PlaceItem) {
-        let createPostVC = CreatePostViewController()
-        createPostVC.viewModel.placeItem = placeItem
+        let createPostVC = CreatePostViewController(placeItem: placeItem)
         navigationController?.pushViewController(createPostVC, animated: true)
     }
     

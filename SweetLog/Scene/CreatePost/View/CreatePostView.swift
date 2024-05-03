@@ -80,7 +80,8 @@ final class CreatePostView: BaseView {
         
         tagCollectionView.snp.makeConstraints { make in
             make.top.equalTo(tagTextField.snp.bottom).offset(8)
-            make.horizontalEdges.equalTo(tagTextField)
+            make.leading.equalTo(tagTextField)
+            make.trailing.equalToSuperview()
             make.height.equalTo(40)
             make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-20)
         }
@@ -94,7 +95,7 @@ final class CreatePostView: BaseView {
         photoCollectionView.snp.makeConstraints { make in
             make.top.equalTo(addPhotoImageView)
             make.leading.equalTo(addPhotoImageView.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview()
             make.bottom.equalTo(addPhotoImageView)
         }
     }
@@ -131,6 +132,7 @@ final class CreatePostView: BaseView {
         tagTextField.attributedPlaceholder = NSAttributedString(string: "태그를 추가해보세요... (1~10 글자)", attributes: [.font: UIFont(name: "Pretendard-Light", size: 15)!])
         tagCollectionView.backgroundColor = Color.white
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
+        tagCollectionView.showsHorizontalScrollIndicator = false
     }
     
     private func setSugarButton() {
@@ -177,7 +179,7 @@ extension CreatePostView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(50),
             heightDimension: .absolute(24)
         )
         

@@ -317,8 +317,8 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         layer.masksToBounds = false
         layer.shadowColor =  Color.gray.cgColor
-        layer.shadowRadius = 10
-        layer.shadowOpacity = 0.25
+        layer.shadowRadius = 12
+        layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.cornerRadius = 12
         

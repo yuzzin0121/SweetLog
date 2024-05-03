@@ -136,25 +136,10 @@ final class HomeViewController: BaseViewController {
         navigationController?.pushViewController(selectPlaceVC, animated: true)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-//        let postlayout = UICollectionViewFlowLayout()
-//        postlayout.itemSize = CGSize(width: view.frame.width - 40, height: 280)
-//        postlayout.minimumLineSpacing = 18
-//        postlayout.scrollDirection = .vertical
-//        mainView.postCollectionView.collectionViewLayout = postlayout
-
-    }
-    
     override func loadView() {
         view = mainView
     }
     
-    override func configureNavigationItem() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: mainView.titleLabel)
-    }
-   
 }
 
 extension HomeViewController: UICollectionViewDelegate {

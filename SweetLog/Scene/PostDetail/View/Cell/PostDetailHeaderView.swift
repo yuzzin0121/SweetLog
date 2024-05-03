@@ -23,6 +23,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     
     let likeButton = UIButton()
     private let reviewLabel = UILabel()
+    private let hashtagLabel = UILabel()
     
     private let commentStackView = UIStackView()
     private let commentImageView = UIImageView()
@@ -51,6 +52,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
         reviewLabel.text = String.unTaggedText(text: fetchPostItem.review)
         
+        hashtagLabel.text = String.getListToString(array: fetchPostItem.hashTags)
+        
         let newSize = reviewLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude))
         reviewLabel.snp.makeConstraints { make in
             make.height.equalTo(newSize.height)
@@ -71,6 +74,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
        
     }
+    
+
     
     private func setProfileImage(profileUrl: String?) {
         guard let profileUrl else { return }
@@ -138,7 +143,11 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     }
     
     func configureHierarchy() {
-        addSubviews([placeButton, sugarContentLabel, sugarStackView, imageScrollView, pageControl, profileImageView, userNicknameLabel, createdAtLabel, likeButton, reviewLabel, commentStackView])
+        addSubviews([placeButton, sugarContentLabel, sugarStackView,
+                     imageScrollView, pageControl,
+                     profileImageView, userNicknameLabel, createdAtLabel, likeButton,
+                     reviewLabel, hashtagLabel,
+                     commentStackView])
         
         [commentImageView, commentCountLabel].forEach {
             commentStackView.addArrangedSubview($0)
@@ -195,8 +204,12 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
             make.top.equalTo(profileImageView.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(18)
         }
+        hashtagLabel.snp.makeConstraints { make in
+            make.top.equalTo(reviewLabel.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(reviewLabel)
+        }
         commentStackView.snp.makeConstraints { make in
-            make.top.equalTo(reviewLabel.snp.bottom).offset(24)
+            make.top.equalTo(hashtagLabel.snp.bottom).offset(24)
             make.leading.equalTo(reviewLabel)
             make.bottom.equalToSuperview()
         }
@@ -249,6 +262,8 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         
         reviewLabel.design(font: .pretendard(size: 16, weight: .regular), numberOfLines: 0)
         reviewLabel.lineBreakMode = .byCharWrapping
+        
+        hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
         
         commentStackView.design(axis: .horizontal, spacing: 8)
         commentImageView.image = Image.messages

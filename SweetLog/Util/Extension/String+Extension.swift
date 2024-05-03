@@ -18,5 +18,14 @@ extension String {
         let result = newText.trimmingCharacters(in: .whitespacesAndNewlines)
         return result
     }
+    
+    static func getListToString(array: [String]) -> String {
+        var tagString = ""
+        for text in array {
+            tagString.append("#\(text)  ")
+        }
+        let result = tagString.trimmingCharacters(in: [" "])
+        return result
+    }
 }
 

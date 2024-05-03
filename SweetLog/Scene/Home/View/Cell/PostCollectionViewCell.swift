@@ -50,6 +50,14 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         
         contentLabel.text = String.unTaggedText(text: item.review)
+        contentLabel.addCharacterSpacing()
+        
+        if !item.hashTags.isEmpty {
+            hashtagLabel.text = String.getListToString(array: item.hashTags)
+            hashtagLabel.isHidden = false
+        } else {
+            hashtagLabel.isHidden = true
+        }
         hashtagLabel.text = String.getListToString(array: item.hashTags)
        
         likeButton.configuration?.title = "\(item.likes.count)"
@@ -240,7 +248,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
         userNicknameButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.top).offset(2)
+            make.top.equalTo(profileImageView.snp.top).offset(0)
             make.leading.equalTo(profileImageView.snp.trailing).offset(12)
             make.height.equalTo(20)
         }
@@ -253,7 +261,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(userNicknameButton.snp.bottom).offset(10)
+            make.top.equalTo(userNicknameButton.snp.bottom).offset(8)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
         }
@@ -264,7 +272,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
         imageStackView.snp.makeConstraints { make in
-            make.top.equalTo(hashtagLabel.snp.bottom).offset(14)
+            make.top.equalTo(hashtagLabel.snp.bottom).offset(12)
             make.leading.equalTo(userNicknameButton)
             make.trailing.equalToSuperview().inset(16)
             make.height.equalTo(160)
@@ -327,6 +335,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         contentLabel.lineBreakMode = .byCharWrapping
         
         hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
+        hashtagLabel.isHidden = true
         
         imageStackView.design(axis: .horizontal, spacing: 5)
         imageStackView.layer.cornerRadius = 12

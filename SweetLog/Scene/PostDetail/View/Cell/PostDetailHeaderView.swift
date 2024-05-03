@@ -51,8 +51,14 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         userNicknameLabel.text = fetchPostItem.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
         reviewLabel.text = String.unTaggedText(text: fetchPostItem.review)
+        reviewLabel.addCharacterSpacing()
         
-        hashtagLabel.text = String.getListToString(array: fetchPostItem.hashTags)
+        if !fetchPostItem.hashTags.isEmpty {
+            hashtagLabel.text = String.getListToString(array: fetchPostItem.hashTags)
+            hashtagLabel.isHidden = false
+        } else {
+            hashtagLabel.isHidden = true
+        }
         
         let newSize = reviewLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude))
         reviewLabel.snp.makeConstraints { make in
@@ -63,19 +69,21 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         setImages(fileList: fetchPostItem.files)
         setSugar(sugarValue: fetchPostItem.sugar)
         commentCountLabel.text = "\(fetchPostItem.comments.count)개"
+        commentCountLabel.addCharacterSpacing()
         likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
         
         setProfileImage(profileUrl: fetchPostItem.creator.profileImage)
-        
-        let ifILike = fetchPostItem.likes.contains(UserDefaultManager.shared.userId)
+    
+        setLike(likes: fetchPostItem.likes)
+    }
+    
+    private func setLike(likes: [String]) {
+        let ifILike = likes.contains(UserDefaultManager.shared.userId)
         likeButton.isSelected = ifILike
         likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
         likeButton.configuration?.background.strokeColor = ifILike ? Color.brown2 : Color.borderGray
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
-       
     }
-    
-
     
     private func setProfileImage(profileUrl: String?) {
         guard let profileUrl else { return }
@@ -231,6 +239,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         placeButton.configuration = placeConfig
         
         sugarContentLabel.design(text: "당도", font: .pretendard(size: 17, weight: .medium))
+        sugarContentLabel.addCharacterSpacing()
         setSugarView()
         
         imageScrollView.isPagingEnabled = true
@@ -264,6 +273,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         reviewLabel.lineBreakMode = .byCharWrapping
         
         hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
+        hashtagLabel.isHidden = true
         
         commentStackView.design(axis: .horizontal, spacing: 8)
         commentImageView.image = Image.messages

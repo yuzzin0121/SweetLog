@@ -31,6 +31,13 @@ extension UILabel {
                                         range: NSRange(location: 0, length: attributeString.length))
            attributedText = attributeString
     }
+    
+    func addCharacterSpacing(kernValue:Double = -0.85) {
+        guard let text = text, !text.isEmpty else { return }
+        let string = NSMutableAttributedString(string: text)
+        string.addAttribute(NSAttributedString.Key.kern, value: kernValue, range: NSRange(location: 0, length: string.length - 1))
+        attributedText = string
+    }
 
     func asColor(targetString: String, color: UIColor?) {
         let fullText = text ?? ""

@@ -32,6 +32,7 @@ final class PlaceDetailViewController: BaseViewController {
                let (linkMetaData, coord, placeName, address) = placeInfo
                 owner.mainView.setLinkView(metaData: linkMetaData)
                 owner.mainView.setCoordinate(center: coord, placeName: placeName)
+                owner.mainView.setPlaceAddress(placeName: placeName, address: address)
             }
             .disposed(by: disposeBag)
         

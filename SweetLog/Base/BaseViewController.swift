@@ -50,6 +50,7 @@ class BaseViewController: UIViewController {
         
     }
     
+    @objc
     func popView() {
         navigationController?.popViewController(animated: true)
     }

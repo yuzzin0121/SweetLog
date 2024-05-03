@@ -83,6 +83,7 @@ final class SignUpViewController: BaseViewController {
     
     override func configureNavigationItem() {
         navigationItem.title = "회원가입"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     override func loadView() {

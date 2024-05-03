@@ -100,6 +100,7 @@ final class PostDetailViewController: BaseViewController {
         if viewModel.checkIsMe() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.moreButton)
         }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     @objc

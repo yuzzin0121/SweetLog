@@ -64,9 +64,17 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         commentInfoView.countLabel.text = "\(item.comments.count)"
         
         setImageUI(files: item.files)
+        setLike(likes: item.likes)
         
-        let ifILike = item.likes.contains(UserDefaultManager.shared.userId)
+    }
+    
+    private func setLike(likes: [String]) {
+        let ifILike = likes.contains(UserDefaultManager.shared.userId)
         likeButton.isSelected = ifILike
+        
+        var titleContainer = AttributeContainer()
+        titleContainer.foregroundColor = Color.black
+        likeButton.configuration?.attributedTitle = AttributedString("\(likes.count)", attributes: titleContainer)
         likeButton.configuration?.baseForegroundColor = ifILike ? Color.brown2 : Color.gray
         likeButton.configuration?.image = ifILike ? Image.heartFill.resized(to: CGSize(width: 20, height: 20)) : Image.heart.resized(to: CGSize(width: 20, height: 20))
     }

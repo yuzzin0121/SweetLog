@@ -55,7 +55,8 @@ final class SelectPlaceViewController: BaseViewController {
     }
     
     override func configureNavigationItem() {
-        navigationItem.title = "리뷰 작성"
+        navigationItem.title = "후기 작성"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
 
 }

@@ -57,7 +57,7 @@ final class CreatePostView: BaseView {
         }
         
         selectSugarContentLabel.snp.makeConstraints { make in
-            make.top.equalTo(selectCategoryLabel.snp.bottom).offset(50)
+            make.top.equalTo(selectCategoryLabel.snp.bottom).offset(30)
             make.leading.equalTo(selectCategoryLabel)
             make.height.equalTo(18)
         }
@@ -130,6 +130,7 @@ final class CreatePostView: BaseView {
         tagTextField.font = .pretendard(size: 15, weight: .light)
         tagTextField.textColor = Color.brown
         tagTextField.attributedPlaceholder = NSAttributedString(string: "태그를 추가해보세요... (1~10 글자)", attributes: [.font: UIFont(name: "Pretendard-Light", size: 15)!])
+        
         tagCollectionView.backgroundColor = Color.white
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
         tagCollectionView.showsHorizontalScrollIndicator = false

@@ -105,15 +105,11 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     // 이미지 데이터 스크롤뷰에 적용
     private func setImages(fileList: [String]) {
         pageControl.numberOfPages = fileList.count
-        imageScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(fileList.count), height: 300)
+        imageScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(fileList.count), height: 350)
+        
         for index in 0..<fileList.count {
             let imageView = PhotoImageView(frame: .zero)
-            imageScrollView.addSubview(imageView)
-            
-            imageView.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index),
-                                     y: 0,
-                                     width: UIScreen.main.bounds.width,
-                                     height: 300)
+    
             DispatchQueue.main.async {
                 imageView.kf.setImageWithAuthHeaders(with: fileList[index]) { isSuccess in
                     if !isSuccess { // 실패할 경우
@@ -121,6 +117,11 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
                     }
                 }
             }
+            
+            imageView.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index),
+                                                         y: 0,
+                                                         width: UIScreen.main.bounds.width,
+                                                         height: 350)
         }
     }
     
@@ -181,7 +182,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         imageScrollView.snp.makeConstraints { make in
             make.top.equalTo(sugarContentLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(300)
+            make.height.equalTo(350)
         }
         pageControl.snp.makeConstraints { make in
             make.bottom.equalTo(imageScrollView.snp.bottom).offset(-6)

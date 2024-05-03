@@ -11,6 +11,7 @@ final class PhotoImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureView()
     }
     
     private func configureView() {

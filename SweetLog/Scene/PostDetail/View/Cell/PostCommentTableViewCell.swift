@@ -40,8 +40,10 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         }
         
         nicknameLabel.text = comment.creator.nickname
+        nicknameLabel.addCharacterSpacing()
         dateLabel.text = DateFormatterManager.shared.formattedUpdatedDate(comment.createdAt)
         commentLabel.text = comment.content
+        commentLabel.addCharacterSpacing()
         
         moreButton.isHidden = comment.creator.userId != UserDefaultManager.shared.userId
     }
@@ -86,6 +88,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .semiBold))
         dateLabel.design(text: "날짜", font: .pretendard(size: 11, weight: .light))
         commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 15, weight: .regular))
+        
         
         var moreConfig = UIButton.Configuration.plain()
         moreConfig.image = Image.moreVertical

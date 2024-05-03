@@ -30,6 +30,10 @@ final class CreatePostView: BaseView {
     lazy var selectedCategorySubject = BehaviorSubject(value: categoryButton.configuration?.title ?? "")
     
     
+    func setTagTextFieldEmpty() {
+        tagTextField.text = ""
+    }
+    
     override func configureHierarchy() {
         addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
     }
@@ -78,7 +82,7 @@ final class CreatePostView: BaseView {
             make.top.equalTo(tagTextField.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(tagTextField)
             make.height.equalTo(40)
-            make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-30)
+            make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-20)
         }
         
         addPhotoImageView.snp.makeConstraints { make in
@@ -121,8 +125,12 @@ final class CreatePostView: BaseView {
         createButton.configuration = config
         
         tagTextField.backgroundColor = Color.white
-        tagTextField.placeholder = "태그를 추가해보세요..."
-        tagCollectionView.backgroundColor = .systemGray6
+        tagTextField.placeholder = "태그를 추가해보세요... (최대 10자)"
+        tagTextField.font = .pretendard(size: 15, weight: .light)
+        tagTextField.textColor = Color.brown
+        tagTextField.attributedPlaceholder = NSAttributedString(string: "태그를 추가해보세요... (1~10 글자)", attributes: [.font: UIFont(name: "Pretendard-Light", size: 15)!])
+        tagCollectionView.backgroundColor = Color.white
+        tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
     }
     
     private func setSugarButton() {
@@ -162,7 +170,7 @@ final class CreatePostView: BaseView {
 extension CreatePostView {
     private func createTagLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(90),
+            widthDimension: .estimated(50),
             heightDimension: .absolute(24)
         )
         
@@ -180,7 +188,7 @@ extension CreatePostView {
         group.interItemSpacing = .fixed(8)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8
+        section.interGroupSpacing = 4
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         let config = UICollectionViewCompositionalLayoutConfiguration()

@@ -44,6 +44,8 @@ class CreatePostViewController: BaseViewController {
         let input = CreatePostViewModel.Input(categoryString: mainView.selectedCategorySubject.asObserver(),
                                               sugarContent: sugarContent.asObserver(),
                                               reviewText: reviewText.asObserver(),
+                                              tagText: mainView.tagTextField.rx.text.orEmpty.asObservable(),
+                                              tagTextFieldEditDone: mainView.tagTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
                                               imageDataList: dataSubject.asObserver(),
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
@@ -52,6 +54,32 @@ class CreatePostViewController: BaseViewController {
         output.imageDataList
             .drive(mainView.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier, cellType: PhotoCollectionViewCell.self)) { index, data, cell in
                 cell.configureCell(data: data)
+            }
+            .disposed(by: disposeBag)
+        
+        output.tagTextToEmpty
+            .drive(with: self) { owner, _ in
+                print("비우기")
+                owner.mainView.setTagTextFieldEmpty()
+            }
+            .disposed(by: disposeBag)
+        
+        output.tagList
+            .drive(mainView.tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, data, cell in
+                cell.configureCell(tagText: data)
+                cell.removeButton.tag = index
+                cell.removeButton.rx.tap
+                    .asDriver()
+                    .drive(with: self) { owner, _ in
+                        
+                    }
+                    .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        output.tagError
+            .drive(with: self) { owner, error in
+                owner.showAlert(title: "태그 에러", message: error, actionHandler: nil)
             }
             .disposed(by: disposeBag)
         

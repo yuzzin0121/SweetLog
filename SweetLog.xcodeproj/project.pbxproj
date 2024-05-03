@@ -154,6 +154,7 @@
 		61BD28172BE3A9BC000A5B81 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */; };
 		61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */; };
 		61BD281D2BE3AC55000A5B81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281C2BE3AC55000A5B81 /* MapView.swift */; };
+		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -298,6 +299,7 @@
 		61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewModel.swift; sourceTree = "<group>"; };
 		61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		61BD281C2BE3AC55000A5B81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				61130D1A2BD7F189002D03C1 /* PhotoCollectionViewCell.swift */,
+				61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1165,6 +1168,7 @@
 				61130D2C2BD978D2002D03C1 /* PostDetailViewModel.swift in Sources */,
 				614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */,
 				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
+				61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */,
 				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
 				615C03AF2BDD443D0078E45A /* ProfileNetworkManager.swift in Sources */,
 				6164DF1A2BDED36800F57A97 /* FollowDetailViewController.swift in Sources */,

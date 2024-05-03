@@ -19,17 +19,27 @@ final class CreatePostViewModel: ViewModelType {
         let categoryString: Observable<String>
         let sugarContent: Observable<Int>
         let reviewText: Observable<String>
+        let tagText: Observable<String>
+        let tagTextFieldEditDone: Observable<Void>
         let imageDataList: Observable<[Data]>
         let createPostButtonTapped: Observable<Void>
     }
     
     struct Output {
         let imageDataList: Driver<[Data]>
+        let tagList: Driver<[String]>
+        let tagTextToEmpty: Driver<Void>
+        let tagError: Driver<String>
         let createValid: Driver<Bool>
         let createPostSuccessTrigger: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
+        let tagText = BehaviorRelay<String>(value: "")
+        let tagValid = PublishRelay<Bool>()
+        let tagList = BehaviorRelay<[String]>(value: [])
+        let tagTextToEmpty = PublishRelay<Void>()
+        let tagError = PublishRelay<String>()
         let createValid = BehaviorRelay(value: false)
         let fileStringList = PublishSubject<[String]>()
         let createPostSuccessTrigger = PublishRelay<Void>()
@@ -59,6 +69,37 @@ final class CreatePostViewModel: ViewModelType {
                 print(index)
             }
             .disposed(by: disposeBag)
+        
+        
+        input.tagText
+            .map { text in
+                let trimmedText = text.trimmingCharacters(in: [" "])
+                let isValid = trimmedText.count > 0 && trimmedText.count <= 10 && tagList.value.count <= 10
+                return (trimmedText, isValid)
+            }
+            .subscribe { tagInfo in
+                let (trimmedText, isValid) = tagInfo
+                tagText.accept(trimmedText)
+                tagValid.accept(isValid)
+            }
+            .disposed(by: disposeBag)
+        
+        input.tagTextFieldEditDone
+            .withLatestFrom(Observable.combineLatest(tagText, tagValid))
+            .subscribe(with: self) { owner, tagInfo in
+                let (tagText, tagValid) = tagInfo
+                if tagValid {
+                    var tagListValue = tagList.value
+                    print("태그 값: \(tagText)")
+                    tagListValue.append(tagText)
+                    tagList.accept(tagListValue)
+                    tagTextToEmpty.accept(())
+                } else {
+                    tagError.accept("1~10글자 범위로 입력해야합니다.")
+                }
+            }
+            .disposed(by: disposeBag)
+    
         
         // 이미지 파일들 서버로 post
         input.createPostButtonTapped
@@ -91,7 +132,12 @@ final class CreatePostViewModel: ViewModelType {
             .disposed(by: disposeBag)
             
         
-        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []), createValid: createValid.asDriver(onErrorJustReturn: false), createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
+        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []),
+                      tagList: tagList.asDriver(onErrorJustReturn: []),
+                      tagTextToEmpty: tagTextToEmpty.asDriver(onErrorJustReturn: ()),
+                      tagError: tagError.asDriver(onErrorJustReturn: ""),
+                      createValid: createValid.asDriver(onErrorJustReturn: false),
+                      createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
     }
     
     private func getPostRequestModel(categoryString: String, sugar: Int, review: String, fileStringList: [String]) -> PostRequestModel? {

@@ -19,7 +19,7 @@ final class CreatePostView: BaseView {
     
     let textView = UITextView() // 후기 작성 텍스트뷰
     let tagTextField = UITextField()
-    let tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createTagLayout())
     
     var buttonList: [UIButton] = []
     let addPhotoImageView = AddPhotoImageView(frame: .zero)
@@ -156,5 +156,38 @@ final class CreatePostView: BaseView {
         for button in buttonList {
             button.configuration?.baseBackgroundColor = button.tag == index ? Color.brown : Color.sugarBrown
         }
+    }
+}
+
+extension CreatePostView {
+    private func createTagLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(90),
+            heightDimension: .absolute(24)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(24)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.interItemSpacing = .fixed(8)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .horizontal
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        layout.configuration = config
+        return layout
     }
 }

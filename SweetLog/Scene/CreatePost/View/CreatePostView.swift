@@ -17,7 +17,9 @@ final class CreatePostView: BaseView {
     let selectSugarContentLabel = UILabel() // 당도
     let sugarStackView = UIStackView()  // 당도 선택버튼 스택뷰
     
-    let textView = UITextView()
+    let textView = UITextView() // 후기 작성 텍스트뷰
+    let tagTextField = UITextField()
+    let tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     var buttonList: [UIButton] = []
     let addPhotoImageView = AddPhotoImageView(frame: .zero)
@@ -29,7 +31,7 @@ final class CreatePostView: BaseView {
     
     
     override func configureHierarchy() {
-        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView, textView, addPhotoImageView, photoCollectionView])
+        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
     }
     override func configureLayout() {
         placeInfoView.snp.makeConstraints { make in
@@ -65,7 +67,18 @@ final class CreatePostView: BaseView {
         textView.snp.makeConstraints { make in
             make.top.equalTo(selectSugarContentLabel.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-40)
+        }
+        tagTextField.snp.makeConstraints { make in
+            make.top.equalTo(textView.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(textView)
+            make.height.equalTo(30)
+        }
+        
+        tagCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(tagTextField.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(tagTextField)
+            make.height.equalTo(40)
+            make.bottom.greaterThanOrEqualTo(addPhotoImageView.snp.top).offset(-30)
         }
         
         addPhotoImageView.snp.makeConstraints { make in
@@ -106,6 +119,10 @@ final class CreatePostView: BaseView {
         config.title = "후기 공유"
         config.cornerStyle = .capsule
         createButton.configuration = config
+        
+        tagTextField.backgroundColor = Color.white
+        tagTextField.placeholder = "태그를 추가해보세요..."
+        tagCollectionView.backgroundColor = .systemGray6
     }
     
     private func setSugarButton() {

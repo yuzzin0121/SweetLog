@@ -75,7 +75,7 @@ final class EditProfileViewModel: ViewModelType {
             .withLatestFrom(editValue)
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { editValue in
-                print("클릭됨")
+                print("클릭됨\(editValue)")
                 return ProfileNetworkManager.shared.editMyProfile(nickname: editValue.0, profile: editValue.1)
                     .catch { error in
                         print(error.localizedDescription)

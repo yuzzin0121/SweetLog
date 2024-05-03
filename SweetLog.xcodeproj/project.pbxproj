@@ -156,6 +156,9 @@
 		61BD281D2BE3AC55000A5B81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281C2BE3AC55000A5B81 /* MapView.swift */; };
 		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
 		61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */; };
+		61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */; };
+		61FC8C152BE55BAD00CF3146 /* TagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C142BE55BAD00CF3146 /* TagSearchView.swift */; };
+		61FC8C172BE55C9600CF3146 /* TagSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C162BE55C9600CF3146 /* TagSearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -302,6 +305,9 @@
 		61BD281C2BE3AC55000A5B81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchViewController.swift; sourceTree = "<group>"; };
+		61FC8C142BE55BAD00CF3146 /* TagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchView.swift; sourceTree = "<group>"; };
+		61FC8C162BE55C9600CF3146 /* TagSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -675,6 +681,7 @@
 				614746F52BD6A3B200B9B670 /* CreatePost */,
 				618C77252BC6F5DE0033CD0D /* Sign */,
 				618C77092BC6F1400033CD0D /* Home */,
+				61FC8C0F2BE55B4300CF3146 /* TagSearch */,
 				618C770A2BC6F1450033CD0D /* Map */,
 				618C770B2BC6F1490033CD0D /* Profile */,
 				618C77072BC6F1210033CD0D /* TabBarController.swift */,
@@ -1000,6 +1007,32 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		61FC8C0F2BE55B4300CF3146 /* TagSearch */ = {
+			isa = PBXGroup;
+			children = (
+				61FC8C112BE55B6000CF3146 /* View */,
+				61FC8C102BE55B5C00CF3146 /* ViewModel */,
+			);
+			path = TagSearch;
+			sourceTree = "<group>";
+		};
+		61FC8C102BE55B5C00CF3146 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				61FC8C162BE55C9600CF3146 /* TagSearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		61FC8C112BE55B6000CF3146 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */,
+				61FC8C142BE55BAD00CF3146 /* TagSearchView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1158,6 +1191,7 @@
 				6164DF0C2BDE4FB800F57A97 /* UserPostViewController.swift in Sources */,
 				615C03B82BDD50A70078E45A /* EditProfileView.swift in Sources */,
 				61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */,
+				61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */,
 				61130D292BD97869002D03C1 /* PostDetailView.swift in Sources */,
 				61B5287D2BD1034C00974CA0 /* PostCollectionViewCell.swift in Sources */,
 				618C775C2BC847FD0033CD0D /* AuthNetworkManager.swift in Sources */,
@@ -1171,6 +1205,7 @@
 				61130D2C2BD978D2002D03C1 /* PostDetailViewModel.swift in Sources */,
 				614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */,
 				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
+				61FC8C172BE55C9600CF3146 /* TagSearchViewModel.swift in Sources */,
 				61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */,
 				61B528872BD10FF600974CA0 /* PostError.swift in Sources */,
 				615C03AF2BDD443D0078E45A /* ProfileNetworkManager.swift in Sources */,
@@ -1212,6 +1247,7 @@
 				618C781A2BC9A9090033CD0D /* UserDefaultManager.swift in Sources */,
 				618C77602BC848580033CD0D /* Profile.swift in Sources */,
 				6164DF1C2BDED38100F57A97 /* FollowDetailViewModel.swift in Sources */,
+				61FC8C152BE55BAD00CF3146 /* TagSearchView.swift in Sources */,
 				61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */,
 				61BD28142BE3A6CA000A5B81 /* PlaceDetailView.swift in Sources */,
 				6164DF132BDE506E00F57A97 /* UserPostViewModel.swift in Sources */,

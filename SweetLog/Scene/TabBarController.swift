@@ -25,6 +25,10 @@ final class TabBarController: UITabBarController {
         let homeVC = HomeViewController()
         let homeNav = UINavigationController(rootViewController: homeVC)
         homeNav.tabBarItem = UITabBarItem(title: nil, image: TabItem.home.image, selectedImage: TabItem.home.selectedImage)
+        
+        let tagSearchVC = TagSearchViewController()
+        let tagSearchNav = UINavigationController(rootViewController: tagSearchVC)
+        tagSearchNav.tabBarItem = UITabBarItem(title: nil, image: TabItem.tagSearch.image.resized(to: CGSize(width: 30, height: 30)), selectedImage: TabItem.tagSearch.selectedImage.resized(to: CGSize(width: 30, height: 30)))
   
         let mapVC = MapViewController()
         let mapNav = UINavigationController(rootViewController: mapVC)
@@ -35,6 +39,6 @@ final class TabBarController: UITabBarController {
         profileNav.tabBarItem = UITabBarItem(title: nil, image: TabItem.profile.image, selectedImage: TabItem.profile.selectedImage)
         
         
-        self.viewControllers = [homeNav, mapNav, profileNav]
+        self.viewControllers = [homeNav, tagSearchNav, mapNav, profileNav]
     }
 }

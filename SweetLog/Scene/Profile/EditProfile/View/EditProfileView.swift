@@ -48,11 +48,8 @@ final class EditProfileView: BaseView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
-            profileImageView.clipsToBounds = true
-        }
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
         
         nicknameTextField.layer.addBorder([.bottom], color: Color.black, width: 1)
     }

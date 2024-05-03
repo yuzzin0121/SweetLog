@@ -160,12 +160,7 @@ final class CreatePostViewModel: ViewModelType {
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }
         let lonLat = [x, y].description
         
-        var review = review
-        if !tagList.isEmpty {
-            for tag in tagList {
-                review.append(" \(tag)")
-            }
-        }
+        let review = appendTag(review: review, tagList: tagList)
         
         let postRequestModel = PostRequestModel(review: review,
                                                 placeName: placeItem.placeName,
@@ -176,5 +171,15 @@ final class CreatePostViewModel: ViewModelType {
                                                 product_id: categoryString,
                                                 files: fileStringList)
         return postRequestModel
+    }
+    
+    private func appendTag(review: String, tagList: [String]) -> String {
+        var review = review
+        if !tagList.isEmpty {
+            for tag in tagList {
+                review.append(" #\(tag)")
+            }
+        }
+        return review
     }
 }

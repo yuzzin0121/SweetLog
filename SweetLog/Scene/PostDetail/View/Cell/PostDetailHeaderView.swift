@@ -49,7 +49,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         placeButton.configuration?.title = fetchPostItem.placeName
         userNicknameLabel.text = fetchPostItem.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
-        reviewLabel.text = fetchPostItem.review
+        reviewLabel.text = String.unTaggedText(text: fetchPostItem.review)
         
         let newSize = reviewLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude))
         reviewLabel.snp.makeConstraints { make in

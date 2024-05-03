@@ -155,6 +155,7 @@
 		61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */; };
 		61BD281D2BE3AC55000A5B81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281C2BE3AC55000A5B81 /* MapView.swift */; };
 		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
+		61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -300,6 +301,7 @@
 		61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		61BD281C2BE3AC55000A5B81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -709,6 +711,7 @@
 				614747052BD6A96100B9B670 /* UIStackView+Extension.swift */,
 				61130D422BDC0194002D03C1 /* UIImage+Extension.swift */,
 				61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */,
+				61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1177,6 +1180,7 @@
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				615C03BA2BDD50CF0078E45A /* EditProfileViewModel.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
+				61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */,
 				615C03AA2BDD3E8E0078E45A /* ProfileView.swift in Sources */,
 				614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,

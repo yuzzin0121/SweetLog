@@ -66,7 +66,7 @@ final class PlaceDetailView: BaseView {
             make.top.equalTo(mapView.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(100)
-        
+        }
         linkView.snp.makeConstraints { make in
             make.top.equalTo(placeInfoView.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
@@ -79,12 +79,12 @@ final class PlaceDetailView: BaseView {
         
         mapView.layer.cornerRadius = 8
         mapView.clipsToBounds = true
-
+        
         placeNameLabel.design(textColor: Color.darkBrown, font: .pretendard(size: 20, weight: .semiBold))
         
         markImageView.image = Image.markFill
         markImageView.contentMode = .scaleAspectFit
-      
+        
         linkView.isHidden = true
     }
 }

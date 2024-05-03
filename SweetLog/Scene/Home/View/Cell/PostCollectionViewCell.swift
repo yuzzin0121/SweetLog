@@ -48,7 +48,7 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(item.createdAt)
         
-        contentLabel.text = item.review
+        contentLabel.text = String.unTaggedText(text: item.review)
         
         // Label Dynamic Height
 //        let newSize = contentLabel.sizeThatFits(CGSize(width: imageStackView.frame.width, height: CGFloat.greatestFiniteMagnitude))

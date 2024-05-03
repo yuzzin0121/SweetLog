@@ -32,5 +32,7 @@ enum Image {
     static let addPhoto: UIImage = .addPhoto
     static let moreVertical: UIImage = .moreVertical
     static let x: UIImage = .x
+    
+    static let search: UIImage = .search
     static let search2: UIImage = .search2
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 final class SelectPlaceView: BaseView {
-    let searchBar = UISearchBar()
+    let searchBar = SearchBar(placeholder: "리뷰를 작성할 장소를 검색하세요")
     let placeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func configureHierarchy() {
@@ -28,7 +28,6 @@ final class SelectPlaceView: BaseView {
     override func configureView() {
         super.configureView()
         
-        searchBar.searchBarStyle = .minimal
         searchBar.searchTextField.backgroundColor = nil
         searchBar.layer.cornerRadius = 24
         searchBar.clipsToBounds = true

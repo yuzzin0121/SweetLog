@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import LinkPresentation
+import MapKit
 
 final class PlaceDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
@@ -26,27 +27,40 @@ final class PlaceDetailViewModel: ViewModelType {
     }
     
     struct Output {
-        let fetchPlaceInfo: Driver<FetchPostItem>
-        let linkMetaData: Driver<LPLinkMetadata?>
+        let placeInfo: Driver<(LPLinkMetadata?, CLLocationCoordinate2D, String, String)>
     }
     
     func transform(input: Input) -> Output {
         let fetchPlaceInfo = BehaviorSubject(value: postItem)
-        let linkMetaData = PublishRelay<LPLinkMetadata?>()
+        let placeInfo = PublishRelay<(LPLinkMetadata?, CLLocationCoordinate2D, String, String)>()
+        let placeCoordinate = PublishRelay<CLLocationCoordinate2D>()
         
         input.fetchPlaceTrigger
             .subscribe(with: self) { owner, _ in
-                print(owner.postItem.link)
+                let coord = owner.getPlaceCoordinate(xy: owner.postItem.lonlat)
+                placeCoordinate.accept(coord)
                 owner.getMetaDataFromLink(link: owner.postItem.link) { metaData in
                     owner.metaData = metaData
-                    linkMetaData.accept(metaData)
+                    placeInfo.accept((metaData, coord, owner.postItem.placeName, owner.postItem.address))
                 }
             }
             .disposed(by: disposeBag)
         
         
-        return Output(fetchPlaceInfo: fetchPlaceInfo.asDriver(onErrorDriveWith: .empty()), 
-                      linkMetaData: linkMetaData.asDriver(onErrorJustReturn: nil))
+        return Output(placeInfo: placeInfo.asDriver(onErrorDriveWith: .empty()))
+    }
+    
+    private func getPlaceCoordinate(xy: String) -> CLLocationCoordinate2D {
+        let xyArray = stringToDoubleArray(string: xy)
+        let coord = CLLocationCoordinate2D(latitude: xyArray[1], longitude: xyArray[0])
+        return coord
+    }
+    
+    private func stringToDoubleArray(string: String) -> [Double] {
+        let trimmedString = string.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+        let stringArray = trimmedString.components(separatedBy: ",")
+        let doubleArray = stringArray.compactMap { Double($0.trimmingCharacters(in: .whitespaces)) }
+        return doubleArray
     }
     
     private func getMetaDataFromLink(link: String, completionHandler: @escaping (LPLinkMetadata?) -> Void) {

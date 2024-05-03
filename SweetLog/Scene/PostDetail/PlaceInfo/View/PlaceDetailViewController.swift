@@ -27,18 +27,14 @@ final class PlaceDetailViewController: BaseViewController {
         let input = PlaceDetailViewModel.Input(fetchPlaceTrigger: Observable.just(()))
         let output = viewModel.transform(input: input)
         
-        output.fetchPlaceInfo
-            .drive(with: self) { owner, fetchPostItem in
-                print("fetchPlaceInfo")
+        output.placeInfo
+            .drive(with: self) { owner, placeInfo in
+               let (linkMetaData, coord, placeName, address) = placeInfo
+                owner.mainView.setLinkView(metaData: linkMetaData)
+                owner.mainView.setCoordinate(center: coord, placeName: placeName)
             }
             .disposed(by: disposeBag)
         
-        output.linkMetaData
-            .drive(with: self) { owner, linkMetaData in
-                guard let linkMetaData else { return }
-                owner.mainView.setLinkView(metaData: linkMetaData)
-            }
-            .disposed(by: disposeBag)
     }
     
     override func loadView() {

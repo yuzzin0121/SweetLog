@@ -41,7 +41,7 @@ final class PlaceInfoView: BaseView {
         markImageView.tintColor = Color.gray
         infoStackView.design()
         
-        placeNameLabel.design(textColor: Color.black, font: .pretendard(size: 16, weight: .medium))
+        placeNameLabel.design(textColor: Color.black, font: .pretendard(size: 16, weight: .semiBold))
         addressLabel.design(textColor: Color.gray, font: .pretendard(size: 14, weight: .regular))
     }
 }

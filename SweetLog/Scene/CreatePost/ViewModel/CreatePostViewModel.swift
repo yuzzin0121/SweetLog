@@ -21,6 +21,7 @@ final class CreatePostViewModel: ViewModelType {
         let reviewText: Observable<String>
         let tagText: Observable<String>
         let tagTextFieldEditDone: Observable<Void>
+        let removeTag: Observable<Int>
         let imageDataList: Observable<[Data]>
         let createPostButtonTapped: Observable<Void>
     }
@@ -47,9 +48,9 @@ final class CreatePostViewModel: ViewModelType {
         let contentObservable = Observable.combineLatest(input.categoryString, input.sugarContent, input.reviewText, fileStringList)
             .map { [weak self] categoryString, sugar, review, fileStringList in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
-                                                           sugar: sugar,
-                                                           review: review,
-                                                           fileStringList: fileStringList)
+                                                                 sugar: sugar,
+                                                                 review: review,
+                                                                 fileStringList: fileStringList)
                 return postRequestModel
             }
         
@@ -99,7 +100,14 @@ final class CreatePostViewModel: ViewModelType {
                 }
             }
             .disposed(by: disposeBag)
-    
+        
+        input.removeTag
+            .subscribe(with: self) { owner, index in
+                let removedTagList = owner.removeTag(tagList: tagList.value, index: index)
+                tagList.accept(removedTagList)
+            }
+            .disposed(by: disposeBag)
+        
         
         // 이미지 파일들 서버로 post
         input.createPostButtonTapped
@@ -130,7 +138,7 @@ final class CreatePostViewModel: ViewModelType {
                 createPostSuccessTrigger.accept(())
             }
             .disposed(by: disposeBag)
-            
+        
         
         return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []),
                       tagList: tagList.asDriver(onErrorJustReturn: []),
@@ -140,6 +148,12 @@ final class CreatePostViewModel: ViewModelType {
                       createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
     }
     
+    private func removeTag(tagList: [String], index: Int) -> [String] {
+        var tagList = tagList
+        tagList.remove(at: index)
+        return tagList
+    }
+ 
     private func getPostRequestModel(categoryString: String, sugar: Int, review: String, fileStringList: [String]) -> PostRequestModel? {
         guard let placeItem else { return nil }
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }

@@ -30,7 +30,7 @@ class CreatePostViewController: BaseViewController {
     
     override func bind() {
         let sugarContent = BehaviorSubject(value: 1)
-        
+        let removeTag = PublishSubject<Int>()
         
         for button in mainView.buttonList {
             button.rx.tap
@@ -45,7 +45,8 @@ class CreatePostViewController: BaseViewController {
                                               sugarContent: sugarContent.asObserver(),
                                               reviewText: reviewText.asObserver(),
                                               tagText: mainView.tagTextField.rx.text.orEmpty.asObservable(),
-                                              tagTextFieldEditDone: mainView.tagTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(),
+                                              tagTextFieldEditDone: mainView.tagTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(), 
+                                              removeTag: removeTag.asObservable(),
                                               imageDataList: dataSubject.asObserver(),
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
@@ -71,7 +72,7 @@ class CreatePostViewController: BaseViewController {
                 cell.removeButton.rx.tap
                     .asDriver()
                     .drive(with: self) { owner, _ in
-                        
+                        removeTag.onNext(index)
                     }
                     .disposed(by: cell.disposeBag)
             }

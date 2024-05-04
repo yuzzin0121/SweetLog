@@ -35,7 +35,8 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
                                        getCurrentLocations: getCurrentLocations.asObservable(), 
                                        centerCoord: centerCoordinate.asObservable(),
                                        searchText: mainView.placeSearchBar.rx.text.orEmpty.asObservable(),
-                                       searchButtonTapped: mainView.placeSearchBar.rx.searchButtonClicked.asObservable())
+                                       searchButtonTapped: mainView.placeSearchBar.rx.searchButtonClicked.asObservable(),
+                                       refreshButtonTapped: mainView.refreshButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
         
         output.viewDidLoadTrigger

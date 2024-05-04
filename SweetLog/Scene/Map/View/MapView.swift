@@ -11,6 +11,7 @@ import MapKit
 final class MapView: BaseView {
     let mapView = MKMapView()
     let placeSearchBar = SearchBar(placeholder: "키워드 또는 장소를 검색해보세요 ex) 케이크, 성심당", backgroundColor: Color.white)
+    let refreshButton = UIButton()
     let moveCurrentLoactionButton = UIButton()
     
     
@@ -22,7 +23,7 @@ final class MapView: BaseView {
     }
     
     override func configureHierarchy() {
-        addSubviews([mapView, placeSearchBar, moveCurrentLoactionButton])
+        addSubviews([mapView, refreshButton, placeSearchBar, moveCurrentLoactionButton])
     }
     override func configureLayout() {
         mapView.snp.makeConstraints { make in
@@ -34,6 +35,11 @@ final class MapView: BaseView {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
+        refreshButton.snp.makeConstraints { make in
+            make.top.equalTo(placeSearchBar.snp.bottom).offset(12)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(40)
+        }
         moveCurrentLoactionButton.snp.makeConstraints { make in
             make.top.equalTo(placeSearchBar.snp.bottom).offset(40)
             make.trailing.equalToSuperview().inset(14)
@@ -43,6 +49,18 @@ final class MapView: BaseView {
     override func configureView() {
         mapView.isPitchEnabled = true
         mapView.showsUserLocation = true
+        
+        var refreshConfig = UIButton.Configuration.filled()
+        refreshConfig.image = Image.refresh.resized(to: CGSize(width: 18, height: 18))
+        var titleContainer = AttributeContainer()
+        titleContainer.font = .pretendard(size: 14, weight: .medium)
+        refreshConfig.title = "현 지도에서 찾기"
+        refreshConfig.attributedTitle = AttributedString("현 지도에서 찾기", attributes: titleContainer)
+        refreshConfig.cornerStyle = .capsule
+        refreshConfig.imagePadding = 6
+        refreshConfig.baseBackgroundColor = Color.brown
+        refreshConfig.baseForegroundColor = Color.white
+        refreshButton.configuration = refreshConfig
         
         var currentLocationConfig = UIButton.Configuration.filled()
         currentLocationConfig.image = Image.current

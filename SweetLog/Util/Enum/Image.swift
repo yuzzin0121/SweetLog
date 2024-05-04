@@ -37,4 +37,5 @@ enum Image {
     static let search2: UIImage = .search2
     
     static let refresh: UIImage = .refresh
+    static let call: UIImage = .call
 }

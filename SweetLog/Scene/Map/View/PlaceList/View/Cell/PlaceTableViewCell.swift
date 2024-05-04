@@ -61,7 +61,7 @@ class PlaceTableViewCell: BaseTableViewCell {
     }
     override func configureView() {
         markImageView.image = Image.markFill
-        markImageView.tintColor = Color.sugarBrown
+        markImageView.tintColor = Color.orangee
         
         placeNameLabel.design(font: .pretendard(size: 16, weight: .bold))
         categoryLabel.design(textColor: Color.gray, font: .pretendard(size: 11, weight: .light))

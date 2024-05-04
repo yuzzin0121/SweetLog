@@ -40,6 +40,18 @@ class PlaceListViewController: BaseViewController {
                 owner.mainView.setResult(resultCount: placeList.count)
             }
             .disposed(by: disposeBag)
+        
+        mainView.placeTableView.rx.modelSelected(PlaceItem.self)
+            .asDriver()
+            .drive(with: self) { owner, placeItem in
+                owner.showPlaceInfoVC(placeItem: placeItem)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showPlaceInfoVC(placeItem: PlaceItem) {
+        let placeInfoVC = PlaceInfoViewController(placeItem: placeItem)
+        navigationController?.pushViewController(placeInfoVC, animated: true)
     }
     
     override func loadView() {
@@ -47,6 +59,5 @@ class PlaceListViewController: BaseViewController {
     }
 
     override func configureNavigationItem() {
-        navigationController?.isNavigationBarHidden = true
     }
 }

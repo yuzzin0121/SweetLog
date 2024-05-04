@@ -74,8 +74,8 @@ final class MapViewModel: ViewModelType {
                 let x = String(info.1.longitude)
                 let y = String(info.1.latitude)
                 let query =  info.0.trimmingCharacters(in: [" "])
-                print(SearchPlaceQuery(query: query, x: x, y: y, radius: 10000, sort: "distance"))
-                return SearchPlaceQuery(query: query, x: x, y: y, radius: 10000, sort: "distance")
+                print(SearchPlaceQuery(query: query, x: x, y: y, radius: 20000, sort: "distance"))
+                return SearchPlaceQuery(query: query, x: x, y: y, radius: 20000, sort: "distance")
             }
             .flatMap { searchPlaceQuery in
                 if searchPlaceQuery.query.count < 2 {

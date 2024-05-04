@@ -9,83 +9,61 @@ import UIKit
 import LinkPresentation
 
 final class PlaceDetailInfoView: BaseView {
-    let placeNameLabel = UILabel()
-    let categoryLabel = UILabel()
-    let callButton = UIButton()
-    let placeInfoView = PlaceInfoView()
-    let linkView = LPLinkView()
-    let divisionLineView = UIView()
-    
-    let reviewLabel = UILabel()
-    let reviewCountLabel = UILabel()
-    
-    
-    
-    func setPlaceItem(_ placeItem: PlaceItem, meta: LPLinkMetadata) {
-        placeNameLabel.text = placeItem.placeName
-        categoryLabel.text = String.getLastCategory(category: placeItem.categoryName)
-        placeInfoView.placeNameLabel.isHidden = true
-        placeInfoView.addressLabel.text = placeItem.address
-        linkView.metadata = meta
-    }
-    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createPostLayout())
     override func configureHierarchy() {
-        addSubviews([placeNameLabel, categoryLabel, callButton, 
-                     placeInfoView, linkView, divisionLineView,
-                     reviewLabel, reviewCountLabel])
+        addSubview(collectionView)
     }
     override func configureLayout() {
-        placeNameLabel.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(12)
-            make.leading.equalToSuperview().offset(20)
-        }
-        categoryLabel.snp.makeConstraints { make in
-            make.leading.equalTo(placeNameLabel.snp.trailing).offset(6)
-            make.bottom.equalTo(placeNameLabel.snp.bottom)
-        }
-        callButton.snp.makeConstraints { make in
-            make.bottom.equalTo(categoryLabel)
-            make.trailing.equalToSuperview().inset(20)
-            make.size.equalTo(20)
-        }
-        
-        placeInfoView.snp.makeConstraints { make in
-            make.top.equalTo(placeNameLabel.snp.bottom).offset(18)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(50)
-        }
-        
-        linkView.snp.makeConstraints { make in
-            make.top.equalTo(placeInfoView.snp.bottom).offset(12)
-            make.horizontalEdges.equalTo(placeInfoView)
-            make.height.equalTo(150)
-        }
-        divisionLineView.snp.makeConstraints { make in
-            make.top.equalTo(linkView.snp.bottom).offset(14)
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(6)
-        }
-        reviewLabel.snp.makeConstraints { make in
-            make.top.equalTo(divisionLineView.snp.bottom).offset(24)
-            make.leading.equalToSuperview().offset(20)
-        }
-        
-        reviewCountLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(reviewLabel)
-            make.leading.equalTo(reviewLabel.snp.trailing).offset(4)
+            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
     override func configureView() {
-        super.configureView()
-        placeNameLabel.design(font: .pretendard(size: 24, weight: .bold))
-        categoryLabel.design(textColor: Color.gray, font: .pretendard(size: 12, weight: .light))
-        callButton.setImage(Image.call, for: .normal)
-        placeInfoView.backgroundColor = Color.gray2
-        linkView.layer.cornerRadius = 12
-        linkView.clipsToBounds = true
-        divisionLineView.backgroundColor = Color.gray2
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: ReviewCollectionViewCell.identifier)
+        collectionView.register(ReviewHeaderCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: ReviewHeaderCollectionReusableView.identifier)
+    }
+    
+    private func createPostLayout() -> UICollectionViewLayout {
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .vertical
         
-        reviewLabel.design(text: "후기", font: .pretendard(size: 16, weight: .semiBold))
-        reviewCountLabel.design(textColor: Color.buttonGray, font: .pretendard(size: 15, weight: .extraBold))
+        let layout = UICollectionViewCompositionalLayout { _, _ in
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalWidth(1.0)
+            )
+            
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(260)
+            )
+            
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: groupSize,
+                subitems: [item]
+            )
+            group.interItemSpacing = .fixed(12)
+            
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(240))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                     elementKind: UICollectionView.elementKindSectionHeader,
+                                                                     alignment: .top)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 4
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            section.boundarySupplementaryItems = [header]
+            
+            return section
+        }
+        layout.configuration = config
+        return layout
     }
 }

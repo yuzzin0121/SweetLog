@@ -33,7 +33,7 @@ final class PlaceListView: BaseView {
     }
     override func configureLayout() {
         searchKeywordLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(20)
+            make.top.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
             make.horizontalEdges.greaterThanOrEqualToSuperview().inset(12)
         }

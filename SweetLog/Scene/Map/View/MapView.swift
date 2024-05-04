@@ -17,18 +17,19 @@ final class MapView: BaseView {
     
     
     func addAnnotation(placeItemList: [PlaceItem]) {
-        mapView.removeAnnotations(mapView.annotations)
-//        var previousAnnotations = mapView.annotations
-//        for annotation in previousAnnotations {
-//            mapView.removeAnnotation(annotation)
-//            mapView.removeAnnotations(mapView.annotations)
-//        }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            mapView.removeAnnotations(mapView.annotations)
+        }
         for place in placeItemList {
             guard let lat = Double(place.y), let lon = Double(place.x) else { return }
             let annotation = PlaceAnnotation(title: place.placeName,
                                              coordinate: CLLocationCoordinate2D(latitude: lat,
                                                                                 longitude: lon))
-            mapView.addAnnotation(annotation)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                mapView.addAnnotation(annotation)
+            }
         }
     }
     
@@ -36,7 +37,10 @@ final class MapView: BaseView {
         let span = MKCoordinateSpan(latitudeDelta: 0.005,
                                     longitudeDelta: 0.005)
         let region = MKCoordinateRegion(center: center, span: span)
-        mapView.setRegion(region, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            mapView.setRegion(region, animated: true)
+        }
     }
     
     override func configureHierarchy() {

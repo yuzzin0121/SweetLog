@@ -51,5 +51,13 @@ extension String {
             return formattedKilometers
         }
     }
+    
+    static func getFirstWord(fullText: String) -> String {
+        if let range = fullText.range(of: " ") { // 첫 번째 공백의 범위를 찾음
+            let firstWord = fullText[..<range.lowerBound] // 공백 전까지의 범위를 추출
+            return String(firstWord)
+        }
+        return fullText
+    }
 }
 

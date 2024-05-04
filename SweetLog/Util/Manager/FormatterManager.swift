@@ -53,3 +53,16 @@ final class DateFormatterManager {
 
     }
 }
+
+
+final class NumberFomatterManager {
+    static let shared = NumberFomatterManager()
+    private init() { }
+    private let numberFormatter = NumberFormatter()
+    
+    func formattedNumber(_ number: Int) -> String {
+        numberFormatter.numberStyle = .decimal
+        guard let result = numberFormatter.string(from: number as NSNumber) else { return "0" }
+        return result
+    }
+}

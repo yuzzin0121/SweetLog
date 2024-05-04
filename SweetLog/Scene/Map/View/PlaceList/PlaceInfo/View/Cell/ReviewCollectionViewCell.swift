@@ -57,6 +57,7 @@ class ReviewCollectionViewCell: BaseCollectionViewCell {
             }
             imageView.layer.cornerRadius = 6
             imageView.clipsToBounds = true
+            imageView.isUserInteractionEnabled = true
         }
     }
     
@@ -123,6 +124,7 @@ class ReviewCollectionViewCell: BaseCollectionViewCell {
         hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
         imageScrollView.showsHorizontalScrollIndicator = false
         imageStackView.spacing = 4
+        imageStackView.isUserInteractionEnabled = true
     }
     
     override func layoutSubviews() {

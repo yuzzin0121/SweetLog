@@ -30,31 +30,25 @@ final class PlaceInfoViewController: BaseViewController {
         configureCollectionViewDataSource()
         
         let input = PlaceInfoViewModel.Input(viewDidLoadTrigger: Observable.just(()),
-                                             placeItem: Observable.just(viewModel.placeItem))
+                                             placeItem: Observable.just(viewModel.placeItem), 
+                                             reviewCellTapped: mainView.collectionView.rx.modelSelected(FetchPostItem.self).asObservable())
         let output = viewModel.transform(input: input)
-        
-//        output.placeItem
-//            .drive(with: self) { owner, placeInfo in
-//                let (placeItem, meta) = placeInfo
-//                owner.mainView.setPlaceItem(placeItem, meta: meta)
-//            }
-//            .disposed(by: disposeBag)
-//        
-//        output.postList
-//            .drive(with: self) { owner, postList in
-//                owner.mainView.setReviewCount(postList.count)
-//            }
-//            .disposed(by: disposeBag)
-//
-//        output.postList
-//            .drive(mainView.collectionView.rx.items(cellIdentifier: ReviewCollectionViewCell.identifier, cellType: ReviewCollectionViewCell.self)) { index, postItem, cell in
-//                cell.configureCell(postItem: postItem)
-//            }
-//            .disposed(by: disposeBag)
         
         output.placeInfoSection
             .bind(to: mainView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        output.reviewCellTapped
+            .drive(with: self) { owner, fetchPostItem in
+                owner.showPostDetailVC(postId: fetchPostItem.postId)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showPostDetailVC(postId: String) {
+        let postDetailVC = PostDetailViewController()
+        postDetailVC.viewModel.postId = postId
+        navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     private func configureCollectionViewDataSource() {

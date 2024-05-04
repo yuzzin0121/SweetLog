@@ -38,12 +38,12 @@ final class PlaceInfoViewModel: ViewModelType {
     struct Input {
         let viewDidLoadTrigger: Observable<Void>
         let placeItem: Observable<PlaceItem>
+        let reviewCellTapped: Observable<FetchPostItem>
     }
     
     struct Output {
-        let placeItem: Driver<(PlaceItem, LPLinkMetadata)>
-        let postList: Driver<[FetchPostItem]>
         let placeInfoSection: PublishSubject<[PlaceInfoSection]>
+        let reviewCellTapped: Driver<FetchPostItem>
     }
     
     func transform(input: Input) -> Output {
@@ -51,6 +51,7 @@ final class PlaceInfoViewModel: ViewModelType {
         let postList = PublishRelay<[FetchPostItem]>()
         let next = BehaviorSubject(value: "")
         let placeInfoSection = PublishSubject<[PlaceInfoSection]>()
+        let reviewCellTapped = PublishRelay<FetchPostItem>()
         
         input.viewDidLoadTrigger
             .withLatestFrom(input.placeItem)
@@ -92,11 +93,14 @@ final class PlaceInfoViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        input.reviewCellTapped
+            .bind { fetchPostItem in
+                reviewCellTapped.accept(fetchPostItem)
+            }
+            .disposed(by: disposeBag)
         
-        
-        return Output(placeItem: place.asDriver(onErrorDriveWith: .empty()), 
-                      postList: postList.asDriver(onErrorJustReturn: []), 
-                      placeInfoSection: placeInfoSection)
+        return Output(placeInfoSection: placeInfoSection, 
+                      reviewCellTapped: reviewCellTapped.asDriver(onErrorDriveWith: .empty()))
     }
     
     private func getMetaDataFromLink(link: String, completionHandler: @escaping (LPLinkMetadata?) -> Void) {

@@ -59,9 +59,9 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         }
         
         nicknameLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.top).offset(2)
+            make.top.equalTo(profileImageView.snp.top)
             make.leading.equalTo(profileImageView.snp.trailing).offset(8)
-            make.height.equalTo(12)
+            make.height.equalTo(13)
         }
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(nicknameLabel)

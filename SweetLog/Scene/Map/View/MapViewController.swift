@@ -18,13 +18,22 @@ final class MapViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
         setDelegate()
+        checkDeviceLocationAuthorization()
     }
     
     override func bind() {
-        let input = MapViewModel.Input(currentLocationButtonTapped: mainView.moveCurrentLoactionButton.rx.tap.asObservable(), 
+        let input = MapViewModel.Input(viewDidLoadTrigger: Observable.just(()),
+                                       currentLocationButtonTapped: mainView.moveCurrentLoactionButton.rx.tap.asObservable(),
                                        getCurrentLocations: getCurrentLocations.asObservable())
         let output = viewModel.transform(input: input)
+        
+        output.viewDidLoadTrigger
+            .drive(with: self) { owner, _ in
+                print("viewDidLoadTrigger")
+            }
+            .disposed(by: disposeBag)
         
         output.currentLocationButtonTapped
             .drive(with: self) { owner, _ in
@@ -42,7 +51,6 @@ final class MapViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        setDelegate()
     }
     
     private func setDelegate() {

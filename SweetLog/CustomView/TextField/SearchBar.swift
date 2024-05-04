@@ -9,17 +9,17 @@ import UIKit
 
 final class SearchBar: UISearchBar {
     
-    init(placeholder: String) {
+    init(placeholder: String, backgroundColor: UIColor = Color.gray1) {
         super.init(frame: .zero)
-        configureView(placeholder: placeholder)
+        configureView(placeholder: placeholder, backgroundColor: backgroundColor)
     }
     
-    private func configureView(placeholder: String) {
+    private func configureView(placeholder: String, backgroundColor: UIColor = Color.gray1) {
         searchBarStyle = .minimal
         layer.cornerRadius = 24
         clipsToBounds = true
         self.placeholder = placeholder
-        backgroundColor = Color.gray1
+        self.backgroundColor = backgroundColor
         barTintColor = Color.gray1
         layer.borderWidth = 0
         setImage(Image.search, for: .search, state: .normal)
@@ -27,7 +27,8 @@ final class SearchBar: UISearchBar {
         
         if let textField = value(forKey: "searchField") as? UITextField {
             textField.borderStyle = .none
-            textField.backgroundColor = Color.gray1
+            textField.font = .pretendard(size: 14, weight: .regular)
+            textField.backgroundColor = backgroundColor
             if let leftView = textField.leftView as? UIImageView {
                 leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
                 //이미지 틴트컬러 정하기

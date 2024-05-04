@@ -10,6 +10,7 @@ import MapKit
 
 final class MapView: BaseView {
     let mapView = MKMapView()
+    let placeSearchBar = SearchBar(placeholder: "키워드나 장소 이름을 검색해보세요 ex) 케이크, 성심당", backgroundColor: Color.white)
     let moveCurrentLoactionButton = UIButton()
     
     
@@ -21,15 +22,20 @@ final class MapView: BaseView {
     }
     
     override func configureHierarchy() {
-        addSubviews([mapView, moveCurrentLoactionButton])
+        addSubviews([mapView, placeSearchBar, moveCurrentLoactionButton])
     }
     override func configureLayout() {
         mapView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
+        placeSearchBar.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(-20)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(50)
+        }
         moveCurrentLoactionButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(60)
+            make.top.equalTo(placeSearchBar.snp.bottom).offset(40)
             make.trailing.equalToSuperview().inset(14)
             make.size.equalTo(40)
         }

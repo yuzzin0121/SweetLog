@@ -15,6 +15,7 @@ struct PlaceModel: Decodable {
 struct PlaceItem: Decodable {
     let address: String
     let categoryName: String
+    let distance: String
     let id: String
     let phone: String
     let placeName: String
@@ -25,6 +26,7 @@ struct PlaceItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case address = "address_name"
         case categoryName = "category_name"
+        case distance
         case id
         case phone
         case placeName = "place_name"

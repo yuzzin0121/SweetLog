@@ -51,8 +51,10 @@ extension KakaoPlaceRouter: TargetType {
             return [
                 URLQueryItem(name: "query", value: query.query),
                 URLQueryItem(name: "category_group_code", value: query.category_group_code),  // 음식점
+                URLQueryItem(name: "x", value: query.x),
+                URLQueryItem(name: "y", value: query.y),
+                URLQueryItem(name: "radius", value: "\(String(describing: query.radius))"),
                 URLQueryItem(name: "rect", value: query.rect),
-                URLQueryItem(name: "page", value: "\(query.page)"),
                 URLQueryItem(name: "sort", value: query.sort)
             ]
         }

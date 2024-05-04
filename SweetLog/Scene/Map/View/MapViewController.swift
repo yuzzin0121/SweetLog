@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import CoreLocation
 import FloatingPanel
+import MapKit
 
 final class MapViewController: BaseViewController, FloatingPanelControllerDelegate {
     let mainView = MapView()
@@ -18,6 +19,7 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
     let placeListVC = PlaceListViewController()
     let locationManager = CLLocationManager()
     let getCurrentLocations = PublishSubject<[CLLocation]>()
+    let centerCoordinate = PublishSubject<CLLocationCoordinate2D>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,8 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
     override func bind() {
         let input = MapViewModel.Input(viewDidLoadTrigger: Observable.just(()),
                                        currentLocationButtonTapped: mainView.moveCurrentLoactionButton.rx.tap.asObservable(),
-                                       getCurrentLocations: getCurrentLocations.asObservable(),
+                                       getCurrentLocations: getCurrentLocations.asObservable(), 
+                                       centerCoord: centerCoordinate.asObservable(),
                                        searchText: mainView.placeSearchBar.rx.text.orEmpty.asObservable(),
                                        searchButtonTapped: mainView.placeSearchBar.rx.searchButtonClicked.asObservable())
         let output = viewModel.transform(input: input)
@@ -81,10 +84,18 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
     private func setDelegate() {
         floatingPanelC.delegate = self
         locationManager.delegate = self
+        mainView.mapView.delegate = self
     }
     
     override func loadView() {
         view = mainView
+    }
+}
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        centerCoordinate.onNext(mapView.centerCoordinate)
+        let centerCoordinate = mapView.centerCoordinate
+        print("Map center changed to: \(centerCoordinate.latitude), \(centerCoordinate.longitude)")
     }
 }
 

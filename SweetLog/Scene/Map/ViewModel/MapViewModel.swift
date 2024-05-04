@@ -17,6 +17,7 @@ final class MapViewModel: ViewModelType {
         let viewDidLoadTrigger: Observable<Void>
         let currentLocationButtonTapped: Observable<Void>
         let getCurrentLocations: Observable<[CLLocation]>
+        let centerCoord: Observable<CLLocationCoordinate2D>
         let searchText: Observable<String>
         let searchButtonTapped: Observable<Void>
     }
@@ -66,10 +67,13 @@ final class MapViewModel: ViewModelType {
         
         input.searchButtonTapped
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
-            .withLatestFrom(input.searchText)
-            .map {
-                let query =  $0.trimmingCharacters(in: [" "])
-                return SearchPlaceQuery(query: query)
+            .withLatestFrom(Observable.combineLatest(input.searchText, input.centerCoord))
+            .map { info in
+                let x = String(info.1.longitude)
+                let y = String(info.1.latitude)
+                let query =  info.0.trimmingCharacters(in: [" "])
+                print(SearchPlaceQuery(query: query, x: x, y: y, radius: 10000, sort: "distance"))
+                return SearchPlaceQuery(query: query, x: x, y: y, radius: 10000, sort: "distance")
             }
             .flatMap {
                 return KakaoNetworkManager.shared.searchPlace(query: $0)
@@ -83,6 +87,7 @@ final class MapViewModel: ViewModelType {
                 placeResult.accept((searchText.value,placeModel.documents))
             }
             .disposed(by: disposeBag)
+        
         
         return Output(viewDidLoadTrigger: viewDidLoadTrigger.asDriver(onErrorJustReturn: ()),
                       currentLocationButtonTapped: currentLocationButtonTapped.asDriver(onErrorJustReturn: ()),

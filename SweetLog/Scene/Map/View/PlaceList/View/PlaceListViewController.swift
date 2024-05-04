@@ -36,6 +36,7 @@ class PlaceListViewController: BaseViewController {
         
         output.placeList
             .drive(with: self) { owner, placeList in
+                print(placeList)
                 owner.mainView.setResult(resultCount: placeList.count)
             }
             .disposed(by: disposeBag)

@@ -52,10 +52,10 @@ final class PlaceListView: BaseView {
     override func configureView() {
         super.configureView()
         
-        placeTableView.backgroundColor = .systemGray6
+        placeTableView.backgroundColor = Color.white
         placeTableView.separatorStyle = .none
         placeTableView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        placeTableView.rowHeight = 60
+        placeTableView.rowHeight = 64
         placeTableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: PlaceTableViewCell.identifier)
         
         searchKeywordLabel.design(font: .pretendard(size: 18, weight: .bold), textAlignment: .center)

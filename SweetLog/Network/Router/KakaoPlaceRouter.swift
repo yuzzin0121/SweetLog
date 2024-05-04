@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum KakaoPlaceRouter {
-    case searchPlace(query: String)
+    case searchPlace(query: SearchPlaceQuery)
 }
 
 extension KakaoPlaceRouter: TargetType {
@@ -49,8 +49,11 @@ extension KakaoPlaceRouter: TargetType {
         switch self {
         case .searchPlace(let query):
             return [
-                URLQueryItem(name: "query", value: query),
-                URLQueryItem(name: "category_group_code", value: "FD6") // 음식정
+                URLQueryItem(name: "query", value: query.query),
+                URLQueryItem(name: "category_group_code", value: query.category_group_code),  // 음식점
+                URLQueryItem(name: "rect", value: query.rect),
+                URLQueryItem(name: "page", value: "\(query.page)"),
+                URLQueryItem(name: "sort", value: query.sort)
             ]
         }
     }

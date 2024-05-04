@@ -8,17 +8,21 @@
 import UIKit
 import RxSwift
 import CoreLocation
+import FloatingPanel
 
-final class MapViewController: BaseViewController {
+final class MapViewController: BaseViewController, FloatingPanelControllerDelegate {
     let mainView = MapView()
     let viewModel = MapViewModel()
     
+    var floatingPanelC: FloatingPanelController!
+    let placeListVC = PlaceListViewController()
     let locationManager = CLLocationManager()
     let getCurrentLocations = PublishSubject<[CLLocation]>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(#function)
+        setFloatingPanelC()
         setDelegate()
         checkDeviceLocationAuthorization()
     }
@@ -26,7 +30,9 @@ final class MapViewController: BaseViewController {
     override func bind() {
         let input = MapViewModel.Input(viewDidLoadTrigger: Observable.just(()),
                                        currentLocationButtonTapped: mainView.moveCurrentLoactionButton.rx.tap.asObservable(),
-                                       getCurrentLocations: getCurrentLocations.asObservable())
+                                       getCurrentLocations: getCurrentLocations.asObservable(),
+                                       searchText: mainView.placeSearchBar.rx.text.orEmpty.asObservable(),
+                                       searchButtonTapped: mainView.placeSearchBar.rx.searchButtonClicked.asObservable())
         let output = viewModel.transform(input: input)
         
         output.viewDidLoadTrigger
@@ -47,6 +53,25 @@ final class MapViewController: BaseViewController {
                 owner.locationManager.stopUpdatingLocation()
             }
             .disposed(by: disposeBag)
+        
+        output.placeResult
+            .drive(with: self) { owner, placeResult in
+                let (searchText, placeList) = placeResult
+                owner.placeListVC.viewModel.searchText.accept(searchText)
+                owner.placeListVC.viewModel.placeList.accept(placeList)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func setFloatingPanelC() {
+        floatingPanelC = FloatingPanelController()
+        let nav = UINavigationController(rootViewController: placeListVC)
+        floatingPanelC.set(contentViewController: nav)
+        floatingPanelC.track(scrollView: placeListVC.mainView.placeTableView)
+        floatingPanelC.addPanel(toParent: self)
+        floatingPanelC.designPanel()
+        floatingPanelC.show()
+        floatingPanelC.layout = MyFloatingPanelLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +79,7 @@ final class MapViewController: BaseViewController {
     }
     
     private func setDelegate() {
+        floatingPanelC.delegate = self
         locationManager.delegate = self
     }
     
@@ -156,5 +182,25 @@ extension MapViewController {
         alert.addAction(cancel)
         
         self.present(alert, animated: true)
+    }
+}
+
+
+class MyFloatingPanelLayout: FloatingPanelLayout {
+
+    var position: FloatingPanelPosition {
+        return .bottom
+    }
+
+    var initialState: FloatingPanelState {
+        return .tip
+    }
+
+    var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+        return [
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 16.0, edge: .top, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(absoluteInset: 292, edge: .bottom, referenceGuide: .safeArea),
+            .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea)
+        ]
     }
 }

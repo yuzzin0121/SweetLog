@@ -16,6 +16,7 @@ struct PlaceItem: Decodable {
     let address: String
     let categoryName: String
     let id: String
+    let phone: String
     let placeName: String
     let placeUrl: String
     let x: String
@@ -25,6 +26,7 @@ struct PlaceItem: Decodable {
         case address = "address_name"
         case categoryName = "category_name"
         case id
+        case phone
         case placeName = "place_name"
         case placeUrl = "place_url"
         case x

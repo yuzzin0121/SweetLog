@@ -13,7 +13,7 @@ final class KakaoNetworkManager {
     
     static let shared = KakaoNetworkManager()
     
-    func searchPlace(query: String) -> Single<PlaceModel> {
+    func searchPlace(query: SearchPlaceQuery) -> Single<PlaceModel> {
         return Single<PlaceModel>.create { single in
             do {
                 let urlRequest = try KakaoPlaceRouter.searchPlace(query: query).asURLRequest()

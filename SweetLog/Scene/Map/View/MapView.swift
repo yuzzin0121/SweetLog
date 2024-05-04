@@ -10,7 +10,7 @@ import MapKit
 
 final class MapView: BaseView {
     let mapView = MKMapView()
-    let placeSearchBar = SearchBar(placeholder: "키워드나 장소 이름을 검색해보세요 ex) 케이크, 성심당", backgroundColor: Color.white)
+    let placeSearchBar = SearchBar(placeholder: "키워드 또는 장소를 검색해보세요 ex) 케이크, 성심당", backgroundColor: Color.white)
     let moveCurrentLoactionButton = UIButton()
     
     

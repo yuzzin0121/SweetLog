@@ -31,7 +31,7 @@ final class SelectPlaceViewModel: ViewModelType {
             .withLatestFrom(input.searchText)
             .map {
                 let query =  $0.trimmingCharacters(in: [" "])
-                return query
+                return SearchPlaceQuery(query: query)
             }
             .flatMap {
                 return KakaoNetworkManager.shared.searchPlace(query: $0)

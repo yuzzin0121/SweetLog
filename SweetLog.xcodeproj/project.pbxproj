@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		610264252BE56BE10000EE79 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264242BE56BE10000EE79 /* SearchBar.swift */; };
 		610264282BE56E5D0000EE79 /* TagPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264272BE56E5D0000EE79 /* TagPostCollectionViewCell.swift */; };
+		610264362BE671720000EE79 /* PlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264352BE671720000EE79 /* PlaceListViewController.swift */; };
+		610264382BE671850000EE79 /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264372BE671850000EE79 /* PlaceListView.swift */; };
+		6102643A2BE671D90000EE79 /* PlaceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264392BE671D90000EE79 /* PlaceListViewModel.swift */; };
+		6102643D2BE6725A0000EE79 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 6102643C2BE6725A0000EE79 /* FloatingPanel */; };
+		6102643F2BE673060000EE79 /* FloatingPanelController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6102643E2BE673060000EE79 /* FloatingPanelController+Extension.swift */; };
+		610264412BE67A430000EE79 /* SearchPlaceQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264402BE67A430000EE79 /* SearchPlaceQuery.swift */; };
+		610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264432BE684A00000EE79 /* PlaceTableViewCell.swift */; };
 		61130D0F2BD7C1CA002D03C1 /* PlaceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */; };
 		61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D102BD7DCA5002D03C1 /* MenuButton.swift */; };
 		61130D132BD7DFC8002D03C1 /* SugarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D122BD7DFC8002D03C1 /* SugarButton.swift */; };
@@ -166,6 +173,12 @@
 /* Begin PBXFileReference section */
 		610264242BE56BE10000EE79 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		610264272BE56E5D0000EE79 /* TagPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		610264352BE671720000EE79 /* PlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListViewController.swift; sourceTree = "<group>"; };
+		610264372BE671850000EE79 /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
+		610264392BE671D90000EE79 /* PlaceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListViewModel.swift; sourceTree = "<group>"; };
+		6102643E2BE673060000EE79 /* FloatingPanelController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+Extension.swift"; sourceTree = "<group>"; };
+		610264402BE67A430000EE79 /* SearchPlaceQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceQuery.swift; sourceTree = "<group>"; };
+		610264432BE684A00000EE79 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
 		61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoView.swift; sourceTree = "<group>"; };
 		61130D102BD7DCA5002D03C1 /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
 		61130D122BD7DFC8002D03C1 /* SugarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarButton.swift; sourceTree = "<group>"; };
@@ -319,6 +332,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6102643D2BE6725A0000EE79 /* FloatingPanel in Frameworks */,
 				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
 				6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */,
 				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
@@ -346,6 +360,41 @@
 			isa = PBXGroup;
 			children = (
 				610264272BE56E5D0000EE79 /* TagPostCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		610264322BE6714F0000EE79 /* PlaceList */ = {
+			isa = PBXGroup;
+			children = (
+				610264342BE671630000EE79 /* View */,
+				610264332BE671590000EE79 /* ViewModel */,
+			);
+			path = PlaceList;
+			sourceTree = "<group>";
+		};
+		610264332BE671590000EE79 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				610264392BE671D90000EE79 /* PlaceListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		610264342BE671630000EE79 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				610264422BE6848D0000EE79 /* Cell */,
+				610264352BE671720000EE79 /* PlaceListViewController.swift */,
+				610264372BE671850000EE79 /* PlaceListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		610264422BE6848D0000EE79 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				610264432BE684A00000EE79 /* PlaceTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -740,6 +789,7 @@
 				61130D422BDC0194002D03C1 /* UIImage+Extension.swift */,
 				61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */,
 				61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */,
+				6102643E2BE673060000EE79 /* FloatingPanelController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -873,6 +923,7 @@
 				61130D4E2BDC31E3002D03C1 /* LikeModel.swift */,
 				615C03B02BDD4A410078E45A /* EditProfileQuery.swift */,
 				61BD280D2BE34E24000A5B81 /* EditCommentQuery.swift */,
+				610264402BE67A430000EE79 /* SearchPlaceQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -1022,6 +1073,7 @@
 		61BD28192BE3AC24000A5B81 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				610264322BE6714F0000EE79 /* PlaceList */,
 				618C770E2BC6F1740033CD0D /* MapViewController.swift */,
 				61BD281C2BE3AC55000A5B81 /* MapView.swift */,
 			);
@@ -1080,6 +1132,7 @@
 				61B528912BD13B8E00974CA0 /* Kingfisher */,
 				61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */,
 				6164DF092BDE4EEC00F57A97 /* Tabman */,
+				6102643C2BE6725A0000EE79 /* FloatingPanel */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -1117,6 +1170,7 @@
 				61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				6164DF082BDE4EEC00F57A97 /* XCRemoteSwiftPackageReference "Tabman" */,
+				6102643B2BE6725A0000EE79 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -1167,14 +1221,18 @@
 				6164DF202BDED46600F57A97 /* FollowDetailTableViewCell.swift in Sources */,
 				614747062BD6A96100B9B670 /* UIStackView+Extension.swift in Sources */,
 				61130D1B2BD7F189002D03C1 /* PhotoCollectionViewCell.swift in Sources */,
+				610264382BE671850000EE79 /* PlaceListView.swift in Sources */,
+				610264362BE671720000EE79 /* PlaceListViewController.swift in Sources */,
 				61B528892BD1107A00974CA0 /* Post.swift in Sources */,
 				618C77422BC6FEF50033CD0D /* SignUpView.swift in Sources */,
+				6102643A2BE671D90000EE79 /* PlaceListViewModel.swift in Sources */,
 				618C78672BCD6FD80033CD0D /* SettingItem.swift in Sources */,
 				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
 				610264282BE56E5D0000EE79 /* TagPostCollectionViewCell.swift in Sources */,
 				6164DF1E2BDED38A00F57A97 /* FollowDetailView.swift in Sources */,
 				61BD28112BE3A688000A5B81 /* PlaceDetailViewController.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
+				6102643F2BE673060000EE79 /* FloatingPanelController+Extension.swift in Sources */,
 				61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */,
 				614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */,
 				618C78652BCD6FC20033CD0D /* SettingCollectionViewCell.swift in Sources */,
@@ -1253,8 +1311,10 @@
 				618C78692BCD6FF40033CD0D /* SettingViewController.swift in Sources */,
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				6164DF222BDED5EE00F57A97 /* FollowType.swift in Sources */,
+				610264412BE67A430000EE79 /* SearchPlaceQuery.swift in Sources */,
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
+				610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */,
 				61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */,
 				6164DF992BE1277400F57A97 /* FetchTriggerManager.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
@@ -1518,6 +1578,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6102643B2BE6725A0000EE79 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scenee/FloatingPanel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.2;
+			};
+		};
 		61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
@@ -1577,6 +1645,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6102643C2BE6725A0000EE79 /* FloatingPanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6102643B2BE6725A0000EE79 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
+		};
 		61130D202BD80152002D03C1 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;

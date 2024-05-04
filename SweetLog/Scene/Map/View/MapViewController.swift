@@ -95,8 +95,6 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         centerCoordinate.onNext(mapView.centerCoordinate)
-        let centerCoordinate = mapView.centerCoordinate
-        print("Map center changed to: \(centerCoordinate.latitude), \(centerCoordinate.longitude)")
     }
 }
 

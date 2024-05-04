@@ -12,6 +12,7 @@ class PlaceTableViewCell: BaseTableViewCell {
     let placeNameLabel = UILabel()
     let categoryLabel = UILabel()
     let addressLabel = UILabel()
+    let distanceLabel = UILabel()
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,12 +22,13 @@ class PlaceTableViewCell: BaseTableViewCell {
     func configureCell(placeItem: PlaceItem?) {
         guard let placeItem else { return }
         placeNameLabel.text = placeItem.placeName
-        categoryLabel.text = placeItem.categoryName
+        categoryLabel.text = String.getLastCategory(category: placeItem.categoryName)
         addressLabel.text = placeItem.address
+        distanceLabel.text = String.getFomattedDistance(placeItem.distance)
     }
     
     override func configureHierarchy() {
-        addSubviews([markImageView, placeNameLabel, categoryLabel, addressLabel])
+        addSubviews([markImageView, placeNameLabel, categoryLabel, distanceLabel, addressLabel])
     }
     override func configureLayout() {
         markImageView.snp.makeConstraints { make in
@@ -42,7 +44,12 @@ class PlaceTableViewCell: BaseTableViewCell {
         categoryLabel.snp.makeConstraints { make in
             make.top.equalTo(placeNameLabel.snp.top).offset(3)
             make.leading.equalTo(placeNameLabel.snp.trailing).offset(8)
+            make.trailing.lessThanOrEqualTo(distanceLabel.snp.leading).offset(-8)
             make.height.equalTo(11)
+        }
+        distanceLabel.snp.makeConstraints { make in
+            make.top.equalTo(placeNameLabel)
+            make.trailing.equalToSuperview().inset(20)
         }
         addressLabel.snp.makeConstraints { make in
             make.top.equalTo(placeNameLabel.snp.bottom).offset(8)
@@ -58,6 +65,7 @@ class PlaceTableViewCell: BaseTableViewCell {
         
         placeNameLabel.design(font: .pretendard(size: 16, weight: .bold))
         categoryLabel.design(textColor: Color.gray, font: .pretendard(size: 11, weight: .light))
+        distanceLabel.design(textColor: Color.gray3, font: .pretendard(size: 14, weight: .light))
         addressLabel.design(font: .pretendard(size: 14, weight: .light))
     }
 }

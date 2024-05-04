@@ -27,5 +27,29 @@ extension String {
         let result = tagString.trimmingCharacters(in: [" "])
         return result
     }
+    
+    static func getLastCategory(category: String) -> String {
+        // '>'를 구분자로 사용하여 문자열을 분할
+        let components = category.split(separator: ">").map(String.init)
+
+        // 마지막 요소 추출 및 앞뒤 공백 제거
+        if let lastItem = components.last {
+            let result = lastItem.trimmingCharacters(in: .whitespacesAndNewlines)
+            return result
+        }
+        return category
+    }
+    
+    static func getFomattedDistance(_ distance: String) -> String? {
+        guard let value = Int(distance) else { return nil }
+        
+        if value < 1000 {
+            return "\(value)m"
+        } else {
+            let kilometers = Double(value) / 1000.0
+            let formattedKilometers = String(format: "%.0fkm", kilometers)
+            return formattedKilometers
+        }
+    }
 }
 

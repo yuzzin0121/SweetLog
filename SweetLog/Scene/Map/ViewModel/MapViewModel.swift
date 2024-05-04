@@ -66,9 +66,8 @@ final class MapViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        let searchTrigger = Observable.combineLatest(input.searchButtonTapped, input.refreshButtonTapped)
-        
-        searchTrigger
+
+        Observable.merge(input.searchButtonTapped, input.refreshButtonTapped)
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(Observable.combineLatest(input.searchText, input.centerCoord))
             .map { info in

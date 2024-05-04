@@ -15,6 +15,23 @@ final class MapView: BaseView {
     let moveCurrentLoactionButton = UIButton()
     
     
+    
+    func addAnnotation(placeItemList: [PlaceItem]) {
+        mapView.removeAnnotations(mapView.annotations)
+//        var previousAnnotations = mapView.annotations
+//        for annotation in previousAnnotations {
+//            mapView.removeAnnotation(annotation)
+//            mapView.removeAnnotations(mapView.annotations)
+//        }
+        for place in placeItemList {
+            guard let lat = Double(place.y), let lon = Double(place.x) else { return }
+            let annotation = PlaceAnnotation(title: place.placeName,
+                                             coordinate: CLLocationCoordinate2D(latitude: lat,
+                                                                                longitude: lon))
+            mapView.addAnnotation(annotation)
+        }
+    }
+    
     func setRegion(center: CLLocationCoordinate2D) {
         let span = MKCoordinateSpan(latitudeDelta: 0.005,
                                     longitudeDelta: 0.005)
@@ -49,6 +66,8 @@ final class MapView: BaseView {
     override func configureView() {
         mapView.isPitchEnabled = true
         mapView.showsUserLocation = true
+        mapView.register(PlaceAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: "PlaceAnnotationView")
         
         var refreshConfig = UIButton.Configuration.filled()
         refreshConfig.image = Image.refresh.resized(to: CGSize(width: 18, height: 18))

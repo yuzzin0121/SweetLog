@@ -63,6 +63,7 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
                 let (searchText, placeList) = placeResult
                 owner.placeListVC.viewModel.searchText.accept(searchText)
                 owner.placeListVC.viewModel.placeList.accept(placeList)
+                owner.mainView.addAnnotation(placeItemList: placeList)
             }
             .disposed(by: disposeBag)
     }
@@ -93,11 +94,33 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
     }
 }
 extension MapViewController: MKMapViewDelegate {
+    // 지도의 위치가 변경될 때
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         centerCoordinate.onNext(mapView.centerCoordinate)
     }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 현재 위치 표시(점)도 일종에 어노테이션이기 때문에 유저 위치 어노테이션 변경하지 않도록 처리
+        guard !annotation.isKind(of: MKUserLocation.self) else { return nil }
+        
+        var annotationView: MKAnnotationView?
+        
+        // 다운캐스팅이 되면 CustomAnnotation를 갖고 CustomAnnotationView를 생성
+        if let placeAnnotation = annotation as? PlaceAnnotation {
+            annotationView = setupAnnotationView(for: placeAnnotation, on: mapView)
+        }
+        
+        return annotationView
+    }
+    
+    // 식별자를 통해 Annotation view 생성
+    func setupAnnotationView(for annotation: PlaceAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+        // MKAnnotationView를 반환
+        return mainView.mapView.dequeueReusableAnnotationView(withIdentifier: "PlaceAnnotationView", for: annotation)
+    }
 }
 
+// 사용자 위치 관련 코드
 extension MapViewController: CLLocationManagerDelegate {
     // 사용자의 위치를 성공적으로 가지고 온 경우 실행
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -126,8 +149,6 @@ extension MapViewController: CLLocationManagerDelegate {
         checkDeviceLocationAuthorization()
     }
 }
-
-
 
 // 위치 권한 관련 코드
 extension MapViewController {

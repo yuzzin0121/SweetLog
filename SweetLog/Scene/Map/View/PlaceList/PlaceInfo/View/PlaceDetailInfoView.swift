@@ -10,13 +10,27 @@ import LinkPresentation
 
 final class PlaceDetailInfoView: BaseView {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createPostLayout())
+    let emptyMessageLabel = UILabel()
+    
+    func setEmptyLabelHidden(_ isHidden: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            emptyMessageLabel.isHidden = isHidden
+        }
+    }
+    
     override func configureHierarchy() {
         addSubview(collectionView)
+        addSubview(emptyMessageLabel)
     }
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(12)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+        }
+        emptyMessageLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-100)
         }
     }
     override func configureView() {
@@ -25,6 +39,8 @@ final class PlaceDetailInfoView: BaseView {
         collectionView.register(ReviewHeaderCollectionReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: ReviewHeaderCollectionReusableView.identifier)
+        
+        emptyMessageLabel.design(textColor: Color.gray, textAlignment: .center)
     }
     
     private func createPostLayout() -> UICollectionViewLayout {

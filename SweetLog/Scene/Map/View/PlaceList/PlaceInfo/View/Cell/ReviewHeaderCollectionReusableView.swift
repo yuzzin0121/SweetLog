@@ -7,6 +7,7 @@
 
 import UIKit
 import LinkPresentation
+import RxSwift
 
 class ReviewHeaderCollectionReusableView: UICollectionReusableView, ViewProtocol {
     let placeNameLabel = UILabel()
@@ -18,6 +19,7 @@ class ReviewHeaderCollectionReusableView: UICollectionReusableView, ViewProtocol
     
     let reviewLabel = UILabel()
     let reviewCountLabel = UILabel()
+    var disposeBag = DisposeBag()
     
     func setReviewCount(_ count: Int) {
         reviewCountLabel.text = "\(NumberFomatterManager.shared.formattedNumber(count))"
@@ -36,6 +38,11 @@ class ReviewHeaderCollectionReusableView: UICollectionReusableView, ViewProtocol
         configureHierarchy()
         configureLayout()
         configureView()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     required init?(coder: NSCoder) {
@@ -94,6 +101,7 @@ class ReviewHeaderCollectionReusableView: UICollectionReusableView, ViewProtocol
         categoryLabel.design(textColor: Color.gray, font: .pretendard(size: 12, weight: .light))
         callButton.setImage(Image.call, for: .normal)
         placeInfoView.backgroundColor = Color.gray2
+        placeInfoView.addressLabel.textColor = Color.buttonGray
         linkView.layer.cornerRadius = 12
         linkView.clipsToBounds = true
         divisionLineView.backgroundColor = Color.gray2

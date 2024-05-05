@@ -13,6 +13,7 @@ import RxDataSources
 final class PlaceInfoViewController: BaseViewController {
     let mainView = PlaceDetailInfoView()
     let viewModel: PlaceInfoViewModel
+    let callButtonTapped = PublishSubject<String>()
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<PlaceInfoSection>!
     
@@ -31,11 +32,23 @@ final class PlaceInfoViewController: BaseViewController {
         
         let input = PlaceInfoViewModel.Input(viewDidLoadTrigger: Observable.just(()),
                                              placeItem: Observable.just(viewModel.placeItem), 
-                                             reviewCellTapped: mainView.collectionView.rx.modelSelected(FetchPostItem.self).asObservable())
+                                             reviewCellTapped: mainView.collectionView.rx.modelSelected(FetchPostItem.self).asObservable(),
+                                             callButtonTapped: callButtonTapped.asObservable())
         let output = viewModel.transform(input: input)
         
         output.placeInfoSection
             .bind(to: mainView.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        output.placeInfoSection
+            .bind(with: self) { owner, placeInfoSection in
+                guard let placeInfoSection = placeInfoSection.first else { return }
+                if placeInfoSection.items.isEmpty {
+                    owner.mainView.setEmptyLabelHidden(false)
+                } else {
+                    owner.mainView.setEmptyLabelHidden(true)
+                }
+            }
             .disposed(by: disposeBag)
         
         output.reviewCellTapped
@@ -43,6 +56,17 @@ final class PlaceInfoViewController: BaseViewController {
                 owner.showPostDetailVC(postId: fetchPostItem.postId)
             }
             .disposed(by: disposeBag)
+        
+        output.callButtonTapped
+            .drive(with: self) { owner, phone in
+                owner.callPhone(phone: phone)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func callPhone(phone: String) {
+        guard let number = URL(string: "tel://\(phone)") else { return }
+        UIApplication.shared.open(number)
     }
     
     private func showPostDetailVC(postId: String) {
@@ -70,10 +94,14 @@ final class PlaceInfoViewController: BaseViewController {
             
             headerView.setReviewCount(postCount)
             headerView.setPlaceItem(placeItem, meta: meta)
+            headerView.callButton.rx.tap
+                .subscribe(with: self) { owner, _ in
+                    owner.callButtonTapped.onNext(placeItem.phone)
+                }
+                .disposed(by: headerView.disposeBag)
             
             return headerView
-        }
-        )
+        })
     }
     
     override func configureNavigationItem() {

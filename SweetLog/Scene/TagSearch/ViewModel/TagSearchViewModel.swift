@@ -18,6 +18,7 @@ final class TagSearchViewModel: ViewModelType {
         let searchText: Observable<String>
         let searchButtonTap: Observable<Void>
         let prefetchTrigger: Observable<Void>
+        let refreshControlTrigger: Observable<Void>
     }
     
     struct Output {
@@ -52,12 +53,31 @@ final class TagSearchViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, fetchPostModel in
-                print("검색된 포스트 개수 \(fetchPostModel.data.count)")
                 next.onNext(fetchPostModel.nextCursor)
                 postList.accept(fetchPostModel.data)
             }
             .disposed(by: disposeBag)
         
+        input.refreshControlTrigger
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(input.searchText)
+            .map { searchText in
+                let seatchText = searchText.trimmingCharacters(in: [" "])
+                print(searchText)
+                let query = FetchPostQuery(next: nil, limit: "20", product_id: nil, hashTag: seatchText)
+                return query
+            }
+            .flatMap {
+                return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: $0)
+                    .catch { error in
+                        return Single<FetchPostModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, fetchPostModel in
+                next.onNext(fetchPostModel.nextCursor)
+                postList.accept(fetchPostModel.data)
+            }
+            .disposed(by: disposeBag)
         
         
         deletePostTrigger

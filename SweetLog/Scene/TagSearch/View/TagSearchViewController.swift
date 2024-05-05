@@ -25,12 +25,19 @@ class TagSearchViewController: BaseViewController {
         let input = TagSearchViewModel.Input(viewDidLoadTrigger: Observable.just(()),
                                              searchText: mainView.tagSearchBar.rx.text.orEmpty.asObservable(),
                                              searchButtonTap: mainView.tagSearchBar.rx.searchButtonClicked.asObservable(), 
-                                             prefetchTrigger: prefetchTrigger.asObservable())
+                                             prefetchTrigger: prefetchTrigger.asObservable(), 
+                                             refreshControlTrigger: mainView.refreshControl.rx.controlEvent(.valueChanged).asObservable())
         let output = viewModel.transform(input: input)
         
         output.postList
             .drive(mainView.tagCollectionView.rx.items(cellIdentifier: TagPostCollectionViewCell.identifier, cellType: TagPostCollectionViewCell.self)) { index, postItem, cell in
                 cell.configureCell(postItem: postItem)
+            }
+            .disposed(by: disposeBag)
+        
+        output.postList
+            .drive(with: self) { owner, _ in
+                owner.mainView.endRefreshing()
             }
             .disposed(by: disposeBag)
         

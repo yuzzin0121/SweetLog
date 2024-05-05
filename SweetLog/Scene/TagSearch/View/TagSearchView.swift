@@ -11,6 +11,11 @@ final class TagSearchView: BaseView {
     let titleLabel = UILabel()
     let tagSearchBar = SearchBar(placeholder: "해시태그로 검색해보세요")
     lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+    let refreshControl = UIRefreshControl()
+    
+    func endRefreshing() {
+        refreshControl.endRefreshing()
+    }
     
     override func configureHierarchy() {
         addSubviews([titleLabel, tagSearchBar, tagCollectionView])
@@ -44,6 +49,8 @@ final class TagSearchView: BaseView {
         tagCollectionView.showsVerticalScrollIndicator = false
         tagCollectionView.register(TagPostCollectionViewCell.self,
                                    forCellWithReuseIdentifier: TagPostCollectionViewCell.identifier)
+        tagCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .clear
     }
 }
 

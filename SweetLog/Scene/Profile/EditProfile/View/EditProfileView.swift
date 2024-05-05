@@ -15,6 +15,34 @@ final class EditProfileView: BaseView {
     
     let editProfileButton = UIButton()
     
+    // 기존 프로필 정보 적용
+    func setCurrentProfile(url: String?) {
+        if let profileImageUrl = url {
+            profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { [weak self] isSuccess in
+                guard let self else { return }
+                if !isSuccess {
+                    self.profileImageView.image = Image.emptyProfileImage
+                    print("프로필 이미지 로드 실패")
+                }
+            }
+        } else {
+            profileImageView.image = Image.emptyProfileImage
+        }
+    }
+    
+    func setNickname(currentNickname: String) {
+        nicknameTextField.text = currentNickname
+    }
+    
+    func setProfileImage(_ data: Data) {
+        profileImageView.image = UIImage(data: data)
+    }
+    
+    func setEditButtonStyle(isValid: Bool) {
+        editProfileButton.backgroundColor = isValid ? Color.brown : Color.gray1
+        editProfileButton.isEnabled = isValid
+    }
+    
     override func configureHierarchy() {
         addSubviews([profileImageView, editProfileImageButton, nicknameTextField, nicknameValidMessage, editProfileButton])
     }

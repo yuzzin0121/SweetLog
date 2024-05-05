@@ -28,14 +28,23 @@ final class EditProfileViewController: BaseViewController {
     }
     
     override func bind() {
-        setCurrentProfile()
-
-        
-        let input = EditProfileViewModel.Input(nicknameText: mainView.nicknameTextField.rx.text.orEmpty.asObservable(), 
+        let input = EditProfileViewModel.Input(nicknameText: mainView.nicknameTextField.rx.text.orEmpty.asObservable(),
                                                prfileImageData: profileImageData.asObservable(),
                                                editProfileButtonTapped: mainView.editProfileButton.rx.tap.asObservable())
         
         let output = viewModel.transform(input: input)
+        
+        output.currentProfileImage
+            .drive(with: self) { owner, url in
+                owner.mainView.setCurrentProfile(url: url)
+            }
+            .disposed(by: disposeBag)
+        
+        output.nicknameText
+            .drive(with: self) { owner, nickname in
+                owner.mainView.setNickname(currentNickname: nickname)
+            }
+            .disposed(by: disposeBag)
         
         mainView.editProfileImageButton.rx.tap
             .asDriver()
@@ -48,7 +57,7 @@ final class EditProfileViewController: BaseViewController {
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { owner, profileImageData in
                 guard let profileImageData else { return }
-                owner.setProfileImage(profileImageData)
+                owner.mainView.setProfileImage(profileImageData)
             }
             .disposed(by: disposeBag)
         
@@ -60,8 +69,7 @@ final class EditProfileViewController: BaseViewController {
         
         output.totalValid
             .drive(with: self) { owner, isValid in
-                owner.mainView.editProfileButton.backgroundColor = isValid ? Color.brown : Color.gray1
-                owner.mainView.editProfileButton.isEnabled = isValid
+                owner.mainView.setEditButtonStyle(isValid: isValid)
             }
             .disposed(by: disposeBag)
         
@@ -76,26 +84,6 @@ final class EditProfileViewController: BaseViewController {
         guard let profileModel else { return }
         sendProfileDelegate?.sendProfile(profileModel: profileModel)
         navigationController?.popViewController(animated: true)
-    }
-    
-    // 기존 프로필 정보 적용
-    private func setCurrentProfile() {
-        if let profileImageUrl = viewModel.currentProfileImageUrl {
-            mainView.profileImageView.kf.setImageWithAuthHeaders(with: profileImageUrl) { [weak self] isSuccess in
-                guard let self else { return }
-                if !isSuccess {
-                    self.mainView.profileImageView.image = Image.emptyProfileImage
-                    print("프로필 이미지 로드 실패")
-                }
-            }
-        }
-        
-        mainView.nicknameTextField.text = viewModel.currentNickname
-        
-    }
-    
-    private func setProfileImage(_ data: Data) {
-        mainView.profileImageView.image = UIImage(data: data)
     }
     
     @objc private func editProfileImageButtonTapped() {

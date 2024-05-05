@@ -26,16 +26,27 @@ final class EditProfileViewModel: ViewModelType {
     }
     
     struct Output {
+        let currentProfileImage: Driver<String?>
+        let nicknameText: Driver<String>
         let validNickname: Driver<Bool>
         let totalValid: Driver<Bool>
         let editProfileSuccessTrigger: Driver<ProfileModel?>
     }
     
     func transform(input: Input) -> Output {
+//        let currentProfile = BehaviorRelay<(String?, String)>(value: (currentProfileImageUrl, currentNickname))
+        let currentProfileImage = BehaviorRelay<String?>(value: currentProfileImageUrl)
+        let nicknameText = BehaviorRelay(value: currentNickname)
+        let imageData = BehaviorRelay<Data?>(value: nil)
         let nicknameValid = BehaviorRelay(value: true)
         let imageDataValid = BehaviorRelay(value: true)
         let totalValid = PublishRelay<Bool>()
         let editProfileSuccessTrigger = PublishRelay<ProfileModel?>()
+        
+        let isValid = Observable.combineLatest(nicknameValid, imageDataValid)
+            .map { value in
+                return value.0 && value.1
+            }
         
         // 닉네임 변경 시
         input.nicknameText
@@ -49,14 +60,10 @@ final class EditProfileViewModel: ViewModelType {
         
         input.prfileImageData
             .subscribe { data in
+                imageData.accept(data)
                 imageDataValid.accept(true)
             }
             .disposed(by: disposeBag)
-        
-        let isValid = Observable.combineLatest(nicknameValid, imageDataValid)
-            .map { value in
-                return value.0 && value.1
-            }
         
         isValid
             .subscribe { isValid in
@@ -64,19 +71,11 @@ final class EditProfileViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        let editValue = Observable.combineLatest(input.nicknameText, input.prfileImageData)
-            .map { value in
-                print(value)
-                return (value.0, value.1)
-            }
-        
-        
         input.editProfileButtonTapped
-            .withLatestFrom(editValue)
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .flatMap { editValue in
-                print("클릭됨\(editValue)")
-                return ProfileNetworkManager.shared.editMyProfile(nickname: editValue.0, profile: editValue.1)
+            .flatMap { profileImageData in
+                let nickname = nicknameText.value
+                return ProfileNetworkManager.shared.editMyProfile(nickname: nickname, profile: imageData.value)
                     .catch { error in
                         print(error.localizedDescription)
                         return Single<ProfileModel>.never()
@@ -88,7 +87,9 @@ final class EditProfileViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(validNickname: nicknameValid.asDriver(onErrorJustReturn: false),
+        return Output(currentProfileImage: currentProfileImage.asDriver(onErrorJustReturn: nil),
+                      nicknameText: nicknameText.asDriver(onErrorJustReturn: ""),
+                      validNickname: nicknameValid.asDriver(onErrorJustReturn: false),
                       totalValid: totalValid.asDriver(onErrorJustReturn: false),
                       editProfileSuccessTrigger: editProfileSuccessTrigger.asDriver(onErrorJustReturn: nil))
     }

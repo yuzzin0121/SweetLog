@@ -207,30 +207,43 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
         }
         
        
-        DispatchQueue.main.async {
-            firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
-                if !isSuccess {
-                    print("이미지 세개 로드 실패")
-                    firstImageView.image = nil
-                }
+        firstImageView.kf.setImageWithAuthHeaders(with: firstImageUrl) { isSuccess in
+            if !isSuccess {
+                print("이미지 세개 로드 실패")
+                firstImageView.image = nil
             }
-            firstImageView.layer.cornerRadius = 8
         }
-        DispatchQueue.main.async {
-            secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
-                if !isSuccess {
-                    secondImageView.image = nil
-                }
+        secondImageView.kf.setImageWithAuthHeaders(with: secondImageUrl) { isSuccess in
+            if !isSuccess {
+                secondImageView.image = nil
             }
-            secondImageView.layer.cornerRadius = 8
         }
-        DispatchQueue.main.async {
-            thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
-                if !isSuccess {
-                    thirdImageView.image = nil
-                }
+        
+        thirdImageView.kf.setImageWithAuthHeaders(with: thridImageUrl) { isSuccess in
+            if !isSuccess {
+                thirdImageView.image = nil
             }
-            thirdImageView.layer.cornerRadius = 8
+        }
+        if files.count >= 4 {
+            let view = UIView()
+            let countLabel = UILabel()
+            
+            thirdImageView.addSubview(view)
+            view.addSubview(countLabel)
+            
+            view.snp.makeConstraints { make in
+                make.edges.equalTo(thirdImageView)
+            }
+            
+            countLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            
+            view.backgroundColor = Color.black.withAlphaComponent(0.1)
+            view.layer.cornerRadius = 6
+            view.clipsToBounds = true
+            countLabel.design(textColor: Color.white, font: .pretendard(size: 20, weight: .extraBold), textAlignment: .center)
+            countLabel.text = files.count == 4 ? "+1" : "+2"
         }
         
         DispatchQueue.main.async {

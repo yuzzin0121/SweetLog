@@ -29,7 +29,12 @@ final class SettingViewController: BaseViewController {
     }
     
     override func bind() {
+        let logoutTapped = PublishSubject<Void>()
         let withdrawTapped = PublishSubject<Void>()
+        
+        let input = SettingViewModel.Input(logoutTapped: logoutTapped.asObservable(),
+                                           withdrawTapped: withdrawTapped.asObservable())
+        let output = viewModel.transform(input: input)
         
         viewModel.settingItemList
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: SettingCollectionViewCell.identifier, cellType: SettingCollectionViewCell.self)) {item,model,cell in
@@ -40,6 +45,10 @@ final class SettingViewController: BaseViewController {
         mainView.collectionView.rx.modelSelected(SettingItem.self)
             .subscribe(with: self) { owner, settingItem in
                 switch settingItem {
+                case .logout:
+                    owner.showAlert(title: "로그아웃", message: "정말로 로그아웃하시겠습니까?", actionTitle: "로그아웃") {
+                        logoutTapped.onNext(())
+                    }
                 case .withdraw:
                     owner.showAlert(title: "탈퇴", message: "정말로 계정을 탈퇴하시겠습니까?", actionTitle: "탈퇴하기") {
                         withdrawTapped.onNext(())
@@ -48,9 +57,12 @@ final class SettingViewController: BaseViewController {
                 
             }
             .disposed(by: disposeBag)
-        
-        let input = SettingViewModel.Input(withdrawTapped: withdrawTapped.asObserver())
-        let output = viewModel.transform(input: input)
+
+        output.logoutSuccessTrigger
+            .drive(with: self) { owner, _ in
+                owner.changeRootView(to: SignInViewController(), isNav: true)
+            }
+            .disposed(by: disposeBag)
         
         output.withdrawSuccessTrigger
             .drive(with: self) { owner, _ in

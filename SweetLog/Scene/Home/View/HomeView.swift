@@ -13,10 +13,14 @@ final class HomeView: BaseView {
     let titleLabel = UILabel()
     
     let addPostButton = UIButton()
-    let disposeBag = DisposeBag()
+    let refreshControl = UIRefreshControl()
     
     lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCategoryLayout())
     lazy var postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createPostLayout())
+    
+    func endRefreshing() {
+        refreshControl.endRefreshing()
+    }
     
     override func configureHierarchy() {
         addSubviews([titleLabel, filterCollectionView, postCollectionView, addPostButton])
@@ -65,6 +69,9 @@ final class HomeView: BaseView {
         
         titleLabel.text = "달콤로그"
         titleLabel.font = .pretendard(size: 30, weight: .bold)
+        
+        postCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .clear
     }
 }
 

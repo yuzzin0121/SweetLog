@@ -20,7 +20,6 @@ final class PostDetailViewController: BaseViewController {
     let placeButtonTapped = PublishSubject<Void>()
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
-    var deletePostDelegate: DeletePostDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

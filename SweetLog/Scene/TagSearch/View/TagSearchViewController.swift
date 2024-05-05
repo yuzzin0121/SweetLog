@@ -57,18 +57,11 @@ class TagSearchViewController: BaseViewController {
     private func showPostDetailVC(postId: String) {
         let postDetailVC = PostDetailViewController()
         postDetailVC.viewModel.postId = postId
-        postDetailVC.deletePostDelegate = self
         navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     override func loadView() {
         view = mainView
-    }
-}
-
-extension TagSearchViewController: DeletePostDelegate {
-    func deletePost(_ postId: String) {
-        viewModel.emitDeletePostTrigger(postId: postId)
     }
 }
 

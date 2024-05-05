@@ -27,6 +27,7 @@ final class HomeViewModel: ViewModelType {
         let likeObservable: Observable<(Int, Bool)>
         let prefetchTrigger: Observable<Void>
         let fetchPostsTrigger: Observable<Void>
+        let refreshControlTrigger: Observable<Void>
     }
     
     struct Output {
@@ -41,18 +42,8 @@ final class HomeViewModel: ViewModelType {
         let fetchPostsTrigger = PublishSubject<Void>()
         let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let postCellTapped = PublishRelay<String>() // postId
-        var postListValue: [FetchPostItem] = []
         let next = BehaviorSubject(value: "")
         var likeIndex: Int?
-        
-//        deletePostTrigger
-//            .subscribe(with: self) { owner, postId in
-//                let deletedPostList = owner.deletePost(postList: postListValue, postId: postId)
-//                postList.accept(deletedPostList)
-//                postListValue = deletedPostList
-//            }
-//            .disposed(by: disposeBag)
-        
         
         // 카테고리 클릭 시
         input.filterItemClicked
@@ -72,8 +63,13 @@ final class HomeViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, fetchPostModel in
                 postList.accept(fetchPostModel.data)
-                postListValue = fetchPostModel.data
                 next.onNext(fetchPostModel.nextCursor)
+            }
+            .disposed(by: disposeBag)
+        
+        input.refreshControlTrigger
+            .bind { _ in
+                NotificationCenter.default.post(name: .fetchPosts, object: nil, userInfo: nil)
             }
             .disposed(by: disposeBag)
         
@@ -97,7 +93,6 @@ final class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, fetchPostModel in
                 print("받았음")
                 postList.accept(fetchPostModel.data)
-                postListValue = fetchPostModel.data
                 next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
@@ -125,7 +120,6 @@ final class HomeViewModel: ViewModelType {
                 } else {
                     var tempList = postList.value
                     tempList.append(contentsOf: fetchPostModel.data)
-                    postListValue = tempList
                     postList.accept(tempList)
                 }
                 next.onNext(fetchPostModel.nextCursor)
@@ -177,18 +171,4 @@ extension HomeViewModel {
         print(#function)
         fetchPostsTrigger.onNext(())
     }
-    
-    
-//    func emitDeletePostTrigger(_ postId: String) {
-//        deletePostTrigger.onNext(postId)
-//    }
-//    
-//    func deletePost(postList: [FetchPostItem], postId: String) -> [FetchPostItem] {
-//        print(#function)
-//        var postList = postList
-//        if let index = postList.firstIndex(where: { $0.postId == postId }) {
-//            postList.remove(at: index)
-//        }
-//        return postList
-//    }
 }

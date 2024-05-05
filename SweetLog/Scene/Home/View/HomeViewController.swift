@@ -36,7 +36,8 @@ final class HomeViewController: BaseViewController {
                                         postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
                                         likeObservable: likeTapped.asObservable(),
                                         prefetchTrigger: prefetchTrigger.asObservable(),
-                                        fetchPostsTrigger: viewModel.fetchPostsTrigger.asObservable())
+                                        fetchPostsTrigger: viewModel.fetchPostsTrigger.asObservable(),
+                                        refreshControlTrigger: mainView.refreshControl.rx.controlEvent(.valueChanged).asObservable())
         let output = viewModel.transform(input: input)
         
         output.filterList
@@ -79,6 +80,12 @@ final class HomeViewController: BaseViewController {
                 profileTapGesture.userId = item.creator.userId
                 cell.profileImageView.addGestureRecognizer(profileTapGesture)
                 cell.profileImageView.isUserInteractionEnabled = true
+            }
+            .disposed(by: disposeBag)
+        
+        output.postList
+            .drive(with: self) { owner, _ in
+                owner.mainView.endRefreshing()
             }
             .disposed(by: disposeBag)
         
@@ -125,7 +132,6 @@ final class HomeViewController: BaseViewController {
     private func showPostDetailVC(postId: String) {
         let postDetailVC = PostDetailViewController()
         postDetailVC.viewModel.postId = postId
-        postDetailVC.deletePostDelegate = self
         navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
@@ -154,12 +160,3 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 }
 
-extension HomeViewController: DeletePostDelegate {
-    func deletePost(_ postId: String) {
-//        viewModel.emitDeletePostTrigger(postId)
-    }
-}
-
-protocol DeletePostDelegate {
-    func deletePost(_ postId: String)
-}

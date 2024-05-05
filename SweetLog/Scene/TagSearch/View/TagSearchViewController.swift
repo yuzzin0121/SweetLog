@@ -12,15 +12,20 @@ import RxCocoa
 class TagSearchViewController: BaseViewController {
     let mainView = TagSearchView()
     let viewModel = TagSearchViewModel()
+    
+    var lastContentOffset: CGFloat = 0 // 스크롤 방향 감지를 위한 변수
+    var isLoading = false // 현재 데이터 로딩 중인지 확인
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func bind() {
+        let prefetchTrigger = PublishRelay<Void>()
         let input = TagSearchViewModel.Input(viewDidLoadTrigger: Observable.just(()),
                                              searchText: mainView.tagSearchBar.rx.text.orEmpty.asObservable(),
-                                             searchButtonTap: mainView.tagSearchBar.rx.searchButtonClicked.asObservable())
+                                             searchButtonTap: mainView.tagSearchBar.rx.searchButtonClicked.asObservable(), 
+                                             prefetchTrigger: prefetchTrigger.asObservable())
         let output = viewModel.transform(input: input)
         
         output.postList
@@ -33,6 +38,18 @@ class TagSearchViewController: BaseViewController {
             .asDriver()
             .drive(with: self) { owner, postItem in
                 owner.showPostDetailVC(postId: postItem.postId)
+            }
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(mainView.tagCollectionView.rx.prefetchItems, output.postList.asObservable())
+            .subscribe(with: self) { owner, prefetchInfo in
+                guard !owner.isLoading else { return }
+                if let maxIndexPath = prefetchInfo.0.max(by: { $0.row < $1.row }) {
+                    guard maxIndexPath.item == prefetchInfo.1.count - 3 else { return }
+                    print("일치함!!! - 프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 3)")
+                    owner.isLoading = true
+                    prefetchTrigger.accept(())
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -52,5 +69,19 @@ class TagSearchViewController: BaseViewController {
 extension TagSearchViewController: DeletePostDelegate {
     func deletePost(_ postId: String) {
         viewModel.emitDeletePostTrigger(postId: postId)
+    }
+}
+
+extension TagSearchViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > lastContentOffset {
+           // 아래로 스크롤
+            isLoading = false
+        } else if scrollView.contentOffset.y < lastContentOffset {
+           // 위로 스크롤
+            isLoading = true // 데이터 로딩 방지
+        }
+
+        lastContentOffset = scrollView.contentOffset.y
     }
 }

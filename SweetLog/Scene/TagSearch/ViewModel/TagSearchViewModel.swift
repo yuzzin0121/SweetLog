@@ -17,6 +17,7 @@ final class TagSearchViewModel: ViewModelType {
         let viewDidLoadTrigger: Observable<Void>
         let searchText: Observable<String>
         let searchButtonTap: Observable<Void>
+        let prefetchTrigger: Observable<Void>
     }
     
     struct Output {
@@ -57,11 +58,42 @@ final class TagSearchViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        
+        
         deletePostTrigger
             .subscribe(with: self) { owner, postId in
                 let listValue = postList.value
                 let deletedPostList = owner.deletePost(postList: listValue, postId: postId)
                 postList.accept(deletedPostList)
+            }
+            .disposed(by: disposeBag)
+        
+        input.prefetchTrigger
+            .withLatestFrom(Observable.combineLatest(next, input.searchText))
+            .map { prefetchInfo in
+                return FetchPostQuery(next: prefetchInfo.0, limit: "20", product_id: nil, hashTag: prefetchInfo.1)
+            }
+            .flatMap { fetchPostQuery in
+//                print("현재 커서값 \(fetchPostQuery.next)")
+                if fetchPostQuery.next == "0" {
+                    return Single<FetchPostModel>.never()
+                } else {
+                    return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: fetchPostQuery)
+                        .catch { error in
+                            return Single<FetchPostModel>.never()
+                        }
+                }
+            }
+            .subscribe(with: self) { owner, fetchPostModel in
+                print("prefetch - next: \(fetchPostModel.nextCursor)")
+                if fetchPostModel.nextCursor ==  "" {
+                    postList.accept(fetchPostModel.data)
+                } else {
+                    var tempList = postList.value
+                    tempList.append(contentsOf: fetchPostModel.data)
+                    postList.accept(tempList)
+                }
+                next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
         

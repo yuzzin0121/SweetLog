@@ -29,7 +29,9 @@ final class TagSearchViewModel: ViewModelType {
         
         input.searchText
             .subscribe(with: self) { owner, text in
-                postList.accept([])
+                if text.isEmpty {
+                    postList.accept([])
+                }
             }
             .disposed(by: disposeBag)
         

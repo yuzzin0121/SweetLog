@@ -48,6 +48,7 @@ final class SettingViewModel {
             }
             .subscribe(with: self) { owner, joinModel in
                 print(joinModel)
+                owner.logout()
                 withdrawSuccessTrigger.accept(())
             }
             .disposed(by: disposeBag)

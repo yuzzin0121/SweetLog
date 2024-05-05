@@ -45,13 +45,13 @@ final class HomeViewModel: ViewModelType {
         let next = BehaviorSubject(value: "")
         var likeIndex: Int?
         
-        deletePostTrigger
-            .subscribe(with: self) { owner, postId in
-                let deletedPostList = owner.deletePost(postList: postListValue, postId: postId)
-                postList.accept(deletedPostList)
-                postListValue = deletedPostList
-            }
-            .disposed(by: disposeBag)
+//        deletePostTrigger
+//            .subscribe(with: self) { owner, postId in
+//                let deletedPostList = owner.deletePost(postList: postListValue, postId: postId)
+//                postList.accept(deletedPostList)
+//                postListValue = deletedPostList
+//            }
+//            .disposed(by: disposeBag)
         
         
         // 카테고리 클릭 시
@@ -179,16 +179,16 @@ extension HomeViewModel {
     }
     
     
-    func emitDeletePostTrigger(_ postId: String) {
-        deletePostTrigger.onNext(postId)
-    }
-    
-    func deletePost(postList: [FetchPostItem], postId: String) -> [FetchPostItem] {
-        print(#function)
-        var postList = postList
-        if let index = postList.firstIndex(where: { $0.postId == postId }) {
-            postList.remove(at: index)
-        }
-        return postList
-    }
+//    func emitDeletePostTrigger(_ postId: String) {
+//        deletePostTrigger.onNext(postId)
+//    }
+//    
+//    func deletePost(postList: [FetchPostItem], postId: String) -> [FetchPostItem] {
+//        print(#function)
+//        var postList = postList
+//        if let index = postList.firstIndex(where: { $0.postId == postId }) {
+//            postList.remove(at: index)
+//        }
+//        return postList
+//    }
 }

@@ -111,6 +111,7 @@ final class EditProfileViewController: BaseViewController {
 
     override func configureNavigationItem() {
         navigationItem.title = "프로필 수정"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     override func loadView() {

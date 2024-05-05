@@ -116,14 +116,20 @@ final class SignUpViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.passwordText
-            .map { $0.trimmingCharacters(in: [" "]).count > 5 }
+            .map {
+                let text = $0.trimmingCharacters(in: [" "])
+                return text.count >= 5 && text.count < 15
+            }
             .bind(with: self) { owner, isValid in
                 passwordValid.accept(isValid)
             }
             .disposed(by: disposeBag)
         
         input.nicknameText
-            .map { $0.trimmingCharacters(in: [" "]).count > 1 }
+            .map {
+                let text = $0.trimmingCharacters(in: [" "])
+                return text.count >= 2 && text.count < 8
+            }
             .bind(with: self) { owner, isValid in
                 nicknameValid.accept(isValid)
             }

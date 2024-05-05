@@ -80,7 +80,7 @@ final class PostDetailViewController: BaseViewController {
         // 포스트 삭제 성공했을 때
         output.deleteSuccessTrigger
             .drive(with: self) { owner, postId in
-                owner.deletePostDelegate?.deletePost(postId)
+                NotificationCenter.default.post(name: .fetchPosts, object: nil, userInfo: nil)
                 owner.popView()
             }
             .disposed(by: disposeBag)

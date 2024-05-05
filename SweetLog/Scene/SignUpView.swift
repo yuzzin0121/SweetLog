@@ -100,6 +100,8 @@ final class SignUpView: BaseView {
         duplicateCheckButton.titleLabel?.font = .pretendard(size: 15, weight: .semiBold)
         duplicateCheckButton.layer.cornerRadius = 12
         
+        passwordTextField.isSecureTextEntry = true
+        
         emailMessageLabel.font = .pretendard(size: 14, weight: .regular)
         passwordMessageLabel.font = .pretendard(size: 14, weight: .regular)
         nicknameMessageLabel.font = .pretendard(size: 14, weight: .regular)

@@ -156,7 +156,7 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: DeletePostDelegate {
     func deletePost(_ postId: String) {
-        viewModel.emitDeletePostTrigger(postId)
+//        viewModel.emitDeletePostTrigger(postId)
     }
 }
 

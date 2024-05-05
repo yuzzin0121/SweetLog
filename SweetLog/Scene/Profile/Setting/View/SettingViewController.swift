@@ -23,7 +23,7 @@ final class SettingViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width, height: 50)
+        layout.itemSize = CGSize(width: view.frame.width, height: 40)
         layout.scrollDirection = .vertical
         mainView.collectionView.collectionViewLayout = layout
     }
@@ -92,6 +92,7 @@ final class SettingViewController: BaseViewController {
     
     override func configureNavigationItem() {
         navigationItem.title = "설정"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     override func loadView() {

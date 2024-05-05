@@ -28,16 +28,15 @@ final class HomeViewController: BaseViewController {
         
         let filterItemClicked = BehaviorSubject(value: 0)
         
-        let likeIndex = PublishRelay<Int>()
-        let likeStatus = PublishRelay<Bool>()
-        let likeObservable = Observable.zip(likeIndex, likeStatus)
+        let likeTapped = PublishSubject<(Int, Bool)>()
         let prefetchTrigger = PublishRelay<Void>()
         
         let input = HomeViewModel.Input(viewDidLoad: Observable.just(()), 
                                         filterItemClicked: filterItemClicked,
                                         postCellTapped: mainView.postCollectionView.rx.modelSelected(FetchPostItem.self),
-                                        likeObservable: likeObservable,
-                                        prefetchTrigger: prefetchTrigger.asObservable())
+                                        likeObservable: likeTapped.asObservable(),
+                                        prefetchTrigger: prefetchTrigger.asObservable(),
+                                        fetchPostsTrigger: viewModel.fetchPostsTrigger.asObservable())
         let output = viewModel.transform(input: input)
         
         output.filterList
@@ -66,8 +65,7 @@ final class HomeViewController: BaseViewController {
                 cell.likeButton.rx.tap  // 좋아요 버튼 클릭 시
                     .subscribe(with: self) { owner, _ in
                         cell.likeButton.isSelected.toggle()
-                        likeIndex.accept(index)
-                        likeStatus.accept(cell.likeButton.isSelected)
+                        likeTapped.onNext((index, cell.likeButton.isSelected))
                     }
                     .disposed(by: cell.disposeBag)
                 

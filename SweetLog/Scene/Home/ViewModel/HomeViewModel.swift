@@ -26,6 +26,7 @@ final class HomeViewModel: ViewModelType {
         let postCellTapped: ControlEvent<FetchPostItem>
         let likeObservable: Observable<(Int, Bool)>
         let prefetchTrigger: Observable<Void>
+        let fetchPostsTrigger: Observable<Void>
     }
     
     struct Output {
@@ -56,8 +57,8 @@ final class HomeViewModel: ViewModelType {
         // 카테고리 클릭 시
         input.filterItemClicked
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .map { index in
-                return FilterItem(rawValue: index)!
+            .map { value in
+                return FilterItem(rawValue: value)!
             }
             .map { [weak self] in
                 guard let self else { return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil) }
@@ -72,7 +73,31 @@ final class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, fetchPostModel in
                 postList.accept(fetchPostModel.data)
                 postListValue = fetchPostModel.data
-//                print("커서 값 - \(fetchPostModel.nextCursor)")
+                next.onNext(fetchPostModel.nextCursor)
+            }
+            .disposed(by: disposeBag)
+        
+        input.fetchPostsTrigger
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(input.filterItemClicked)
+            .map { value in
+                return FilterItem(rawValue: value)!
+            }
+            .map { [weak self] in
+                guard let self else { return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil) }
+                selectedCategory.accept($0.title)
+                currentCategory.onNext($0.title)
+                filterList.accept(self.filterList)
+                return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil)
+            }
+            .flatMap { fetchPostQuery in
+                return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
+            }
+            .debug()
+            .subscribe(with: self) { owner, fetchPostModel in
+                print("받았음")
+                postList.accept(fetchPostModel.data)
+                postListValue = fetchPostModel.data
                 next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
@@ -120,10 +145,11 @@ final class HomeViewModel: ViewModelType {
         
         // 좋아요 클릭했을 때
         likeClicked
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { value, list in
                 let postItem = list[value.0]    // 좋아요 클릭한 포스트
                 likeIndex = value.0
+                print("요청")
                 return PostNetworkManager.shared.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: value.1))
                     .catch { error in
                         print(error.localizedDescription)
@@ -133,16 +159,7 @@ final class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, likeStatusModel in
                 guard let likeIndex else { return }
                 let likeStatus = likeStatusModel.likeStatus
-                var postItem = postListValue[likeIndex]
-                if likeStatus == true {
-                    postItem.likes.append(UserDefaultManager.shared.userId)
-                } else {
-                    if let index = postItem.likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
-                        postItem.likes.remove(at: index)
-                    }
-                }
-                postListValue[likeIndex] = postItem
-                postList.accept(postListValue)
+                NotificationCenter.default.post(name: .fetchPosts, object: nil, userInfo: nil)
             }
             .disposed(by: disposeBag)
         
@@ -157,6 +174,7 @@ final class HomeViewModel: ViewModelType {
 extension HomeViewModel {
     @objc
     private func fetchPosts() {
+        print(#function)
         fetchPostsTrigger.onNext(())
     }
     

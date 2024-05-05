@@ -120,7 +120,7 @@ class ReviewCollectionViewCell: BaseCollectionViewCell {
         profileImageView.image = Image.emptyProfileImage
         nicknameLabel.design(font: .pretendard(size: 16, weight: .semiBold))
         createdAtLabel.design(textColor: Color.gray, font: .pretendard(size: 12, weight: .light))
-        reviewLabel.design(font: .pretendard(size: 14, weight: .light))
+        reviewLabel.design(font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
         hashtagLabel.design(textColor: Color.brown, font: .pretendard(size: 14, weight: .light), numberOfLines: 0)
         imageScrollView.showsHorizontalScrollIndicator = false
         imageStackView.spacing = 4

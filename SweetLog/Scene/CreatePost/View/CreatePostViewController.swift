@@ -23,6 +23,7 @@ final class CreatePostViewController: BaseViewController {
     
     init(placeItem: PlaceItem, postItem: FetchPostItem?, cuMode: CUMode) {
         viewModel = CreatePostViewModel(placeItem: placeItem, cuMode: cuMode)
+        viewModel.postItem.accept(postItem)
         super.init()
     }
 
@@ -34,7 +35,7 @@ final class CreatePostViewController: BaseViewController {
     }
     
     override func bind() {
-        let starValue = BehaviorSubject(value: 5)
+        let starValue = PublishSubject<Int>()
         let removeTag = PublishSubject<Int>()
         
         for button in mainView.buttonList {
@@ -45,7 +46,9 @@ final class CreatePostViewController: BaseViewController {
                 .disposed(by: disposeBag)
         }
         
+        
         let input = CreatePostViewModel.Input(viewDidLoadTrigger: Observable.just(()), 
+                                              editPostItem: Observable.just(viewModel.postItem.value),
                                               categoryString: mainView.selectedCategorySubject.asObserver(),
                                               starValue: starValue.asObserver(),
                                               reviewText: reviewText.asObserver(),
@@ -56,8 +59,15 @@ final class CreatePostViewController: BaseViewController {
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
         
+        if viewModel.cuMode == .create {
+            starValue.onNext(5)
+        }
+        
+   
         output.starButtonTapped
+            .debug()
             .drive(with: self) { owner, tag in
+                print("starButtonTapped")
                 owner.mainView.selectStarButton(tag)
             }
             .disposed(by: disposeBag)
@@ -66,6 +76,12 @@ final class CreatePostViewController: BaseViewController {
         output.imageDataList
             .drive(mainView.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier, cellType: PhotoCollectionViewCell.self)) { index, data, cell in
                 cell.configureCell(data: data)
+            }
+            .disposed(by: disposeBag)
+        
+        output.reviewText
+            .drive(with: self) { owner, reviewText in
+                owner.mainView.setReviewText(reviewText)
             }
             .disposed(by: disposeBag)
         
@@ -153,7 +169,7 @@ final class CreatePostViewController: BaseViewController {
     }
     
     override func configureNavigationItem() {
-        navigationItem.title = "후기 작성"
+        navigationItem.title = viewModel.cuMode == .create ? "후기 작성" : "후기 수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.createButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }

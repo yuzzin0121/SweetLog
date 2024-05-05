@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import RxSwift
+import Kingfisher
 
 final class PostNetworkManager {
     
@@ -319,6 +320,34 @@ final class PostNetworkManager {
             }
             
             return Disposables.create()
+        }
+    }
+    
+    func getImageData(file: String, completionHandler: @escaping (Data?) -> Void) {
+        do {
+            let urlRequest = try PostRouter.loadImage(url: file).asURLRequest()
+            let modifier = AnyModifier { _ in
+                return urlRequest
+            }
+            guard let url = urlRequest.url else { 
+                completionHandler(nil)
+                return
+            }
+            KingfisherManager.shared.retrieveImage(with: .network(url), options: [.requestModifier(modifier)]) { result in
+                switch result {
+                case .success(let value):
+                    if let data = value.data() {
+                       completionHandler(data)
+                    } else {
+                        completionHandler(nil)
+                    }
+                case .failure(let error):
+                   print("Error: \(error)")
+                    completionHandler(nil)
+                }
+            }
+        } catch {
+            completionHandler(nil)
         }
     }
 }

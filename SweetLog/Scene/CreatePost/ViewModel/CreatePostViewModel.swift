@@ -24,6 +24,7 @@ final class CreatePostViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoadTrigger: Observable<Void>
+        let editPostItem: Observable<FetchPostItem?>
         let categoryString: Observable<String>
         let starValue: Observable<Int>
         let reviewText: Observable<String>
@@ -36,6 +37,7 @@ final class CreatePostViewModel: ViewModelType {
     
     struct Output {
         let starButtonTapped: Driver<Int>
+        let reviewText: Driver<String>
         let imageDataList: Driver<[Data]>
         let tagList: Driver<[String]>
         let tagTextToEmpty: Driver<Void>
@@ -45,13 +47,15 @@ final class CreatePostViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        let starButtonTapped = BehaviorRelay<Int>(value: 5)
+        let starButtonTapped = PublishRelay<Int>()
+        let reviewText = BehaviorRelay<String>(value: "")
         let tagText = BehaviorRelay<String>(value: "")
         let tagValid = PublishRelay<Bool>()
         let tagList = BehaviorRelay<[String]>(value: [])
         let tagTextToEmpty = PublishRelay<Void>()
         let tagError = PublishRelay<String>()
         let createValid = BehaviorRelay(value: false)
+        let imageDataList = BehaviorRelay<[Data]>(value: [])
         let fileStringList = PublishSubject<[String]>()
         let createPostSuccessTrigger = PublishRelay<Void>()
         
@@ -64,11 +68,36 @@ final class CreatePostViewModel: ViewModelType {
                                                                  fileStringList: fileStringList)
                 return postRequestModel
             }
-        postItem
-            .bind(with: self) { owner, postItem in
-                print("잘 왔음\(postItem)")
+        
+        input.imageDataList
+            .debug()
+            .bind { dataList in
+                imageDataList.accept(dataList)
             }
             .disposed(by: disposeBag)
+        
+        input.starValue
+            .subscribe(with: self) { owner, index in
+                print("starValue")
+                starButtonTapped.accept(index)
+            }
+            .disposed(by: disposeBag)
+        
+        input.editPostItem
+            .debug()
+            .bind(with: self) { owner, postItem in
+                guard let postItem, let starValue = Int(postItem.star) else { return }  // nil이면 그냥 return
+                print("별 \(starValue)")
+                reviewText.accept(String.unTaggedText(text: postItem.review))
+                var list = postItem.hashTags
+                list.remove(at: 0)
+                tagList.accept(list)
+                let dataList = owner.getImageDatas(files: postItem.files)
+                imageDataList.accept(dataList)
+                starButtonTapped.accept(starValue)
+            }
+            .disposed(by: disposeBag)
+
         
         input.viewDidLoadTrigger
             .subscribe(with: self) { owner, _ in
@@ -89,12 +118,6 @@ final class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        
-        input.starValue
-            .subscribe(with: self) { owner, index in
-                starButtonTapped.accept(index)
-            }
-            .disposed(by: disposeBag)
         
         
         input.tagText
@@ -166,13 +189,27 @@ final class CreatePostViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         
-        return Output(starButtonTapped: starButtonTapped.asDriver(),
-                      imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []),
+        return Output(starButtonTapped: starButtonTapped.asDriver(onErrorJustReturn: 5),
+                      reviewText: reviewText.asDriver(),
+                      imageDataList: imageDataList.asDriver(onErrorJustReturn: []),
                       tagList: tagList.asDriver(onErrorJustReturn: []),
                       tagTextToEmpty: tagTextToEmpty.asDriver(onErrorJustReturn: ()),
                       tagError: tagError.asDriver(onErrorJustReturn: ""),
                       createValid: createValid.asDriver(onErrorJustReturn: false),
                       createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
+    }
+    
+    private func getImageDatas(files: [String]) -> [Data] {
+        var dataList: [Data] = []
+        for file in files {
+            PostNetworkManager.shared.getImageData(file: file) { data in
+                if let data {
+                    dataList.append(data)
+                }
+            }
+        }
+        print(#function, dataList)
+        return dataList
     }
     
     private func removeTag(tagList: [String], index: Int) -> [String] {

@@ -37,7 +37,7 @@ struct FetchPostItem: Decodable {
     let creator: Creator
     let files: [String]
     var likes: [String]
-    let hashTags: [String]
+    var hashTags: [String]
     var comments: [Comment]
     
     enum CodingKeys: String, CodingKey {

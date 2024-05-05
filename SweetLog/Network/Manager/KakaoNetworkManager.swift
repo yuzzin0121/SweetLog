@@ -17,6 +17,7 @@ final class KakaoNetworkManager {
         return Single<PlaceModel>.create { single in
             do {
                 let urlRequest = try KakaoPlaceRouter.searchPlace(query: query).asURLRequest()
+                print(urlRequest)
                                 
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<300)

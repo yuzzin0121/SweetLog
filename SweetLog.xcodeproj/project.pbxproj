@@ -1569,7 +1569,7 @@
 				DEVELOPMENT_TEAM = T2Q8P9627P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SweetLog/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그";
+				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그_조유진";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 내 위치 주변의 장소을 탐색하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1604,7 +1604,7 @@
 				DEVELOPMENT_TEAM = T2Q8P9627P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SweetLog/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그";
+				INFOPLIST_KEY_CFBundleDisplayName = "달콤로그_조유진";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "지도에서 내 위치 주변의 장소을 탐색하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

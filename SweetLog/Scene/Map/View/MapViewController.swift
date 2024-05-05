@@ -66,6 +66,12 @@ final class MapViewController: BaseViewController, FloatingPanelControllerDelega
                 owner.mainView.addAnnotation(placeItemList: placeList)
             }
             .disposed(by: disposeBag)
+        
+        output.resultCoord
+            .drive(with: self) { owner, resultCoord in
+                owner.mainView.setRegion(center: resultCoord)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func setFloatingPanelC() {

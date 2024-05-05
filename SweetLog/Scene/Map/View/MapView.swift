@@ -34,8 +34,8 @@ final class MapView: BaseView {
     }
     
     func setRegion(center: CLLocationCoordinate2D) {
-        let span = MKCoordinateSpan(latitudeDelta: 0.005,
-                                    longitudeDelta: 0.005)
+        let span = MKCoordinateSpan(latitudeDelta: 0.01,
+                                    longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: center, span: span)
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }

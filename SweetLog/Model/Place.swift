@@ -34,6 +34,18 @@ struct PlaceItem: Decodable {
         case x
         case y
     }
+    
+    init(address: String, categoryName: String? = "", distance: String? = "", id: String? = "", phone: String? = "", placeName: String, placeUrl: String, x: String, y: String) {
+        self.address = address
+        self.categoryName = categoryName ?? ""
+        self.distance = distance ?? ""
+        self.id = id ?? ""
+        self.phone = phone ?? ""
+        self.placeName = placeName
+        self.placeUrl = placeUrl
+        self.x = x
+        self.y = y
+    }
 }
 
 struct PlaceMeta: Decodable {

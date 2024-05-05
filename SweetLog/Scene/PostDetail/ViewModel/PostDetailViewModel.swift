@@ -30,6 +30,7 @@ final class PostDetailViewModel: ViewModelType {
         let createCommentSuccessTrigger: Driver<Void>
         let deleteSuccessTrigger: Driver<String>
         let placeButtonTapped: Driver<FetchPostItem>
+        let editPostTrigger: Driver<(PlaceItem, FetchPostItem)>
     }
     
     func transform(input: Input) -> Output {
@@ -41,6 +42,7 @@ final class PostDetailViewModel: ViewModelType {
         let deletePostSuccessTrigger = PublishRelay<String>()
         let deleteCommentTrigger = PublishSubject<(String, String)>()
         let placeButtonTapped = PublishRelay<FetchPostItem>()
+        let editPostTrigger = PublishRelay<(PlaceItem, FetchPostItem)>()
         
         // postId를 통해 특정 포스트 조회
         input.postId
@@ -143,7 +145,8 @@ final class PostDetailViewModel: ViewModelType {
                 guard let moreItem = MoreItem(rawValue: moreItemIndex), let fetchPostItem = owner.fetchPostItem else { return }
                 switch moreItem {
                 case .edit:
-                    return
+                    let placeItem = owner.getPlaceItem(postItem: fetchPostItem)
+                    editPostTrigger.accept((placeItem, fetchPostItem))
                 case .delete:
                     deletePostTrigger.onNext(fetchPostItem.postId)
                 }
@@ -197,7 +200,20 @@ final class PostDetailViewModel: ViewModelType {
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
                       createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()), 
                       deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""), 
-                      placeButtonTapped: placeButtonTapped.asDriver(onErrorDriveWith: .empty()))
+                      placeButtonTapped: placeButtonTapped.asDriver(onErrorDriveWith: .empty()),
+                      editPostTrigger: editPostTrigger.asDriver(onErrorDriveWith: .empty()))
+    }
+    
+    private func getPlaceItem(postItem: FetchPostItem) -> PlaceItem {
+        let xyArray = stringToDoubleArray(string: postItem.lonlat)
+        let placeItem = PlaceItem(address: postItem.address, placeName: postItem.placeName, placeUrl: postItem.link, x: xyArray[1], y: xyArray[0])
+        return placeItem
+    }
+    
+    private func stringToDoubleArray(string: String) -> [String] {
+        let trimmedString = string.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+        let stringArray = trimmedString.components(separatedBy: ",")
+        return stringArray
     }
     
     private func deleteComment(commentId: String) -> FetchPostItem? {

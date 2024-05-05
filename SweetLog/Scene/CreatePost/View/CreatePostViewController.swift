@@ -21,8 +21,8 @@ final class CreatePostViewController: BaseViewController {
     }
     let dataSubject: BehaviorSubject<[Data]> = BehaviorSubject(value: [])
     
-    init(placeItem: PlaceItem) {
-        viewModel = CreatePostViewModel(placeItem: placeItem)
+    init(placeItem: PlaceItem, postItem: FetchPostItem?, cuMode: CUMode) {
+        viewModel = CreatePostViewModel(placeItem: placeItem, cuMode: cuMode)
         super.init()
     }
 

@@ -14,9 +14,12 @@ final class CreatePostViewModel: ViewModelType {
     let filterList = FilterItem.allCases
     let contentTextViewPlaceholder = "후기를 작성해주세요"
     var disposeBag = DisposeBag()
+    let postItem = BehaviorRelay<FetchPostItem?>(value: nil)
+    var cuMode: CUMode
     
-    init(placeItem: PlaceItem) {
+    init(placeItem: PlaceItem, cuMode: CUMode) {
         self.placeItem = placeItem
+        self.cuMode = cuMode
     }
     
     struct Input {
@@ -61,6 +64,11 @@ final class CreatePostViewModel: ViewModelType {
                                                                  fileStringList: fileStringList)
                 return postRequestModel
             }
+        postItem
+            .bind(with: self) { owner, postItem in
+                print("잘 왔음\(postItem)")
+            }
+            .disposed(by: disposeBag)
         
         input.viewDidLoadTrigger
             .subscribe(with: self) { owner, _ in

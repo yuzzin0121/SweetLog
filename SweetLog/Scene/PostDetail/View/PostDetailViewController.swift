@@ -84,6 +84,18 @@ final class PostDetailViewController: BaseViewController {
                 owner.popView()
             }
             .disposed(by: disposeBag)
+        
+        output.editPostTrigger
+            .drive(with: self) { owner, editInfo in
+                let (placeItem, postItem) = editInfo
+                owner.showEditPostVC(placeItem: placeItem, postItem: postItem)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showEditPostVC(placeItem: PlaceItem, postItem: FetchPostItem) {
+        let editPostVC = CreatePostViewController(placeItem: placeItem, postItem: postItem, cuMode: .edit)
+        navigationController?.pushViewController(editPostVC, animated: true)
     }
     
     private func showPlaceInfoVC(postItem: FetchPostItem) {

@@ -32,7 +32,7 @@ struct FetchPostItem: Decodable {
     let address: String
     let link: String
     let lonlat: String
-    let sugar: String
+    let star: String
     let createdAt: String
     let creator: Creator
     let files: [String]
@@ -49,7 +49,7 @@ struct FetchPostItem: Decodable {
         case address = "content2"
         case link = "content3"
         case lonlat = "content4"
-        case sugar = "content5"
+        case star = "content5"
         case createdAt
         case creator
         case files
@@ -68,7 +68,7 @@ struct FetchPostItem: Decodable {
         self.address = try container.decode(String.self, forKey: .address)
         self.link = try container.decode(String.self, forKey: .link)
         self.lonlat = try container.decode(String.self, forKey: .lonlat)
-        self.sugar = try container.decode(String.self, forKey: .sugar)
+        self.star = try container.decode(String.self, forKey: .star)
         self.createdAt = try container.decode(String.self, forKey: .createdAt)
         self.creator = try container.decode(Creator.self, forKey: .creator)
         self.files = try container.decode([String].self, forKey: .files)

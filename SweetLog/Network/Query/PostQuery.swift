@@ -13,7 +13,7 @@ struct PostRequestModel: Encodable {
     let address: String
     let link: String
     let lonlat: String
-    let sugar: String
+    let star: String
     let product_id: String
     let files: [String]
     
@@ -23,7 +23,7 @@ struct PostRequestModel: Encodable {
         case address = "content2"
         case link = "content3"
         case lonlat = "content4"
-        case sugar = "content5"
+        case star = "content5"
         case product_id = "product_id"
         case files
     }

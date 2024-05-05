@@ -1,5 +1,5 @@
 //
-//  SugarView.swift
+//  StarImageView.swift
 //  SweetLog
 //
 //  Created by 조유진 on 4/26/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SugarView: UIView {
+final class StarImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -16,9 +16,8 @@ final class SugarView: UIView {
     }
     
     private func configureView() {
-        layer.cornerRadius = frame.height / 2
-        clipsToBounds = true
-        backgroundColor = Color.sugarBrown
+        image = Image.star
+        tintColor = Color.sugarBrown
     }
     
     private func configureLayout() {

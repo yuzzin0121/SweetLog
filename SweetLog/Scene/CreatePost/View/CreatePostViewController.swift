@@ -9,7 +9,7 @@ import UIKit
 import PhotosUI
 import RxSwift
 
-class CreatePostViewController: BaseViewController {
+final class CreatePostViewController: BaseViewController {
     private let mainView = CreatePostView()
     private var menuChildren: [UIMenuElement] = []
     let viewModel: CreatePostViewModel
@@ -34,21 +34,20 @@ class CreatePostViewController: BaseViewController {
     }
     
     override func bind() {
-        let sugarContent = BehaviorSubject(value: 1)
+        let starValue = BehaviorSubject(value: 5)
         let removeTag = PublishSubject<Int>()
         
         for button in mainView.buttonList {
             button.rx.tap
                 .subscribe(with: self) { owner, _ in
-                    owner.mainView.selectSugarButton(button.tag)
-                    sugarContent.onNext(button.tag)
+                    starValue.onNext(button.tag)
                 }
                 .disposed(by: disposeBag)
         }
         
         let input = CreatePostViewModel.Input(viewDidLoadTrigger: Observable.just(()), 
                                               categoryString: mainView.selectedCategorySubject.asObserver(),
-                                              sugarContent: sugarContent.asObserver(),
+                                              starValue: starValue.asObserver(),
                                               reviewText: reviewText.asObserver(),
                                               tagText: mainView.tagTextField.rx.text.orEmpty.asObservable(),
                                               tagTextFieldEditDone: mainView.tagTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(), 
@@ -56,6 +55,12 @@ class CreatePostViewController: BaseViewController {
                                               imageDataList: dataSubject.asObserver(),
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
+        
+        output.starButtonTapped
+            .drive(with: self) { owner, tag in
+                owner.mainView.selectStarButton(tag)
+            }
+            .disposed(by: disposeBag)
         
         // 추가한 이미지 collectionView에 반영
         output.imageDataList
@@ -66,7 +71,6 @@ class CreatePostViewController: BaseViewController {
         
         output.tagTextToEmpty
             .drive(with: self) { owner, _ in
-                print("비우기")
                 owner.mainView.setTagTextFieldEmpty()
             }
             .disposed(by: disposeBag)
@@ -92,8 +96,7 @@ class CreatePostViewController: BaseViewController {
         
         output.createValid
             .drive(with: self) { owner, isValid in
-                owner.mainView.createButton.configuration?.baseBackgroundColor = isValid ? Color.brown : Color.buttonGray
-                owner.mainView.createButton.isEnabled = isValid
+                owner.mainView.setCreateButtonStatus(isValid)
             }
             .disposed(by: disposeBag)
         
@@ -152,6 +155,7 @@ class CreatePostViewController: BaseViewController {
     override func configureNavigationItem() {
         navigationItem.title = "후기 작성"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.createButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     override func loadView() {

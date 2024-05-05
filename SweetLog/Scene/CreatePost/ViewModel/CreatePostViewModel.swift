@@ -22,7 +22,7 @@ final class CreatePostViewModel: ViewModelType {
     struct Input {
         let viewDidLoadTrigger: Observable<Void>
         let categoryString: Observable<String>
-        let sugarContent: Observable<Int>
+        let starValue: Observable<Int>
         let reviewText: Observable<String>
         let tagText: Observable<String>
         let tagTextFieldEditDone: Observable<Void>
@@ -32,6 +32,7 @@ final class CreatePostViewModel: ViewModelType {
     }
     
     struct Output {
+        let starButtonTapped: Driver<Int>
         let imageDataList: Driver<[Data]>
         let tagList: Driver<[String]>
         let tagTextToEmpty: Driver<Void>
@@ -41,6 +42,7 @@ final class CreatePostViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
+        let starButtonTapped = BehaviorRelay<Int>(value: 5)
         let tagText = BehaviorRelay<String>(value: "")
         let tagValid = PublishRelay<Bool>()
         let tagList = BehaviorRelay<[String]>(value: [])
@@ -50,11 +52,11 @@ final class CreatePostViewModel: ViewModelType {
         let fileStringList = PublishSubject<[String]>()
         let createPostSuccessTrigger = PublishRelay<Void>()
         
-        let contentObservable = Observable.combineLatest(input.categoryString, input.sugarContent, input.reviewText, tagList, fileStringList)
-            .map { [weak self] categoryString, sugar, review, tagList, fileStringList in
+        let contentObservable = Observable.combineLatest(input.categoryString, input.starValue, input.reviewText, tagList, fileStringList)
+            .map { [weak self] categoryString, star, review, tagList, fileStringList in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
-                                                                 sugar: sugar,
-                                                                 review: review, 
+                                                                 star: star,
+                                                                 review: review,
                                                                  tagList: tagList,
                                                                  fileStringList: fileStringList)
                 return postRequestModel
@@ -80,9 +82,9 @@ final class CreatePostViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         
-        input.sugarContent
+        input.starValue
             .subscribe(with: self) { owner, index in
-                print(index)
+                starButtonTapped.accept(index)
             }
             .disposed(by: disposeBag)
         
@@ -156,7 +158,8 @@ final class CreatePostViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         
-        return Output(imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []),
+        return Output(starButtonTapped: starButtonTapped.asDriver(),
+                      imageDataList: input.imageDataList.asDriver(onErrorJustReturn: []),
                       tagList: tagList.asDriver(onErrorJustReturn: []),
                       tagTextToEmpty: tagTextToEmpty.asDriver(onErrorJustReturn: ()),
                       tagError: tagError.asDriver(onErrorJustReturn: ""),
@@ -170,7 +173,7 @@ final class CreatePostViewModel: ViewModelType {
         return tagList
     }
  
-    private func getPostRequestModel(categoryString: String, sugar: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
+    private func getPostRequestModel(categoryString: String, star: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else { return nil }
         let lonLat = [x, y].description
         
@@ -181,7 +184,7 @@ final class CreatePostViewModel: ViewModelType {
                                                 address: placeItem.address,
                                                 link: placeItem.placeUrl,
                                                 lonlat: lonLat,
-                                                sugar: String(sugar),
+                                                star: String(star),
                                                 product_id: categoryString,
                                                 files: fileStringList)
         return postRequestModel

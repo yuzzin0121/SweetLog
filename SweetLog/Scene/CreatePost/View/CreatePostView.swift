@@ -15,13 +15,13 @@ final class CreatePostView: BaseView {
     var categoryButton = MenuButton(title: FilterItem.allCases[0].title)    // 선택버튼
     
     let selectSugarContentLabel = UILabel() // 당도
-    let sugarStackView = UIStackView()  // 당도 선택버튼 스택뷰
+    let starStackView = UIStackView()  // 당도 선택버튼 스택뷰
     
     let textView = UITextView() // 후기 작성 텍스트뷰
     let tagTextField = UITextField()
     lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createTagLayout())
     
-    var buttonList: [UIButton] = []
+    var buttonList: [StarButton] = []
     let addPhotoImageView = AddPhotoImageView(frame: .zero)
     let photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -34,8 +34,13 @@ final class CreatePostView: BaseView {
         tagTextField.text = ""
     }
     
+    func setCreateButtonStatus(_ isValid: Bool) {
+        createButton.configuration?.baseBackgroundColor = isValid ? Color.brown : Color.gray
+        createButton.isEnabled = isValid
+    }
+    
     override func configureHierarchy() {
-        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, sugarStackView, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
+        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, starStackView, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
     }
     override func configureLayout() {
         placeInfoView.snp.makeConstraints { make in
@@ -62,7 +67,7 @@ final class CreatePostView: BaseView {
             make.height.equalTo(18)
         }
         
-        sugarStackView.snp.makeConstraints { make in
+        starStackView.snp.makeConstraints { make in
             make.centerY.equalTo(selectSugarContentLabel)
             make.leading.equalTo(selectSugarContentLabel.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(20)
@@ -102,12 +107,12 @@ final class CreatePostView: BaseView {
     override func configureView() {
         super.configureView()
         selectCategoryLabel.design(text: "카테고리", font: .pretendard(size: 18, weight: .semiBold))
-        selectSugarContentLabel.design(text: "당도", font: .pretendard(size: 18, weight: .semiBold))
+        selectSugarContentLabel.design(text: "평점", font: .pretendard(size: 18, weight: .semiBold))
         
         configureCategoryMenu()
         
-        sugarStackView.design(axis: .horizontal, spacing: 20)
-        setSugarButton()
+        starStackView.design(axis: .horizontal, spacing: 8)
+        setStarButton()
         
         textView.layer.cornerRadius = 12
         textView.clipsToBounds = true
@@ -136,17 +141,17 @@ final class CreatePostView: BaseView {
         tagCollectionView.showsHorizontalScrollIndicator = false
     }
     
-    private func setSugarButton() {
+    private func setStarButton() {
         for index in 1...5 {
-            let button = SugarButton()
+            let button = StarButton()
             button.tag = index
             button.snp.makeConstraints { make in
-                make.size.equalTo(34)
+                make.size.equalTo(36)
             }
             buttonList.append(button)
-            sugarStackView.addArrangedSubview(button)
+            starStackView.addArrangedSubview(button)
+            button.tintColor = Color.darkBrown
         }
-        buttonList[0].configuration?.baseBackgroundColor = Color.brown
     }
     
     private func configureCategoryMenu() {
@@ -163,9 +168,14 @@ final class CreatePostView: BaseView {
         categoryButton.menu = UIMenu(title: "카테고리 선택", children: actions)
     }
     
-    func selectSugarButton(_ index: Int) {
-        for button in buttonList {
-            button.configuration?.baseBackgroundColor = button.tag == index ? Color.brown : Color.sugarBrown
+    func selectStarButton(_ tag: Int) {
+        print(#function, index)
+        for starIndex in 0..<buttonList.count {
+            if starIndex < tag {
+                buttonList[starIndex].tintColor = Color.darkBrown
+            } else if starIndex >= tag {
+                buttonList[starIndex].tintColor = Color.sugarBrown
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SugarButton.swift
+//  StarButton.swift
 //  SweetLog
 //
 //  Created by 조유진 on 4/23/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SugarButton: UIButton {
+final class StarButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -15,10 +15,12 @@ final class SugarButton: UIButton {
     }
     
     private func configureView() {
-        var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = Color.sugarBrown
-        config.cornerStyle = .capsule
-        configuration = config
+//        var config = UIButton.Configuration.filled()
+//        config.baseBackgroundColor = Color.sugarBrown
+//        config.cornerStyle = .capsule
+//        configuration = config
+        setImage(Image.star, for: .normal)
+        tintColor = Color.sugarBrown
     }
     
     required init?(coder: NSCoder) {

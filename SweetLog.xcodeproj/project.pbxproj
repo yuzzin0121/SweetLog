@@ -18,7 +18,7 @@
 		610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610264432BE684A00000EE79 /* PlaceTableViewCell.swift */; };
 		61130D0F2BD7C1CA002D03C1 /* PlaceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */; };
 		61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D102BD7DCA5002D03C1 /* MenuButton.swift */; };
-		61130D132BD7DFC8002D03C1 /* SugarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D122BD7DFC8002D03C1 /* SugarButton.swift */; };
+		61130D132BD7DFC8002D03C1 /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D122BD7DFC8002D03C1 /* StarButton.swift */; };
 		61130D182BD7EEEC002D03C1 /* AddPhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D172BD7EEEC002D03C1 /* AddPhotoImageView.swift */; };
 		61130D1B2BD7F189002D03C1 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D1A2BD7F189002D03C1 /* PhotoCollectionViewCell.swift */; };
 		61130D1E2BD7F1DB002D03C1 /* PhotoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D1D2BD7F1DB002D03C1 /* PhotoImageView.swift */; };
@@ -31,7 +31,7 @@
 		61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */; };
 		61130D372BDA368E002D03C1 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D362BDA368E002D03C1 /* ViewProtocol.swift */; };
 		61130D392BDABDBC002D03C1 /* PostCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D382BDABDBC002D03C1 /* PostCommentTableViewCell.swift */; };
-		61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D402BDBAD53002D03C1 /* SugarView.swift */; };
+		61130D412BDBAD53002D03C1 /* StarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D402BDBAD53002D03C1 /* StarImageView.swift */; };
 		61130D432BDC0194002D03C1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D422BDC0194002D03C1 /* UIImage+Extension.swift */; };
 		61130D452BDC19A3002D03C1 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */; };
 		61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D462BDC227A002D03C1 /* CommentRouter.swift */; };
@@ -189,7 +189,7 @@
 		610264432BE684A00000EE79 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTableViewCell.swift; sourceTree = "<group>"; };
 		61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoView.swift; sourceTree = "<group>"; };
 		61130D102BD7DCA5002D03C1 /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
-		61130D122BD7DFC8002D03C1 /* SugarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarButton.swift; sourceTree = "<group>"; };
+		61130D122BD7DFC8002D03C1 /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		61130D172BD7EEEC002D03C1 /* AddPhotoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoImageView.swift; sourceTree = "<group>"; };
 		61130D1A2BD7F189002D03C1 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		61130D1D2BD7F1DB002D03C1 /* PhotoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImageView.swift; sourceTree = "<group>"; };
@@ -201,7 +201,7 @@
 		61130D342BDA366D002D03C1 /* PostDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailHeaderView.swift; sourceTree = "<group>"; };
 		61130D362BDA368E002D03C1 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
 		61130D382BDABDBC002D03C1 /* PostCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentTableViewCell.swift; sourceTree = "<group>"; };
-		61130D402BDBAD53002D03C1 /* SugarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SugarView.swift; sourceTree = "<group>"; };
+		61130D402BDBAD53002D03C1 /* StarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarImageView.swift; sourceTree = "<group>"; };
 		61130D422BDC0194002D03C1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		61130D442BDC19A3002D03C1 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		61130D462BDC227A002D03C1 /* CommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRouter.swift; sourceTree = "<group>"; };
@@ -422,7 +422,7 @@
 				618C772E2BC6F7950033CD0D /* SignButton.swift */,
 				616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */,
 				61130D102BD7DCA5002D03C1 /* MenuButton.swift */,
-				61130D122BD7DFC8002D03C1 /* SugarButton.swift */,
+				61130D122BD7DFC8002D03C1 /* StarButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -432,7 +432,7 @@
 			children = (
 				61130D0E2BD7C1CA002D03C1 /* PlaceInfoView.swift */,
 				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
-				61130D402BDBAD53002D03C1 /* SugarView.swift */,
+				61130D402BDBAD53002D03C1 /* StarImageView.swift */,
 				615C03A72BDD389E0078E45A /* ProfileInfoView.swift */,
 			);
 			path = View;
@@ -1382,7 +1382,7 @@
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */,
-				61130D412BDBAD53002D03C1 /* SugarView.swift in Sources */,
+				61130D412BDBAD53002D03C1 /* StarImageView.swift in Sources */,
 				614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */,
 				6164DF992BE1277400F57A97 /* FetchTriggerManager.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
@@ -1393,7 +1393,7 @@
 				618C77182BC6F4B70033CD0D /* BaseView.swift in Sources */,
 				614678E32BE6BA6500915E89 /* PlaceInfoViewModel.swift in Sources */,
 				61B528852BD10F9800974CA0 /* PostNetworkManager.swift in Sources */,
-				61130D132BD7DFC8002D03C1 /* SugarButton.swift in Sources */,
+				61130D132BD7DFC8002D03C1 /* StarButton.swift in Sources */,
 				6147470A2BD6AC4800B9B670 /* KakaoNetworkManager.swift in Sources */,
 				61130D0F2BD7C1CA002D03C1 /* PlaceInfoView.swift in Sources */,
 				618C77242BC6F5850033CD0D /* BaseCollectionViewCell.swift in Sources */,

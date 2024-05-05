@@ -10,9 +10,8 @@ import RxSwift
 
 final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     let placeButton = UIButton()
-    private let sugarContentLabel = UILabel()
-    private let sugarStackView = UIStackView()
-    var sugarViewList: [SugarView] = []
+    private let starStackView = UIStackView()
+    var starImageViewList: [StarImageView] = []
     
     private var imageScrollView = UIScrollView()
     private let pageControl = UIPageControl()
@@ -67,7 +66,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         
         pageControl.numberOfPages = fetchPostItem.files.count
         setImages(fileList: fetchPostItem.files)
-        setSugar(sugarValue: fetchPostItem.sugar)
+        setStar(starValue: fetchPostItem.star)
         commentCountLabel.text = "\(fetchPostItem.comments.count)개"
         commentCountLabel.addCharacterSpacing()
         likeButton.configuration?.title = "\(fetchPostItem.likes.count)"
@@ -93,11 +92,11 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         }
     }
     
-    private func setSugar(sugarValue: String?) {
-        if sugarViewList.isEmpty { return }
-        guard let sugarString = sugarValue, let sugar = Int(sugarString) else { return }
-        for index in 0..<sugar {
-            sugarViewList[index].backgroundColor = Color.brown
+    private func setStar(starValue: String?) {
+        if starImageViewList.isEmpty { return }
+        guard let starString = starValue, let star = Int(starString) else { return }
+        for index in 0..<star {
+            starImageViewList[index].tintColor = Color.darkBrown
         }
     }
     
@@ -125,17 +124,13 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         }
     }
     
-    private func setSugarView() {
-        sugarStackView.design(axis: .horizontal, spacing: 8)
+    private func setStarView() {
+        starStackView.design(axis: .horizontal, spacing: 8)
         for index in 1...5 {
-            let sugarView = SugarView()
-            sugarView.tag = index
-            sugarViewList.append(sugarView)
-            sugarStackView.addArrangedSubview(sugarView)
-            
-            DispatchQueue.main.async {
-                sugarView.layer.cornerRadius = sugarView.frame.height / 2
-            }
+            let starImageView = StarImageView(frame: .zero)
+            starImageView.tag = index
+            starImageViewList.append(starImageView)
+            starStackView.addArrangedSubview(starImageView)
         }
     }
     
@@ -152,7 +147,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     }
     
     func configureHierarchy() {
-        addSubviews([placeButton, sugarContentLabel, sugarStackView,
+        addSubviews([placeButton, starStackView,
                      imageScrollView, pageControl,
                      profileImageView, userNicknameLabel, createdAtLabel, likeButton,
                      reviewLabel, hashtagLabel,
@@ -168,19 +163,12 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
             make.top.equalToSuperview().offset(20)
             make.leading.equalToSuperview().offset(15)
         }
-        sugarContentLabel.snp.makeConstraints { make in
+        starStackView.snp.makeConstraints { make in
             make.top.equalTo(placeButton.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(18)
-            make.height.equalTo(15)
         }
-        
-        sugarStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(sugarContentLabel)
-            make.leading.equalTo(sugarContentLabel.snp.trailing).offset(8)
-        }
-        
         imageScrollView.snp.makeConstraints { make in
-            make.top.equalTo(sugarContentLabel.snp.bottom).offset(20)
+            make.top.equalTo(starStackView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(350)
         }
@@ -239,9 +227,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         placeConfig.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         placeButton.configuration = placeConfig
         
-        sugarContentLabel.design(text: "당도", font: .pretendard(size: 17, weight: .medium))
-        sugarContentLabel.addCharacterSpacing()
-        setSugarView()
+        setStarView()
         
         imageScrollView.isPagingEnabled = true
         imageScrollView.backgroundColor = Color.white

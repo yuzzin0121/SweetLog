@@ -38,4 +38,5 @@ enum Image {
     
     static let refresh: UIImage = .refresh
     static let call: UIImage = .call
+    static let star: UIImage = .star
 }

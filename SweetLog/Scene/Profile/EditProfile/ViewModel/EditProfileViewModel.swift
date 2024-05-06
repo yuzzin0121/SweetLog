@@ -27,6 +27,7 @@ final class EditProfileViewModel: ViewModelType {
     
     struct Output {
         let currentProfileImage: Driver<String?>
+        let currentNicknameText: Driver<String>
         let nicknameText: Driver<String>
         let validNickname: Driver<Bool>
         let totalValid: Driver<Bool>
@@ -34,40 +35,30 @@ final class EditProfileViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-//        let currentProfile = BehaviorRelay<(String?, String)>(value: (currentProfileImageUrl, currentNickname))
         let currentProfileImage = BehaviorRelay<String?>(value: currentProfileImageUrl)
-        let nicknameText = BehaviorRelay(value: currentNickname)
+        let currentNicknameText = BehaviorRelay(value: currentNickname)
+        let nicknameText = BehaviorRelay<String>(value: "")
         let imageData = BehaviorRelay<Data?>(value: nil)
         let nicknameValid = BehaviorRelay(value: true)
-        let imageDataValid = BehaviorRelay(value: true)
         let totalValid = PublishRelay<Bool>()
         let editProfileSuccessTrigger = PublishRelay<ProfileModel?>()
-        
-        let isValid = Observable.combineLatest(nicknameValid, imageDataValid)
-            .map { value in
-                return value.0 && value.1
-            }
         
         // 닉네임 변경 시
         input.nicknameText
             .map {
-                return $0.trimmingCharacters(in: [" "]).count > 1
+                let text = $0.trimmingCharacters(in: [" "])
+                nicknameValid.accept(text.count > 1)
+                return text
             }
-            .bind(with: self) { owner, isValid in
-                nicknameValid.accept(isValid)
+            .bind(with: self) { owner, nickname in
+                nicknameText.accept(nickname)
             }
             .disposed(by: disposeBag)
+        
         
         input.prfileImageData
             .subscribe { data in
                 imageData.accept(data)
-                imageDataValid.accept(true)
-            }
-            .disposed(by: disposeBag)
-        
-        isValid
-            .subscribe { isValid in
-                totalValid.accept(isValid)
             }
             .disposed(by: disposeBag)
         
@@ -75,6 +66,9 @@ final class EditProfileViewModel: ViewModelType {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { profileImageData in
                 let nickname = nicknameText.value
+                if nicknameValid.value == false {
+                    return Single<ProfileModel>.never()
+                }
                 return ProfileNetworkManager.shared.editMyProfile(nickname: nickname, profile: imageData.value)
                     .catch { error in
                         print(error.localizedDescription)
@@ -88,6 +82,7 @@ final class EditProfileViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         return Output(currentProfileImage: currentProfileImage.asDriver(onErrorJustReturn: nil),
+                      currentNicknameText: currentNicknameText.asDriver(),
                       nicknameText: nicknameText.asDriver(onErrorJustReturn: ""),
                       validNickname: nicknameValid.asDriver(onErrorJustReturn: false),
                       totalValid: totalValid.asDriver(onErrorJustReturn: false),

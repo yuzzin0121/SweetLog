@@ -40,7 +40,7 @@ final class EditProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.nicknameText
+        output.currentNicknameText
             .drive(with: self) { owner, nickname in
                 owner.mainView.setNickname(currentNickname: nickname)
             }
@@ -67,7 +67,7 @@ final class EditProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.totalValid
+        output.validNickname
             .drive(with: self) { owner, isValid in
                 owner.mainView.setEditButtonStyle(isValid: isValid)
             }

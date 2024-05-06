@@ -83,6 +83,7 @@ final class PostDetailView: BaseView {
         commentTextField.backgroundColor = Color.gray1
         commentTextField.placeholder = "댓글 남기기"
         commentTextField.attributedPlaceholder = NSAttributedString(string: "댓글 남기기", attributes: [NSAttributedString.Key.font:UIFont(name: "Pretendard-Regular", size: 14)!])
+        commentTextField.font = .pretendard(size: 14, weight: .regular)
         commentTextField.addLeftPadding()
         configureMoreMenu()
     }

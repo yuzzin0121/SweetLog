@@ -90,7 +90,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         
         
         var moreConfig = UIButton.Configuration.plain()
-        moreConfig.image = Image.moreVertical
+        moreConfig.image = Image.moreVertical.resized(to: CGSize(width: 14, height: 14))
         moreButton.configuration = moreConfig
         configureMoreMenu()
     }

@@ -25,25 +25,35 @@ final class FollowDetailViewModel: ViewModelType {
     }
     
     struct Input {
+        let fetchMyProfileTrigger: Observable<Void>
         let fetchUserList: PublishSubject<Void>
         let followButtonTapped: Observable<User>  // 유저 아이디
     }
     
     struct Output {
+        let fetchMyProfileSuccessTrigger: Driver<ProfileModel>
         let userList: Driver<[User]>
         let userFollow: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
         print(#function)
-        let myProfileModel = FetchTriggerManager.shared.myProfileModel.compactMap { $0 }
+        let fetchMyProfileSuccessTrigger = PublishRelay<ProfileModel>()
         let fetchUserList = PublishRelay<[User]>()
         let userFollow = PublishRelay<Void>()
-        
-        FetchTriggerManager.shared.myProfileModel
-            .subscribe(with: self) { owner, myProfile in
-                print("FollowDetailViewModel - 내 프로필 저장")
-                owner.myProfile = myProfile
+
+        // Notification으로 받았을 때
+        input.fetchMyProfileTrigger
+            .flatMap { _ in
+                return ProfileNetworkManager.shared.fetchMyProfile()
+                    .catch { error in
+                        print(error)
+                        return Single<ProfileModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, profileModel in
+                fetchMyProfileSuccessTrigger.accept(profileModel)
+                owner.myProfile = profileModel
             }
             .disposed(by: disposeBag)
         
@@ -88,7 +98,8 @@ final class FollowDetailViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(userList: fetchUserList.asDriver(onErrorJustReturn: []), 
+        return Output(fetchMyProfileSuccessTrigger: fetchMyProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()), 
+                      userList: fetchUserList.asDriver(onErrorJustReturn: []),
                       userFollow: userFollow.asDriver(onErrorJustReturn: ()))
     }
     

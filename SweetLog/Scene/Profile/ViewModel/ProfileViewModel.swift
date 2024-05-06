@@ -15,7 +15,7 @@ final class ProfileViewModel: ViewModelType {
     var profileModel: ProfileModel?
     var isMyProfile: Bool
     var userId: String
-    let fetchMyProfileTrigger = PublishSubject<Void>()
+    private let fetchMyProfileTrigger = PublishSubject<Void>()
     
     init(isMyProfile: Bool, userId: String) {
         self.isMyProfile = isMyProfile
@@ -52,7 +52,6 @@ final class ProfileViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, profileModel in
-                print("FetchTriggerManager - 내 프로필 정보 가져옴")
                 fetchMyProfileSuccessTrigger.accept(profileModel)
                 owner.myProfileModel = profileModel
             }
@@ -109,7 +108,6 @@ final class ProfileViewModel: ViewModelType {
             .subscribe(with: self) { owner, followStatus in
                 print(followStatus)
                 followTrigger.accept(())
-//                FetchTriggerManager.shared.followTrigger.onNext(()) // 팔로우 신호 emit
             }
             .disposed(by: disposeBag)
                       

@@ -13,6 +13,7 @@ final class FollowDetailViewController: BaseViewController {
     
     let viewModel: FollowDetailViewModel
     let fetchUserList = PublishSubject<Void>()
+    let fetchMyProfileTrigger = PublishSubject<Void>()
     
     init(followType: FollowType, isMyProfile: Bool, userId: String) {
         viewModel = FollowDetailViewModel(followType: followType,
@@ -31,7 +32,8 @@ final class FollowDetailViewController: BaseViewController {
         
         let followButtonTapped = PublishSubject<User>()
         
-        let input = FollowDetailViewModel.Input(fetchUserList: fetchUserList,
+        let input = FollowDetailViewModel.Input(fetchMyProfileTrigger: fetchMyProfileTrigger.asObservable(),
+                                                fetchUserList: fetchUserList,
                                                 followButtonTapped: followButtonTapped.asObservable())
         
         let output = viewModel.transform(input: input)
@@ -69,7 +71,7 @@ final class FollowDetailViewController: BaseViewController {
         
         output.userFollow
             .drive(with: self) { owner, _ in
-                FetchTriggerManager.shared.profileFetchTrigger.onNext(())
+                owner.fetchMyProfileTrigger.onNext(())
                 owner.fetchUserList.onNext(())
             }
             .disposed(by: disposeBag)

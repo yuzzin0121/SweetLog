@@ -179,7 +179,8 @@ final class ProfileViewController: BaseViewController {
 
 extension ProfileViewController: SendProfileDelegate {
     func sendProfile(profileModel: ProfileModel) {
-        mainView.profileSectionView.updateProfileInfo(profileModel, isMyProfile: viewModel.isMyProfile)
+//        mainView.profileSectionView.updateProfileInfo(profileModel, isMyProfile: viewModel.isMyProfile)
+        NotificationCenter.default.post(name: .fetchMyProfile, object: nil, userInfo: nil)
     }
 }
 

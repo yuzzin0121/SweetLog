@@ -74,7 +74,6 @@ final class PostCommentTableViewCell: BaseTableViewCell {
             make.leading.equalTo(nicknameLabel)
             make.trailing.equalToSuperview().inset(18)
             make.bottom.equalToSuperview().inset(12)
-            make.height.equalTo(15)
         }
         moreButton.snp.makeConstraints { make in
             make.top.equalTo(profileImageView)
@@ -85,9 +84,9 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     override func configureView() {
         profileImageView.image = Image.emptyProfileImage
         
-        nicknameLabel.design(text: "닉넴", font: .pretendard(size: 12, weight: .semiBold))
-        dateLabel.design(text: "날짜", font: .pretendard(size: 11, weight: .light))
-        commentLabel.design(text: "댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글", font: .pretendard(size: 15, weight: .regular))
+        nicknameLabel.design(font: .pretendard(size: 12, weight: .semiBold))
+        dateLabel.design(font: .pretendard(size: 11, weight: .light))
+        commentLabel.design(font: .pretendard(size: 15, weight: .regular), numberOfLines: 0)
         
         
         var moreConfig = UIButton.Configuration.plain()
@@ -101,7 +100,6 @@ final class PostCommentTableViewCell: BaseTableViewCell {
         let actions = MoreItem.allCases.map { moreItem in
             UIAction(title: moreItem.title) { [weak self] _ in
                 guard let self else { return }
-                let title = moreItem.title
                 self.commentMoreItemClicked.onNext(moreItem.rawValue)
             }
         }
@@ -111,10 +109,7 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height / 2
-            self.profileImageView.clipsToBounds = true
-        }
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
     }
 }

@@ -50,6 +50,7 @@ final class PlaceInfoViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+
         
         output.reviewCellTapped
             .drive(with: self) { owner, fetchPostItem in

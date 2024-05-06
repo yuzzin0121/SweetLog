@@ -38,6 +38,7 @@ class PlaceListViewController: BaseViewController {
             .drive(with: self) { owner, placeList in
                 print(placeList)
                 owner.mainView.setResult(resultCount: placeList.count)
+                owner.mainView.setEmpty(placeList.isEmpty)
             }
             .disposed(by: disposeBag)
         

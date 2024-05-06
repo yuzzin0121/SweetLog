@@ -14,6 +14,11 @@ final class PlaceListView: BaseView {
     let resultStackView = UIStackView()
     let markImageView = UIImageView()
     let resultCountLabel = UILabel()
+    let emptyMessageLabel = UILabel()
+    
+    func setEmpty(_ isEmpty: Bool) {
+        emptyMessageLabel.isHidden = !isEmpty
+    }
     
     func setResult(resultCount: Int) {
         resultCountLabel.text = "\(resultCount)개"
@@ -26,7 +31,7 @@ final class PlaceListView: BaseView {
     }
     
     override func configureHierarchy() {
-        addSubviews([searchKeywordLabel, resultStackView, placeTableView])
+        addSubviews([searchKeywordLabel, resultStackView, placeTableView, emptyMessageLabel])
         [markImageView, resultCountLabel].forEach {
             resultStackView.addArrangedSubview($0)
         }
@@ -48,6 +53,10 @@ final class PlaceListView: BaseView {
             make.top.equalTo(resultStackView.snp.bottom).offset(20)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
+        emptyMessageLabel.snp.makeConstraints { make in
+            make.top.equalTo(resultStackView.snp.bottom).offset(100)
+            make.centerX.equalToSuperview()
+        }
     }
     override func configureView() {
         super.configureView()
@@ -64,5 +73,7 @@ final class PlaceListView: BaseView {
         markImageView.tintColor = Color.gray5
         resultCountLabel.design(textColor: Color.gray, font: .pretendard(size: 12, weight: .light))
         resultStackView.isHidden = true
+        
+        emptyMessageLabel.design(text: "키워드 또는 장소를 검색해보세요", textColor: Color.gray, font: .pretendard(size: 16, weight: .semiBold), textAlignment: .center)
     }
 }

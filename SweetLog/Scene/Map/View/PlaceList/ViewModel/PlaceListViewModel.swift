@@ -11,7 +11,7 @@ import RxCocoa
 
 final class PlaceListViewModel: ViewModelType {
     var disposeBag = DisposeBag()
-    var placeList = PublishRelay<[PlaceItem]>()
+    var placeList = BehaviorRelay<[PlaceItem]>(value: [])
     var searchText = PublishRelay<String>()
     
     struct Input {

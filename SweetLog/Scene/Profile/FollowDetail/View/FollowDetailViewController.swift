@@ -93,6 +93,7 @@ final class FollowDetailViewController: BaseViewController {
     override func configureNavigationItem() {
         // TODO: - 팔로우 or 팔로잉
         navigationItem.title = viewModel.followType.rawValue
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
     
     override func loadView() {

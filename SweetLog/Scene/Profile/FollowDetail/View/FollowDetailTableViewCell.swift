@@ -52,10 +52,16 @@ class FollowDetailTableViewCell: BaseTableViewCell {
     }
     
     func setFollowStatus(status: Bool) {
+        var titleContainer = AttributeContainer()
+        titleContainer.font = UIFont.boldSystemFont(ofSize: 14)
+        
         guard var followConfig = followButton.configuration else { return }
         followConfig.baseBackgroundColor = status ? Color.backgroundGray : Color.brown
         followConfig.baseForegroundColor = status ? Color.black : Color.white
-        followConfig.title = status ? "팔로잉": "팔로우"
+        
+        let title = status ? "팔로잉": "팔로우"
+        followConfig.title = title
+        followConfig.attributedTitle = AttributedString(title, attributes: titleContainer)
         followButton.configuration = followConfig
     }
 
@@ -86,8 +92,8 @@ class FollowDetailTableViewCell: BaseTableViewCell {
         titleContainer.font = UIFont.boldSystemFont(ofSize: 14)
         
         var followConfig = UIButton.Configuration.filled()
-        followConfig.baseBackgroundColor = Color.backgroundGray
-        followConfig.baseForegroundColor = Color.black
+        followConfig.baseBackgroundColor = Color.brown
+        followConfig.baseForegroundColor = Color.white
         followConfig.title = "팔로우"
         followConfig.attributedTitle = AttributedString("팔로우", attributes: titleContainer)
         followConfig.cornerStyle = .capsule
@@ -96,10 +102,7 @@ class FollowDetailTableViewCell: BaseTableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self else { return }
-            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height / 2
-            self.profileImageView.clipsToBounds = true
-//        }
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
     }
 }

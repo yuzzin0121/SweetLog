@@ -50,14 +50,14 @@ final class PlaceDetailInfoView: BaseView {
         let layout = UICollectionViewCompositionalLayout { _, _ in
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalWidth(1.0)
+                heightDimension: .estimated(300)
             )
             
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(260)
+                heightDimension: .estimated(300)
             )
             
             let group = NSCollectionLayoutGroup.vertical(

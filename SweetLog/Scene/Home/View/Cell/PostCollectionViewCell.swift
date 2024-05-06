@@ -316,15 +316,11 @@ final class PostCollectionViewCell: BaseCollectionViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
         
-        DispatchQueue.main.async {
-            self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height / 2
-            self.profileImageView.clipsToBounds = true
-        }
-        DispatchQueue.main.async {
-            self.imageStackView.layer.cornerRadius = 6
-            self.imageStackView.clipsToBounds = true
-        }
+        imageStackView.layer.cornerRadius = 6
+        imageStackView.clipsToBounds = true
     }
     
     override func configureView() {

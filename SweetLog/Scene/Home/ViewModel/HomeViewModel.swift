@@ -34,6 +34,7 @@ final class HomeViewModel: ViewModelType {
         let filterList: Driver<[FilterItem]>
         let postList: Driver<[FetchPostItem]>
         let postCellTapped: Driver<String>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -44,6 +45,7 @@ final class HomeViewModel: ViewModelType {
         let postCellTapped = PublishRelay<String>() // postId
         let next = BehaviorSubject(value: "")
         let likeIndex = BehaviorRelay<Int?>(value: nil)
+        let errorMessage = PublishRelay<String>()
         
         // 카테고리 클릭 시
         input.filterItemClicked
@@ -59,11 +61,16 @@ final class HomeViewModel: ViewModelType {
                 return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil)
             }
             .flatMap { fetchPostQuery in
-                return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
+                return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchPosts(query: fetchPostQuery))
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                postList.accept(fetchPostModel.data)
-                next.onNext(fetchPostModel.nextCursor)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    postList.accept(fetchPostModel.data)
+                    next.onNext(fetchPostModel.nextCursor)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -86,13 +93,18 @@ final class HomeViewModel: ViewModelType {
                 return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil)
             }
             .flatMap { fetchPostQuery in
-                return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
+                return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchPosts(query: fetchPostQuery))
             }
             .debug()
-            .subscribe(with: self) { owner, fetchPostModel in
-                print("받았음")
-                postList.accept(fetchPostModel.data)
-                next.onNext(fetchPostModel.nextCursor)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    print("받았음")
+                    postList.accept(fetchPostModel.data)
+                    next.onNext(fetchPostModel.nextCursor)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -104,24 +116,26 @@ final class HomeViewModel: ViewModelType {
             .flatMap { fetchPostQuery in
 //                print("현재 커서값 \(fetchPostQuery.next)")
                 if fetchPostQuery.next == "0" {
-                    return Single<FetchPostModel>.never()
+                    return Single<Result<FetchPostModel, Error>>.never()
                 } else {
-                    return PostNetworkManager.shared.fetchPosts(fetchPostQuery: fetchPostQuery)
-                        .catch { error in
-                            return Single<FetchPostModel>.never()
-                        }
+                    return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchPosts(query: fetchPostQuery))
                 }
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                print("prefetch - next: \(fetchPostModel.nextCursor)")
-                if fetchPostModel.nextCursor ==  "" {
-                    postList.accept(fetchPostModel.data)
-                } else {
-                    var tempList = postList.value
-                    tempList.append(contentsOf: fetchPostModel.data)
-                    postList.accept(tempList)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    print("prefetch - next: \(fetchPostModel.nextCursor)")
+                    if fetchPostModel.nextCursor ==  "" {
+                        postList.accept(fetchPostModel.data)
+                    } else {
+                        var tempList = postList.value
+                        tempList.append(contentsOf: fetchPostModel.data)
+                        postList.accept(tempList)
+                    }
+                    next.onNext(fetchPostModel.nextCursor)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
                 }
-                next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
         
@@ -142,17 +156,18 @@ final class HomeViewModel: ViewModelType {
                 let postItem = postList.value[index]    // 좋아요 클릭한 포스트
                 likeIndex.accept(index)
                 print("요청")
-                return PostNetworkManager.shared.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: isClicked))
-                    .catch { error in
-                        print(error.localizedDescription)
-                        return Single<LikeStatusModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: LikeStatusModel.self, router: PostRouter.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: isClicked)))
             }
-            .subscribe(with: self) { owner, likeStatusModel in
-                guard let likeIndex = likeIndex.value else { return }
-                let likeStatus = likeStatusModel.likeStatus
-                let changedPostList = owner.changeLikeStatus(isLike: likeStatus, likeIndex: likeIndex, postList: postList.value)
-                postList.accept(changedPostList)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let likeStatusModel):
+                    guard let likeIndex = likeIndex.value else { return }
+                    let likeStatus = likeStatusModel.likeStatus
+                    let changedPostList = owner.changeLikeStatus(isLike: likeStatus, likeIndex: likeIndex, postList: postList.value)
+                    postList.accept(changedPostList)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -160,7 +175,8 @@ final class HomeViewModel: ViewModelType {
         
         return Output(filterList: filterList.asDriver(onErrorJustReturn: []),
                       postList: postList.asDriver(onErrorJustReturn: []),
-                      postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""))
+                      postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""),
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     private func changeLikeStatus(isLike: Bool, likeIndex: Int, postList: [FetchPostItem]) -> [FetchPostItem] {

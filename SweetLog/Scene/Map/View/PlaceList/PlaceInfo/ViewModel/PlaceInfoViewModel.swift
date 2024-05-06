@@ -46,6 +46,7 @@ final class PlaceInfoViewModel: ViewModelType {
         let placeInfoSection: PublishSubject<[PlaceInfoSection]>
         let reviewCellTapped: Driver<FetchPostItem>
         let callButtonTapped: Driver<String>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -55,6 +56,7 @@ final class PlaceInfoViewModel: ViewModelType {
         let placeInfoSection = PublishSubject<[PlaceInfoSection]>()
         let reviewCellTapped = PublishRelay<FetchPostItem>()
         let callButtonTapped = PublishRelay<String>()
+        let errorMessage = PublishRelay<String>()
         
         input.viewDidLoadTrigger
             .withLatestFrom(input.placeItem)
@@ -64,17 +66,20 @@ final class PlaceInfoViewModel: ViewModelType {
                 return query
             }
             .flatMap {
-                return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: $0)
-                    .catch { error in
-                        return Single<FetchPostModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: $0))
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                print("검색된 포스트 개수 \(fetchPostModel.data.count)")
-                next.onNext(fetchPostModel.nextCursor)
-                postList.accept(fetchPostModel.data)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    print("검색된 포스트 개수 \(fetchPostModel.data.count)")
+                    next.onNext(fetchPostModel.nextCursor)
+                    postList.accept(fetchPostModel.data)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
+        
         
         Observable.combineLatest(place, postList)
             .map { value in
@@ -110,7 +115,8 @@ final class PlaceInfoViewModel: ViewModelType {
         
         return Output(placeInfoSection: placeInfoSection, 
                       reviewCellTapped: reviewCellTapped.asDriver(onErrorDriveWith: .empty()), 
-                      callButtonTapped: callButtonTapped.asDriver(onErrorJustReturn: ""))
+                      callButtonTapped: callButtonTapped.asDriver(onErrorJustReturn: ""),
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     private func getMetaDataFromLink(link: String, completionHandler: @escaping (LPLinkMetadata?) -> Void) {

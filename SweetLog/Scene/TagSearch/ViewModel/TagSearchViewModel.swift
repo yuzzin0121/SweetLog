@@ -23,11 +23,13 @@ final class TagSearchViewModel: ViewModelType {
     
     struct Output {
         let postList: Driver<[FetchPostItem]>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let next = BehaviorSubject(value: "")
+        let errorMessage = PublishRelay<String>()
         
         input.searchText
             .subscribe(with: self) { owner, text in
@@ -47,14 +49,16 @@ final class TagSearchViewModel: ViewModelType {
                 return query
             }
             .flatMap {
-                return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: $0)
-                    .catch { error in
-                        return Single<FetchPostModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: $0))
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                next.onNext(fetchPostModel.nextCursor)
-                postList.accept(fetchPostModel.data)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    next.onNext(fetchPostModel.nextCursor)
+                    postList.accept(fetchPostModel.data)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -68,14 +72,16 @@ final class TagSearchViewModel: ViewModelType {
                 return query
             }
             .flatMap {
-                return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: $0)
-                    .catch { error in
-                        return Single<FetchPostModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: $0))
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                next.onNext(fetchPostModel.nextCursor)
-                postList.accept(fetchPostModel.data)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    next.onNext(fetchPostModel.nextCursor)
+                    postList.accept(fetchPostModel.data)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -96,28 +102,31 @@ final class TagSearchViewModel: ViewModelType {
             .flatMap { fetchPostQuery in
 //                print("현재 커서값 \(fetchPostQuery.next)")
                 if fetchPostQuery.next == "0" {
-                    return Single<FetchPostModel>.never()
+                    return Single<Result<FetchPostModel, Error>>.never()
                 } else {
-                    return PostNetworkManager.shared.searchTagPosts(fetchPostQuery: fetchPostQuery)
-                        .catch { error in
-                            return Single<FetchPostModel>.never()
-                        }
+                    return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: fetchPostQuery))
                 }
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                print("prefetch - next: \(fetchPostModel.nextCursor)")
-                if fetchPostModel.nextCursor ==  "" {
-                    postList.accept(fetchPostModel.data)
-                } else {
-                    var tempList = postList.value
-                    tempList.append(contentsOf: fetchPostModel.data)
-                    postList.accept(tempList)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    print("prefetch - next: \(fetchPostModel.nextCursor)")
+                    if fetchPostModel.nextCursor ==  "" {
+                        postList.accept(fetchPostModel.data)
+                    } else {
+                        var tempList = postList.value
+                        tempList.append(contentsOf: fetchPostModel.data)
+                        postList.accept(tempList)
+                    }
+                    next.onNext(fetchPostModel.nextCursor)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
                 }
-                next.onNext(fetchPostModel.nextCursor)
             }
             .disposed(by: disposeBag)
         
-        return Output(postList: postList.asDriver(onErrorJustReturn: []))
+        return Output(postList: postList.asDriver(onErrorJustReturn: []),
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     func emitDeletePostTrigger(postId: String) {

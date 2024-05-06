@@ -34,6 +34,7 @@ final class FollowDetailViewModel: ViewModelType {
         let fetchMyProfileSuccessTrigger: Driver<ProfileModel>
         let userList: Driver<[User]>
         let userFollow: Driver<Void>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -41,33 +42,37 @@ final class FollowDetailViewModel: ViewModelType {
         let fetchMyProfileSuccessTrigger = PublishRelay<ProfileModel>()
         let fetchUserList = PublishRelay<[User]>()
         let userFollow = PublishRelay<Void>()
+        let errorMessage = PublishRelay<String>()
 
         // Notification으로 받았을 때
         input.fetchMyProfileTrigger
             .flatMap { _ in
-                return ProfileNetworkManager.shared.fetchMyProfile()
-                    .catch { error in
-                        print(error)
-                        return Single<ProfileModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: ProfileModel.self, router: ProfileRouter.fetchMyProfile)
             }
-            .subscribe(with: self) { owner, profileModel in
-                fetchMyProfileSuccessTrigger.accept(profileModel)
-                owner.myProfile = profileModel
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let profileModel):
+                    fetchMyProfileSuccessTrigger.accept(profileModel)
+                    owner.myProfile = profileModel
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
         input.fetchUserList
             .flatMap { [weak self] in
-                guard let self else { return Single<ProfileModel>.never() }
-                return ProfileNetworkManager.shared.fetchUserProfile(userId: userId)
-                    .catch { error in
-                        return Single<ProfileModel>.never()
-                    }
+                guard let self else { return Single<Result<ProfileModel, Error>>.never() }
+                return NetworkManager.shared.requestToServer(model: ProfileModel.self, router: ProfileRouter.fetchUserProfile(userId: userId))
             }
-            .subscribe(with: self) { owner, profileModel in
-                let userList = owner.followType == .follow ? profileModel.followers : profileModel.following
-                fetchUserList.accept(userList)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let profileModel):
+                    let userList = owner.followType == .follow ? profileModel.followers : profileModel.following
+                    fetchUserList.accept(userList)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -75,32 +80,33 @@ final class FollowDetailViewModel: ViewModelType {
         // 팔로우 버튼 클릭 시
         input.followButtonTapped
             .flatMap { [weak self] user in
-                guard let self else { return Single<FollowStatus>.never() }
+                guard let self else { return Single<Result<FollowStatus, Error>>.never() }
                 self.currentUser = user
                 
                 let isFollowing = self.isFollowingUser(userId: user.user_id)
                 if !isFollowing { // 팔로잉 상태가 아닌 경우 -> 유저 팔로우
-                    return ProfileNetworkManager.shared.followUser(userId: user.user_id)
-                        .catch { error in
-                            return Single<FollowStatus>.never()
-                        }
+                    return NetworkManager.shared.requestToServer(model: FollowStatus.self, router: ProfileRouter.follow(userId: user.user_id))
                 } else {    // 팔로잉 상태인 경우 -> 유저 언팔로우
-                    return ProfileNetworkManager.shared.unfollowUser(userId: user.user_id)
-                        .catch { error in
-                            return Single<FollowStatus>.never()
-                        }
+                    return NetworkManager.shared.requestToServer(model: FollowStatus.self, router: ProfileRouter.unfollow(userId: user.user_id))
                 }
             }
-            .subscribe(with: self) { owner, followStatus in
-                print(followStatus)
-                guard let user = owner.currentUser else { return }
-                userFollow.accept(())
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let followStatus):
+                    print(followStatus)
+                    guard let user = owner.currentUser else { return }
+                    userFollow.accept(())
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
+                
             }
             .disposed(by: disposeBag)
         
         return Output(fetchMyProfileSuccessTrigger: fetchMyProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()), 
                       userList: fetchUserList.asDriver(onErrorJustReturn: []),
-                      userFollow: userFollow.asDriver(onErrorJustReturn: ()))
+                      userFollow: userFollow.asDriver(onErrorJustReturn: ()),
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     private func isFollowingUser(userId: String) -> Bool {

@@ -151,6 +151,12 @@ final class ProfileViewController: BaseViewController {
                 owner.showSettingVC()
             }
             .disposed(by: disposeBag)
+        
+        output.errorMessage
+            .drive(with: self) { owner, errorMessage in
+                owner.showAlert(title: "에러", message: errorMessage, actionHandler: nil)
+            }
+            .disposed(by: disposeBag)
     }
     
     // 프로필 수정버튼 클릭 시

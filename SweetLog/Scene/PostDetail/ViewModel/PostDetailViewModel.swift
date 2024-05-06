@@ -31,10 +31,11 @@ final class PostDetailViewModel: ViewModelType {
         let deleteSuccessTrigger: Driver<String>
         let placeButtonTapped: Driver<FetchPostItem>
         let editPostTrigger: Driver<(PlaceItem, FetchPostItem)>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
-        let fetchPostItemRelay = PublishRelay<FetchPostItem?>()
+        let fetchPostItemRelay = BehaviorRelay<FetchPostItem?>(value: nil)
         let commentIsValid = BehaviorRelay(value: false)
         let createCommentSuccessTrigger = PublishRelay<Void>()
         
@@ -43,18 +44,22 @@ final class PostDetailViewModel: ViewModelType {
         let deleteCommentTrigger = PublishSubject<(String, String)>()
         let placeButtonTapped = PublishRelay<FetchPostItem>()
         let editPostTrigger = PublishRelay<(PlaceItem, FetchPostItem)>()
+        let commentIndex = BehaviorRelay<Int>(value: 0)
+        let errorMessage = PublishRelay<String>()
         
         // postId를 통해 특정 포스트 조회
         input.postId
             .flatMap {
-                return PostNetworkManager.shared.fetchPost(postId: $0)
-                        .catch { error in
-                            return Single<FetchPostItem>.never()
-                        }
+                return NetworkManager.shared.requestToServer(model: FetchPostItem.self, router: PostRouter.fetchPost(postId: $0))
             }
-            .subscribe(with: self) { owner, fetchPostItem in
-                owner.fetchPostItem = fetchPostItem
-                fetchPostItemRelay.accept(fetchPostItem)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostItem):
+                    owner.fetchPostItem = fetchPostItem
+                    fetchPostItemRelay.accept(fetchPostItem)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -92,18 +97,19 @@ final class PostDetailViewModel: ViewModelType {
             }
             .flatMap { [weak self] content in
                 guard let self, let postId = self.postId else {
-                    return Single<Comment>.never()
+                    return Single<Result<Comment, Error>>.never()
                 }
-                return CommentNetworkManager.shared.createComment(postId: postId, contentQuery: ContentQuery(content: content))
-                    .catch { error in
-                        print(error)
-                        return Single<Comment>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: Comment.self, router: CommentRouter.createComment(postId: postId, contentQuery: ContentQuery(content: content)))
             }
-            .subscribe(with: self) { owner, comment in
-                owner.fetchPostItem?.comments.insert(comment, at: 0)
-                fetchPostItemRelay.accept(owner.fetchPostItem)
-                createCommentSuccessTrigger.accept(())
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let comment):
+                    owner.fetchPostItem?.comments.insert(comment, at: 0)
+                    fetchPostItemRelay.accept(owner.fetchPostItem)
+                    createCommentSuccessTrigger.accept(())
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -115,27 +121,29 @@ final class PostDetailViewModel: ViewModelType {
             }
             .flatMap {
                 guard let postId = self.postId else {
-                    return Single<LikeStatusModel>.never()
+                    return Single<Result<LikeStatusModel, Error>>.never()
                 }
                 print(postId)
-                return PostNetworkManager.shared.likePost(postId: postId, likeStatusModel: $0)
-                    .catch { error in
-                        print(error.localizedDescription)
-                        return Single<LikeStatusModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: LikeStatusModel.self, router: PostRouter.likePost(postId: postId, likeStatusModel: $0))
             }
-            .subscribe(with: self) { owner, likeStatusModel in
+            .subscribe(with: self) { owner, result in
                 guard var fetchPostItem = owner.fetchPostItem else { return }
-                let likeStatus = likeStatusModel.likeStatus
-                if likeStatus == true {
-                    fetchPostItem.likes.append(UserDefaultManager.shared.userId)
-                } else {
-                    if let index = fetchPostItem.likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
-                        fetchPostItem.likes.remove(at: index)
+                
+                switch result {
+                case .success(let likeStatusModel):
+                    let likeStatus = likeStatusModel.likeStatus
+                    if likeStatus == true {
+                        fetchPostItem.likes.append(UserDefaultManager.shared.userId)
+                    } else {
+                        if let index = fetchPostItem.likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
+                            fetchPostItem.likes.remove(at: index)
+                        }
                     }
+                    owner.fetchPostItem = fetchPostItem
+                    fetchPostItemRelay.accept(fetchPostItem)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
                 }
-                owner.fetchPostItem = fetchPostItem
-                fetchPostItemRelay.accept(fetchPostItem)
             }
             .disposed(by: disposeBag)
         
@@ -156,13 +164,15 @@ final class PostDetailViewModel: ViewModelType {
         // 포스트 삭제
         deletePostTrigger
             .flatMap { postId in
-                return PostNetworkManager.shared.deletePost(postId: postId)
-                    .catch { error in
-                        return Single<String>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: String.self, router: PostRouter.deletePost(postId: postId))
             }
-            .subscribe(with: self) { owner, postId in
-                deletePostSuccessTrigger.accept(postId)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let postId):
+                    deletePostSuccessTrigger.accept(postId)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -177,6 +187,7 @@ final class PostDetailViewModel: ViewModelType {
                     return
                 case .delete: // 댓글 삭제 클릭했을 때
                     let postId = fetchPostItem.postId
+                    commentIndex.accept(index)
                     deleteCommentTrigger.onNext((postId, commentId))
                     return
                 }
@@ -192,8 +203,9 @@ final class PostDetailViewModel: ViewModelType {
                     }
             }
             .subscribe(with: self) { owner, commentId in
-                let postItem = owner.deleteComment(commentId: commentId)
-                fetchPostItemRelay.accept(postItem)
+                guard let postItem = fetchPostItemRelay.value else { return }
+                let deletedCommentPostItem = owner.deleteComment(commentId: commentId, commentIndex: commentIndex.value, fetchPostItem: postItem)
+                fetchPostItemRelay.accept(deletedCommentPostItem)
             }
             .disposed(by: disposeBag)
         
@@ -201,7 +213,8 @@ final class PostDetailViewModel: ViewModelType {
                       createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()), 
                       deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""), 
                       placeButtonTapped: placeButtonTapped.asDriver(onErrorDriveWith: .empty()),
-                      editPostTrigger: editPostTrigger.asDriver(onErrorDriveWith: .empty()))
+                      editPostTrigger: editPostTrigger.asDriver(onErrorDriveWith: .empty()), 
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     private func getPlaceItem(postItem: FetchPostItem) -> PlaceItem {
@@ -216,11 +229,12 @@ final class PostDetailViewModel: ViewModelType {
         return stringArray
     }
     
-    private func deleteComment(commentId: String) -> FetchPostItem? {
-        guard var fetchPostItem else { return nil }
-        if let index = fetchPostItem.comments.firstIndex(where: { $0.commentId == commentId }) {
-            fetchPostItem.comments.remove(at: index)
-        }
+    private func deleteComment(commentId: String, commentIndex: Int, fetchPostItem: FetchPostItem) -> FetchPostItem {
+        var fetchPostItem = fetchPostItem
+//        if let index = fetchPostItem.comments.firstIndex(where: { $0.commentId == commentId }) {
+//            fetchPostItem.comments.remove(at: index)
+//        }
+        fetchPostItem.comments.remove(at: commentIndex)
         self.fetchPostItem = fetchPostItem
         return fetchPostItem
     }

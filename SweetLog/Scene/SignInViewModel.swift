@@ -52,19 +52,19 @@ final class SignInViewModel: ViewModelType {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(loginObservable)
             .flatMap { loginQuery in
-                return AuthNetworkManager.shared.createLogin(query: loginQuery)
-                    .catch { error in
-                        print(error.localizedDescription)
-                        errorString.accept(error.localizedDescription)
-                        return Single<LoginModel>.never()
-                    }
+                NetworkManager.shared.requestToServer(model: LoginModel.self, router: AuthRouter.login(query: loginQuery))
             }
-            .subscribe(with: self) { owner, loginModel in
+            .subscribe(with: self) { owner, result in
                 print("로그인 성공")
-                owner.saveUserInfo(userId: loginModel.userId,
-                             accessToken: loginModel.accessToken,
-                             refreshToken: loginModel.refreshToken)
-                loginSuccessTrigger.accept(())
+                switch result {
+                case .success(let loginModel):
+                    owner.saveUserInfo(userId: loginModel.userId,
+                                 accessToken: loginModel.accessToken,
+                                 refreshToken: loginModel.refreshToken)
+                    loginSuccessTrigger.accept(())
+                case .failure(let error):
+                    errorString.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
 

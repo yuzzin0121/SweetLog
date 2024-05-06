@@ -44,6 +44,7 @@ final class CreatePostViewModel: ViewModelType {
         let tagError: Driver<String>
         let createValid: Driver<Bool>
         let createPostSuccessTrigger: Driver<Void>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -58,6 +59,7 @@ final class CreatePostViewModel: ViewModelType {
         let imageDataList = BehaviorRelay<[Data]>(value: [])
         let fileStringList = PublishSubject<[String]>()
         let createPostSuccessTrigger = PublishRelay<Void>()
+        let errorMessage = PublishRelay<String>()
         
         let contentObservable = Observable.combineLatest(input.categoryString, input.starValue, input.reviewText, tagList, fileStringList)
             .map { [weak self] categoryString, star, review, tagList, fileStringList in
@@ -177,14 +179,17 @@ final class CreatePostViewModel: ViewModelType {
         fileStringList
             .withLatestFrom(contentObservable)
             .flatMap { postRequestModel in
-                PostNetworkManager.shared.createPost(postRequestModel: postRequestModel)
-                    .catch { error in
-                        return Single<FetchPostItem>.never()
-                    }
+                guard let postRequestModel else { return Single<Result<FetchPostItem, Error>>.never() }
+                return NetworkManager.shared.requestToServer(model: FetchPostItem.self, router: PostRouter.createPost(postQuery: postRequestModel))
             }
             .debug()
-            .subscribe { fetchPostItem in
-                createPostSuccessTrigger.accept(())
+            .subscribe { result in
+                switch result {
+                case .success(_):
+                    createPostSuccessTrigger.accept(())
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -196,7 +201,8 @@ final class CreatePostViewModel: ViewModelType {
                       tagTextToEmpty: tagTextToEmpty.asDriver(onErrorJustReturn: ()),
                       tagError: tagError.asDriver(onErrorJustReturn: ""),
                       createValid: createValid.asDriver(onErrorJustReturn: false),
-                      createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()))
+                      createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()), 
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     
     private func getImageDatas(files: [String]) -> [Data] {

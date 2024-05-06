@@ -29,9 +29,9 @@ final class NetworkManager {
                                 single(.success(.failure(APIError.serverError)))
                                 return
                             }
-                            if let code = APIError(rawValue: statusCode) {
-                                single(.success(.failure(code)))
-                            }
+                            if let apiError = APIError(rawValue: statusCode) {
+                                single(.success(.failure(apiError)))
+                            } 
                         }
                     }
             } catch {
@@ -42,8 +42,7 @@ final class NetworkManager {
         }
     }
     
-    
-    
+    // 토큰 갱신
     func tokenRefresh(completionHandler: @escaping (Bool) -> Void) {
         do {
             let urlRequest = try AuthRouter.refresh.asURLRequest()
@@ -58,10 +57,10 @@ final class NetworkManager {
                     completionHandler(true)
                 case .failure(let failure):
                     print(failure)
-                    if let code = response.response?.statusCode {
+                    if let code = response.response?.statusCode, let error = APIError(rawValue: code) {
                         print("토큰 갱신 실패: \(code)")
-                        if code == 418 {
-                            print("로그인이 필요합니다.")
+                        if error == .refreshTokenExpired {
+                            print(error.errorDescription)
                         }
                     } else {
                         print("토큰 갱신 실패")

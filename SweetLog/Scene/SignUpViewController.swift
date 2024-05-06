@@ -48,14 +48,14 @@ final class SignUpViewController: BaseViewController {
         output.validPassword
             .drive(with: self) { owner, isValid in
                 owner.mainView.passwordMessageLabel.textColor = isValid ? Color.validGreen : Color.validRed
-                owner.mainView.passwordMessageLabel.text = isValid ? "" : "5글자 이상 입력해주세요"
+                owner.mainView.passwordMessageLabel.text = isValid ? "" : "5~14글자로 입력"
             }
             .disposed(by: disposeBag)
         
         output.validNickname
             .drive(with: self) { owner, isValid in
                 owner.mainView.nicknameMessageLabel.textColor = isValid ? Color.validGreen : Color.validRed
-                owner.mainView.nicknameMessageLabel.text = isValid ? "" : "2글자 이상 입력해주세요"
+                owner.mainView.nicknameMessageLabel.text = isValid ? "" : "2~7글자로 입력"
             }
             .disposed(by: disposeBag)
         

@@ -23,42 +23,38 @@ final class UserPostViewModel: ViewModelType {
     struct Output {
         let fetchPostList: Driver<[FetchPostItem]>
         let postCellTapped: Driver<String>
+        let errorMessage: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let fetchPostList = PublishRelay<[FetchPostItem]>()
         let postCellTapped = PublishRelay<String>() // postId
-        
+        let errorMessage = PublishRelay<String>()
         
         input.fetchPostTrigger
             .flatMap { [weak self] _ in
-                guard let self = self, let userId = self.userId else { return  Single<FetchPostModel>.never() }
-//                print("UserPostViewModel: \(userId), postType: \(postType), isMyProfile: \(isMyPofile)")
+                guard let self = self, let userId = self.userId else { return  Single<Result<FetchPostModel, Error>>.never() }
                 if isMyPofile {    // 내 프로필일 경우
                     if postType == .myPost {
-                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId)
-                            .catch { error in
-                                print(error.localizedDescription)
-                                return  Single<FetchPostModel>.never()
-                            }
+                        return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchUserPost(query: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId))
                     } else {    // 좋아요일 경우
-                        return PostNetworkManager.shared.fetchMyLikePost(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil))
-                            .catch { error in
-                                return  Single<FetchPostModel>.never()
-                            }
+                        return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchMyLikePost(query: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil)))
                     }
                 } else { // 다른 사용자일 경우
                     if postType == .myPost {
-                        return PostNetworkManager.shared.fetchUserPosts(fetchPostQuery: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId)
-                            .catch { error in
-                                return  Single<FetchPostModel>.never()
-                            }
+                        return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.fetchUserPost(query: FetchPostQuery(next: nil, limit: "200", product_id: nil, hashTag: nil), userId: userId))
+                    } else {
+                        return  Single<Result<FetchPostModel, Error>>.never()
                     }
                 }
-                return Single<FetchPostModel>.never()
             }
-            .subscribe(with: self) { owner, fetchPostModel in
-                fetchPostList.accept(fetchPostModel.data)
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let fetchPostModel):
+                    fetchPostList.accept(fetchPostModel.data)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -72,7 +68,8 @@ final class UserPostViewModel: ViewModelType {
                    
                 
         return Output(fetchPostList: fetchPostList.asDriver(onErrorJustReturn: []), 
-                      postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""))
+                      postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""), 
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
             
     }
 }

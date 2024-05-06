@@ -97,7 +97,8 @@ final class PostCommentTableViewCell: BaseTableViewCell {
     
     private func configureMoreMenu() {
         moreButton.showsMenuAsPrimaryAction = true
-        let actions = MoreItem.allCases.map { moreItem in
+        let moreItems = [MoreItem.delete]
+        let actions = moreItems.map { moreItem in
             UIAction(title: moreItem.title) { [weak self] _ in
                 guard let self else { return }
                 self.commentMoreItemClicked.onNext(moreItem.rawValue)

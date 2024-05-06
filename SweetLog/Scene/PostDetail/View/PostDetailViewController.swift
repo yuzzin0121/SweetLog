@@ -59,8 +59,9 @@ final class PostDetailViewController: BaseViewController {
         
         output.fetchPostItem
             .drive(with: self) { owner, fetchPostItem in
+                owner.fetchPostItem = fetchPostItem
                 owner.setData(fetchPostItem: fetchPostItem)
-                owner.mainView.tableView.reloadData()
+//                owner.mainView.tableView.reloadData()
             }
             .disposed(by: disposeBag)
         
@@ -73,6 +74,7 @@ final class PostDetailViewController: BaseViewController {
         output.createCommentSuccessTrigger
             .drive(with: self, onNext: { owner, _ in
                 owner.mainView.scrollToTop()
+                owner.mainView.tableView.reloadData()
                 owner.mainView.emptyTextField()
             })
             .disposed(by: disposeBag)
@@ -187,9 +189,11 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.commentMoreItemClicked
             .subscribe(with: self) { owner, moreItemIndex in
-                owner.commentMoreItemClicked.onNext((moreItemIndex, indexPath.row, comment.commentId))
+                owner.showAlert(title: "댓글 삭제", message: "댓글을 정말로 삭제하시겠습니까?") {
+                    owner.commentMoreItemClicked.onNext((moreItemIndex, indexPath.row, comment.commentId))
+                }
             }
-            .disposed(by: disposeBag)
+            .disposed(by: cell.disposeBag)
         
         return cell
     }

@@ -12,74 +12,7 @@ import RxSwift
 class ProfileNetworkManager {
     static let shared = ProfileNetworkManager()
     
-    // 내 프로필 조회
-    func fetchMyProfile() -> Single<ProfileModel> {
-        return Single<ProfileModel>.create { single in
-            do {
-                let urlRequest = try ProfileRouter.fetchMyProfile.asURLRequest()
-                                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: ProfileModel.self) { response in
-                        switch response.result {
-                        case .success(let profileModel):
-                            single(.success(profileModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchMyProfileError = LoginError(rawValue: statusCode) {
-                                    print("fetchMyProfileError")
-                                    single(.failure(fetchMyProfileError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    // 사용자 프로필 조회
-    func fetchUserProfile(userId: String) -> Single<ProfileModel> {
-        return Single<ProfileModel>.create { single in
-            do {
-                let urlRequest = try ProfileRouter.fetchUserProfile(userId: userId).asURLRequest()
-                                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: ProfileModel.self) { response in
-                        switch response.result {
-                        case .success(let profileModel):
-                            single(.success(profileModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchUserProfileError = LoginError(rawValue: statusCode) {
-                                    print("fetchUserProfileError")
-                                    single(.failure(fetchUserProfileError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
- 
+
     // 프로필 수정 - 닉네임, 프로필 이미지
     func editMyProfile(nickname: String?, profile: Data?) -> Single<ProfileModel> {
         print("nickname: \(nickname), profile: \(profile)")
@@ -114,10 +47,7 @@ class ProfileNetworkManager {
                     case .failure(let error):
                         print(error)
                         if let statusCode = response.response?.statusCode {
-                            if let editProfileError = fetchPostError(rawValue: statusCode) {
-                                print("editProfileError")
-                                single(.failure(editProfileError))
-                            } else if let apiError = APIError(rawValue: statusCode) {
+                            if let apiError = APIError(rawValue: statusCode) {
                                 single(.failure(apiError))
                             }
                         } else {
@@ -125,76 +55,6 @@ class ProfileNetworkManager {
                         }
                     }
                 }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    // 사용자 팔로우
-    func followUser(userId: String) -> Single<FollowStatus> {
-        return Single<FollowStatus>.create { single in
-            do {
-                print(#function, userId)
-                let urlRequest = try ProfileRouter.follow(userId: userId).asURLRequest()
-                                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FollowStatus.self) { response in
-                        switch response.result {
-                        case .success(let followStatus):
-                            single(.success(followStatus))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let followUserError = LoginError(rawValue: statusCode) {
-                                    print("followUserError")
-                                    single(.failure(followUserError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    // 사용자 언팔로우
-    func unfollowUser(userId: String) -> Single<FollowStatus> {
-        return Single<FollowStatus>.create { single in
-            print(#function, userId)
-            do {
-                let urlRequest = try ProfileRouter.unfollow(userId: userId).asURLRequest()
-                                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FollowStatus.self) { response in
-                        switch response.result {
-                        case .success(let followStatus):
-                            single(.success(followStatus))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let unfollowUserError = LoginError(rawValue: statusCode) {
-                                    print("unfollowUserError")
-                                    single(.failure(unfollowUserError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
             } catch {
                 single(.failure(error))
             }

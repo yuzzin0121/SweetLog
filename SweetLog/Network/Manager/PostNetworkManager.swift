@@ -14,73 +14,6 @@ final class PostNetworkManager {
     
     static let shared = PostNetworkManager()
     
-    func fetchPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
-        return Single<FetchPostModel>.create { single in
-            do {
-                let urlRequest = try PostRouter.fetchPosts(query: fetchPostQuery).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostModel.self) { response in
-                        switch response.result {
-                        case .success(let fetchPostModel):
-                            single(.success(fetchPostModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
-                                    print("fetchPostError")
-                                    single(.failure(fetchPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func fetchPost(postId: String) -> Single<FetchPostItem> {
-        print(#function)
-        return Single<FetchPostItem>.create { single in
-            do {
-                let urlRequest = try PostRouter.fetchPost(postId: postId).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostItem.self) { response in
-                        switch response.result {
-                        case .success(let fetchPostItem):
-                            single(.success(fetchPostItem))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
-                                    print("fetchPostError")
-                                    single(.failure(fetchPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
     // 이미지 업로드
     func uploadImages(imageDataList: [Data]) -> Single<FilesModel> {
         return Single<FilesModel>.create { single in
@@ -108,10 +41,7 @@ final class PostNetworkManager {
                     case .failure(let error):
                         print(error)
                         if let statusCode = response.response?.statusCode {
-                            if let uploadFileError = fetchPostError(rawValue: statusCode) {
-                                print("uploadFileError")
-                                single(.failure(uploadFileError))
-                            } else if let apiError = APIError(rawValue: statusCode) {
+                            if let apiError = APIError(rawValue: statusCode) {
                                 single(.failure(apiError))
                             }
                         } else {
@@ -126,142 +56,7 @@ final class PostNetworkManager {
             return Disposables.create()
         }
     }
-    
-    func createPost(postRequestModel: PostRequestModel?) -> Single<FetchPostItem> {
-        return Single<FetchPostItem>.create { single in
-            do {
-                guard let postRequestModel else {
-                    single(.failure(APIError.invalidURL))
-                    return Disposables.create()
-                }
-                let urlRequest = try PostRouter.createPost(postQuery: postRequestModel).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostItem.self) { response in
-                        switch response.result {
-                        case .success(let postModel):
-                            single(.success(postModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let createPostError = fetchPostError(rawValue: statusCode) {
-                                    print("createPostError")
-                                    single(.failure(createPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func likePost(postId: String, likeStatusModel: LikeStatusModel) -> Single<LikeStatusModel> {
-        return Single<LikeStatusModel>.create { single in
-            do {
-                let urlRequest = try PostRouter.likePost(postId: postId, likeStatusModel: likeStatusModel).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: LikeStatusModel.self) { response in
-                        switch response.result {
-                        case .success(let likeStatusModel):
-                            single(.success(likeStatusModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let likePostError = LikePostError(rawValue: statusCode) {
-                                    print("likePostError")
-                                    single(.failure(likePostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func fetchUserPosts(fetchPostQuery: FetchPostQuery, userId: String) -> Single<FetchPostModel> {
-        return Single<FetchPostModel>.create { single in
-            do {
-                let urlRequest = try PostRouter.fetchUserPost(query: fetchPostQuery, userId: userId).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostModel.self) { response in
-                        switch response.result {
-                        case .success(let fetchPostModel):
-                            single(.success(fetchPostModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
-                                    print("fetchPostError")
-                                    single(.failure(fetchPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func fetchMyLikePost(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
-        return Single<FetchPostModel>.create { single in
-            do {
-                let urlRequest = try PostRouter.fetchMyLikePost(query: fetchPostQuery).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostModel.self) { response in
-                        switch response.result {
-                        case .success(let fetchPostModel):
-                            single(.success(fetchPostModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let fetchPostError = fetchPostError(rawValue: statusCode) {
-                                    print("fetchPostError")
-                                    single(.failure(fetchPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
+
     
     func deletePost(postId: String) -> Single<String> {
         print(#function)
@@ -283,39 +78,6 @@ final class PostNetworkManager {
                     })
             } catch {
                 print("이건 Router 문제야")
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func searchTagPosts(fetchPostQuery: FetchPostQuery) -> Single<FetchPostModel> {
-        return Single<FetchPostModel>.create { single in
-            do {
-                let urlRequest = try PostRouter.searchHashtag(query: fetchPostQuery).asURLRequest()
-                                
-                AF.request(urlRequest, interceptor: AuthInterceptor())
-                    .validate(statusCode: 200..<300)
-                    .responseDecodable(of: FetchPostModel.self) { response in
-                        switch response.result {
-                        case .success(let fetchPostModel):
-                            single(.success(fetchPostModel))
-                        case .failure(let error):
-                            print(error)
-                            if let statusCode = response.response?.statusCode {
-                                if let searchTagPostError = fetchPostError(rawValue: statusCode) {
-                                    print("searchTagPostError")
-                                    single(.failure(searchTagPostError))
-                                } else if let apiError = APIError(rawValue: statusCode) {
-                                    single(.failure(apiError))
-                                }
-                            } else {
-                                single(.failure(error))
-                            }
-                        }
-                    }
-            } catch {
                 single(.failure(error))
             }
             

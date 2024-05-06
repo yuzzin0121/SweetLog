@@ -61,15 +61,16 @@ final class SignUpViewModel: ViewModelType {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(signUpObservable)
             .flatMap { joinQuery in
-                return AuthNetworkManager.shared.createJoin(query: joinQuery)
-                    .catch { error in
-                        errorString.accept(error.localizedDescription)
-                        return Single<JoinModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: JoinModel.self, router: AuthRouter.join(query: joinQuery))
             }
             .debug()
-            .subscribe(with: self) { owner, joinModel in
-                signUpSuccessTrigger.accept(())
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(let model):
+                    signUpSuccessTrigger.accept(())
+                case .failure(let error):
+                    errorString.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -83,19 +84,18 @@ final class SignUpViewModel: ViewModelType {
                 return ValidationQuery(email: text)
             }
             .flatMap {
-                return AuthNetworkManager.shared.validationEmail(email: $0)
-                    .catch { error in
-                        print(error.localizedDescription)
-                        errorString.accept(error.localizedDescription)
-                        emailCanUse.accept(false)
-                        return Single<ValidationModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: ValidationModel.self, router: AuthRouter.validation(email: $0))
             }
             .debug()
-            .subscribe(with: self, onNext: { owner, validationMessage in
-                print(validationMessage)
-                emailCanUse.accept(true)
-                owner.checkedEmailText = currentEmailText
+            .subscribe(with: self, onNext: { owner, result in
+                switch result {
+                case .success(let model):
+                    emailCanUse.accept(true)
+                    owner.checkedEmailText = currentEmailText
+                case .failure(let error):
+                    errorString.accept(error.localizedDescription)
+                    emailCanUse.accept(false)
+                }
             })
             .disposed(by: disposeBag)
         

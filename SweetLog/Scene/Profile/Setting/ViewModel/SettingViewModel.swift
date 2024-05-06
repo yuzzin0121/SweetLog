@@ -40,16 +40,16 @@ final class SettingViewModel {
         input.withdrawTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap {
-                AuthNetworkManager.shared.withdraw()
-                    .catch { error in
-                        errorString.accept(error.localizedDescription)
-                        return Single<JoinModel>.never()
-                    }
+                return NetworkManager.shared.requestToServer(model: JoinModel.self, router: AuthRouter.withdraw)
             }
-            .subscribe(with: self) { owner, joinModel in
-                print(joinModel)
-                owner.logout()
-                withdrawSuccessTrigger.accept(())
+            .subscribe(with: self) { owner, result in
+                switch result {
+                case .success(_):
+                    owner.logout()
+                    withdrawSuccessTrigger.accept(())
+                case .failure(let error):
+                    errorString.accept(error.localizedDescription)
+                }
             }
             .disposed(by: disposeBag)
         

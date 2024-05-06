@@ -31,7 +31,6 @@ final class PlaceDetailViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        let fetchPlaceInfo = BehaviorSubject(value: postItem)
         let placeInfo = PublishRelay<(LPLinkMetadata?, CLLocationCoordinate2D, String, String)>()
         let placeCoordinate = PublishRelay<CLLocationCoordinate2D>()
         

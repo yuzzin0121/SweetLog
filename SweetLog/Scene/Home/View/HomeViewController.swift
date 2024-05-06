@@ -125,7 +125,7 @@ final class HomeViewController: BaseViewController {
     
     private func showProfileVC(userId: String?) {
         guard let userId else { return }
-        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId)
+        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId, isDetail: true)
         navigationController?.pushViewController(profileVC, animated: true)
     }
     

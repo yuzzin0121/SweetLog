@@ -15,11 +15,13 @@ final class ProfileViewModel: ViewModelType {
     var profileModel: ProfileModel?
     var isMyProfile: Bool
     var userId: String
+    var isDetail: Bool
     private let fetchMyProfileTrigger = PublishSubject<Void>()
     
-    init(isMyProfile: Bool, userId: String) {
+    init(isMyProfile: Bool, userId: String, isDetail: Bool) {
         self.isMyProfile = isMyProfile
         self.userId = userId
+        self.isDetail = isDetail
         NotificationCenter.default.addObserver(self, selector: #selector(fetchMyProfile), name: .fetchMyProfile, object: nil)
     }
     

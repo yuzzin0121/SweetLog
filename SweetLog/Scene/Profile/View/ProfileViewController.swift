@@ -14,9 +14,9 @@ final class ProfileViewController: BaseViewController {
     let viewModel: ProfileViewModel
     let fetchProfileTrigger = PublishSubject<String>()
     
-    init(isMyProfile: Bool = true, userId: String = UserDefaultManager.shared.userId) {
+    init(isMyProfile: Bool = true, userId: String = UserDefaultManager.shared.userId, isDetail: Bool = false) {
         print("isMyProfile: \(isMyProfile), userId: \(userId)")
-        self.viewModel = ProfileViewModel(isMyProfile: isMyProfile, userId: userId)
+        self.viewModel = ProfileViewModel(isMyProfile: isMyProfile, userId: userId, isDetail: isDetail)
         mainView.userPostSementedVC.isMyProfile = isMyProfile
         mainView.userPostSementedVC.userId = userId
         super.init()
@@ -174,6 +174,9 @@ final class ProfileViewController: BaseViewController {
     override func configureNavigationItem() {
         navigationItem.title = "내 프로필"
         navigationItem.rightBarButtonItem = settingButton
+        if viewModel.isDetail {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
+        }
     }
 }
 

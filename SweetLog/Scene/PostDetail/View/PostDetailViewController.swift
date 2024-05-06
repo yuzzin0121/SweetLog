@@ -119,7 +119,7 @@ final class PostDetailViewController: BaseViewController {
     private func profileButtonTapped(_ sender: ProfileTapGestureRecognizer) {
         print(#function)
         guard let userId = sender.userId else { return }
-        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId)
+        let profileVC = ProfileViewController(isMyProfile: userId == UserDefaultManager.shared.userId, userId: userId, isDetail: true)
         navigationController?.pushViewController(profileVC, animated: true)
     }
 }

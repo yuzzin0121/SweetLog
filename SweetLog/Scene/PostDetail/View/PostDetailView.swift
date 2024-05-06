@@ -10,7 +10,7 @@ import RxSwift
 
 final class PostDetailView: BaseView {
     let tableView = UITableView(frame: .zero, style: .grouped)
-    let commentBackgroundView = UIView()
+    private let commentBackgroundView = UIView()
     let commentTextField = UITextField()
     let moreButton: UIButton = {
         let button = UIButton()
@@ -32,6 +32,14 @@ final class PostDetailView: BaseView {
         }
         
         moreButton.menu = UIMenu(children: actions)
+    }
+    
+    func scrollToTop() {
+        tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+    }
+    
+    func emptyTextField() {
+        commentTextField.text = ""
     }
     
     override func configureHierarchy() {

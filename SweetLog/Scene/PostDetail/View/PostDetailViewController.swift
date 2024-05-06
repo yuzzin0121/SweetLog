@@ -20,6 +20,7 @@ final class PostDetailViewController: BaseViewController {
     let placeButtonTapped = PublishSubject<Void>()
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +72,8 @@ final class PostDetailViewController: BaseViewController {
         
         output.createCommentSuccessTrigger
             .drive(with: self, onNext: { owner, _ in
-                owner.mainView.tableView.reloadData()
-                owner.mainView.commentTextField.text = ""
+                owner.mainView.scrollToTop()
+                owner.mainView.emptyTextField()
             })
             .disposed(by: disposeBag)
         

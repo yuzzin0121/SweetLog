@@ -74,7 +74,6 @@ final class HomeViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.fetchPostsTrigger
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(input.filterItemClicked)
             .map { value in
                 return FilterItem(rawValue: value)!

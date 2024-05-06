@@ -43,7 +43,7 @@ final class HomeViewModel: ViewModelType {
         let postList = BehaviorRelay<[FetchPostItem]>(value: [])
         let postCellTapped = PublishRelay<String>() // postId
         let next = BehaviorSubject(value: "")
-        var likeIndex: Int?
+        let likeIndex = BehaviorRelay<Int?>(value: nil)
         
         // 카테고리 클릭 시
         input.filterItemClicked
@@ -134,25 +134,25 @@ final class HomeViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        let likeClicked = Observable.combineLatest(input.likeObservable, postList)
         
         // 좋아요 클릭했을 때
-        likeClicked
+        input.likeObservable
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
-            .flatMap { value, list in
-                let postItem = list[value.0]    // 좋아요 클릭한 포스트
-                likeIndex = value.0
+            .flatMap { index, isClicked in
+                let postItem = postList.value[index]    // 좋아요 클릭한 포스트
+                likeIndex.accept(index)
                 print("요청")
-                return PostNetworkManager.shared.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: value.1))
+                return PostNetworkManager.shared.likePost(postId: postItem.postId, likeStatusModel: LikeStatusModel(likeStatus: isClicked))
                     .catch { error in
                         print(error.localizedDescription)
                         return Single<LikeStatusModel>.never()
                     }
             }
             .subscribe(with: self) { owner, likeStatusModel in
-                guard let likeIndex else { return }
+                guard let likeIndex = likeIndex.value else { return }
                 let likeStatus = likeStatusModel.likeStatus
-                NotificationCenter.default.post(name: .fetchPosts, object: nil, userInfo: nil)
+                let changedPostList = owner.changeLikeStatus(isLike: likeStatus, likeIndex: likeIndex, postList: postList.value)
+                postList.accept(changedPostList)
             }
             .disposed(by: disposeBag)
         
@@ -162,7 +162,20 @@ final class HomeViewModel: ViewModelType {
                       postList: postList.asDriver(onErrorJustReturn: []),
                       postCellTapped: postCellTapped.asDriver(onErrorJustReturn: ""))
     }
+    
+    private func changeLikeStatus(isLike: Bool, likeIndex: Int, postList: [FetchPostItem]) -> [FetchPostItem] {
+        var postList = postList
+        if isLike {
+            postList[likeIndex].likes.append(UserDefaultManager.shared.userId)
+        } else {
+            if let index = postList[likeIndex].likes.firstIndex(where: { $0 == UserDefaultManager.shared.userId }) {
+                postList[likeIndex].likes.remove(at: index)
+            }
+        }
+        return postList
+    }
 }
+
 
 extension HomeViewModel {
     @objc

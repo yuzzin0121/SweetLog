@@ -38,6 +38,7 @@ class TagSearchViewController: BaseViewController {
         output.postList
             .drive(with: self) { owner, _ in
                 owner.mainView.endRefreshing()
+                owner.isLoading = false
             }
             .disposed(by: disposeBag)
         

@@ -91,7 +91,7 @@ final class TagSearchViewModel: ViewModelType {
         input.prefetchTrigger
             .withLatestFrom(Observable.combineLatest(next, input.searchText))
             .map { prefetchInfo in
-                return FetchPostQuery(next: prefetchInfo.0, limit: "20", product_id: nil, hashTag: prefetchInfo.1)
+                return FetchPostQuery(next: prefetchInfo.0, limit: "25", product_id: nil, hashTag: prefetchInfo.1)
             }
             .flatMap { fetchPostQuery in
 //                print("현재 커서값 \(fetchPostQuery.next)")

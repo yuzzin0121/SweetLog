@@ -79,7 +79,6 @@
 		6164DF1E2BDED38A00F57A97 /* FollowDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF1D2BDED38A00F57A97 /* FollowDetailView.swift */; };
 		6164DF202BDED46600F57A97 /* FollowDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF1F2BDED46600F57A97 /* FollowDetailTableViewCell.swift */; };
 		6164DF222BDED5EE00F57A97 /* FollowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF212BDED5EE00F57A97 /* FollowType.swift */; };
-		6164DF992BE1277400F57A97 /* FetchTriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6164DF982BE1277400F57A97 /* FetchTriggerManager.swift */; };
 		616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE072BD4FABD0042BDC0 /* PostImageView.swift */; };
 		616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */; };
 		616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */; };
@@ -247,7 +246,6 @@
 		6164DF1D2BDED38A00F57A97 /* FollowDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowDetailView.swift; sourceTree = "<group>"; };
 		6164DF1F2BDED46600F57A97 /* FollowDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowDetailTableViewCell.swift; sourceTree = "<group>"; };
 		6164DF212BDED5EE00F57A97 /* FollowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowType.swift; sourceTree = "<group>"; };
-		6164DF982BE1277400F57A97 /* FetchTriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTriggerManager.swift; sourceTree = "<group>"; };
 		616DCE072BD4FABD0042BDC0 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
 		616DCE0B2BD509BB0042BDC0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		616DCE0D2BD50CC50042BDC0 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
@@ -1007,7 +1005,6 @@
 			children = (
 				618C78192BC9A9090033CD0D /* UserDefaultManager.swift */,
 				61B5288A2BD12F6E00974CA0 /* FormatterManager.swift */,
-				6164DF982BE1277400F57A97 /* FetchTriggerManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1388,7 +1385,6 @@
 				610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */,
 				61130D412BDBAD53002D03C1 /* StarImageView.swift in Sources */,
 				614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */,
-				6164DF992BE1277400F57A97 /* FetchTriggerManager.swift in Sources */,
 				618C77312BC6F8130033CD0D /* UIView+Extension.swift in Sources */,
 				61B5288B2BD12F6E00974CA0 /* FormatterManager.swift in Sources */,
 				614747022BD6A87F00B9B670 /* PlaceCollectionViewCell.swift in Sources */,

@@ -15,10 +15,12 @@ final class ProfileViewModel: ViewModelType {
     var profileModel: ProfileModel?
     var isMyProfile: Bool
     var userId: String
+    let fetchMyProfileTrigger = PublishSubject<Void>()
     
     init(isMyProfile: Bool, userId: String) {
         self.isMyProfile = isMyProfile
         self.userId = userId
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchMyProfile), name: .fetchMyProfile, object: nil)
     }
     
     struct Input {
@@ -30,6 +32,7 @@ final class ProfileViewModel: ViewModelType {
         let fetchMyProfileSuccessTrigger: Driver<ProfileModel>
         let isFollowing: Driver<Bool>
         let fetchUserProfileSuccessTrigger: Driver<ProfileModel>
+        let followTrigger: Driver<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -37,6 +40,23 @@ final class ProfileViewModel: ViewModelType {
         let fetchMyProfileSuccessTrigger = PublishRelay<ProfileModel>()
         let isFollowing = PublishRelay<Bool>()
         let fetchUserProfileSuccessTrigger = PublishRelay<ProfileModel>()
+        let followTrigger = PublishRelay<Void>()
+        
+        // Notification으로 받았을 때
+        fetchMyProfileTrigger
+            .flatMap { _ in
+                return ProfileNetworkManager.shared.fetchMyProfile()
+                    .catch { error in
+                        print(error)
+                        return Single<ProfileModel>.never()
+                    }
+            }
+            .subscribe(with: self) { owner, profileModel in
+                print("FetchTriggerManager - 내 프로필 정보 가져옴")
+                fetchMyProfileSuccessTrigger.accept(profileModel)
+                owner.myProfileModel = profileModel
+            }
+            .disposed(by: disposeBag)
         
         
         input.fetchProfileTrigger
@@ -44,13 +64,13 @@ final class ProfileViewModel: ViewModelType {
                 guard let self else { return Single<ProfileModel>.never() }
                 print("fetchProfileTrigger()")
                 if !self.isMyProfile {  // 나의 프로필 화면 아닌 경우 - 유저, 내 프로필 둘 다 조회
-                    FetchTriggerManager.shared.profileFetchTrigger.onNext(())
+                    fetchMyProfileTrigger.onNext(())
                     return ProfileNetworkManager.shared.fetchUserProfile(userId: userId)
                         .catch { error in
                             return Single<ProfileModel>.never()
                         }
                 } else {    // 나의 프로필 화면을 경우 - 내 프로필만 조회
-                    FetchTriggerManager.shared.profileFetchTrigger.onNext(())
+                    self.fetchMyProfileTrigger.onNext(())
                     return Single<ProfileModel>.never()
                 }
             }
@@ -60,16 +80,9 @@ final class ProfileViewModel: ViewModelType {
                 owner.profileModel = profileModel
             }
             .disposed(by: disposeBag)
+    
         
-        FetchTriggerManager.shared.myProfileModel
-            .subscribe(with: self) { owner, myProfileModel in
-                print("내 프로필 조회됨")
-                fetchMyProfileSuccessTrigger.accept(myProfileModel)
-                owner.myProfileModel = myProfileModel
-            }
-            .disposed(by: disposeBag)
-        
-        Observable.zip(fetchUserProfileSuccessTrigger, FetchTriggerManager.shared.myProfileModel)
+        Observable.zip(fetchUserProfileSuccessTrigger, fetchMyProfileSuccessTrigger)
             .subscribe(with: self) { owner, profileModel in
                 let (user, me) = profileModel
                 let followingStatus = owner.checkFollowing(myFollowingList: me.following, userId: user.userId)
@@ -95,13 +108,15 @@ final class ProfileViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, followStatus in
                 print(followStatus)
-                FetchTriggerManager.shared.followTrigger.onNext(()) // 팔로우 신호 emit
+                followTrigger.accept(())
+//                FetchTriggerManager.shared.followTrigger.onNext(()) // 팔로우 신호 emit
             }
             .disposed(by: disposeBag)
                       
         return Output(fetchMyProfileSuccessTrigger: fetchMyProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()),
                       isFollowing: isFollowing.asDriver(onErrorJustReturn: false),
-                      fetchUserProfileSuccessTrigger: fetchUserProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()))
+                      fetchUserProfileSuccessTrigger: fetchUserProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()), 
+                      followTrigger: followTrigger.asDriver(onErrorJustReturn: ()))
     }
     
     
@@ -110,5 +125,9 @@ final class ProfileViewModel: ViewModelType {
         print(#function, myFollowingList, userId)
         let followingIdList = myFollowingList.map { $0.user_id }
         return followingIdList.contains(userId)
+    }
+    
+    @objc func fetchMyProfile() {
+        fetchMyProfileTrigger.onNext(())
     }
 }

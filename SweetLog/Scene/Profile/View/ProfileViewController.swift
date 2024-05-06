@@ -90,8 +90,7 @@ final class ProfileViewController: BaseViewController {
         fetchProfileTrigger.onNext(viewModel.userId)
         
         // 팔로우 또는 언팔로우 성공했을 때
-        FetchTriggerManager.shared.followTrigger
-            .asDriver(onErrorJustReturn: ())
+        output.followTrigger
             .drive(with: self) { owner, _ in
                 owner.fetchProfileTrigger.onNext(owner.viewModel.userId)
             }

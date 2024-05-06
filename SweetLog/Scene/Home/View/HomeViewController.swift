@@ -86,6 +86,7 @@ final class HomeViewController: BaseViewController {
         output.postList
             .drive(with: self) { owner, _ in
                 owner.mainView.endRefreshing()
+                owner.isLoading = false
             }
             .disposed(by: disposeBag)
         
@@ -93,8 +94,7 @@ final class HomeViewController: BaseViewController {
             .subscribe(with: self) { owner, prefetchInfo in
                 guard !owner.isLoading else { return }
                 if let maxIndexPath = prefetchInfo.0.max(by: { $0.row < $1.row }) {
-                    guard maxIndexPath.item == prefetchInfo.1.count - 1 else { return }
-                    print("일치함!!! - 프리패치 인덱스: \(maxIndexPath), 일치해야될 인덱스: \(prefetchInfo.1.count - 1)")
+                    guard maxIndexPath.item == prefetchInfo.1.count - 2 else { return }
                     owner.isLoading = true
                     prefetchTrigger.accept(())
                 }

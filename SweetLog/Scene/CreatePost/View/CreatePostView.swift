@@ -29,6 +29,10 @@ final class CreatePostView: BaseView {
     
     lazy var selectedCategorySubject = BehaviorSubject(value: categoryButton.configuration?.title ?? "")
     
+    func setCategoryName(title: String) {
+        categoryButton.configuration?.title = title
+    }
+    
     func setReviewText(_ text: String) {
         textView.text = text
         textView.textColor = Color.black

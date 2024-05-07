@@ -81,17 +81,24 @@ final class MapViewModel: ViewModelType {
             }
             .flatMap { searchPlaceQuery in
                 if searchPlaceQuery.query.count < 2 {
-                    return Single<Result<PlaceModel, Error>>.never()
+                    return Single<PlaceModel>.never()
                 }
-                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: searchPlaceQuery))
+//                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: searchPlaceQuery))
+                return KakaoNetworkManager.shared.searchPlace(query: searchPlaceQuery)
+                                    .catch { error in
+                                        print(error.localizedDescription)
+                                        errorString.accept(error.localizedDescription)
+                                        return Single<PlaceModel>.never()
+                                    }
             }
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let placeModel):
-                    placeResult.accept((searchText.value,placeModel.documents))
-                case .failure(let error):
-                    errorString.accept(error.localizedDescription)
-                }
+            .subscribe(with: self) { owner, placeModel in
+                placeResult.accept((searchText.value,placeModel.documents))
+//                switch result {
+//                case .success(let placeModel):
+//                    placeResult.accept((searchText.value,placeModel.documents))
+//                case .failure(let error):
+//                    errorString.accept(error.localizedDescription)
+//                }
             }
             .disposed(by: disposeBag)
         
@@ -104,20 +111,30 @@ final class MapViewModel: ViewModelType {
             }
             .flatMap { searchPlaceQuery in
                 if searchPlaceQuery.query.count < 2 {
-                    return Single<Result<PlaceModel, Error>>.never()
+                    return Single<PlaceModel>.never()
                 }
-                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: searchPlaceQuery))
+                return KakaoNetworkManager.shared.searchPlace(query: searchPlaceQuery)
+                                    .catch { error in
+                                        print(error.localizedDescription)
+                                        errorString.accept(error.localizedDescription)
+                                        return Single<PlaceModel>.never()
+                                    }
+//                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: searchPlaceQuery))
             }
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let placeModel):
-                    placeResult.accept((searchText.value, placeModel.documents))
-                    guard let firstPlaceItem = placeModel.documents.first else { return }
-                    guard let coord = owner.getCoordFromXY(x: firstPlaceItem.x, y: firstPlaceItem.y) else { return }
-                    resultCoord.accept(coord)
-                case .failure(let error):
-                    errorString.accept(error.localizedDescription)
-                }
+            .subscribe(with: self) { owner, placeModel in
+                placeResult.accept((searchText.value,placeModel.documents))
+                                guard let firstPlaceItem = placeModel.documents.first else { return }
+                                guard let coord = owner.getCoordFromXY(x: firstPlaceItem.x, y: firstPlaceItem.y) else { return }
+                                resultCoord.accept(coord)
+//                switch result {
+//                case .success(let placeModel):
+//                    placeResult.accept((searchText.value, placeModel.documents))
+//                    guard let firstPlaceItem = placeModel.documents.first else { return }
+//                    guard let coord = owner.getCoordFromXY(x: firstPlaceItem.x, y: firstPlaceItem.y) else { return }
+//                    resultCoord.accept(coord)
+//                case .failure(let error):
+//                    errorString.accept(error.localizedDescription)
+//                }
             }
             .disposed(by: disposeBag)
         

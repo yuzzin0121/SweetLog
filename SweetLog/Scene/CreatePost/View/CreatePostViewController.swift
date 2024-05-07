@@ -38,15 +38,6 @@ final class CreatePostViewController: BaseViewController {
         let starValue = PublishSubject<Int>()
         let removeTag = PublishSubject<Int>()
         
-        for button in mainView.buttonList {
-            button.rx.tap
-                .subscribe(with: self) { owner, _ in
-                    starValue.onNext(button.tag)
-                }
-                .disposed(by: disposeBag)
-        }
-        
-        
         let input = CreatePostViewModel.Input(viewDidLoadTrigger: Observable.just(()), 
                                               editPostItem: Observable.just(viewModel.postItem.value),
                                               categoryString: mainView.selectedCategorySubject.asObserver(),
@@ -63,11 +54,24 @@ final class CreatePostViewController: BaseViewController {
             starValue.onNext(5)
         }
         
+        output.categoryName
+            .drive(with: self) { owner, categoryName in
+                owner.mainView.setCategoryName(title: categoryName)
+            }
+            .disposed(by: disposeBag)
+        
+        for button in mainView.buttonList {
+            button.rx.tap
+                .subscribe(with: self) { owner, _ in
+                    starValue.onNext(button.tag)
+                }
+                .disposed(by: disposeBag)
+        }
+        
    
         output.starButtonTapped
             .debug()
             .drive(with: self) { owner, tag in
-                print("starButtonTapped")
                 owner.mainView.selectStarButton(tag)
             }
             .disposed(by: disposeBag)
@@ -76,6 +80,12 @@ final class CreatePostViewController: BaseViewController {
         output.imageDataList
             .drive(mainView.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier, cellType: PhotoCollectionViewCell.self)) { index, data, cell in
                 cell.configureCell(data: data)
+            }
+            .disposed(by: disposeBag)
+        
+        output.editImageDataList
+            .drive(with: self) { owner, datas in
+                owner.dataSubject.onNext(datas)
             }
             .disposed(by: disposeBag)
         
@@ -116,9 +126,21 @@ final class CreatePostViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.editValid
+            .drive(with: self) { owner, isValid in
+                owner.mainView.setCreateButtonStatus(isValid)
+            }
+            .disposed(by: disposeBag)
+        
         output.createPostSuccessTrigger
             .drive(with: self) { owner, _ in
                 owner.successPost()
+            }
+            .disposed(by: disposeBag)
+        
+        output.editPostSuccessTrigger
+            .drive(with: self) { owner, _ in
+                owner.popView()
             }
             .disposed(by: disposeBag)
     }

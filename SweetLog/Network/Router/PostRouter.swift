@@ -11,6 +11,7 @@ import Alamofire
 enum PostRouter {
     case uploadFiles
     case createPost(postQuery: PostRequestModel)
+    case editPost(postId: String, postQuery: PostRequestModel)
     case loadImage(url: String)
     case fetchPosts(query: FetchPostQuery)
     case fetchPost(postId: String)
@@ -36,6 +37,8 @@ extension PostRouter: TargetType {
             
         case .fetchPosts, .loadImage, .fetchPost, .fetchUserPost, .fetchMyLikePost, .searchHashtag:
             return .get
+        case .editPost:
+            return .put
         case .deletePost:
             return .delete
         }
@@ -49,7 +52,7 @@ extension PostRouter: TargetType {
             return "/v1/posts"
         case .loadImage(let url):
             return "/v1/\(url)"
-        case .fetchPost(let postId), .deletePost(let postId):
+        case .fetchPost(let postId), .deletePost(let postId), .editPost(let postId, _):
             return "/v1/posts/\(postId)"
         case .likePost(let postId, _):
             return "/v1/posts/\(postId)/like"
@@ -70,7 +73,7 @@ extension PostRouter: TargetType {
                 HTTPHeader.contentType.rawValue:HTTPHeader.multipart.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue
             ]
-        case .createPost, .fetchPost, .likePost, .fetchUserPost, .fetchMyLikePost, .deletePost, .searchHashtag:
+        case .createPost, .fetchPost, .likePost, .fetchUserPost, .fetchMyLikePost, .deletePost, .searchHashtag, .editPost:
             return [
                 HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
@@ -91,7 +94,7 @@ extension PostRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .uploadFiles, .createPost, .loadImage, .fetchPost, .likePost, .deletePost:
+        case .uploadFiles, .createPost, .loadImage, .fetchPost, .likePost, .deletePost, .editPost:
             return nil
         case .fetchPosts(let query):
             return [
@@ -126,6 +129,9 @@ extension PostRouter: TargetType {
         case .uploadFiles, .loadImage, .fetchPosts, .fetchPost, .fetchUserPost, .fetchMyLikePost, .deletePost, .searchHashtag:
             return nil
         case .createPost(let postQuery):
+            return try? encoder.encode(postQuery)
+            
+        case .editPost(let postId, let postQuery):
             return try? encoder.encode(postQuery)
         case .likePost(let postId, let likeStatusModel):
             return try? encoder.encode(likeStatusModel)

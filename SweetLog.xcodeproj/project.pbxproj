@@ -47,6 +47,7 @@
 		614678F52BE6DDF900915E89 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 614678F42BE6DDF900915E89 /* Differentiator */; };
 		614678F72BE6DDF900915E89 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 614678F62BE6DDF900915E89 /* RxDataSources */; };
 		614678F92BE7731700915E89 /* CUMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678F82BE7731700915E89 /* CUMode.swift */; };
+		614678FB2BE9B89900915E89 /* KakaoNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678FA2BE9B89900915E89 /* KakaoNetworkManager.swift */; };
 		614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */; };
 		614746FC2BD6A40700B9B670 /* SearchPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */; };
 		614746FE2BD6A43700B9B670 /* SelectPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */; };
@@ -211,6 +212,7 @@
 		614678E52BE6CC8F00915E89 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		614678E72BE6D97600915E89 /* ReviewHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		614678F82BE7731700915E89 /* CUMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CUMode.swift; sourceTree = "<group>"; };
+		614678FA2BE9B89900915E89 /* KakaoNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoNetworkManager.swift; sourceTree = "<group>"; };
 		614746F62BD6A3CE00B9B670 /* SelectPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewController.swift; sourceTree = "<group>"; };
 		614746FB2BD6A40700B9B670 /* SearchPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceView.swift; sourceTree = "<group>"; };
 		614746FD2BD6A43700B9B670 /* SelectPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -1081,6 +1083,7 @@
 				61B528842BD10F9800974CA0 /* PostNetworkManager.swift */,
 				61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */,
 				615C03AE2BDD443D0078E45A /* ProfileNetworkManager.swift */,
+				614678FA2BE9B89900915E89 /* KakaoNetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1306,6 +1309,7 @@
 				618C781E2BC9AC6E0033CD0D /* HomeView.swift in Sources */,
 				618C78242BC9AF5E0033CD0D /* ProfileSectionView.swift in Sources */,
 				618C77402BC6FC8B0033CD0D /* SignUpViewController.swift in Sources */,
+				614678FB2BE9B89900915E89 /* KakaoNetworkManager.swift in Sources */,
 				618C77352BC6F9AD0033CD0D /* UITextField+Extension.swift in Sources */,
 				6164DF112BDE505100F57A97 /* PostType.swift in Sources */,
 				6164DF152BDEC87E00F57A97 /* UserPostCollectionViewCell.swift in Sources */,

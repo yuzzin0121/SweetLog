@@ -34,15 +34,22 @@ final class SelectPlaceViewModel: ViewModelType {
                 return SearchPlaceQuery(query: query)
             }
             .flatMap {
-                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: $0))
+//                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: $0))
+                return KakaoNetworkManager.shared.searchPlace(query: $0)
+                                    .catch { error in
+                                        print(error.localizedDescription)
+                                        errorString.accept(error.localizedDescription)
+                                        return Single<PlaceModel>.never()
+                                    }
             }
-            .subscribe(with: self) { owner, result in
-                switch result {
-                case .success(let placeModel):
-                    placeList.onNext(placeModel.documents)
-                case .failure(let error):
-                    errorString.accept(error.localizedDescription)
-                }
+            .subscribe(with: self) { owner, placeModel in
+                placeList.onNext(placeModel.documents)
+//                switch result {
+//                case .success(let placeModel):
+//                    placeList.onNext(placeModel.documents)
+//                case .failure(let error):
+//                    errorString.accept(error.localizedDescription)
+//                }
             }
             .disposed(by: disposeBag)
         

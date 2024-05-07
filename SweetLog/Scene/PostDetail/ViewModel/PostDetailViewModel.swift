@@ -225,7 +225,7 @@ final class PostDetailViewModel: ViewModelType {
     
     private func stringToDoubleArray(string: String) -> [String] {
         let trimmedString = string.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
-        let stringArray = trimmedString.components(separatedBy: ",")
+        let stringArray = trimmedString.components(separatedBy: ", ")
         return stringArray
     }
     

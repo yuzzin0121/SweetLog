@@ -13,6 +13,7 @@ enum FilterItem: Int, CaseIterable {
     case cake
     case bakedSnack
     case etc
+    case sale
     
     var title: String {
         switch self {
@@ -21,6 +22,7 @@ enum FilterItem: Int, CaseIterable {
         case .cake: return "케이크"
         case .bakedSnack: return "구움과자"
         case .etc: return "기타"
+        case .sale: return "판매"
         }
     }
 }

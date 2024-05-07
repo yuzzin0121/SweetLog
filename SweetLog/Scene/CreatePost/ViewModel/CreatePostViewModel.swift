@@ -47,7 +47,7 @@ final class CreatePostViewModel: ViewModelType {
         let createPostSuccessTrigger: Driver<Void>
         let editImageDataList: Driver<[Data]>
         let editValid: Driver<Bool>
-        let editPostSuccessTrigger: Driver<Void>
+        let editPostSuccessTrigger: Driver<FetchPostItem>
         let errorMessage: Driver<String>
     }
     
@@ -68,7 +68,7 @@ final class CreatePostViewModel: ViewModelType {
         let fileStringList = BehaviorRelay<[String]>(value: [])
         let createPostSuccessTrigger = PublishRelay<Void>()
         let editImageDataList = BehaviorRelay<[Data]>(value: [])
-        let editPostSuccessTrigger = PublishRelay<Void>()
+        let editPostSuccessTrigger = PublishRelay<FetchPostItem>()
         let errorMessage = PublishRelay<String>()
         
         input.viewDidLoadTrigger
@@ -239,9 +239,9 @@ final class CreatePostViewModel: ViewModelType {
                 .subscribe { [weak self] result in
                     guard let self else { return }
                     switch result {
-                    case .success(_):
+                    case .success(let fetchPostItem):
                         print("포스트 수정 성공")
-                        editPostSuccessTrigger.accept(())
+                        editPostSuccessTrigger.accept((fetchPostItem))
                     case .failure(let error):
                         errorMessage.accept(error.localizedDescription)
                     }
@@ -277,7 +277,7 @@ final class CreatePostViewModel: ViewModelType {
                       createPostSuccessTrigger: createPostSuccessTrigger.asDriver(onErrorJustReturn: ()), 
                       editImageDataList: editImageDataList.asDriver(),
                       editValid: editValid.asDriver(),
-                      editPostSuccessTrigger: editPostSuccessTrigger.asDriver(onErrorJustReturn: ()),
+                      editPostSuccessTrigger: editPostSuccessTrigger.asDriver(onErrorDriveWith: .empty()),
                       errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     

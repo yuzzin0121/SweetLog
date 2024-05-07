@@ -20,6 +20,7 @@ final class CreatePostViewController: BaseViewController {
         }
     }
     let dataSubject: BehaviorSubject<[Data]> = BehaviorSubject(value: [])
+    var editPostItemDelegate: EditPostDelegate?
     
     init(placeItem: PlaceItem, postItem: FetchPostItem?, cuMode: CUMode) {
         viewModel = CreatePostViewModel(placeItem: placeItem, cuMode: cuMode)
@@ -53,6 +54,7 @@ final class CreatePostViewController: BaseViewController {
         if viewModel.cuMode == .create {
             starValue.onNext(5)
         }
+        mainView.setCreateButtonTitle(cuMode: viewModel.cuMode)
         
         output.categoryName
             .drive(with: self) { owner, categoryName in
@@ -139,7 +141,8 @@ final class CreatePostViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.editPostSuccessTrigger
-            .drive(with: self) { owner, _ in
+            .drive(with: self) { owner, editedPostItem in
+                owner.editPostItemDelegate?.editPost(postItem: editedPostItem)
                 owner.popView()
             }
             .disposed(by: disposeBag)

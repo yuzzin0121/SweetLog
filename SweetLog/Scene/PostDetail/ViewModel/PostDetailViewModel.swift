@@ -23,6 +23,7 @@ final class PostDetailViewModel: ViewModelType {
         let commentMoreItemClicked: Observable<(Int, Int, String)>
         let postMoreItemClicked: Observable<(Int)>
         let placeButtonTapped: Observable<Void>
+        let editedPostItem: Observable<FetchPostItem>
     }
     
     struct Output {
@@ -60,6 +61,13 @@ final class PostDetailViewModel: ViewModelType {
                 case .failure(let error):
                     errorMessage.accept(error.localizedDescription)
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        input.editedPostItem
+            .bind(with: self)  { owner, editedPostItem in
+                owner.fetchPostItem = editedPostItem
+                fetchPostItemRelay.accept(editedPostItem)
             }
             .disposed(by: disposeBag)
         

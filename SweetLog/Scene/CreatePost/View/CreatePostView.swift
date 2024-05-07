@@ -29,6 +29,10 @@ final class CreatePostView: BaseView {
     
     lazy var selectedCategorySubject = BehaviorSubject(value: categoryButton.configuration?.title ?? "")
     
+    func setCreateButtonTitle(cuMode: CUMode) {
+        createButton.configuration?.title = cuMode == .create ? "후기 공유" : "후기 수정"
+    }
+    
     func setCategoryName(title: String) {
         categoryButton.configuration?.title = title
     }

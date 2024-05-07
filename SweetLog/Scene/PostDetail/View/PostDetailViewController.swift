@@ -20,7 +20,7 @@ final class PostDetailViewController: BaseViewController {
     let placeButtonTapped = PublishSubject<Void>()
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
-    
+    let editedPostItem = PublishSubject<FetchPostItem>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,8 @@ final class PostDetailViewController: BaseViewController {
                                               likeButtonStatus: likeStatus.asObservable(), 
                                               commentMoreItemClicked: commentMoreItemClicked, 
                                               postMoreItemClicked: mainView.postMoreItemClicked, 
-                                              placeButtonTapped: placeButtonTapped)
+                                              placeButtonTapped: placeButtonTapped, 
+                                              editedPostItem: editedPostItem.asObservable())
         
         let output = viewModel.transform(input: input)
         
@@ -97,6 +98,7 @@ final class PostDetailViewController: BaseViewController {
     
     private func showEditPostVC(placeItem: PlaceItem, postItem: FetchPostItem) {
         let editPostVC = CreatePostViewController(placeItem: placeItem, postItem: postItem, cuMode: .edit)
+        editPostVC.editPostItemDelegate = self
         navigationController?.pushViewController(editPostVC, animated: true)
     }
     
@@ -204,7 +206,16 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
    
 }
 
+extension PostDetailViewController: EditPostDelegate {
+    func editPost(postItem: FetchPostItem) {
+        editedPostItem.onNext(postItem)
+    }
+}
 
 class ProfileTapGestureRecognizer: UITapGestureRecognizer {
     var userId: String?
+}
+
+protocol EditPostDelegate {
+    func editPost(postItem: FetchPostItem)
 }

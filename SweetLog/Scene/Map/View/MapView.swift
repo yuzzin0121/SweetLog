@@ -72,6 +72,7 @@ final class MapView: BaseView {
         mapView.showsUserLocation = true
         mapView.register(PlaceAnnotationView.self,
                          forAnnotationViewWithReuseIdentifier: "PlaceAnnotationView")
+        mapView.register(ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier: "ClusterAnnotationView")
         
         var refreshConfig = UIButton.Configuration.filled()
         refreshConfig.image = Image.refresh.resized(to: CGSize(width: 18, height: 18))

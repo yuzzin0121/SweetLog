@@ -116,9 +116,9 @@ extension MapViewController: MKMapViewDelegate {
             let annotationView = setupAnnotationView(for: placeAnnotation, on: mapView)
             return annotationView
         } else if let cluster = annotation as? MKClusterAnnotation {
-            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView") ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
-            clusterView.annotation = cluster
-            clusterView.image = Image.markFill.withTintColor(Color.brown2, renderingMode: .alwaysTemplate).resized(to: CGSize(width: 40, height: 40))
+            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "ClusterAnnotationView") ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
+//            clusterView.annotation = cluster
+//            clusterView.image = Image.markFill.withTintColor(Color.brown2, renderingMode: .alwaysTemplate).resized(to: CGSize(width: 40, height: 40))
             return clusterView
         } else {
             return nil

@@ -28,6 +28,7 @@ final class PlaceAnnotationView: MKAnnotationView {
     
     override init(annotation: (any MKAnnotation)?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        clusteringIdentifier = "place"
         configureHierachy()
         configureLayout()
         configureView()

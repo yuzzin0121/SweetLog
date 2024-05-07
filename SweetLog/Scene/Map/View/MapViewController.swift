@@ -109,14 +109,20 @@ extension MapViewController: MKMapViewDelegate {
         // 현재 위치 표시(점)도 일종에 어노테이션이기 때문에 유저 위치 어노테이션 변경하지 않도록 처리
         guard !annotation.isKind(of: MKUserLocation.self) else { return nil }
         
-        var annotationView: MKAnnotationView?
+//        var annotationView: MKAnnotationView?
         
         // 다운캐스팅이 되면 CustomAnnotation를 갖고 CustomAnnotationView를 생성
         if let placeAnnotation = annotation as? PlaceAnnotation {
-            annotationView = setupAnnotationView(for: placeAnnotation, on: mapView)
+            let annotationView = setupAnnotationView(for: placeAnnotation, on: mapView)
+            return annotationView
+        } else if let cluster = annotation as? MKClusterAnnotation {
+            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView") ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
+            clusterView.annotation = cluster
+            clusterView.image = Image.markFill.withTintColor(Color.brown2, renderingMode: .alwaysTemplate).resized(to: CGSize(width: 40, height: 40))
+            return clusterView
+        } else {
+            return nil
         }
-        
-        return annotationView
     }
     
     // 식별자를 통해 Annotation view 생성

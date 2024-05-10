@@ -169,6 +169,7 @@
 		61BD28172BE3A9BC000A5B81 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */; };
 		61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */; };
 		61BD281D2BE3AC55000A5B81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281C2BE3AC55000A5B81 /* MapView.swift */; };
+		61FA25B82BEE0FC400A9B04F /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 61FA25B72BEE0FC400A9B04F /* iamport-ios */; };
 		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
 		61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */; };
 		61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */; };
@@ -345,6 +346,7 @@
 				6102643D2BE6725A0000EE79 /* FloatingPanel in Frameworks */,
 				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
 				6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */,
+				61FA25B82BEE0FC400A9B04F /* iamport-ios in Frameworks */,
 				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
 				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
 				614678F72BE6DDF900915E89 /* RxDataSources in Frameworks */,
@@ -1191,6 +1193,7 @@
 				6102643C2BE6725A0000EE79 /* FloatingPanel */,
 				614678F42BE6DDF900915E89 /* Differentiator */,
 				614678F62BE6DDF900915E89 /* RxDataSources */,
+				61FA25B72BEE0FC400A9B04F /* iamport-ios */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -1230,6 +1233,7 @@
 				6164DF082BDE4EEC00F57A97 /* XCRemoteSwiftPackageReference "Tabman" */,
 				6102643B2BE6725A0000EE79 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				614678F32BE6DDF900915E89 /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				61FA25B62BEE0FC400A9B04F /* XCRemoteSwiftPackageReference "iamport-ios" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -1713,6 +1717,14 @@
 				minimumVersion = 7.11.0;
 			};
 		};
+		61FA25B62BEE0FC400A9B04F /* XCRemoteSwiftPackageReference "iamport-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iamport/iamport-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1770,6 +1782,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61B528902BD13B8E00974CA0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		61FA25B72BEE0FC400A9B04F /* iamport-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 61FA25B62BEE0FC400A9B04F /* XCRemoteSwiftPackageReference "iamport-ios" */;
+			productName = "iamport-ios";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

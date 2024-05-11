@@ -14,6 +14,9 @@ final class CreatePostView: BaseView {
     private let selectCategoryLabel = UILabel() // 카테고리
     var categoryButton = MenuButton(title: FilterItem.allCases[0].title)    // 선택버튼
     
+    let priceTextField = UITextField()
+    let priceLabel = UILabel()
+    
     let selectSugarContentLabel = UILabel() // 당도
     let starStackView = UIStackView()  // 당도 선택버튼 스택뷰
     
@@ -52,7 +55,7 @@ final class CreatePostView: BaseView {
     }
     
     override func configureHierarchy() {
-        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, starStackView, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
+        addSubviews([placeInfoView, selectCategoryLabel, categoryButton, selectSugarContentLabel, starStackView, priceTextField, priceLabel, textView, tagTextField, tagCollectionView, addPhotoImageView, photoCollectionView])
     }
     override func configureLayout() {
         placeInfoView.snp.makeConstraints { make in
@@ -79,6 +82,18 @@ final class CreatePostView: BaseView {
             make.height.equalTo(18)
         }
         
+        priceTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(selectSugarContentLabel)
+//            make.leading.equalTo(selectSugarContentLabel.snp.trailing).offset(12)
+            make.trailing.equalTo(priceLabel.snp.leading).offset(-8)
+            make.height.equalTo(40)
+        }
+        
+        priceLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(30)
+            make.centerY.equalTo(priceTextField)
+        }
+        
         starStackView.snp.makeConstraints { make in
             make.centerY.equalTo(selectSugarContentLabel)
             make.leading.equalTo(selectSugarContentLabel.snp.trailing).offset(12)
@@ -86,7 +101,7 @@ final class CreatePostView: BaseView {
         }
         
         textView.snp.makeConstraints { make in
-            make.top.equalTo(selectSugarContentLabel.snp.bottom).offset(40)
+            make.top.equalTo(selectSugarContentLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(24)
         }
         tagTextField.snp.makeConstraints { make in
@@ -120,7 +135,7 @@ final class CreatePostView: BaseView {
         super.configureView()
         selectCategoryLabel.design(text: "카테고리", font: .pretendard(size: 18, weight: .semiBold))
         selectSugarContentLabel.design(text: "평점", font: .pretendard(size: 18, weight: .semiBold))
-        
+        priceLabel.design(text: "원", font: .pretendard(size: 18, weight: .semiBold))
         configureCategoryMenu()
         
         starStackView.design(axis: .horizontal, spacing: 8)
@@ -141,6 +156,15 @@ final class CreatePostView: BaseView {
         config.title = "후기 공유"
         config.cornerStyle = .capsule
         createButton.configuration = config
+        
+        priceTextField.backgroundColor = .clear
+        priceTextField.placeholder = "3000"
+        priceTextField.font = .pretendard(size: 20, weight: .semiBold)
+        priceTextField.textColor = Color.black
+        priceTextField.attributedPlaceholder = NSAttributedString(string: "3000", attributes: [.font: UIFont(name: "Pretendard-Light", size: 20)!])
+        priceTextField.textAlignment = .right
+        priceTextField.isHidden = true
+        priceLabel.isHidden = true
         
         tagTextField.backgroundColor = Color.white
         tagTextField.placeholder = "태그를 추가해보세요... (최대 10자)"
@@ -166,6 +190,13 @@ final class CreatePostView: BaseView {
         }
     }
     
+    private func changeVisible(isPrice: Bool) {
+        priceTextField.isHidden = !isPrice
+        priceLabel.isHidden = !isPrice
+        starStackView.isHidden = isPrice
+        selectSugarContentLabel.text = isPrice ? "가격" : "평점"
+    }
+    
     private func configureCategoryMenu() {
         categoryButton.showsMenuAsPrimaryAction = true
         let actions = FilterItem.allCases.map { filterItem in
@@ -174,6 +205,11 @@ final class CreatePostView: BaseView {
                 let title = filterItem.title
                 categoryButton.configuration?.title = title
                 self.selectedCategorySubject.onNext(title)
+                if filterItem == .sale {
+                    changeVisible(isPrice: true)
+                } else {
+                    changeVisible(isPrice: false)
+                }
             }
         }
         

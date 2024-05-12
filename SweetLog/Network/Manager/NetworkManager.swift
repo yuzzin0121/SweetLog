@@ -42,6 +42,35 @@ final class NetworkManager {
         }
     }
     
+    static func requestToServerNoModel<T: TargetType>(router: T) -> Single<Result<Int, Error>> {
+        return Single<Result<Int, Error>>.create { single in
+            do {
+                let urlRequest = try router.asURLRequest()
+                
+                AF.request(urlRequest, interceptor: AuthInterceptor())
+                    .responseString(completionHandler: { response in
+                        guard let statusCode = response.response?.statusCode else {
+                            single(.success(.failure(APIError.serverError)))
+                            return
+                        }
+                        
+                        if statusCode == 200 {
+                            single(.success(.success(statusCode)))
+                        }
+                        
+                        if let code = APIError(rawValue: statusCode) {
+                            print(code)
+                            single(.success(.failure(code)))
+                        }
+                    })
+            } catch {
+                single(.success(.failure(APIError.serverError)))
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
     // 토큰 갱신
     func tokenRefresh(completionHandler: @escaping (Bool) -> Void) {
         do {
@@ -60,7 +89,7 @@ final class NetworkManager {
                     if let code = response.response?.statusCode, let error = APIError(rawValue: code) {
                         print("토큰 갱신 실패: \(code)")
                         if error == .refreshTokenExpired {
-                            print(error.errorDescription)
+                            print(error.localizedDescription)
                         }
                     } else {
                         print("토큰 갱신 실패")

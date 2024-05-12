@@ -39,6 +39,7 @@ struct FetchPostItem: Decodable {
     var likes: [String]
     var hashTags: [String]
     var comments: [Comment]
+    var buyers: [String]
     
     enum CodingKeys: String, CodingKey {
         case postId = "post_id"
@@ -56,6 +57,7 @@ struct FetchPostItem: Decodable {
         case likes
         case hashTags
         case comments
+        case buyers
     }
     
     init(from decoder: any Decoder) throws {
@@ -75,6 +77,7 @@ struct FetchPostItem: Decodable {
         self.likes = try container.decode([String].self, forKey: .likes)
         self.hashTags = try container.decode([String].self, forKey: .hashTags)
         self.comments = try container.decode([Comment].self, forKey: .comments)
+        self.buyers = try container.decode([String].self, forKey: .buyers)
     }
 }
 

@@ -7,6 +7,8 @@
 
 import UIKit
 import RxSwift
+import WebKit
+import iamport_ios
 
 final class PostDetailView: BaseView {
     let tableView = UITableView(frame: .zero, style: .grouped)
@@ -26,7 +28,6 @@ final class PostDetailView: BaseView {
         let actions = MoreItem.allCases.map { moreItem in
             UIAction(title: moreItem.title) { [weak self] _ in
                 guard let self else { return }
-                let title = moreItem.title
                 self.postMoreItemClicked.onNext(moreItem.rawValue)
             }
         }

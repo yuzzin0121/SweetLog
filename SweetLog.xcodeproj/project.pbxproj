@@ -170,6 +170,11 @@
 		61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */; };
 		61BD281D2BE3AC55000A5B81 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD281C2BE3AC55000A5B81 /* MapView.swift */; };
 		61FA25B82BEE0FC400A9B04F /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 61FA25B72BEE0FC400A9B04F /* iamport-ios */; };
+		61FA25BC2BF0A9EF00A9B04F /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25BB2BF0A9EF00A9B04F /* PayViewController.swift */; };
+		61FA25BE2BF0A9F700A9B04F /* PayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25BD2BF0A9F700A9B04F /* PayView.swift */; };
+		61FA25C12BF0AAC600A9B04F /* PayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25C02BF0AAC600A9B04F /* PayViewModel.swift */; };
+		61FA25C32BF0E21F00A9B04F /* PaymentValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25C22BF0E21F00A9B04F /* PaymentValidationQuery.swift */; };
+		61FA25C52BF0E2D700A9B04F /* PaymentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25C42BF0E2D700A9B04F /* PaymentRouter.swift */; };
 		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
 		61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */; };
 		61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */; };
@@ -331,6 +336,11 @@
 		61BD28162BE3A9BC000A5B81 /* PlaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewModel.swift; sourceTree = "<group>"; };
 		61BD281A2BE3AC38000A5B81 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		61BD281C2BE3AC55000A5B81 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		61FA25BB2BF0A9EF00A9B04F /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
+		61FA25BD2BF0A9F700A9B04F /* PayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayView.swift; sourceTree = "<group>"; };
+		61FA25C02BF0AAC600A9B04F /* PayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewModel.swift; sourceTree = "<group>"; };
+		61FA25C22BF0E21F00A9B04F /* PaymentValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentValidationQuery.swift; sourceTree = "<group>"; };
+		61FA25C42BF0E2D700A9B04F /* PaymentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRouter.swift; sourceTree = "<group>"; };
 		61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchViewController.swift; sourceTree = "<group>"; };
@@ -807,6 +817,7 @@
 		618C76E72BC6EF940033CD0D /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				61FA25B92BF0A9CE00A9B04F /* Pay */,
 				61130D242BD9783B002D03C1 /* PostDetail */,
 				614746F52BD6A3B200B9B670 /* CreatePost */,
 				618C77252BC6F5DE0033CD0D /* Sign */,
@@ -985,6 +996,7 @@
 				615C03B02BDD4A410078E45A /* EditProfileQuery.swift */,
 				61BD280D2BE34E24000A5B81 /* EditCommentQuery.swift */,
 				610264402BE67A430000EE79 /* SearchPlaceQuery.swift */,
+				61FA25C22BF0E21F00A9B04F /* PaymentValidationQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -1077,6 +1089,7 @@
 				614747072BD6AAF500B9B670 /* KakaoPlaceRouter.swift */,
 				61130D462BDC227A002D03C1 /* CommentRouter.swift */,
 				615C03AB2BDD424E0078E45A /* ProfileRouter.swift */,
+				61FA25C42BF0E2D700A9B04F /* PaymentRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1136,6 +1149,32 @@
 				61BD281C2BE3AC55000A5B81 /* MapView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		61FA25B92BF0A9CE00A9B04F /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				61FA25BF2BF0AABD00A9B04F /* ViewModel */,
+				61FA25BA2BF0A9D900A9B04F /* View */,
+			);
+			path = Pay;
+			sourceTree = "<group>";
+		};
+		61FA25BA2BF0A9D900A9B04F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61FA25BB2BF0A9EF00A9B04F /* PayViewController.swift */,
+				61FA25BD2BF0A9F700A9B04F /* PayView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		61FA25BF2BF0AABD00A9B04F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				61FA25C02BF0AAC600A9B04F /* PayViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		61FC8C0F2BE55B4300CF3146 /* TagSearch */ = {
@@ -1295,6 +1334,7 @@
 				6164DF1E2BDED38A00F57A97 /* FollowDetailView.swift in Sources */,
 				61BD28112BE3A688000A5B81 /* PlaceDetailViewController.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
+				61FA25BE2BF0A9F700A9B04F /* PayView.swift in Sources */,
 				6102643F2BE673060000EE79 /* FloatingPanelController+Extension.swift in Sources */,
 				61130D112BD7DCA5002D03C1 /* MenuButton.swift in Sources */,
 				612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */,
@@ -1308,6 +1348,7 @@
 				61130D392BDABDBC002D03C1 /* PostCommentTableViewCell.swift in Sources */,
 				615C03AC2BDD424E0078E45A /* ProfileRouter.swift in Sources */,
 				614747042BD6A8CD00B9B670 /* UILabel+Extension.swift in Sources */,
+				61FA25C52BF0E2D700A9B04F /* PaymentRouter.swift in Sources */,
 				618C774A2BC7046E0033CD0D /* APIKey.swift in Sources */,
 				618C786D2BCD70830033CD0D /* Reuse.swift in Sources */,
 				618C78132BC994570033CD0D /* APIError.swift in Sources */,
@@ -1350,6 +1391,7 @@
 				616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
 				61130D2C2BD978D2002D03C1 /* PostDetailViewModel.swift in Sources */,
+				61FA25C12BF0AAC600A9B04F /* PayViewModel.swift in Sources */,
 				614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */,
 				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
 				61FC8C172BE55C9600CF3146 /* TagSearchViewModel.swift in Sources */,
@@ -1362,6 +1404,7 @@
 				618C77082BC6F1210033CD0D /* TabBarController.swift in Sources */,
 				615C03BA2BDD50CF0078E45A /* EditProfileViewModel.swift in Sources */,
 				618C76CB2BC6EE4B0033CD0D /* SceneDelegate.swift in Sources */,
+				61FA25C32BF0E21F00A9B04F /* PaymentValidationQuery.swift in Sources */,
 				61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */,
 				615C03AA2BDD3E8E0078E45A /* ProfileView.swift in Sources */,
 				614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */,
@@ -1411,6 +1454,7 @@
 				61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
+				61FA25BC2BF0A9EF00A9B04F /* PayViewController.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,
 				61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */,
 				61130D262BD97852002D03C1 /* PostDetailViewController.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: Int, Error, LocalizedError{
+enum APIError: Int, Error{
     case cannotSign = 401
     case cannotUse = 409
     case invalidKey = 420
@@ -20,7 +20,7 @@ enum APIError: Int, Error, LocalizedError{
     case forbidden = 403
     case cannotFind
     
-    var errorDescription: String {
+    var localizedDescription: String {
         switch self {
         case .cannotSign:
             return "인증할 수 없습니다."

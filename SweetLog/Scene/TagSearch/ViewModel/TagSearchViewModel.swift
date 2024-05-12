@@ -120,6 +120,7 @@ final class TagSearchViewModel: ViewModelType {
                     }
                     next.onNext(fetchPostModel.nextCursor)
                 case .failure(let error):
+                    print(error)
                     errorMessage.accept(error.localizedDescription)
                 }
             }

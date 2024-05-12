@@ -12,8 +12,6 @@
 		<string>smhyundaiansimclick</string>
 		<string>shinhan-sr-ansimclick</string>
 		<string>smshinhanansimclick</string>
-		<string>kakaotalk</string>
-		<string>supertoss</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -21,7 +19,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.sweetLog</string>
+			<string>slp.example</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>sesac</string>

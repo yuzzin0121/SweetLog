@@ -96,6 +96,19 @@ final class PostDetailViewController: BaseViewController {
                 owner.showEditPostVC(placeItem: placeItem, postItem: postItem)
             }
             .disposed(by: disposeBag)
+        
+        output.payInfo
+            .drive(with: self) { owner, payInfo in
+                let (postId, priceString, name) = payInfo
+                owner.showPacVC(postId: postId, priceString: priceString, name: name)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showPacVC(postId: String, priceString: String, name: String) {
+        let payVC = PayViewController(postId: postId, amount: priceString, name: name)
+        payVC.modalPresentationStyle = .fullScreen
+        present(payVC, animated: true)
     }
     
     private func showEditPostVC(placeItem: PlaceItem, postItem: FetchPostItem) {

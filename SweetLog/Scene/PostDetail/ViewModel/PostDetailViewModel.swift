@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import iamport_ios
 
 final class PostDetailViewModel: ViewModelType {
     var disposeBag = DisposeBag()
@@ -29,6 +30,7 @@ final class PostDetailViewModel: ViewModelType {
     
     struct Output {
         let fetchPostItem: Driver<FetchPostItem?>
+        let payInfo: Driver<(String, String, String)>
         let createCommentSuccessTrigger: Driver<Void>
         let deleteSuccessTrigger: Driver<String>
         let placeButtonTapped: Driver<FetchPostItem>
@@ -38,6 +40,7 @@ final class PostDetailViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let fetchPostItemRelay = BehaviorRelay<FetchPostItem?>(value: nil)
+        let payInfo = PublishRelay<(String, String, String)>()
         let commentIsValid = BehaviorRelay(value: false)
         let createCommentSuccessTrigger = PublishRelay<Void>()
         
@@ -83,7 +86,8 @@ final class PostDetailViewModel: ViewModelType {
         input.buyingButtonTapped
             .withLatestFrom(fetchPostItemRelay)
             .bind(with: self) { owner, postItem in
-                
+                guard let postItem, let price = postItem.price else { return }
+                payInfo.accept((postItem.postId, price, postItem.placeName))
             }
             .disposed(by: disposeBag)
         
@@ -226,10 +230,11 @@ final class PostDetailViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         return Output(fetchPostItem: fetchPostItemRelay.asDriver(onErrorJustReturn: nil),
-                      createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()), 
-                      deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""), 
+                      payInfo: payInfo.asDriver(onErrorDriveWith: .empty()),
+                      createCommentSuccessTrigger: createCommentSuccessTrigger.asDriver(onErrorJustReturn: ()),
+                      deleteSuccessTrigger: deletePostSuccessTrigger.asDriver(onErrorJustReturn: ""),
                       placeButtonTapped: placeButtonTapped.asDriver(onErrorDriveWith: .empty()),
-                      editPostTrigger: editPostTrigger.asDriver(onErrorDriveWith: .empty()), 
+                      editPostTrigger: editPostTrigger.asDriver(onErrorDriveWith: .empty()),
                       errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
     }
     

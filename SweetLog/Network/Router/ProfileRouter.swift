@@ -19,7 +19,7 @@ enum ProfileRouter {
 extension ProfileRouter: TargetType {
     
     var baseURL: String {
-        return APIKey.baseURL.rawValue
+        return APIKey.payURL.rawValue
     }
     
     var method: Alamofire.HTTPMethod {

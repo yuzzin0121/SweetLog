@@ -20,7 +20,8 @@ class AuthInterceptor: RequestInterceptor {
         print("retry 진입")
         
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == APIError.accessTokenExpired.rawValue else {
-            return completion(.doNotRetryWithError(error))
+            completion(.doNotRetry)
+            return
         }
         
         refreshAccessToken { isSuccess in

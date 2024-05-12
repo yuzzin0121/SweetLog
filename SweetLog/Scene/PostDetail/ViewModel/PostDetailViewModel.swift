@@ -23,6 +23,7 @@ final class PostDetailViewModel: ViewModelType {
         let commentMoreItemClicked: Observable<(Int, Int, String)>
         let postMoreItemClicked: Observable<(Int)>
         let placeButtonTapped: Observable<Void>
+        let buyingButtonTapped: Observable<Void>
         let editedPostItem: Observable<FetchPostItem>
     }
     
@@ -76,6 +77,13 @@ final class PostDetailViewModel: ViewModelType {
             .subscribe(with: self) { owner, postItem in
                 guard let postItem else { return }
                 placeButtonTapped.accept(postItem)
+            }
+            .disposed(by: disposeBag)
+        
+        input.buyingButtonTapped
+            .withLatestFrom(fetchPostItemRelay)
+            .bind(with: self) { owner, postItem in
+                
             }
             .disposed(by: disposeBag)
         

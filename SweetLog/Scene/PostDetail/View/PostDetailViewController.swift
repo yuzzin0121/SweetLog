@@ -18,6 +18,7 @@ final class PostDetailViewController: BaseViewController {
         }
     }
     let placeButtonTapped = PublishSubject<Void>()
+    let buyingButtonTapped = PublishSubject<Void>()
     let likeStatus = PublishSubject<Bool>()
     let commentMoreItemClicked = PublishSubject<(Int, Int, String)>()
     let editedPostItem = PublishSubject<FetchPostItem>()
@@ -54,6 +55,7 @@ final class PostDetailViewController: BaseViewController {
                                               commentMoreItemClicked: commentMoreItemClicked, 
                                               postMoreItemClicked: mainView.postMoreItemClicked, 
                                               placeButtonTapped: placeButtonTapped, 
+                                              buyingButtonTapped: buyingButtonTapped.asObservable(),
                                               editedPostItem: editedPostItem.asObservable())
         
         let output = viewModel.transform(input: input)
@@ -138,15 +140,21 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         headerView.configureHeader(fetchPostItem: fetchPostItem)
         headerView.likeButton.rx.tap
-            .subscribe(with: self) { owner, _ in
+            .bind(with: self) { owner, _ in
                 headerView.likeButton.isSelected.toggle()
                 owner.likeStatus.onNext(headerView.likeButton.isSelected)
             }
             .disposed(by: headerView.disposeBag)
         
         headerView.placeButton.rx.tap
-            .subscribe(with: self) { owner, _ in
+            .bind(with: self) { owner, _ in
                 owner.placeButtonTapped.onNext(())
+            }
+            .disposed(by: headerView.disposeBag)
+        
+        headerView.buyingButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.buyingButtonTapped.onNext(())
             }
             .disposed(by: headerView.disposeBag)
         

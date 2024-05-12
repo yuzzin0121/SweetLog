@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    private var errorWindow: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -24,15 +24,45 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let tabbar = TabBarController()
             window?.rootViewController = tabbar
         }
+        startMonitoring(scene: scene)
         
         window?.makeKeyAndVisible()
     }
+    
+    private func startMonitoring(scene: UIScene) {
+        NetworkMonitor.shared.startMonitoring { [weak self] connectionStatus in
+            guard let self else { return }
+            switch connectionStatus {
+            case .satisfied:
+                self.removeNetworkErrorWindow()
+            case .unsatisfied:
+                self.showNetworkErrorWindow(on: scene)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func showNetworkErrorWindow(on scene: UIScene) {
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            window.windowLevel = .statusBar
+            window.makeKeyAndVisible()
+            
+            let nowNetworkView = NetworkConnectionErrorView(frame: window.bounds)
+            window.addSubview(nowNetworkView)
+            errorWindow = window
+        }
+    }
+    
+    private func removeNetworkErrorWindow() {
+        errorWindow?.resignKey()
+        errorWindow?.isHidden = true
+        errorWindow = nil
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+        NetworkMonitor.shared.stopMonitoring()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

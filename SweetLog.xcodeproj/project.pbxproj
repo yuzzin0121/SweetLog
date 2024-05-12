@@ -180,6 +180,8 @@
 		61FA25CE2BF0EA0100A9B04F /* PayDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25CD2BF0EA0100A9B04F /* PayDetailViewModel.swift */; };
 		61FA25D12BF0EA5B00A9B04F /* PayDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25D02BF0EA5B00A9B04F /* PayDetailTableViewCell.swift */; };
 		61FA25D32BF0EBF900A9B04F /* PayDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25D22BF0EBF900A9B04F /* PayDetail.swift */; };
+		61FA25D52BF11E3900A9B04F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25D42BF11E3900A9B04F /* NetworkMonitor.swift */; };
+		61FA25D72BF122E300A9B04F /* NetworkConnectionErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FA25D62BF122E300A9B04F /* NetworkConnectionErrorView.swift */; };
 		61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */; };
 		61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */; };
 		61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */; };
@@ -351,6 +353,8 @@
 		61FA25CD2BF0EA0100A9B04F /* PayDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDetailViewModel.swift; sourceTree = "<group>"; };
 		61FA25D02BF0EA5B00A9B04F /* PayDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDetailTableViewCell.swift; sourceTree = "<group>"; };
 		61FA25D22BF0EBF900A9B04F /* PayDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDetail.swift; sourceTree = "<group>"; };
+		61FA25D42BF11E3900A9B04F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		61FA25D62BF122E300A9B04F /* NetworkConnectionErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionErrorView.swift; sourceTree = "<group>"; };
 		61FC8C0B2BE5215700CF3146 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		61FC8C0D2BE53A2800CF3146 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		61FC8C122BE55B8900CF3146 /* TagSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchViewController.swift; sourceTree = "<group>"; };
@@ -452,6 +456,7 @@
 				61B5288C2BD1313A00974CA0 /* PostInfoView.swift */,
 				61130D402BDBAD53002D03C1 /* StarImageView.swift */,
 				615C03A72BDD389E0078E45A /* ProfileInfoView.swift */,
+				61FA25D62BF122E300A9B04F /* NetworkConnectionErrorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -785,6 +790,7 @@
 				618C77492BC7046E0033CD0D /* APIKey.swift */,
 				618C77452BC703B30033CD0D /* Query */,
 				618C78A52BD04F0D0033CD0D /* AuthInterceptor.swift */,
+				61FA25D42BF11E3900A9B04F /* NetworkMonitor.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1413,6 +1419,7 @@
 				61B528832BD10E8A00974CA0 /* FetchPostQuery.swift in Sources */,
 				61130D472BDC227A002D03C1 /* CommentRouter.swift in Sources */,
 				61130D232BD9393D002D03C1 /* PostQuery.swift in Sources */,
+				61FA25D52BF11E3900A9B04F /* NetworkMonitor.swift in Sources */,
 				61BD28172BE3A9BC000A5B81 /* PlaceDetailViewModel.swift in Sources */,
 				618C76C92BC6EE4B0033CD0D /* AppDelegate.swift in Sources */,
 				6164DF072BDE4E9500F57A97 /* UserPostSegmentedViewController.swift in Sources */,
@@ -1471,6 +1478,7 @@
 				6164DF222BDED5EE00F57A97 /* FollowType.swift in Sources */,
 				610264412BE67A430000EE79 /* SearchPlaceQuery.swift in Sources */,
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
+				61FA25D72BF122E300A9B04F /* NetworkConnectionErrorView.swift in Sources */,
 				618C770D2BC6F15E0033CD0D /* HomeViewController.swift in Sources */,
 				610264442BE684A00000EE79 /* PlaceTableViewCell.swift in Sources */,
 				61130D412BDBAD53002D03C1 /* StarImageView.swift in Sources */,

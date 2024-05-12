@@ -49,7 +49,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     func configureHeader(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
         placeButton.configuration?.title = fetchPostItem.placeName
-        priceLabel.text = fetchPostItem.price
+        
         userNicknameLabel.text = fetchPostItem.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
         reviewLabel.text = String.unTaggedText(text: fetchPostItem.review)
@@ -78,6 +78,12 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         setLike(likes: fetchPostItem.likes)
         
         setPriceVisible(productId: fetchPostItem.productId)
+        setPriceValue(productId: fetchPostItem.productId, priceString: fetchPostItem.price)
+    }
+    
+    private func setPriceValue(productId: String?, priceString: String?) {
+        guard let productId, let priceString, let price = Int(priceString) else { return }
+        priceLabel.text = NumberFomatterManager.shared.formattedNumber(price) + "원"
     }
     
     private func setPriceVisible(productId: String?) {

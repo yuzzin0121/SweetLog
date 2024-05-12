@@ -53,6 +53,8 @@ final class SettingViewController: BaseViewController {
                     owner.showAlert(title: "탈퇴", message: "정말로 계정을 탈퇴하시겠습니까?", actionTitle: "탈퇴하기") {
                         withdrawTapped.onNext(())
                     }
+                case .paymentDetails:
+                    owner.showPayDetailVC()
                 }
                 
             }
@@ -75,6 +77,11 @@ final class SettingViewController: BaseViewController {
                 owner.showAlert(title: "에러", message: errorString, actionHandler: nil)
             }
             .disposed(by: disposeBag)
+    }
+    
+    func showPayDetailVC() {
+        let payDetailVC = PayDetailViewController()
+        navigationController?.pushViewController(payDetailVC, animated: true)
     }
     
     func showAlert(title: String, message: String, actionTitle: String, actionHandler: (() -> Void)? ) {

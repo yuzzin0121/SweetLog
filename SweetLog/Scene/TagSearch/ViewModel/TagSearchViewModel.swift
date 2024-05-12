@@ -32,7 +32,7 @@ final class TagSearchViewModel: ViewModelType {
         let errorMessage = PublishRelay<String>()
         
         input.searchText
-            .subscribe(with: self) { owner, text in
+            .bind { text in
                 if text.isEmpty {
                     postList.accept([])
                 }
@@ -51,7 +51,7 @@ final class TagSearchViewModel: ViewModelType {
             .flatMap {
                 return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: $0))
             }
-            .subscribe(with: self) { owner, result in
+            .bind { result in
                 switch result {
                 case .success(let fetchPostModel):
                     next.onNext(fetchPostModel.nextCursor)
@@ -74,7 +74,7 @@ final class TagSearchViewModel: ViewModelType {
             .flatMap {
                 return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: $0))
             }
-            .subscribe(with: self) { owner, result in
+            .bind { result in
                 switch result {
                 case .success(let fetchPostModel):
                     next.onNext(fetchPostModel.nextCursor)
@@ -87,7 +87,7 @@ final class TagSearchViewModel: ViewModelType {
         
         
         deletePostTrigger
-            .subscribe(with: self) { owner, postId in
+            .bind (with: self) { owner, postId in
                 let listValue = postList.value
                 let deletedPostList = owner.deletePost(postList: listValue, postId: postId)
                 postList.accept(deletedPostList)
@@ -107,7 +107,7 @@ final class TagSearchViewModel: ViewModelType {
                     return NetworkManager.shared.requestToServer(model: FetchPostModel.self, router: PostRouter.searchHashtag(query: fetchPostQuery))
                 }
             }
-            .subscribe(with: self) { owner, result in
+            .bind { result in
                 switch result {
                 case .success(let fetchPostModel):
                     print("prefetch - next: \(fetchPostModel.nextCursor)")

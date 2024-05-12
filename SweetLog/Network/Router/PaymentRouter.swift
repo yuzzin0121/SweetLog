@@ -10,7 +10,7 @@ import Alamofire
 
 enum PaymentRouter {
     case validation(PaymentValidationQuery)
-    case history
+    case payDetail
 }
 
 extension PaymentRouter: TargetType {
@@ -21,14 +21,14 @@ extension PaymentRouter: TargetType {
     var method: Alamofire.HTTPMethod {
         switch self {
         case .validation: .post
-        case .history: .get
+        case .payDetail: .get
         }
     }
     
     var path: String {
         switch self {
         case .validation: "/v1/payments/validation"
-        case .history: "/v1/payments/me"
+        case .payDetail: "/v1/payments/me"
         }
     }
     

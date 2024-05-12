@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 enum SettingItem: Int, CaseIterable {
+    case paymentDetails
     case logout
     case withdraw
     
@@ -18,12 +19,14 @@ enum SettingItem: Int, CaseIterable {
             return "로그아웃"
         case .withdraw:
             return "탈퇴하기"
+        case .paymentDetails:
+            return "결제 내역"
         }
     }
     
     var textColor: UIColor {
         switch self {
-        case .logout:
+        case .logout, .paymentDetails:
             return Color.black
         case .withdraw:
             return Color.validRed

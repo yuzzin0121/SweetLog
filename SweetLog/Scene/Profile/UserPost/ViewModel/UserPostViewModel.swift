@@ -48,7 +48,7 @@ final class UserPostViewModel: ViewModelType {
                     }
                 }
             }
-            .subscribe(with: self) { owner, result in
+            .bind { result in
                 switch result {
                 case .success(let fetchPostModel):
                     fetchPostList.accept(fetchPostModel.data)

@@ -50,6 +50,7 @@ final class CreatePostView: BaseView {
     }
     
     func setCreateButtonStatus(_ isValid: Bool) {
+        print("색깔 변경\(isValid ? "갈색" : "회색")")
         createButton.configuration?.baseBackgroundColor = isValid ? Color.brown : Color.gray
         createButton.isEnabled = isValid
     }
@@ -151,7 +152,7 @@ final class CreatePostView: BaseView {
         photoCollectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
         
         var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = Color.brown
+        config.baseBackgroundColor = Color.gray
         config.baseForegroundColor = Color.white
         config.title = "후기 공유"
         config.cornerStyle = .capsule

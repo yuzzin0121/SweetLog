@@ -48,6 +48,7 @@ final class CreatePostViewController: BaseViewController {
                                               tagTextFieldEditDone: mainView.tagTextField.rx.controlEvent(.editingDidEndOnExit).asObservable(), 
                                               removeTag: removeTag.asObservable(),
                                               imageDataList: dataSubject.asObserver(),
+                                              priceText: mainView.priceTextField.rx.text.orEmpty.asObservable(),
                                               createPostButtonTapped: mainView.createButton.rx.tap.asObservable())
         let output = viewModel.transform(input: input)
         
@@ -124,13 +125,19 @@ final class CreatePostViewController: BaseViewController {
         
         output.createValid
             .drive(with: self) { owner, isValid in
-                owner.mainView.setCreateButtonStatus(isValid)
+                print("유효함? \(isValid)")
+                if owner.viewModel.cuMode == .create {
+                    owner.mainView.setCreateButtonStatus(isValid)
+                }
             }
             .disposed(by: disposeBag)
         
         output.editValid
             .drive(with: self) { owner, isValid in
-                owner.mainView.setCreateButtonStatus(isValid)
+                print("편집 \(isValid)")
+                if owner.viewModel.cuMode == .edit {
+                    owner.mainView.setCreateButtonStatus(isValid)
+                }
             }
             .disposed(by: disposeBag)
         

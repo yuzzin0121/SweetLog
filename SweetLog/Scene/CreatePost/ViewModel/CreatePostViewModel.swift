@@ -32,6 +32,7 @@ final class CreatePostViewModel: ViewModelType {
         let tagTextFieldEditDone: Observable<Void>
         let removeTag: Observable<Int>
         let imageDataList: Observable<[Data]>
+        let priceText: Observable<String>
         let createPostButtonTapped: Observable<Void>
     }
     
@@ -55,6 +56,8 @@ final class CreatePostViewModel: ViewModelType {
         let categoryName = BehaviorRelay(value: FilterItem.bread.title)
         let starButtonTapped = BehaviorRelay<Int>(value: 1)
         let reviewText = BehaviorRelay<String>(value: "")
+        
+        let priceText = BehaviorRelay<String>(value: "")
         
         let tagText = BehaviorRelay<String>(value: "")
         let tagValid = PublishRelay<Bool>()
@@ -86,6 +89,26 @@ final class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        input.starValue
+            .subscribe(with: self) { owner, index in
+                print("starValue")
+                starButtonTapped.accept(index)
+            }
+            .disposed(by: disposeBag)
+        
+        input.reviewText
+            .bind { reviewTextValue in
+                reviewText.accept(reviewTextValue)
+            }
+            .disposed(by: disposeBag)
+        
+        input.priceText
+            .bind { priceTextValue in
+                priceText.accept(priceTextValue)
+            }
+            .disposed(by: disposeBag)
+        
+        
         input.imageDataList
             .bind { dataList in
                 imageDataList.accept(dataList)
@@ -111,24 +134,29 @@ final class CreatePostViewModel: ViewModelType {
                 .disposed(by: disposeBag)
         }
         
-        input.starValue
-            .subscribe(with: self) { owner, index in
-                print("starValue")
-                starButtonTapped.accept(index)
-            }
-            .disposed(by: disposeBag)
-        
         if cuMode == .create {
-            Observable.combineLatest(input.reviewText, input.imageDataList)
-                .map {
-                    let text = $0.0.trimmingCharacters(in: [" "])
-                    return !text.isEmpty && !$0.1.isEmpty
+            Observable.combineLatest(reviewText, input.imageDataList, input.categoryString, input.priceText)
+                .map { reviewText, imageDataList, categoryString, priceText in
+                    print("오잉옹잉")
+                    let text = reviewText.trimmingCharacters(in: [" "])
+                    let priceText = priceText.trimmingCharacters(in: [" "])
+                    if categoryString == "판매" {
+                        print("판매임")
+                        guard Int(priceText) != nil else {
+                            return false
+                        }
+                        return !text.isEmpty && !imageDataList.isEmpty && !priceText.isEmpty
+                    } else {
+                        print("판매 아님")
+                        return !text.isEmpty && !imageDataList.isEmpty
+                    }
                 }
                 .subscribe { isValid in
                     createValid.accept(isValid)
                 }
                 .disposed(by: disposeBag)
         } else if cuMode == .edit {
+            print("편집이야")
             Observable.combineLatest(reviewText, imageDataList)
                 .map {
                     let text = $0.0.trimmingCharacters(in: [" "])
@@ -140,12 +168,7 @@ final class CreatePostViewModel: ViewModelType {
                 .disposed(by: disposeBag)
         }
         
-        input.reviewText
-            .bind { reviewTextValue in
-                reviewText.accept(reviewTextValue)
-            }
-            .disposed(by: disposeBag)
-        
+       
         input.tagText
             .map { text in
                 let trimmedText = text.trimmingCharacters(in: [" "])
@@ -196,7 +219,6 @@ final class CreatePostViewModel: ViewModelType {
         
         let editObservable = Observable.combineLatest(categoryName, starButtonTapped, reviewText, tagList, fileStringList)
             .map { [weak self] categoryString, star, review, tagList, fileStringList in
-                print("할수있다 \(categoryString) \(star) \(review) \(tagList) \(fileStringList)")
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
                                                                  star: star,
                                                                  review: review,
@@ -208,12 +230,11 @@ final class CreatePostViewModel: ViewModelType {
         if cuMode == .create {  // 포스트 생성일 경우
             fileStringList
                 .withLatestFrom(createObservable)
-                .flatMap { [weak self] postRequestModel in
-                    guard let self, let postRequestModel else { return Single<Result<FetchPostItem, Error>>.never() }
+                .flatMap { postRequestModel in
+                    guard let postRequestModel else { return Single<Result<FetchPostItem, Error>>.never() }
                     return NetworkManager.shared.requestToServer(model: FetchPostItem.self, router: PostRouter.createPost(postQuery: postRequestModel))
                 }
-                .subscribe { [weak self] result in
-                    guard let self else { return }
+                .subscribe { result in
                     switch result {
                     case .success(_):
                         createPostSuccessTrigger.accept(())
@@ -226,7 +247,6 @@ final class CreatePostViewModel: ViewModelType {
             fileStringList
                 .withLatestFrom(editObservable)
                 .flatMap { [weak self] postRequestModel in
-                    print("우잉 \(postRequestModel)")
                     if fileStringList.value.isEmpty {
                         return Single<Result<FetchPostItem, Error>>.never()
                     }
@@ -236,8 +256,7 @@ final class CreatePostViewModel: ViewModelType {
                     }
                     return NetworkManager.shared.requestToServer(model: FetchPostItem.self, router: PostRouter.editPost(postId: postItem.postId, postQuery: postRequestModel))
                 }
-                .subscribe { [weak self] result in
-                    guard let self else { return }
+                .subscribe { result in
                     switch result {
                     case .success(let fetchPostItem):
                         print("포스트 수정 성공")
@@ -303,7 +322,6 @@ final class CreatePostViewModel: ViewModelType {
     private func getPostRequestModel(categoryString: String, star: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
 //        print(#function, placeItem.x, placeItem.y)
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else {
-            print("여기 왜 nil이야? \(placeItem.x), \(placeItem.y) -> \(Double(placeItem.x)), \(Double(placeItem.y))")
             return nil }
         let lonLat = [x, y].description
         
@@ -317,7 +335,6 @@ final class CreatePostViewModel: ViewModelType {
                                                 star: String(star),
                                                 product_id: categoryString,
                                                 files: fileStringList)
-        print("postRequestModel: \(postRequestModel)")
         return postRequestModel
     }
     

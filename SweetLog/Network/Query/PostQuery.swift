@@ -8,6 +8,7 @@
 import Foundation
 
 struct PostRequestModel: Encodable {
+    let price: String?
     let review: String
     let placeName: String
     let address: String
@@ -18,6 +19,7 @@ struct PostRequestModel: Encodable {
     let files: [String]
     
     enum CodingKeys: String, CodingKey {
+        case price = "title"
         case review = "content"
         case placeName = "content1"
         case address = "content2"

@@ -207,23 +207,25 @@ final class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        let createObservable = Observable.combineLatest(input.categoryString, input.starValue, input.reviewText, tagList, fileStringList)
-            .map { [weak self] categoryString, star, review, tagList, fileStringList in
+        let createObservable = Observable.combineLatest(input.categoryString, input.starValue, input.reviewText, tagList, fileStringList, priceText)
+            .map { [weak self] categoryString, star, review, tagList, fileStringList, priceText in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
                                                                  star: star,
                                                                  review: review,
                                                                  tagList: tagList,
-                                                                 fileStringList: fileStringList)
+                                                                 fileStringList: fileStringList,
+                                                                 priceText: priceText)
                 return postRequestModel
             }
         
-        let editObservable = Observable.combineLatest(categoryName, starButtonTapped, reviewText, tagList, fileStringList)
-            .map { [weak self] categoryString, star, review, tagList, fileStringList in
+        let editObservable = Observable.combineLatest(categoryName, starButtonTapped, reviewText, tagList, fileStringList, priceText)
+            .map { [weak self] categoryString, star, review, tagList, fileStringList, priceText in
                 let postRequestModel = self?.getPostRequestModel(categoryString: categoryString,
                                                                  star: star,
                                                                  review: review,
                                                                  tagList: tagList,
-                                                                 fileStringList: fileStringList)
+                                                                 fileStringList: fileStringList,
+                                                                 priceText: priceText)
                 return postRequestModel
             }
         
@@ -319,7 +321,7 @@ final class CreatePostViewModel: ViewModelType {
         return tagList
     }
  
-    private func getPostRequestModel(categoryString: String, star: Int, review: String, tagList: [String] ,fileStringList: [String]) -> PostRequestModel? {
+    private func getPostRequestModel(categoryString: String, star: Int, review: String, tagList: [String] ,fileStringList: [String], priceText: String) -> PostRequestModel? {
 //        print(#function, placeItem.x, placeItem.y)
         guard let x = Double(placeItem.x), let y = Double(placeItem.y) else {
             return nil }
@@ -327,7 +329,8 @@ final class CreatePostViewModel: ViewModelType {
         
         let review = appendTag(review: review, tagList: tagList)
         
-        let postRequestModel = PostRequestModel(review: review,
+        let postRequestModel = PostRequestModel(price: priceText,
+                                                review: review,
                                                 placeName: placeItem.placeName,
                                                 address: placeItem.address,
                                                 link: placeItem.placeUrl,

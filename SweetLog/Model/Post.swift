@@ -26,7 +26,7 @@ struct FetchPostModel: Decodable {
 struct FetchPostItem: Decodable {
     let postId: String
     let productId: String?
-    let title: String?
+    let price: String?
     let review: String
     let placeName: String
     let address: String
@@ -43,7 +43,7 @@ struct FetchPostItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case postId = "post_id"
         case productId = "product_id"
-        case title
+        case price = "title"
         case review = "content"
         case placeName = "content1"
         case address = "content2"
@@ -62,7 +62,7 @@ struct FetchPostItem: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.postId = try container.decode(String.self, forKey: .postId)
         self.productId = try container.decodeIfPresent(String.self, forKey: .productId) ?? ""
-        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.price = try container.decodeIfPresent(String.self, forKey: .price)
         self.review = try container.decode(String.self, forKey: .review)
         self.placeName = try container.decode(String.self, forKey: .placeName)
         self.address = try container.decode(String.self, forKey: .address)

@@ -10,6 +10,8 @@ import RxSwift
 
 final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     let placeButton = UIButton()
+    let priceLabel = UILabel()
+    let buyingButton = UIButton()
     private let starStackView = UIStackView()
     var starImageViewList: [StarImageView] = []
     
@@ -47,6 +49,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     func configureHeader(fetchPostItem: FetchPostItem?) {
         guard let fetchPostItem else { return }
         placeButton.configuration?.title = fetchPostItem.placeName
+        priceLabel.text = fetchPostItem.price
         userNicknameLabel.text = fetchPostItem.creator.nickname
         createdAtLabel.text = DateFormatterManager.shared.formattedUpdatedDate(fetchPostItem.createdAt)
         reviewLabel.text = String.unTaggedText(text: fetchPostItem.review)
@@ -73,6 +76,16 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         
         setProfileImage(profileUrl: fetchPostItem.creator.profileImage)
         setLike(likes: fetchPostItem.likes)
+        
+        setPriceVisible(productId: fetchPostItem.productId)
+    }
+    
+    private func setPriceVisible(productId: String?) {
+        guard let productId else { return }
+        let isPrice = productId == FilterItem.sale.title
+        priceLabel.isHidden = !isPrice
+        buyingButton.isHidden = !isPrice
+        starStackView.isHidden = isPrice
     }
     
     private func setLike(likes: [String]) {
@@ -147,7 +160,7 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
     }
     
     func configureHierarchy() {
-        addSubviews([placeButton, starStackView,
+        addSubviews([placeButton, starStackView, priceLabel, buyingButton,
                      imageScrollView, pageControl,
                      profileImageView, userNicknameLabel, createdAtLabel, likeButton,
                      reviewLabel, hashtagLabel,
@@ -166,6 +179,15 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         starStackView.snp.makeConstraints { make in
             make.top.equalTo(placeButton.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(18)
+        }
+        priceLabel.snp.makeConstraints { make in
+            make.top.equalTo(placeButton.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(18)
+            make.height.equalTo(20)
+        }
+        buyingButton.snp.makeConstraints { make in
+            make.centerY.equalTo(priceLabel)
+            make.trailing.equalToSuperview().inset(18)
         }
         imageScrollView.snp.makeConstraints { make in
             make.top.equalTo(starStackView.snp.bottom).offset(20)
@@ -228,6 +250,13 @@ final class PostDetailHeaderView: UITableViewHeaderFooterView, ViewProtocol {
         placeButton.configuration = placeConfig
         
         setStarView()
+        priceLabel.design(font: .pretendard(size: 20, weight: .semiBold))
+        var buyConfig = UIButton.Configuration.filled()
+        buyConfig.title = "구매하기"
+        buyConfig.cornerStyle = .capsule
+        buyConfig.baseBackgroundColor = Color.orange
+        buyConfig.baseForegroundColor = Color.white
+        buyingButton.configuration = buyConfig
         
         imageScrollView.isPagingEnabled = true
         imageScrollView.backgroundColor = Color.white

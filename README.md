@@ -48,5 +48,11 @@
 <br><br>
 
 ## 트러블 슈팅
-1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**
+1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**\
 - imageStackView = UIStackView가 아닌 서브뷰를 제거하여 해결
+ override func prepareForReuse() {
+    super.prepareForReuse()
+		imageStackView.arrangedSubviews.forEach {
+		  $0.removeFromSuperview()
+		}
+	}

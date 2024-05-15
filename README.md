@@ -48,11 +48,20 @@
 <br><br>
 
 ## 트러블 슈팅
-1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**\
+1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**
 - imageStackView = UIStackView가 아닌 서브뷰를 제거하여 해결
+```
  override func prepareForReuse() {
     super.prepareForReuse()
-		imageStackView.arrangedSubviews.forEach {
-		  $0.removeFromSuperview()
-		}
+	imageStackView.arrangedSubviews.forEach {
+	  $0.removeFromSuperview()
 	}
+}
+```
+<br><br>
+
+2. **Sever와 통신하면서 발생하는 공통적인 에러에 대한 처리**
+- enum에 `LocalizedError` 프로토콜을 채택하여 각 상태 코드에 errorDescription을 정의
+  → print(”에러 메시지”) 가 아닌 ```print(error.localizedDescription)```으로 에러 문구를 출력
+  <br><br>
+<Image src="https://github.com/yuzzin0121/SweetLog/assets/77273340/0dd178b7-7ae5-4bee-871f-76c61c944027" width=400 height=500></Image>

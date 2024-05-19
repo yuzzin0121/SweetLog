@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 class AuthInterceptor: RequestInterceptor {
+    // 네트워크 요청 직전 호출
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
         var urlRequest = urlRequest
         
@@ -16,10 +17,11 @@ class AuthInterceptor: RequestInterceptor {
         completion(.success(urlRequest))
     }
     
+    // 네트워크 요청에 대해 에러 발생 시 호출
     func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
         print("retry 진입")
         
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == APIError.accessTokenExpired.rawValue else {
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == APIError.accessTokenExpired.rawValue else { // 액세스 토큰이 만료되지 않았을 때
             completion(.doNotRetry)
             return
         }

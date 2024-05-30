@@ -53,10 +53,10 @@ final class PlaceCollectionViewCell: BaseCollectionViewCell {
             make.trailing.equalToSuperview().inset(12)
         }
         placeLabel.snp.makeConstraints { make in
-            make.height.equalTo(16)
+            make.height.equalTo(18)
         }
         addressLabel.snp.makeConstraints { make in
-            make.height.equalTo(15)
+            make.height.equalTo(16)
         }
         underLineView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()

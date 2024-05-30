@@ -58,6 +58,7 @@ extension KakaoPlaceRouter: TargetType {
                 URLQueryItem(name: "radius", value: radius),
                 URLQueryItem(name: "rect", value: query.rect ?? ""),
                 URLQueryItem(name: "page", value: "\(query.page)"),
+                URLQueryItem(name: "size", value: "\(query.size)"),
                 URLQueryItem(name: "sort", value: query.sort ?? "")
             ]
         }

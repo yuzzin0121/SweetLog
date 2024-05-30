@@ -47,7 +47,7 @@ final class DateFormatterManager {
             let hour = Int(second / 3600)
             return "\(hour)시간 전"
         } else {
-            displayFormatter.dateFormat = "yy. MM. dd"
+            displayFormatter.dateFormat = "yyyy.MM.dd"
             return displayFormatter.string(from: inputDate)
         }
 

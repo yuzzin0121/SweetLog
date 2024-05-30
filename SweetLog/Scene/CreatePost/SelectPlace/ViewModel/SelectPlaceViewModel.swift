@@ -13,8 +13,9 @@ final class SelectPlaceViewModel: ViewModelType {
     var disposeBag = DisposeBag()
     
     struct Input {
-        let searchButtonTap: ControlEvent<Void>
-        let searchText: ControlProperty<String>
+        let searchButtonTap: Observable<Void>
+        let searchText: Observable<String>
+        let prefetchTrigger: Observable<Void>
     }
     
     struct Output {
@@ -24,7 +25,10 @@ final class SelectPlaceViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let errorString = PublishRelay<String>()
-        let placeList = PublishSubject<[PlaceItem]>()
+        let placeList = BehaviorRelay<[PlaceItem]>(value: [])
+        let pageableCount = PublishRelay<Int>()
+        let currentPage = BehaviorRelay(value: 1)
+        let nextRequest = PublishRelay<Void>()
         
         input.searchButtonTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
@@ -34,7 +38,6 @@ final class SelectPlaceViewModel: ViewModelType {
                 return SearchPlaceQuery(query: query)
             }
             .flatMap {
-//                return NetworkManager.shared.requestToServer(model: PlaceModel.self, router: KakaoPlaceRouter.searchPlace(query: $0))
                 return KakaoNetworkManager.shared.searchPlace(query: $0)
                                     .catch { error in
                                         print(error.localizedDescription)
@@ -43,13 +46,39 @@ final class SelectPlaceViewModel: ViewModelType {
                                     }
             }
             .subscribe(with: self) { owner, placeModel in
-                placeList.onNext(placeModel.documents)
-//                switch result {
-//                case .success(let placeModel):
-//                    placeList.onNext(placeModel.documents)
-//                case .failure(let error):
-//                    errorString.accept(error.localizedDescription)
-//                }
+                pageableCount.accept(placeModel.meta.pageable_count)
+                placeList.accept(placeModel.documents)
+            }
+            .disposed(by: disposeBag)
+        
+        input.prefetchTrigger
+            .withLatestFrom(pageableCount)
+            .bind { pageableCount in
+                if currentPage.value < pageableCount {
+                    currentPage.accept(currentPage.value + 1)
+                    nextRequest.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        nextRequest
+            .withLatestFrom(Observable.combineLatest(input.searchText, currentPage))
+            .map {
+                let query = $0.0.trimmingCharacters(in: [" "])
+                return SearchPlaceQuery(query: query, page: $0.1)
+            }
+            .flatMap {
+                return KakaoNetworkManager.shared.searchPlace(query: $0)
+                                    .catch { error in
+                                        print(error.localizedDescription)
+                                        errorString.accept(error.localizedDescription)
+                                        return Single<PlaceModel>.never()
+                                    }
+            }
+            .subscribe(with: self) { owner, placeModel in
+                var list = placeList.value
+                list.append(contentsOf: placeModel.documents)
+                placeList.accept(list)
             }
             .disposed(by: disposeBag)
         

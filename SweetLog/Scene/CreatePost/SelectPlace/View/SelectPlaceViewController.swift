@@ -6,20 +6,25 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class SelectPlaceViewController: BaseViewController {
     let mainView = SelectPlaceView()
     
     let viewModel = SelectPlaceViewModel()
+    var lastContentOffset: CGFloat = 0 // 스크롤 방향 감지를 위한 변수
+    var isLoading = false // 현재 데이터 로딩 중인지 확인
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setDelegate()
     }
     
     override func bind() {
-        let input = SelectPlaceViewModel.Input(searchButtonTap: mainView.searchBar.rx.searchButtonClicked,
-                                               searchText: mainView.searchBar.rx.text.orEmpty)
+        let prefetchTrigger = PublishRelay<Void>()
+        let input = SelectPlaceViewModel.Input(searchButtonTap: mainView.searchBar.rx.searchButtonClicked.asObservable(),
+                                               searchText: mainView.searchBar.rx.text.orEmpty.asObservable(), prefetchTrigger: prefetchTrigger.asObservable())
         
         let output = viewModel.transform(input: input)
         
@@ -35,11 +40,25 @@ final class SelectPlaceViewController: BaseViewController {
                 owner.showCreatePostVC(placeItem: placeItem)
             }
             .disposed(by: disposeBag)
+        
+        Observable.combineLatest(mainView.placeCollectionView.rx.prefetchItems, output.placeList.asObservable())
+            .subscribe(with: self) { owner, prefetchInfo in
+                if let maxIndexPath = prefetchInfo.0.max(by: { $0.row < $1.row }) {
+                    guard maxIndexPath.item == prefetchInfo.1.count - 1 else { return }
+                    owner.isLoading = true
+                    prefetchTrigger.accept(())
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     private func showCreatePostVC(placeItem: PlaceItem) {
         let createPostVC = CreatePostViewController(placeItem: placeItem, postItem: nil, cuMode: .create)
         navigationController?.pushViewController(createPostVC, animated: true)
+    }
+    
+    private func setDelegate() {
+        mainView.placeCollectionView.delegate = self
     }
     
     override func loadView() {
@@ -59,4 +78,18 @@ final class SelectPlaceViewController: BaseViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
 
+}
+
+extension SelectPlaceViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > lastContentOffset {
+           // 아래로 스크롤
+            isLoading = false
+        } else if scrollView.contentOffset.y < lastContentOffset {
+           // 위로 스크롤
+            isLoading = true // 데이터 로딩 방지
+        }
+
+        lastContentOffset = scrollView.contentOffset.y
+    }
 }

@@ -37,5 +37,6 @@ final class SelectPlaceView: BaseView {
         placeCollectionView.backgroundColor = Color.white
         placeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         placeCollectionView.register(PlaceCollectionViewCell.self, forCellWithReuseIdentifier: PlaceCollectionViewCell.identifier)
+
     }
 }

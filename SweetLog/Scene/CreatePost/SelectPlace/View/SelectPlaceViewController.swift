@@ -18,7 +18,6 @@ final class SelectPlaceViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
     }
     
     override func bind() {
@@ -37,6 +36,7 @@ final class SelectPlaceViewController: BaseViewController {
         
         mainView.placeCollectionView.rx.modelSelected(PlaceItem.self)
             .bind(with: self) { owner, placeItem in
+                print("클릭")
                 owner.showCreatePostVC(placeItem: placeItem)
             }
             .disposed(by: disposeBag)
@@ -55,10 +55,6 @@ final class SelectPlaceViewController: BaseViewController {
     private func showCreatePostVC(placeItem: PlaceItem) {
         let createPostVC = CreatePostViewController(placeItem: placeItem, postItem: nil, cuMode: .create)
         navigationController?.pushViewController(createPostVC, animated: true)
-    }
-    
-    private func setDelegate() {
-        mainView.placeCollectionView.delegate = self
     }
     
     override func loadView() {

@@ -20,10 +20,6 @@ final class HomeViewController: BaseViewController {
         super.viewDidLoad()
     }
     
-    private func setDelegate() {
-        mainView.postCollectionView.delegate = self
-    }
-    
     override func bind() {
         
         let filterItemClicked = BehaviorSubject(value: 0)

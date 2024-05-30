@@ -9,7 +9,7 @@
 ### 🔍 장소 검색
 |장소 검색|무한 스크롤|
 |------|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=200 height=430>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6defba65-b7b8-4937-9bc2-c18584d2e68e width=200 height=430>|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6defba65-b7b8-4937-9bc2-c18584d2e68e width=150 height=330>|
 
 <br>
 

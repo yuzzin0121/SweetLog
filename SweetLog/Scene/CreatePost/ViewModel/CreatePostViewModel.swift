@@ -137,17 +137,14 @@ final class CreatePostViewModel: ViewModelType {
         if cuMode == .create {
             Observable.combineLatest(reviewText, input.imageDataList, input.categoryString, input.priceText)
                 .map { reviewText, imageDataList, categoryString, priceText in
-                    print("오잉옹잉")
                     let text = reviewText.trimmingCharacters(in: [" "])
                     let priceText = priceText.trimmingCharacters(in: [" "])
                     if categoryString == "판매" {
-                        print("판매임")
                         guard Int(priceText) != nil else {
                             return false
                         }
                         return !text.isEmpty && !imageDataList.isEmpty && !priceText.isEmpty
                     } else {
-                        print("판매 아님")
                         return !text.isEmpty && !imageDataList.isEmpty
                     }
                 }
@@ -156,7 +153,6 @@ final class CreatePostViewModel: ViewModelType {
                 }
                 .disposed(by: disposeBag)
         } else if cuMode == .edit {
-            print("편집이야")
             Observable.combineLatest(reviewText, imageDataList)
                 .map {
                     let text = $0.0.trimmingCharacters(in: [" "])

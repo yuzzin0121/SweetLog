@@ -92,9 +92,12 @@ final class CreatePostViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        
         output.reviewText
             .drive(with: self) { owner, reviewText in
-                owner.mainView.setReviewText(reviewText)
+                if owner.viewModel.cuMode == .edit {
+                    owner.mainView.setReviewText(reviewText)
+                }
             }
             .disposed(by: disposeBag)
         

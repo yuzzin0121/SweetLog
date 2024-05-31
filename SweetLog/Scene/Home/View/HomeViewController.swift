@@ -113,6 +113,7 @@ final class HomeViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
+    
     @objc
     private func profileImageTapped(_ sender: ProfileTapGestureRecognizer) {
         let userId = sender.userId

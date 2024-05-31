@@ -18,7 +18,7 @@ class UserPostSegmentedViewController: TabmanViewController {
     }()
     
     var viewControllers: [UIViewController] = []
-    let tabTitles = ["후기", "좋아요"]
+    let tabTitles = ["게시물", "좋아요"]
     var isMyProfile: Bool?
     var userId: String?
 

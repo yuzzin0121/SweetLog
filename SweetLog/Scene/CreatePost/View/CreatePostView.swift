@@ -167,6 +167,8 @@ final class CreatePostView: BaseView {
         priceTextField.isHidden = true
         priceLabel.isHidden = true
         
+    
+        
         tagTextField.backgroundColor = Color.white
         tagTextField.placeholder = "태그를 추가해보세요... (최대 10자)"
         tagTextField.font = .pretendard(size: 15, weight: .light)

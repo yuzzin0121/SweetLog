@@ -6,6 +6,17 @@
 
 
 ## 스크린샷
+### 👩🏻‍💻 회원가입
+|이메일 중복 체크|유효성 검사|
+|------|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>||
+
+### 😃 프로필
+|프로필 수정|게시물|좋아요|
+|------|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=\ width=150 height=330>||
+
+
 ### 🔍 장소 검색
 |장소 검색|무한 스크롤|
 |------|---|

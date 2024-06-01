@@ -9,7 +9,8 @@
 ### 👩🏻‍💻 회원가입
 |이메일 중복 체크|유효성 검사|
 |------|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>||
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/5d599cbb-5f2a-49f5-8850-407b0ffe6ae6 width=150 height=330>|
+
 
 ### 😃 프로필
 |프로필 수정|게시물|좋아요|

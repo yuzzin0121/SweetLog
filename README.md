@@ -19,16 +19,16 @@
 |<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/df5a7125-df85-4d1a-be39-89c17b35ba2a width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/827a5be1-a6b6-46e5-a140-62e8042be740 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/53a54b00-5190-4381-91f3-a3d32edce21b width=150 height=330>|
 
 
-### 🔍 후기 • 판매글 작성
-|장소 검색|무한 스크롤|
-|------|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/7af36695-af29-4cd5-874f-cbbb2877e489 width=150 height=330>|
+### 🔍 후기 • 판매글
+|장소 검색|무한 스크롤|후기 작성|새로고침|
+|------|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/7af36695-af29-4cd5-874f-cbbb2877e489 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/96cd6564-91f7-4efd-b6f2-1609272c98a6 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/19482f59-55c9-4364-9715-78b9868309c0 width=150 height=330>|
 
 
 ### 지도
 |장소 검색|현재 지도에서 탐색|클러스터링|베이커리 상세화면|리뷰|전화걸기|
 |------|---|---|---|---|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/90fc67ae-65f7-41c9-a048-7435ea5e6250 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ee683cba-2564-4cee-9887-a2db2a1a9d95 width=150 height=330>|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/90fc67ae-65f7-41c9-a048-7435ea5e6250 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ee683cba-2564-4cee-9887-a2db2a1a9d95 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/80f0749a-9aec-4be7-a488-94547a01d9e2 width=150 height=330>|
 
 
 <br>

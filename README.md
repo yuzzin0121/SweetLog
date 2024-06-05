@@ -13,21 +13,24 @@
 
 
 ### 😃 프로필
-|프로필 수정|게시물|좋아요|
-|------|---|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=\ width=150 height=330>||
+|프로필 수정|게시물•좋아요|팔로우•팔로우취소|팔로우•팔로잉 화면|
+|------|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/df5a7125-df85-4d1a-be39-89c17b35ba2a width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/827a5be1-a6b6-46e5-a140-62e8042be740 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/53a54b00-5190-4381-91f3-a3d32edce21b width=150 height=330>|
 
 
 ### 🔍 후기 • 판매글 작성
 |장소 검색|무한 스크롤|
 |------|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6defba65-b7b8-4937-9bc2-c18584d2e68e width=150 height=330>|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/7af36695-af29-4cd5-874f-cbbb2877e489 width=150 height=330>|
+
 
 ### 지도
-|장소 검색|현재 지도에서 탐색|클러스터링|
-|------|---|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|
+|장소 검색|현재 지도에서 탐색|클러스터링|베이커리 상세화면|리뷰|전화걸기|
+|------|---|---|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/90fc67ae-65f7-41c9-a048-7435ea5e6250 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ee683cba-2564-4cee-9887-a2db2a1a9d95 width=150 height=330>|
 
+
+<br>
 ## 핵심 기능
 - 회원가입, 이메일 중복 확인, 로그인, 로그아웃, 탈퇴
 - 후기 | 작성, 조회, 수정, 삭제
@@ -81,7 +84,7 @@
 - imageStackView = UIStackView가 아닌 서브뷰를 제거하여 해결
 ```
  override func prepareForReuse() {
-    super.prepareForReuse()
+	super.prepareForReuse()
 	imageStackView.arrangedSubviews.forEach {
 	  $0.removeFromSuperview()
 	}

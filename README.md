@@ -7,9 +7,10 @@
 
 ## 스크린샷
 ### 👩🏻‍💻 회원가입 • 로그인
-|이메일 중복 체크|유효성 검사|
-|------|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/5d599cbb-5f2a-49f5-8850-407b0ffe6ae6 width=150 height=330>|
+|이메일 중복 체크|유효성 검사|회원가입|로그인|
+|------|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/5d599cbb-5f2a-49f5-8850-407b0ffe6ae6 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/819037e4-c44d-41c8-aace-dc84398caf7f width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/dbacf62e-1269-4c93-bd24-fa99cc4e136b width=150 height=330>|
+
 
 
 ### 😃 프로필

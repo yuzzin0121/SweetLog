@@ -60,12 +60,19 @@ final class HomeView: BaseView {
         postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
         
-        let plus = Image.plusCircleFill.withTintColor(Color.brown, renderingMode: .alwaysOriginal)
-        addPostButton.setImage(plus, for: .normal)
+//        let plus = Image.plusCircleFill.withTintColor(Color.brown, renderingMode: .alwaysOriginal)
+//        addPostButton.setImage(plus, for: .normal)
+//        
+//        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 45)
+//        addPostButton.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
+//        addPostButton.tintColor = .white
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 45)
-        addPostButton.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
-        addPostButton.tintColor = .white
+        var addConfig = UIButton.Configuration.filled()
+        addConfig.image = Image.add
+        addConfig.cornerStyle = .capsule
+        addConfig.baseBackgroundColor = Color.brown
+        addConfig.baseForegroundColor = Color.white
+        addPostButton.configuration = addConfig
         
         titleLabel.text = "달콤로그"
         titleLabel.font = .pretendard(size: 30, weight: .bold)

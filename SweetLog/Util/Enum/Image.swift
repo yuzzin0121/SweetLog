@@ -22,8 +22,7 @@ enum Image {
     static let current: UIImage = .currentLocation
     
     static let setting: UIImage = .setting
-    static let add: UIImage = .add
-    static let plusCircleFill: UIImage = UIImage(systemName: "plus.circle.fill")!
+    static let add: UIImage = .plus
     static let emptyProfileImage: UIImage = .emptyProfile
     static let messages: UIImage = .messages
     

@@ -110,7 +110,7 @@ final class MapViewModel: ViewModelType {
                 return SearchPlaceQuery(query: query)
             }
             .flatMap { searchPlaceQuery in
-                if searchPlaceQuery.query.count < 2 {
+                if searchPlaceQuery.query.count < 1 {
                     return Single<PlaceModel>.never()
                 }
                 return KakaoNetworkManager.shared.searchPlace(query: searchPlaceQuery)
@@ -127,7 +127,7 @@ final class MapViewModel: ViewModelType {
                                 guard let coord = owner.getCoordFromXY(x: firstPlaceItem.x, y: firstPlaceItem.y) else { return }
                                 resultCoord.accept(coord)
 //                switch result {
-//                case .success(let placeModel):
+//            #imageLiteral(resourceName: "simulator_screenshot_9E68A147-32CD-48F7-B033-8368556F2B0D.png")    case .success(let placeModel):
 //                    placeResult.accept((searchText.value, placeModel.documents))
 //                    guard let firstPlaceItem = placeModel.documents.first else { return }
 //                    guard let coord = owner.getCoordFromXY(x: firstPlaceItem.x, y: firstPlaceItem.y) else { return }

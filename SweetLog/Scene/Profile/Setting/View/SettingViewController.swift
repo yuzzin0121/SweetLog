@@ -62,13 +62,13 @@ final class SettingViewController: BaseViewController {
 
         output.logoutSuccessTrigger
             .drive(with: self) { owner, _ in
-                owner.changeRootView(to: SignInViewController(), isNav: true)
+                owner.showLoginVC(message: "로그아웃하였습니다")
             }
             .disposed(by: disposeBag)
         
         output.withdrawSuccessTrigger
             .drive(with: self) { owner, _ in
-                owner.changeRootView(to: SignInViewController(), isNav: true)
+                owner.showLoginVC(message: "탈퇴하였습니다")
             }
             .disposed(by: disposeBag)
         
@@ -79,12 +79,19 @@ final class SettingViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
-    func showPayDetailVC() {
+    private func showLoginVC(message: String) {
+        mainView.makeToast(message, duration: 0.5) { [weak self] didTap in
+            guard let self else { return }
+            changeRootView(to: SignInViewController(), isNav: true)
+        }
+    }
+    
+    private func showPayDetailVC() {
         let payDetailVC = PayDetailViewController()
         navigationController?.pushViewController(payDetailVC, animated: true)
     }
     
-    func showAlert(title: String, message: String, actionTitle: String, actionHandler: (() -> Void)? ) {
+    private func showAlert(title: String, message: String, actionTitle: String, actionHandler: (() -> Void)? ) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: actionTitle, style: .destructive) { _ in

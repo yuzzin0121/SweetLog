@@ -56,8 +56,8 @@ final class HomeViewModel: ViewModelType {
             .map { [weak self] in
                 guard let self else { return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil) }
                 selectedCategory.accept($0.title)
-                currentCategory.onNext($0.title)
                 filterList.accept(self.filterList)
+                currentCategory.onNext($0.title)
                 return FetchPostQuery(next: nil, product_id: $0.title, hashTag: nil)
             }
             .flatMap { fetchPostQuery in

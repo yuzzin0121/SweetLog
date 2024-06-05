@@ -36,7 +36,7 @@ final class SignInViewController: BaseViewController {
         
         output.loginSuccessTrigger
             .drive(with: self) { owner, _ in
-                owner.changeHome()
+                owner.showHome()
             }
             .disposed(by: disposeBag)
         
@@ -52,6 +52,13 @@ final class SignInViewController: BaseViewController {
                 owner.mainView.makeToast(errorMessage)
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func showHome() {
+        mainView.makeToast("로그인하였습니다", duration: 0.5) { [weak self] didTap in
+            guard let self else { return }
+            changeHome()
+        }
     }
     
     private func showSignUpVC() {

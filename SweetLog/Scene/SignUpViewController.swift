@@ -74,12 +74,17 @@ final class SignUpViewController: BaseViewController {
         
         output.signUpSuccessTrigger
             .drive(with: self) { owner, _ in
-                owner.popView()
+                owner.successSignUp()
             }
             .disposed(by: disposeBag)
     }
     
-
+    private func successSignUp() {
+        mainView.makeToast("로그인하였습니다", duration: 0.5) { [weak self] didTap in
+            guard let self else { return }
+            popView()
+        }
+    }
     
     override func configureNavigationItem() {
         navigationItem.title = "회원가입"

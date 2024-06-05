@@ -20,9 +20,9 @@
 
 
 ### 🔍 후기 • 판매글
-|장소 검색|무한 스크롤|후기 작성|새로고침|후기 수정|
-|------|---|---|---|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/7af36695-af29-4cd5-874f-cbbb2877e489 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/96cd6564-91f7-4efd-b6f2-1609272c98a6 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/19482f59-55c9-4364-9715-78b9868309c0 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/9f6fba2c-5374-498d-8736-1104aff35887 width=150 height=330>|
+|장소 검색|무한 스크롤|후기 작성|새로고침|후기 수정|후기 삭제|댓글 작성|댓글 삭제|
+|------|---|---|---|---|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/7af36695-af29-4cd5-874f-cbbb2877e489 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/96cd6564-91f7-4efd-b6f2-1609272c98a6 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/19482f59-55c9-4364-9715-78b9868309c0 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/9f6fba2c-5374-498d-8736-1104aff35887 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/2573d60b-2241-49b3-8d30-e925d0ade224 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ba0f3563-e408-47cc-8e5a-828175535d6d width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/a84ae257-fbed-4d63-9fde-9277674051c0 width=150 height=330>|
 
 
 ### 지도

@@ -6,7 +6,7 @@
 
 
 ## 스크린샷
-### 👩🏻‍💻 회원가입
+### 👩🏻‍💻 회원가입 • 로그인
 |이메일 중복 체크|유효성 검사|
 |------|---|
 |<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/09d494ea-fa5f-430b-9f45-061e1cdedd6d width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/5d599cbb-5f2a-49f5-8850-407b0ffe6ae6 width=150 height=330>|
@@ -23,10 +23,13 @@
 |------|---|
 |<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/38998dde-e23c-411e-8558-3d90930b3429 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6defba65-b7b8-4937-9bc2-c18584d2e68e width=150 height=330>|
 
-<br>
-
+### 지도
+|장소 검색|현재 지도에서 탐색|클러스터링|
+|------|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6defba65-b7b8-4937-9bc2-c18584d2e68e width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|
 
 ## 핵심 기능
+
 - 회원가입, 이메일 중복 확인, 로그인, 로그아웃, 탈퇴
 - 후기 | 작성, 조회, 수정, 삭제
 - 판매글 | 작성, 조회, 수정, 삭제

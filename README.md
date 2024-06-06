@@ -2,6 +2,7 @@
 
 ## 한줄 소개
 > 달콤로그는 빵, 케이크 등 빵을 좋아하는 사람들이 후기를 공유하고 소통할 수 있는 앱입니다.
+<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/164f245e-f03c-47eb-9735-025f93101ba1 width=650 height=350>
 <br>
 
 
@@ -31,18 +32,18 @@
 |------|---|---|---|---|---|
 |<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/90fc67ae-65f7-41c9-a048-7435ea5e6250 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ee683cba-2564-4cee-9887-a2db2a1a9d95 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/80f0749a-9aec-4be7-a488-94547a01d9e2 width=150 height=330>|
 
-
 <br>
-## 핵심 기능
-- 회원가입, 이메일 중복 확인, 로그인, 로그아웃, 탈퇴
-- 후기 | 작성, 조회, 수정, 삭제
-- 판매글 | 작성, 조회, 수정, 삭제
-- 좋아요, 댓글 작성
-- 태그 조회
-- 팔로우, 팔로잉
-- 프로필 화면 - 내가 쓴 후기, 좋아요한 후기 조회
-- 지도에서 빵집 탐색, 상세 정보 조회 및 리뷰 조회
-- 결제, 결제 내역 확인
+## 프로젝트 개발 및 환경
+- iOS 1인 개발
+- 개발 기간: 3주 (2024.04.11 ~ 2024.05.05)
+- 환경: 최소 버전 16.0 / 세로 모드 / 아이폰용
+
+## 핵심 기능 
+- **인증 |** 회원가입, 이메일 중복 확인, 로그인, 로그아웃, 탈퇴
+- **후기, 판매 게시물 |** 작성, 조회, 수정, 삭제, 결제, 좋아요, 댓글 작성
+- **태그 조회**
+- **프로필 |** 프로필 조회, 게시물, 좋아요한 게시물 조회, 팔로우, 팔로잉, 결제 내역
+- **지도 |** 베이커리 탐색, 상세 정보 조회, 리뷰 조회, 전화걸기
 <br><br>
 
 

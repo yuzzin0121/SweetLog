@@ -13,10 +13,10 @@
 
 
 
-### 😃 프로필
-|프로필 수정|게시물•좋아요|팔로우•팔로우취소|팔로우•팔로잉 화면|
-|------|---|---|---|
-|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/df5a7125-df85-4d1a-be39-89c17b35ba2a width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/827a5be1-a6b6-46e5-a140-62e8042be740 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/53a54b00-5190-4381-91f3-a3d32edce21b width=150 height=330>|
+### 😃 프로필 • 설정 
+|프로필 수정|게시물•좋아요|팔로우•팔로우취소|팔로우•팔로잉 화면|로그아웃|탈퇴|
+|------|---|---|---|---|---|
+|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/3bcf5a68-1a97-4efd-abf4-aee4d703cce7 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/df5a7125-df85-4d1a-be39-89c17b35ba2a width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/827a5be1-a6b6-46e5-a140-62e8042be740 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/53a54b00-5190-4381-91f3-a3d32edce21b width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/0e396da3-45f5-4a0a-ae7b-dde9f129c5e0 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/818f5ced-be96-47dc-b303-6c2bb9d21f87 width=150 height=330>|
 
 
 ### 🔍 후기 • 판매글

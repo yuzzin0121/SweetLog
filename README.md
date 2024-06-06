@@ -1,6 +1,5 @@
 # 달콤로그
 
-## 한줄 소개
 > 달콤로그는 빵, 케이크 등 빵을 좋아하는 사람들이 후기를 공유하고 소통할 수 있는 앱입니다.
 <img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/164f245e-f03c-47eb-9735-025f93101ba1 width=650 height=350>
 <br>
@@ -27,12 +26,13 @@
 
 
 
-### 지도
+### 🗺️ 지도
 |장소 검색|현재 지도에서 탐색|클러스터링|베이커리 상세화면|리뷰|전화걸기|
 |------|---|---|---|---|---|
 |<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/8b5df093-7d15-4332-b8ed-0c0b53396220 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/6b4d7871-8ffc-4d57-a912-9b31086d4061 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/1057ca4b-50f7-4cee-a262-6b2d439377e3 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/90fc67ae-65f7-41c9-a048-7435ea5e6250 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/ee683cba-2564-4cee-9887-a2db2a1a9d95 width=150 height=330>|<img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/80f0749a-9aec-4be7-a488-94547a01d9e2 width=150 height=330>|
 
 <br>
+
 ## 프로젝트 개발 및 환경
 - iOS 1인 개발
 - 개발 기간: 3주 (2024.04.11 ~ 2024.05.05)
@@ -48,12 +48,12 @@
 
 
 ## 주요 기술
-- Router Pattern / Delegate Pattern 
-- Alamofire / Codable 
-- MVVM / RxSwift / RxDataSources
-- Code-Based UI / SnapKit / Kingfisher
-- TabMan, FloatingPanel
-- CompositionalLayout, MapKit
+**Pattern** - Router / Delegate / Singleton / MVVM <br>
+**Network** - Alamofire / Codable <br>
+**ReactiveProgramming** - RxSwift / RxDataSources <br>
+**Code-Based UI** - SnapKit / CompositionalLayout / MapKit <br>
+**OpenSource** - TabMan, FloatingPanel, Kingfisher, Toast <br>
+**Etc** - iamport-iOS
 <br><br>
 
 ## 핵심 구현

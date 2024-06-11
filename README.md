@@ -1,6 +1,6 @@
 # 달콤로그
 
-> 달콤로그는 빵, 케이크 등 빵을 좋아하는 사람들이 후기를 공유하고 소통할 수 있는 앱입니다.
+> 달콤로그는 빵, 케이크 등 빵을 좋아하는 사람들이 후기를 공유하고 소통할 수 있는 커뮤니티 앱입니다.
 <img src=https://github.com/yuzzin0121/SweetLog/assets/77273340/164f245e-f03c-47eb-9735-025f93101ba1 width=650 height=350>
 <br>
 
@@ -82,6 +82,7 @@
 - NotificationCenter를 활용해 다른 계층에 있는 뷰에 데이터 갱신
 - protocol을 구현하여 셀에 공통적으로 사용되는 identifier, ViewModel에 Input-Output 패턴을 를 사용하도록 구성
 - 후기 조회, 태그 검색에서 커서 기반 페이지네이션을 적용하여 뷰에 보여지는 만큼의 리소스만 요청
+- NetworkMonitor를 통해 네트워크 단절 상황 대응
 
 <br><br>
 

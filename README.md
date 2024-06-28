@@ -49,6 +49,7 @@
 
 
 ## 주요 기술
+**Framework** - UIKit
 **Pattern** - Router / Delegate / Singleton / MVVM <br>
 **Network** - Alamofire / Codable <br>
 **ReactiveProgramming** - RxSwift / RxDataSources <br>

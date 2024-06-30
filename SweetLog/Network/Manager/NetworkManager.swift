@@ -42,7 +42,7 @@ final class NetworkManager {
         }
     }
     
-    static func requestToServerNoModel<T: TargetType>(router: T) -> Single<Result<Int, Error>> {
+    func requestToServerNoModel<T: TargetType>(router: T) -> Single<Result<Int, Error>> {
         return Single<Result<Int, Error>>.create { single in
             do {
                 let urlRequest = try router.asURLRequest()

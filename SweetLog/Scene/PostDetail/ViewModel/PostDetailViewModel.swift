@@ -70,6 +70,7 @@ final class PostDetailViewModel: ViewModelType {
         
         input.editedPostItem
             .bind(with: self)  { owner, editedPostItem in
+                print("수정됨=====\(editedPostItem)")
                 owner.fetchPostItem = editedPostItem
                 fetchPostItemRelay.accept(editedPostItem)
             }
@@ -184,12 +185,13 @@ final class PostDetailViewModel: ViewModelType {
         // 포스트 삭제
         deletePostTrigger
             .flatMap { postId in
-                return NetworkManager.shared.requestToServer(model: String.self, router: PostRouter.deletePost(postId: postId))
+                return NetworkManager.shared.requestToServerNoModel(router: PostRouter.deletePost(postId: postId))
             }
             .subscribe(with: self) { owner, result in
                 switch result {
-                case .success(let postId):
-                    deletePostSuccessTrigger.accept(postId)
+                case .success(let response):
+                    guard let fetchPostItem = owner.fetchPostItem else { return }
+                    deletePostSuccessTrigger.accept(fetchPostItem.postId)
                 case .failure(let error):
                     errorMessage.accept(error.localizedDescription)
                 }

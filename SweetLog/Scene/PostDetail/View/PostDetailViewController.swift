@@ -38,7 +38,10 @@ final class PostDetailViewController: BaseViewController {
         guard let fetchPostItem else { return }
         self.fetchPostItem = fetchPostItem
         mainView.tableView.reloadData()
-        navigationItem.title = "\(fetchPostItem.creator.nickname)님의 후기"
+        if let productId = fetchPostItem.productId {
+            navigationItem.title = productId == FilterItem.sale.title ? "\(fetchPostItem.creator.nickname)님의 판매" : "\(fetchPostItem.creator.nickname)님의 후기"
+        }
+
         if viewModel.checkIsMe() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainView.moreButton)
         }
@@ -64,7 +67,7 @@ final class PostDetailViewController: BaseViewController {
             .drive(with: self) { owner, fetchPostItem in
                 owner.fetchPostItem = fetchPostItem
                 owner.setData(fetchPostItem: fetchPostItem)
-//                owner.mainView.tableView.reloadData()
+                owner.mainView.tableView.reloadData()
             }
             .disposed(by: disposeBag)
         
@@ -86,7 +89,9 @@ final class PostDetailViewController: BaseViewController {
         output.deleteSuccessTrigger
             .drive(with: self) { owner, postId in
                 NotificationCenter.default.post(name: .fetchPosts, object: nil, userInfo: nil)
-                owner.popView()
+                owner.mainView.makeToast("게시물이 삭제되었습니다", duration: 0.6) { _ in
+                    owner.popView()
+                }
             }
             .disposed(by: disposeBag)
         
@@ -212,7 +217,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.commentMoreItemClicked
             .subscribe(with: self) { owner, moreItemIndex in
-                owner.showAlert(title: "댓글 삭제", message: "댓글을 정말로 삭제하시겠습니까?") {
+                owner.showAlertWithCancel(title: "댓글 삭제", message: "댓글을 정말로 삭제하시겠습니까?", actionTitle: "삭제") {
                     owner.commentMoreItemClicked.onNext((moreItemIndex, indexPath.row, comment.commentId))
                 }
             }

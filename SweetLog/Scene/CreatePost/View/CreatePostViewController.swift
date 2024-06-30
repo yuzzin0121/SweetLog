@@ -146,14 +146,18 @@ final class CreatePostViewController: BaseViewController {
         
         output.createPostSuccessTrigger
             .drive(with: self) { owner, _ in
-                owner.successPost()
+                owner.mainView.makeToast("게시물을 작성하였습니다", duration: 0.6) { _ in
+                    owner.successPost()
+                }
             }
             .disposed(by: disposeBag)
         
         output.editPostSuccessTrigger
             .drive(with: self) { owner, editedPostItem in
                 owner.editPostItemDelegate?.editPost(postItem: editedPostItem)
-                owner.popView()
+                owner.mainView.makeToast("게시물을 수정하였습니다", duration: 0.6) { _ in
+                    owner.popView()
+                }
             }
             .disposed(by: disposeBag)
     }

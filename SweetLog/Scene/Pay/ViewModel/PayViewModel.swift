@@ -32,7 +32,7 @@ final class PayViewModel {
                 PaymentValidationQuery(impUID: $0, postId: self.postId, productName: self.name, price: amountValue)
             }
             .flatMap {
-                return NetworkManager.requestToServerNoModel(router: PaymentRouter.validation($0))
+                return NetworkManager.shared.requestToServerNoModel(router: PaymentRouter.validation($0))
             }
             .subscribe(with: self) { owner, result in
                 switch result {

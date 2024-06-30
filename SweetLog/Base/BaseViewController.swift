@@ -60,6 +60,19 @@ class BaseViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    func showAlertWithCancel(title: String, message: String, actionTitle: String, actionHandler: (() -> Void)? ) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: actionTitle, style: .destructive) { _ in
+            actionHandler?()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
     func configureNavigationItem() {
         
     }

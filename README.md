@@ -95,6 +95,10 @@
 
 ## 트러블 슈팅
 1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**
+**원인**
+- prepareForReuse 메서드에서 StackView의 인스턴스를 생성하고 있지만,
+이 때 StackView의 하위 뷰들이 제거되지 않고 남아있어 꼬이는 상황
+**해결**
 - imageStackView = UIStackView가 아닌 서브뷰를 제거하여 해결
 ```
  override func prepareForReuse() {

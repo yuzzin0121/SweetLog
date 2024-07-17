@@ -5,9 +5,9 @@
 <br>
 
 ## 프로젝트 개발 및 환경
-- 개발 인원: iOS 1인 개발
-- 개발 기간: 3주 (2024.04.11 ~ 2024.05.05)
-- 환경: 최소 버전 iOS 16.0 / 세로 모드 / 아이폰용
+- **개발 인원:** iOS 1인 개발
+- **개발 기간: 3주** (2024.04.11 ~ 2024.05.05)
+- **개발 환경:** 최소 버전 iOS 16.0 / 세로 모드 / 아이폰용
 <br>
 
 
@@ -82,22 +82,22 @@
 - multipart-form을 활용해 이미지를 서버에 전송
 
 ### RxSwift
-- RxSwift을 활용하여 반응적인 비동기 처리 구현
-- 네트워크 요청에 대한 응답을 Single<Result<>> 타입으로 반환함으로써 명시적이고 간결하게 상태 처리
+- RxSwift을 활용하여 **반응적인 비동기 처리 구현**
+- 네트워크 요청에 대한 응답을 **Single<Result<>>** 타입으로 반환함으로써 명시적이고 간결하게 상태 처리
 
 ### RxDataSource
-- RxDataSource를 활용하여 유연하고 확장 가능한 데이터 관리 구성
+- RxDataSource를 활용하여 **유연하고 확장 가능한 데이터 관리** 구성
  <br><br>
 ### Etc
-- ClusterAnnotationView를 구현하여 검색된 장소 클러스터링 구현
-- CompositionalLayout을 통해 Self-Sizing Cell 구현
-- url에 대한 메타데이터를 추출하여 LinkPresentation으로 표현
-- 후기 조회, 태그 검색에서 커서 기반 페이지네이션을 적용하여 뷰에 보여지는 만큼의 리소스만 요청
-- 공통적인 디자인의 뷰를 재사용하기 위해 커스텀 뷰로 구성
-- 이미지 및 컬러 등 반복적으로 사용되는 에셋을 enum을 통해 네임스페이스화하여 관리
+- **ClusterAnnotationView를** 구현하여 검색된 장소 클러스터링 구현
+- **CompositionalLayout**을 통해 **Self-Sizing Cell** 구현
+- url에 대한 **메타데이터**를 추출하여 **LinkPresentation**으로 표현
+- 후기 조회, 태그 검색에서 **커서 기반 페이지네이션**을 적용하여 뷰에 보여지는 만큼의 리소스만 요청
+- 공통적인 디자인의 뷰를 재사용하기 위해 **커스텀 뷰**로 구성
+- 이미지 및 컬러 등 반복적으로 사용되는 에셋을 **enum을 통해 네임스페이스화**하여 관리
 - NotificationCenter를 활용해 다른 계층에 있는 뷰에 데이터 갱신
 - protocol을 구현하여 셀에 공통적으로 사용되는 identifier, ViewModel에 Input-Output 패턴을 를 사용하도록 구성
-- NetworkMonitor를 통해 네트워크 단절 상황 대응
+- **NetworkMonitor**를 통해 네트워크 단절 상황 대응
 
 ### 결제
 - PG 결제 시스템 연동 및 영수증 검증 로직 구현
@@ -107,10 +107,10 @@
 ## 트러블 슈팅
 1. **셀 재사용 시 이미지가 다른 포스트의 이미지로 나오는 문제**
 **원인**
-- prepareForReuse 메서드에서 StackView의 인스턴스를 생성하고 있지만,
+- **prepareForReuse** 메서드에서 StackView의 인스턴스를 생성하고 있지만,
 이 때 StackView의 하위 뷰들이 제거되지 않고 남아있어 꼬이는 상황
 **해결**
-- imageStackView = UIStackView가 아닌 서브뷰를 제거하여 해결
+- imageStackView = UIStackView가 아닌 **서브뷰를 제거**하여 해결
 ```
  override func prepareForReuse() {
 	super.prepareForReuse()
@@ -122,7 +122,7 @@
 <br><br>
 
 2. **Sever와 통신하면서 발생하는 공통적인 에러에 대한 처리**
-- enum에 `LocalizedError` 프로토콜을 채택하여 각 상태 코드에 errorDescription을 정의
+- enum에 `LocalizedError` 프로토콜을 채택하여 각 상태 코드에 **errorDescription**을 정의
   → print(”에러 메시지”) 가 아닌 ```print(error.localizedDescription)```으로 에러 문구를 출력
   <br><br>
 <Image src="https://github.com/yuzzin0121/SweetLog/assets/77273340/0dd178b7-7ae5-4bee-871f-76c61c944027" width=400 height=500></Image>

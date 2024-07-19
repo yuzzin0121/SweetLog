@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct ChatRoomListModel: Decodable {
     let data: [ChatRoom]
@@ -45,4 +46,27 @@ struct Chat: Decodable {
     let createdAt: String
     let sender: User
     let files: [String]
+}
+
+final class ChatRealmModel: Object {
+    @Persisted(primaryKey: true) var chatId: String
+    @Persisted var roomId: String
+    @Persisted var content: String
+    @Persisted var createdAt: String
+    @Persisted var files: List<String>
+    @Persisted var userId: String
+    @Persisted var nickname: String
+    @Persisted var profileImage: String?
+    
+    convenience init(chatId: String, roomId: String, content: String, createdAt: String, files: List<String>, userId: String, nickname: String, profileImage: String) {
+        self.init()
+        self.chatId = chatId
+        self.roomId = roomId
+        self.content = content
+        self.createdAt = createdAt
+        self.files = files
+        self.userId = userId
+        self.nickname = nickname
+        self.profileImage = profileImage
+    }
 }

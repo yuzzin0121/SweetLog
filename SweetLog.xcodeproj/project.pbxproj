@@ -47,6 +47,9 @@
 		611BB8BD2C4AAA6800FFC28A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */; };
 		611BB8BF2C4AAFFC00FFC28A /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BE2C4AAFFC00FFC28A /* Chat.swift */; };
 		611BB8C22C4AB19100FFC28A /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8C12C4AB19100FFC28A /* ChatRoomTableViewCell.swift */; };
+		611BB8C52C4AD2E000FFC28A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8C42C4AD2E000FFC28A /* Realm */; };
+		611BB8C72C4AD2E000FFC28A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8C62C4AD2E000FFC28A /* RealmSwift */; };
+		611BB8CA2C4AD30100FFC28A /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8C92C4AD30100FFC28A /* ChatRepository.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -236,6 +239,7 @@
 		611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
 		611BB8BE2C4AAFFC00FFC28A /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		611BB8C12C4AB19100FFC28A /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
+		611BB8C92C4AD30100FFC28A /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -384,8 +388,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611BB8C52C4AD2E000FFC28A /* Realm in Frameworks */,
 				6102643D2BE6725A0000EE79 /* FloatingPanel in Frameworks */,
 				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
+				611BB8C72C4AD2E000FFC28A /* RealmSwift in Frameworks */,
 				6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */,
 				611BB8A62C44255B00FFC28A /* SocketIO in Frameworks */,
 				61FA25B82BEE0FC400A9B04F /* iamport-ios in Frameworks */,
@@ -576,6 +582,14 @@
 				611BB8C12C4AB19100FFC28A /* ChatRoomTableViewCell.swift */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		611BB8C82C4AD2F100FFC28A /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8C92C4AD30100FFC28A /* ChatRepository.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		614678D82BE6AFE300915E89 /* Annotation */ = {
@@ -792,6 +806,7 @@
 				618C76DE2BC6EF320033CD0D /* Util */,
 				618C76E42BC6EF7F0033CD0D /* Base */,
 				618C76E52BC6EF850033CD0D /* CustomView */,
+				611BB8C82C4AD2F100FFC28A /* Repository */,
 				618C76E32BC6EF620033CD0D /* Network */,
 				618C76E62BC6EF8D0033CD0D /* Model */,
 				618C76E72BC6EF940033CD0D /* Scene */,
@@ -1345,6 +1360,8 @@
 				614678F62BE6DDF900915E89 /* RxDataSources */,
 				61FA25B72BEE0FC400A9B04F /* iamport-ios */,
 				611BB8A52C44255B00FFC28A /* SocketIO */,
+				611BB8C42C4AD2E000FFC28A /* Realm */,
+				611BB8C62C4AD2E000FFC28A /* RealmSwift */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -1386,6 +1403,7 @@
 				614678F32BE6DDF900915E89 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				61FA25B62BEE0FC400A9B04F /* XCRemoteSwiftPackageReference "iamport-ios" */,
 				611BB8A42C44255B00FFC28A /* XCRemoteSwiftPackageReference "socket" */,
+				611BB8C32C4AD2E000FFC28A /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -1515,6 +1533,7 @@
 				61FC8C172BE55C9600CF3146 /* TagSearchViewModel.swift in Sources */,
 				61FC8C0C2BE5215700CF3146 /* TagCollectionViewCell.swift in Sources */,
 				615C03AF2BDD443D0078E45A /* ProfileNetworkManager.swift in Sources */,
+				611BB8CA2C4AD30100FFC28A /* ChatRepository.swift in Sources */,
 				614678E62BE6CC8F00915E89 /* ReviewCollectionViewCell.swift in Sources */,
 				6164DF1A2BDED36800F57A97 /* FollowDetailViewController.swift in Sources */,
 				616DCE082BD4FABD0042BDC0 /* PostImageView.swift in Sources */,
@@ -1841,6 +1860,14 @@
 				kind = branch;
 			};
 		};
+		611BB8C32C4AD2E000FFC28A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.47.0;
+			};
+		};
 		614678F32BE6DDF900915E89 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -1922,6 +1949,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 611BB8A42C44255B00FFC28A /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
+		};
+		611BB8C42C4AD2E000FFC28A /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 611BB8C32C4AD2E000FFC28A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		611BB8C62C4AD2E000FFC28A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 611BB8C32C4AD2E000FFC28A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		614678F42BE6DDF900915E89 /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;

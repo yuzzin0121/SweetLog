@@ -143,6 +143,12 @@ final class ProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        mainView.profileSectionView.messageButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                
+            }
+            .disposed(by: disposeBag)
         
         // 설정버튼 클릭 시
         settingButton.rx.tap

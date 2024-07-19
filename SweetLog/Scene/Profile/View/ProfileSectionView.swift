@@ -10,6 +10,7 @@ import UIKit
 final class ProfileSectionView: BaseView {
     let profileImageView = UIImageView()
     let editProfileButton = UIButton()
+    let messageButton = UIButton()
     
     let nicknameLabel = UILabel()
     let emailLabel = UILabel()
@@ -42,6 +43,7 @@ final class ProfileSectionView: BaseView {
         
         followButton.isHidden = isMyProfile
         editProfileButton.isHidden = !isMyProfile
+        messageButton.isHidden = isMyProfile
         
         nicknameLabel.text = profileModel.nickname
         emailLabel.text = profileModel.email
@@ -62,7 +64,7 @@ final class ProfileSectionView: BaseView {
     
     
     override func configureHierarchy() {
-        addSubviews([profileImageView, editProfileButton, nicknameLabel, emailLabel, followButton, postInfoStackView, seperatorView])
+        addSubviews([profileImageView, editProfileButton, messageButton, nicknameLabel, emailLabel, followButton, postInfoStackView, seperatorView])
         [postInfoView, followInfoView, followingInfoView].forEach {
             postInfoStackView.addArrangedSubview($0)
         }
@@ -76,6 +78,11 @@ final class ProfileSectionView: BaseView {
         }
         
         editProfileButton.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.centerX.equalTo(profileImageView)
+        }
+        
+        messageButton.snp.makeConstraints { make in
             make.top.equalTo(profileImageView.snp.bottom).offset(20)
             make.centerX.equalTo(profileImageView)
         }
@@ -112,11 +119,10 @@ final class ProfileSectionView: BaseView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
-            profileImageView.clipsToBounds = true
-        }
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
+        
+        
     }
     
     override func configureView() {
@@ -133,6 +139,14 @@ final class ProfileSectionView: BaseView {
         editConfig.baseForegroundColor = Color.gray
         editConfig.cornerStyle = .capsule
         editProfileButton.configuration = editConfig
+        
+        var messageConfig = UIButton.Configuration.filled()
+        messageConfig.baseBackgroundColor = Color.orange
+        messageConfig.baseForegroundColor = Color.white
+        messageConfig.title = "메시지"
+        messageConfig.attributedTitle = AttributedString("메시지", attributes: titleContainer)
+        messageConfig.cornerStyle = .medium
+        messageButton.configuration = messageConfig
         
         nicknameLabel.design(text: "닉네임", font: .pretendard(size: 20, weight: .semiBold))
         emailLabel.design(text: "asdf@sesac.com", font: .pretendard(size: 15, weight: .light))

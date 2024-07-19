@@ -14,9 +14,7 @@ final class DateFormatterManager {
     
     func formattedDate(_ dateString: String) -> String? {
         let isoFormatter = DateFormatter()
-        isoFormatter.locale = Locale(identifier: "en_US_POSIX")
         isoFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        isoFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         
         if let date = isoFormatter.date(from: dateString) {
             dateFormatter.dateFormat = "M월 d일 hh:mm"

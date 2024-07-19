@@ -6,14 +6,25 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ChatRoomListViewController: BaseViewController {
     private let mainView = ChatRoomListView()
+    private let viewModel = ChatRoomListViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    }
+    
+    override func bind() {
+        let input = ChatRoomListViewModel.Input(viewDidLoad: Observable.just(()))
+        let output = viewModel.transform(input: input)
         
+        output.chatRoomList
+            .drive(mainView.tableView.rx.items(cellIdentifier: ChatRoomTableViewCell.identifier, cellType: ChatRoomTableViewCell.self)) { [weak self] index, chatRoom, cell in
+                cell.configureCell(chatRoom: chatRoom)
+            }
+            .disposed(by: disposeBag)
     }
 
     override func loadView() {

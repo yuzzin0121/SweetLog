@@ -40,6 +40,8 @@
 		61130D4F2BDC31E3002D03C1 /* LikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D4E2BDC31E3002D03C1 /* LikeModel.swift */; };
 		611BB8A32C44250E00FFC28A /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8A22C44250E00FFC28A /* SocketIOManager.swift */; };
 		611BB8A62C44255B00FFC28A /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8A52C44255B00FFC28A /* SocketIO */; };
+		611BB8B22C4AA52000FFC28A /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B12C4AA52000FFC28A /* ChatRouter.swift */; };
+		611BB8B42C4AA67E00FFC28A /* ChatQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B32C4AA67E00FFC28A /* ChatQuery.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -222,6 +224,8 @@
 		61130D4A2BDC2389002D03C1 /* ContentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentQuery.swift; sourceTree = "<group>"; };
 		61130D4E2BDC31E3002D03C1 /* LikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModel.swift; sourceTree = "<group>"; };
 		611BB8A22C44250E00FFC28A /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		611BB8B12C4AA52000FFC28A /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
+		611BB8B32C4AA67E00FFC28A /* ChatQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatQuery.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -1018,6 +1022,7 @@
 				61BD280D2BE34E24000A5B81 /* EditCommentQuery.swift */,
 				610264402BE67A430000EE79 /* SearchPlaceQuery.swift */,
 				61FA25C22BF0E21F00A9B04F /* PaymentValidationQuery.swift */,
+				611BB8B32C4AA67E00FFC28A /* ChatQuery.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -1113,6 +1118,7 @@
 				61130D462BDC227A002D03C1 /* CommentRouter.swift */,
 				615C03AB2BDD424E0078E45A /* ProfileRouter.swift */,
 				61FA25C42BF0E2D700A9B04F /* PaymentRouter.swift */,
+				611BB8B12C4AA52000FFC28A /* ChatRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1392,6 +1398,7 @@
 				618C77622BC8D3C80033CD0D /* ValidationQuery.swift in Sources */,
 				610264282BE56E5D0000EE79 /* TagPostCollectionViewCell.swift in Sources */,
 				6164DF1E2BDED38A00F57A97 /* FollowDetailView.swift in Sources */,
+				611BB8B22C4AA52000FFC28A /* ChatRouter.swift in Sources */,
 				61BD28112BE3A688000A5B81 /* PlaceDetailViewController.swift in Sources */,
 				618C77162BC6F4620033CD0D /* ProfileViewController.swift in Sources */,
 				61FA25BE2BF0A9F700A9B04F /* PayView.swift in Sources */,
@@ -1518,6 +1525,7 @@
 				61FA25CC2BF0E9F500A9B04F /* PayDetailView.swift in Sources */,
 				614678E12BE6BA5D00915E89 /* PlaceDetailInfoView.swift in Sources */,
 				61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */,
+				611BB8B42C4AA67E00FFC28A /* ChatQuery.swift in Sources */,
 				618C772B2BC6F6220033CD0D /* SingInView.swift in Sources */,
 				618C77032BC6F0D50033CD0D /* Image.swift in Sources */,
 				61FA25BC2BF0A9EF00A9B04F /* PayViewController.swift in Sources */,

@@ -27,7 +27,7 @@ enum PostRouter {
 extension PostRouter: TargetType {
     
     var baseURL: String {
-        return APIKey.payURL.rawValue
+        return APIKey.baseURL.rawValue
     }
     
     var method: Alamofire.HTTPMethod {

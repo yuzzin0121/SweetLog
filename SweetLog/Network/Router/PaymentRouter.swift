@@ -15,7 +15,7 @@ enum PaymentRouter {
 
 extension PaymentRouter: TargetType {
     var baseURL: String {
-        APIKey.payURL.rawValue
+        APIKey.baseURL.rawValue
     }
     
     var method: Alamofire.HTTPMethod {

@@ -111,6 +111,13 @@ final class HomeViewController: BaseViewController {
                 owner.showSelectPlaceVC()
             }
             .disposed(by: disposeBag)
+        
+        mainView.showChatRoomButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.showChatroomListVC()
+            }
+            .disposed(by: disposeBag)
     }
     
     
@@ -135,6 +142,11 @@ final class HomeViewController: BaseViewController {
     private func showSelectPlaceVC() {
         let selectPlaceVC = SelectPlaceViewController()
         navigationController?.pushViewController(selectPlaceVC, animated: true)
+    }
+    
+    private func showChatroomListVC() {
+        let chatRoomListVC = ChatRoomListViewController()
+        navigationController?.pushViewController(chatRoomListVC, animated: true)
     }
     
     override func loadView() {

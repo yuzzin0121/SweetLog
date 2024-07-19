@@ -14,6 +14,7 @@ final class HomeView: BaseView {
     
     let addPostButton = UIButton()
     let refreshControl = UIRefreshControl()
+    let showChatRoomButton = UIButton()
     
     lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCategoryLayout())
     lazy var postCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createPostLayout())
@@ -23,12 +24,18 @@ final class HomeView: BaseView {
     }
     
     override func configureHierarchy() {
-        addSubviews([titleLabel, filterCollectionView, postCollectionView, addPostButton])
+        addSubviews([titleLabel, showChatRoomButton, filterCollectionView, postCollectionView, addPostButton])
     }
     override func configureLayout() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.equalToSuperview().offset(20)
+        }
+        
+        showChatRoomButton.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel)
+            make.trailing.equalToSuperview().inset(20)
+            make.size.equalTo(30)
         }
         
         filterCollectionView.snp.makeConstraints { make in
@@ -59,13 +66,7 @@ final class HomeView: BaseView {
         postCollectionView.alwaysBounceVertical = true
         postCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
-        
-//        let plus = Image.plusCircleFill.withTintColor(Color.brown, renderingMode: .alwaysOriginal)
-//        addPostButton.setImage(plus, for: .normal)
-//        
-//        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 45)
-//        addPostButton.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
-//        addPostButton.tintColor = .white
+        showChatRoomButton.setImage(Image.chat, for: .normal)
         
         var addConfig = UIButton.Configuration.filled()
         addConfig.image = Image.add

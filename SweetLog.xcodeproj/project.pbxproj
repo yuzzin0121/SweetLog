@@ -42,6 +42,9 @@
 		611BB8A62C44255B00FFC28A /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8A52C44255B00FFC28A /* SocketIO */; };
 		611BB8B22C4AA52000FFC28A /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B12C4AA52000FFC28A /* ChatRouter.swift */; };
 		611BB8B42C4AA67E00FFC28A /* ChatQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B32C4AA67E00FFC28A /* ChatQuery.swift */; };
+		611BB8B92C4AAA1800FFC28A /* ChatRoomListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B82C4AAA1800FFC28A /* ChatRoomListViewModel.swift */; };
+		611BB8BB2C4AAA5F00FFC28A /* ChatRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BA2C4AAA5F00FFC28A /* ChatRoomListViewController.swift */; };
+		611BB8BD2C4AAA6800FFC28A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -226,6 +229,9 @@
 		611BB8A22C44250E00FFC28A /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		611BB8B12C4AA52000FFC28A /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
 		611BB8B32C4AA67E00FFC28A /* ChatQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatQuery.swift; sourceTree = "<group>"; };
+		611BB8B82C4AAA1800FFC28A /* ChatRoomListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewModel.swift; sourceTree = "<group>"; };
+		611BB8BA2C4AAA5F00FFC28A /* ChatRoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewController.swift; sourceTree = "<group>"; };
+		611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -531,6 +537,32 @@
 				61130D382BDABDBC002D03C1 /* PostCommentTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		611BB8B52C4AA9EA00FFC28A /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8B72C4AA9FE00FFC28A /* View */,
+				611BB8B62C4AA9F400FFC28A /* ViewModel */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		611BB8B62C4AA9F400FFC28A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8B82C4AAA1800FFC28A /* ChatRoomListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		611BB8B72C4AA9FE00FFC28A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8BA2C4AAA5F00FFC28A /* ChatRoomListViewController.swift */,
+				611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		614678D82BE6AFE300915E89 /* Annotation */ = {
@@ -842,6 +874,7 @@
 		618C76E72BC6EF940033CD0D /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				611BB8B52C4AA9EA00FFC28A /* Chat */,
 				61FA25B92BF0A9CE00A9B04F /* Pay */,
 				61130D242BD9783B002D03C1 /* PostDetail */,
 				614746F52BD6A3B200B9B670 /* CreatePost */,
@@ -1447,6 +1480,7 @@
 				61BD280E2BE34E24000A5B81 /* EditCommentQuery.swift in Sources */,
 				61130D492BDC2335002D03C1 /* CommentNetworkManager.swift in Sources */,
 				6164DF0C2BDE4FB800F57A97 /* UserPostViewController.swift in Sources */,
+				611BB8BB2C4AAA5F00FFC28A /* ChatRoomListViewController.swift in Sources */,
 				615C03B82BDD50A70078E45A /* EditProfileView.swift in Sources */,
 				61BD281B2BE3AC38000A5B81 /* MapViewModel.swift in Sources */,
 				61FC8C132BE55B8900CF3146 /* TagSearchViewController.swift in Sources */,
@@ -1482,6 +1516,7 @@
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
 				61130D312BD98A79002D03C1 /* BaseTableViewCell.swift in Sources */,
 				614678F92BE7731700915E89 /* CUMode.swift in Sources */,
+				611BB8B92C4AAA1800FFC28A /* ChatRoomListViewModel.swift in Sources */,
 				618C78AC2BD051DE0033CD0D /* NotificationName+Extension.swift in Sources */,
 				618C774C2BC704F40033CD0D /* TargetType.swift in Sources */,
 				61130D452BDC19A3002D03C1 /* CALayer+Extension.swift in Sources */,
@@ -1522,6 +1557,7 @@
 				61B5288F2BD13B7800974CA0 /* KingfisherWrapper+Extension.swift in Sources */,
 				618C786B2BCD70120033CD0D /* SettingView.swift in Sources */,
 				614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */,
+				611BB8BD2C4AAA6800FFC28A /* ChatRoomListView.swift in Sources */,
 				61FA25CC2BF0E9F500A9B04F /* PayDetailView.swift in Sources */,
 				614678E12BE6BA5D00915E89 /* PlaceDetailInfoView.swift in Sources */,
 				61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */,

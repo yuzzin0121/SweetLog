@@ -35,7 +35,7 @@ extension ChatRouter: TargetType {
         switch self {
         case .fetchChatroomList, .createChatroom:
             return "/v1/chats"
-        case .fetchChatHistory(let id), .sendChat(let id):
+        case .fetchChatHistory(let id, _), .sendChat(let id, _):
             return "/v1/chats/\(id)"
         case .uploadChatImage(let id):
             return "/v1/chats/\(id)/files"
@@ -44,15 +44,15 @@ extension ChatRouter: TargetType {
     
     var header: [String : String] {
         switch self {
-        default:
+        case .uploadChatImage:
             return [
-                HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
+                HTTPHeader.contentType.rawValue: HTTPHeader.multipart.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                 HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken
             ]
-        case .uploadChatImage:
+        default:
             return [
-                HTTPHeader.contentType.rawValue: HTTPHeader.multipart.rawValue
+                HTTPHeader.contentType.rawValue: HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                 HTTPHeader.authorization.rawValue: UserDefaultManager.shared.accessToken
             ]

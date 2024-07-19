@@ -40,4 +40,5 @@ enum Image {
     static let star: UIImage = .star
     
     static let wifiProblem: UIImage = .wifiProblem
+    static let chat: UIImage = .chat
 }

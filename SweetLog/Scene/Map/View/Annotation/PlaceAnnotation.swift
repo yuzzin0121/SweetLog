@@ -55,7 +55,7 @@ final class PlaceAnnotationView: MKAnnotationView {
     private func configureView() {stackView.design(alignment: .center)
         nameLabel.design(textColor: Color.black, font: .pretendard(size: 12, weight: .semiBold), textAlignment: .center)
         markImageView.contentMode = .scaleAspectFit
-        markImageView.tintColor = Color.orangee
+        markImageView.tintColor = Color.brown
         stackView.design(spacing: 0)
     }
     

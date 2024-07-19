@@ -38,6 +38,8 @@
 		61130D492BDC2335002D03C1 /* CommentNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */; };
 		61130D4B2BDC2389002D03C1 /* ContentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D4A2BDC2389002D03C1 /* ContentQuery.swift */; };
 		61130D4F2BDC31E3002D03C1 /* LikeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61130D4E2BDC31E3002D03C1 /* LikeModel.swift */; };
+		611BB8A32C44250E00FFC28A /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8A22C44250E00FFC28A /* SocketIOManager.swift */; };
+		611BB8A62C44255B00FFC28A /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8A52C44255B00FFC28A /* SocketIO */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -219,6 +221,7 @@
 		61130D482BDC2335002D03C1 /* CommentNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNetworkManager.swift; sourceTree = "<group>"; };
 		61130D4A2BDC2389002D03C1 /* ContentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentQuery.swift; sourceTree = "<group>"; };
 		61130D4E2BDC31E3002D03C1 /* LikeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeModel.swift; sourceTree = "<group>"; };
+		611BB8A22C44250E00FFC28A /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -370,6 +373,7 @@
 				6102643D2BE6725A0000EE79 /* FloatingPanel in Frameworks */,
 				61130D212BD80152002D03C1 /* IQKeyboardManagerSwift in Frameworks */,
 				6164DF0A2BDE4EEC00F57A97 /* Tabman in Frameworks */,
+				611BB8A62C44255B00FFC28A /* SocketIO in Frameworks */,
 				61FA25B82BEE0FC400A9B04F /* iamport-ios in Frameworks */,
 				61B528922BD13B8E00974CA0 /* Kingfisher in Frameworks */,
 				618C77222BC6F5370033CD0D /* RxSwift in Frameworks */,
@@ -1031,6 +1035,7 @@
 			children = (
 				618C78192BC9A9090033CD0D /* UserDefaultManager.swift */,
 				61B5288A2BD12F6E00974CA0 /* FormatterManager.swift */,
+				611BB8A22C44250E00FFC28A /* SocketIOManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1286,6 +1291,7 @@
 				614678F42BE6DDF900915E89 /* Differentiator */,
 				614678F62BE6DDF900915E89 /* RxDataSources */,
 				61FA25B72BEE0FC400A9B04F /* iamport-ios */,
+				611BB8A52C44255B00FFC28A /* SocketIO */,
 			);
 			productName = SweetLog;
 			productReference = 618C76C52BC6EE4B0033CD0D /* SweetLog.app */;
@@ -1326,6 +1332,7 @@
 				6102643B2BE6725A0000EE79 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				614678F32BE6DDF900915E89 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				61FA25B62BEE0FC400A9B04F /* XCRemoteSwiftPackageReference "iamport-ios" */,
+				611BB8A42C44255B00FFC28A /* XCRemoteSwiftPackageReference "socket" */,
 			);
 			productRefGroup = 618C76C62BC6EE4B0033CD0D /* Products */;
 			projectDirPath = "";
@@ -1464,6 +1471,7 @@
 				61FC8C0E2BE53A2800CF3146 /* String+Extension.swift in Sources */,
 				615C03AA2BDD3E8E0078E45A /* ProfileView.swift in Sources */,
 				614746F72BD6A3CE00B9B670 /* SelectPlaceViewController.swift in Sources */,
+				611BB8A32C44250E00FFC28A /* SocketIOManager.swift in Sources */,
 				618C77442BC703960033CD0D /* HTTPHeader.swift in Sources */,
 				61130D312BD98A79002D03C1 /* BaseTableViewCell.swift in Sources */,
 				614678F92BE7731700915E89 /* CUMode.swift in Sources */,
@@ -1765,6 +1773,14 @@
 				minimumVersion = 7.0.2;
 			};
 		};
+		611BB8A42C44255B00FFC28A /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		614678F32BE6DDF900915E89 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -1841,6 +1857,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 61130D1F2BD80152002D03C1 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		611BB8A52C44255B00FFC28A /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 611BB8A42C44255B00FFC28A /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
 		};
 		614678F42BE6DDF900915E89 /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;

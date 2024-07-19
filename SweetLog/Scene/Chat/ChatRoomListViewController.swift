@@ -13,10 +13,15 @@ final class ChatRoomListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
     }
 
     override func loadView() {
         view = mainView
+    }
+    
+    override func configureNavigationItem() {
+        navigationItem.title = "채팅방 리스트"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
     }
 }

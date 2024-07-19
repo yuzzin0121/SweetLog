@@ -45,6 +45,7 @@
 		611BB8B92C4AAA1800FFC28A /* ChatRoomListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8B82C4AAA1800FFC28A /* ChatRoomListViewModel.swift */; };
 		611BB8BB2C4AAA5F00FFC28A /* ChatRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BA2C4AAA5F00FFC28A /* ChatRoomListViewController.swift */; };
 		611BB8BD2C4AAA6800FFC28A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */; };
+		611BB8BF2C4AAFFC00FFC28A /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8BE2C4AAFFC00FFC28A /* Chat.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -232,6 +233,7 @@
 		611BB8B82C4AAA1800FFC28A /* ChatRoomListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewModel.swift; sourceTree = "<group>"; };
 		611BB8BA2C4AAA5F00FFC28A /* ChatRoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewController.swift; sourceTree = "<group>"; };
 		611BB8BC2C4AAA6800FFC28A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
+		611BB8BE2C4AAFFC00FFC28A /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -867,6 +869,7 @@
 				61B528882BD1107A00974CA0 /* Post.swift */,
 				6147470B2BD6BA4600B9B670 /* Place.swift */,
 				61FA25D22BF0EBF900A9B04F /* PayDetail.swift */,
+				611BB8BE2C4AAFFC00FFC28A /* Chat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1567,6 +1570,7 @@
 				61FA25BC2BF0A9EF00A9B04F /* PayViewController.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,
 				61FA25CE2BF0EA0100A9B04F /* PayDetailViewModel.swift in Sources */,
+				611BB8BF2C4AAFFC00FFC28A /* Chat.swift in Sources */,
 				61FA25D32BF0EBF900A9B04F /* PayDetail.swift in Sources */,
 				61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */,
 				61130D262BD97852002D03C1 /* PostDetailViewController.swift in Sources */,

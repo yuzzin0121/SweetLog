@@ -30,7 +30,7 @@ final class FollowDetailView: BaseView {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.register(FollowDetailTableViewCell.self, forCellReuseIdentifier: FollowDetailTableViewCell.identifier)
-        tableView.rowHeight = 50
+        tableView.rowHeight = 60
         
         emptyLabel.design(text: "유저가 없습니다. \n팔로우 또는 팔로잉을 해보세요", textColor: Color.gray, font: .pretendard(size: 15, weight: .medium), textAlignment: .center, numberOfLines: 2)
         emptyLabel.setLineSpacing(spacing: 8)

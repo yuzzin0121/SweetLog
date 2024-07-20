@@ -15,10 +15,11 @@ final class ChatRoomTableViewCell: BaseTableViewCell {
     let createdAtLabel = UILabel()
     
     func configureCell(chatRoom: ChatRoom) {
-        setProfileImage(user: chatRoom.lastChat.sender)
-        nicknameLabel.text = chatRoom.lastChat.sender.nick
-        contentLabel.text = chatRoom.lastChat.content
-        createdAtLabel.text = DateFormatterManager.shared.formattedDate(chatRoom.lastChat.createdAt)
+        guard let lastChat = chatRoom.lastChat else { return }
+        setProfileImage(user: lastChat.sender)
+        nicknameLabel.text = lastChat.sender.nick
+        contentLabel.text = lastChat.content
+        createdAtLabel.text = DateFormatterManager.shared.formattedDate(lastChat.createdAt)
     }
     
     private func setProfileImage(user: User) {

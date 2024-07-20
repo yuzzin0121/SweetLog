@@ -18,7 +18,7 @@ struct ChatRoom: Decodable {
     let createdAt: String
     let updatedAt: String
     let participants: [User]
-    let lastChat: Chat
+    let lastChat: Chat?
     
     enum CodingKeys: String, CodingKey {
         case roomId = "room_id"
@@ -34,7 +34,7 @@ struct ChatRoom: Decodable {
         self.createdAt = try container.decode(String.self, forKey: .createdAt)
         self.updatedAt = try container.decode(String.self, forKey: .updatedAt)
         self.participants = try container.decode([User].self, forKey: .participants)
-        self.lastChat = try container.decode(Chat.self, forKey: .lastChat)
+        self.lastChat = try container.decodeIfPresent(Chat.self, forKey: .lastChat)
     }
 }
 

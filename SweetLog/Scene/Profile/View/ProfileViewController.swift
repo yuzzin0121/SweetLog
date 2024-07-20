@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class ProfileViewController: BaseViewController {
     lazy var settingButton = UIBarButtonItem(image: Image.setting, style: .plain, target: self, action: nil)
@@ -83,8 +84,11 @@ final class ProfileViewController: BaseViewController {
     override func bind() {
         print(#function)
         
+        let messageButtonTapped = PublishRelay<Void>()
+        
         let input = ProfileViewModel.Input(fetchProfileTrigger: fetchProfileTrigger,
-                                           followButtonTapped: mainView.profileSectionView.followButton.rx.tap.asObservable())
+                                           followButtonTapped: mainView.profileSectionView.followButton.rx.tap.asObservable(),
+                                           messageButtonTapped: messageButtonTapped.asObservable())
         let output = viewModel.transform(input: input)
         
         fetchProfileTrigger.onNext(viewModel.userId)
@@ -145,8 +149,8 @@ final class ProfileViewController: BaseViewController {
         
         mainView.profileSectionView.messageButton.rx.tap
             .asDriver()
-            .drive(with: self) { owner, _ in
-                
+            .drive { _ in
+                messageButtonTapped.accept(())
             }
             .disposed(by: disposeBag)
         
@@ -163,6 +167,12 @@ final class ProfileViewController: BaseViewController {
                 owner.showAlert(title: "에러", message: errorMessage, actionHandler: nil)
             }
             .disposed(by: disposeBag)
+        
+        output.roomId
+            .drive(with: self) { owner, roomId in
+                owner.showChatVC(roomId: roomId)
+            }
+            .disposed(by: disposeBag)
     }
     
     // 프로필 수정버튼 클릭 시
@@ -171,6 +181,9 @@ final class ProfileViewController: BaseViewController {
         let editProfileVC = EditProfileViewController(currentProfileImage: profileModel.profileImage, currentNickname: profileModel.nickname)
         editProfileVC.sendProfileDelegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
+    private func showChatVC(roomId: String) {
     }
     
     // 설정 화면으로 전환

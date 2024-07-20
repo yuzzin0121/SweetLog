@@ -50,6 +50,9 @@
 		611BB8C52C4AD2E000FFC28A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8C42C4AD2E000FFC28A /* Realm */; };
 		611BB8C72C4AD2E000FFC28A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 611BB8C62C4AD2E000FFC28A /* RealmSwift */; };
 		611BB8CA2C4AD30100FFC28A /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8C92C4AD30100FFC28A /* ChatRepository.swift */; };
+		611BB8CF2C4C1B3300FFC28A /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */; };
+		611BB8D12C4C1B3A00FFC28A /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */; };
+		611BB8D32C4C1B4200FFC28A /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D22C4C1B4200FFC28A /* ChatRoomViewModel.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -240,6 +243,9 @@
 		611BB8BE2C4AAFFC00FFC28A /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		611BB8C12C4AB19100FFC28A /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		611BB8C92C4AD30100FFC28A /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
+		611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
+		611BB8D22C4C1B4200FFC28A /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -552,6 +558,7 @@
 		611BB8B52C4AA9EA00FFC28A /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				611BB8CB2C4C1B1600FFC28A /* ChatRoom */,
 				611BB8B72C4AA9FE00FFC28A /* View */,
 				611BB8B62C4AA9F400FFC28A /* ViewModel */,
 			);
@@ -590,6 +597,32 @@
 				611BB8C92C4AD30100FFC28A /* ChatRepository.swift */,
 			);
 			path = Repository;
+			sourceTree = "<group>";
+		};
+		611BB8CB2C4C1B1600FFC28A /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8CD2C4C1B2200FFC28A /* View */,
+				611BB8CC2C4C1B1D00FFC28A /* ViewModel */,
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		611BB8CC2C4C1B1D00FFC28A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8D22C4C1B4200FFC28A /* ChatRoomViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		611BB8CD2C4C1B2200FFC28A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */,
+				611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		614678D82BE6AFE300915E89 /* Annotation */ = {
@@ -1474,6 +1507,7 @@
 				618C78652BCD6FC20033CD0D /* SettingCollectionViewCell.swift in Sources */,
 				618C77472BC703BD0033CD0D /* LoginQuery.swift in Sources */,
 				614747082BD6AAF500B9B670 /* KakaoPlaceRouter.swift in Sources */,
+				611BB8CF2C4C1B3300FFC28A /* ChatRoomViewController.swift in Sources */,
 				61FA25D12BF0EA5B00A9B04F /* PayDetailTableViewCell.swift in Sources */,
 				61130D432BDC0194002D03C1 /* UIImage+Extension.swift in Sources */,
 				618C775E2BC848450033CD0D /* Auth.swift in Sources */,
@@ -1559,6 +1593,7 @@
 				618C78692BCD6FF40033CD0D /* SettingViewController.swift in Sources */,
 				618C77532BC7065D0033CD0D /* SignUpViewModel.swift in Sources */,
 				6164DF222BDED5EE00F57A97 /* FollowType.swift in Sources */,
+				611BB8D32C4C1B4200FFC28A /* ChatRoomViewModel.swift in Sources */,
 				610264412BE67A430000EE79 /* SearchPlaceQuery.swift in Sources */,
 				61B528812BD10C6000974CA0 /* PostRouter.swift in Sources */,
 				61FA25D72BF122E300A9B04F /* NetworkConnectionErrorView.swift in Sources */,
@@ -1600,6 +1635,7 @@
 				61FA25BC2BF0A9EF00A9B04F /* PayViewController.swift in Sources */,
 				618C772F2BC6F7950033CD0D /* SignButton.swift in Sources */,
 				61FA25CE2BF0EA0100A9B04F /* PayDetailViewModel.swift in Sources */,
+				611BB8D12C4C1B3A00FFC28A /* ChatRoomView.swift in Sources */,
 				611BB8BF2C4AAFFC00FFC28A /* Chat.swift in Sources */,
 				61FA25D32BF0EBF900A9B04F /* PayDetail.swift in Sources */,
 				61130D352BDA366D002D03C1 /* PostDetailHeaderView.swift in Sources */,

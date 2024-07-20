@@ -28,6 +28,7 @@ final class ProfileViewModel: ViewModelType {
     struct Input {
         let fetchProfileTrigger: PublishSubject<String>
         let followButtonTapped: Observable<Void>
+        let messageButtonTapped: Observable<Void>
     }
     
     struct Output {
@@ -36,6 +37,7 @@ final class ProfileViewModel: ViewModelType {
         let fetchUserProfileSuccessTrigger: Driver<ProfileModel>
         let followTrigger: Driver<Void>
         let errorMessage: Driver<String>
+        let roomId: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -45,6 +47,23 @@ final class ProfileViewModel: ViewModelType {
         let fetchUserProfileSuccessTrigger = PublishRelay<ProfileModel>()
         let followTrigger = PublishRelay<Void>()
         let errorMessage = PublishRelay<String>()
+        let roomId = PublishRelay<String>()
+        
+        input.messageButtonTapped
+            .withLatestFrom(fetchUserProfileSuccessTrigger)
+            .flatMap { userProfileModel in
+                NetworkManager.shared.requestToServer(model: ChatRoom.self, router: ChatRouter.createChatroom(chatQuery: CreateChatQuery(opponent_id: userProfileModel.userId)))
+            }
+            .bind { result in
+                switch result {
+                case .success(let chatRoom):
+                    print(chatRoom)
+                    roomId.accept(chatRoom.roomId)
+                case .failure(let error):
+                    errorMessage.accept(error.localizedDescription)
+                }
+            }
+            .disposed(by: disposeBag)
         
         // Notification으로 받았을 때
         fetchMyProfileTrigger
@@ -121,7 +140,8 @@ final class ProfileViewModel: ViewModelType {
                       isFollowing: isFollowing.asDriver(onErrorJustReturn: false),
                       fetchUserProfileSuccessTrigger: fetchUserProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()), 
                       followTrigger: followTrigger.asDriver(onErrorJustReturn: ()),
-                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""))
+                      errorMessage: errorMessage.asDriver(onErrorJustReturn: ""),
+                      roomId: roomId.asDriver(onErrorDriveWith: .empty()))
     }
     
     

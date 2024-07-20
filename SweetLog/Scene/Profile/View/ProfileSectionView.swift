@@ -146,6 +146,8 @@ final class ProfileSectionView: BaseView {
         messageConfig.title = "메시지"
         messageConfig.attributedTitle = AttributedString("메시지", attributes: titleContainer)
         messageConfig.cornerStyle = .medium
+        messageConfig.image = Image.chat.resized(to: CGSize(width: 16, height: 16)).withTintColor(Color.white)
+        messageConfig.imagePadding = 6
         messageButton.configuration = messageConfig
         
         nicknameLabel.design(text: "닉네임", font: .pretendard(size: 20, weight: .semiBold))

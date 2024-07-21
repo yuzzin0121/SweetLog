@@ -24,15 +24,19 @@ final class ChatRoomViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
+        let sendButtonTapped: Observable<Void>
+        let sendContent: Observable<String>
     }
     
     struct Output {
         let chatList: Driver<[Chat]>
+        let sendButtonTapped: Driver<Void>
         let errorString: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let chatListRelay = BehaviorRelay<[Chat]>(value: [])
+        let sendButtonTapped = PublishRelay<Void>()
         let errorString = PublishRelay<String>()
         
         // 소켓을 통해 유저의 채팅을 수신했을 때
@@ -74,7 +78,35 @@ final class ChatRoomViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        // 보내기 버튼 클릭
+        input.sendButtonTapped
+            .bind { _ in
+                sendButtonTapped.accept(())
+            }
+            .disposed(by: disposeBag)
+        
+        // 내가 쓴 Content 보내기
+        input.sendContent
+            .flatMap { [weak self] myContent in
+                guard let self else { return Single<Result<Chat, Error>>.never() }
+                return NetworkManager.shared.requestToServer(model: Chat.self, router: ChatRouter.sendChat(id: chatRoom.roomId, sendChatQuery: SendChatQuery(content: myContent)))
+            }
+            .bind(with: self) { owner, result in
+                switch result {
+                case .success(let chat):
+                    print(chat)
+                    let chatRealm = owner.getChatRealm(chat: chat)
+                    owner.chatRepository.createChat(chat: chatRealm)
+                    let chatList = owner.getChatList(roomId: owner.chatRoom.roomId)
+                    chatListRelay.accept(chatList)
+                case .failure(let error):
+                    errorString.accept(error.localizedDescription)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         return Output(chatList: chatListRelay.asDriver(),
+                      sendButtonTapped: sendButtonTapped.asDriver(onErrorDriveWith: .empty()),
                       errorString: errorString.asDriver(onErrorDriveWith: .empty()))
     }
     
@@ -87,6 +119,14 @@ final class ChatRoomViewModel: ViewModelType {
             return chatRealm
         }
         return chatRealmList
+    }
+    
+    private func getChatRealm(chat: Chat) -> ChatRealmModel {
+        var chatRealmModel = ChatRealmModel(chatId: chat.chatId, roomId: chat.roomId, content: chat.content, createdAt: chat.createdAt, userId: chat.sender.user_id, nickname: chat.sender.nick, profileImage: chat.sender.profileImage)
+        chat.files.forEach {
+            chatRealmModel.files.append($0)
+        }
+        return chatRealmModel
     }
     
     private func getChatList(roomId: String) -> [Chat] {

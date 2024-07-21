@@ -13,6 +13,7 @@ final class ChatRoomViewController: BaseViewController {
     private let mainView = ChatRoomView()
     private var viewModel: ChatRoomViewModel
     private let isTextEmpty = BehaviorRelay(value: true)
+    let sendContent = PublishRelay<String>()
     
     init(chatRoom: ChatRoom) {
         self.viewModel = ChatRoomViewModel(chatRoom: chatRoom)
@@ -28,7 +29,9 @@ final class ChatRoomViewController: BaseViewController {
     override func bind() {
         setNavigationTitle(userName: viewModel.chatRoom.participants[1].nick)
         
-        let input = ChatRoomViewModel.Input(viewDidLoad: Observable.just(()))
+        let input = ChatRoomViewModel.Input(viewDidLoad: Observable.just(()),
+                                            sendButtonTapped: mainView.sendButton.rx.tap.asObservable(), 
+                                            sendContent: sendContent.asObservable())
         let output = viewModel.transform(input: input)
      
         isTextEmpty
@@ -37,10 +40,28 @@ final class ChatRoomViewController: BaseViewController {
                 owner.mainView.isTextEmpty(isTextEmpty)
             }
             .disposed(by: disposeBag)
+        
+        output.sendButtonTapped
+            .drive(with: self) { owner, _ in
+                owner.sendConent()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func sendConent() {
+        let content = mainView.inputTextView.text.trimmingCharacters(in: [" "])
+        if !content.isEmpty {
+            sendContent.accept(content)
+        }
     }
     
     private func setDelegate() {
         mainView.inputTextView.delegate = self
+    }
+    
+    @objc private func sendButtonTapped(_ button: UIButton) {
+        let content = mainView.inputTextView.text.trimmingCharacters(in: [" "])
+        
     }
     
     private func setNavigationTitle(userName: String) {
@@ -61,5 +82,10 @@ extension ChatRoomViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let text = textView.text.trimmingCharacters(in: [" "])
         isTextEmpty.accept(text.isEmpty)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let text = textView.text.trimmingCharacters(in: [" "])
+        
     }
 }

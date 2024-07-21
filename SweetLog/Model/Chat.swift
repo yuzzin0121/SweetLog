@@ -46,6 +46,15 @@ struct Chat: Decodable {
     let createdAt: String
     let sender: User
     let files: [String]
+    
+    enum CodingKeys: String, CodingKey {
+        case chatId = "chat_id"
+        case roomId = "room_id"
+        case content
+        case createdAt
+        case sender
+        case files
+    }
 }
 
 final class ChatRealmModel: Object {

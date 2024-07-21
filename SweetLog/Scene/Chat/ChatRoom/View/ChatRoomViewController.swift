@@ -7,10 +7,12 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class ChatRoomViewController: BaseViewController {
     private let mainView = ChatRoomView()
     private var viewModel: ChatRoomViewModel
+    private let isTextEmpty = BehaviorRelay(value: true)
     
     init(chatRoom: ChatRoom) {
         self.viewModel = ChatRoomViewModel(chatRoom: chatRoom)
@@ -19,8 +21,8 @@ final class ChatRoomViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+        setDelegate()
     }
     
     override func bind() {
@@ -29,7 +31,16 @@ final class ChatRoomViewController: BaseViewController {
         let input = ChatRoomViewModel.Input(viewDidLoad: Observable.just(()))
         let output = viewModel.transform(input: input)
      
-        
+        isTextEmpty
+            .asDriver()
+            .drive(with: self) { owner, isTextEmpty in
+                owner.mainView.isTextEmpty(isTextEmpty)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func setDelegate() {
+        mainView.inputTextView.delegate = self
     }
     
     private func setNavigationTitle(userName: String) {
@@ -43,5 +54,12 @@ final class ChatRoomViewController: BaseViewController {
     override func configureNavigationItem() {
         navigationItem.title = ""
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.arrowLeft, style: .plain, target: self, action: #selector(self.popView))
+    }
+}
+
+extension ChatRoomViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let text = textView.text.trimmingCharacters(in: [" "])
+        isTextEmpty.accept(text.isEmpty)
     }
 }

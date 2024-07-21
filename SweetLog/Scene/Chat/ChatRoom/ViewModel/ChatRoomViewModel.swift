@@ -38,16 +38,17 @@ final class ChatRoomViewModel: ViewModelType {
         // 소켓을 통해 유저의 채팅을 수신했을 때
         SocketIOManager.shared.receivedUserChat
             .bind(with: self) { owner, receivedUserChat in
+                // Chat을 ChatRealmModel로 변환
                 let chatRealm = owner.getChatRealmList(chatList: [receivedUserChat])
-                owner.chatRepository.createChatList(chat: chatRealm)
-                let chatList = owner.getChatList(roomId: owner.chatRoom.roomId)
-                chatListRelay.accept(chatList)
+                owner.chatRepository.createChatList(chat: chatRealm)    // Realm에 수신한 채팅 저장
+                let chatList = owner.getChatList(roomId: owner.chatRoom.roomId) // roomId에 해당하는 채팅내역 조회
+                chatListRelay.accept(chatList)  // list에 반영
             }
             .disposed(by: disposeBag)
         
         
         // 1. roomId에 해당하는 채팅 리스트 가져오기
-        // 2. 채팅 리스트가 존재할 경우
+        // 2. 채팅 리스트가 존재할 경우 cursor_date - 마지막 채팅 날짜 / 존재하지 않을 경우 cursor_date - 공백
         input.viewDidLoad
             .flatMap { [weak self] _ in
                 guard let self else { return Single<Result<ChatListModel,Error>>.never()}

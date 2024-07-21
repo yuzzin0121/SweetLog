@@ -13,6 +13,15 @@ final class ChatRoomView: BaseView {
     let inputTextView = UITextView()
     let sendButton = UIButton()
     
+
+    func isTextEmpty(_ isTextEmpty: Bool) {
+        sendButton.isEnabled = !isTextEmpty
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            guard let self else { return }
+            sendButton.alpha = isTextEmpty ? 0 : 1
+        }
+    }
+    
     override func configureHierarchy() {
         [collectionView, bottomBackgroundView].forEach {
             addSubview($0)
@@ -32,21 +41,43 @@ final class ChatRoomView: BaseView {
         bottomBackgroundView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(50)
+            make.height.equalTo(48)
         }
         
+        // 높이 50-12 = 38
         inputTextView.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(6)
-            make.leading.equalTo(12)
+            make.horizontalEdges.equalToSuperview().inset(12)
         }
+        sendButton.snp.makeConstraints { make in
+            make.bottom.equalTo(inputTextView.snp.bottom).offset(-2)
+            make.trailing.equalTo(inputTextView.snp.trailing).offset(-2)
+            make.size.equalTo(32)
+        }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        inputTextView.layer.cornerRadius = inputTextView.frame.height / 2
+        inputTextView.clipsToBounds = true
     }
     
     override func configureView() {
         super.configureView()
         collectionView.backgroundColor = Color.white
         
-        inputTextView.backgroundColor = Color.sugarBrown
-        inputTextView.layer.cornerRadius = inputTextView.frame.height / 2
+        bottomBackgroundView.backgroundColor = Color.white
+        inputTextView.backgroundColor = Color.sugarBrown2
+        inputTextView.font = .pretendard(size: 16, weight: .regular)
+        inputTextView.contentInset = UIEdgeInsets(top: 6, left: 12, bottom: 2, right: 46)
+        
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = Color.orange
+        config.baseForegroundColor = Color.white
+        config.image = Image.chat.resized(to: CGSize(width: 20, height: 20)).withTintColor(Color.white)
+        config.cornerStyle = .capsule
+        sendButton.configuration = config
+        sendButton.alpha = 0
     }
     
     private func createChatLayout() -> UICollectionViewLayout {

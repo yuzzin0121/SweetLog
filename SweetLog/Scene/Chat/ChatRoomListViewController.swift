@@ -17,7 +17,8 @@ final class ChatRoomListViewController: BaseViewController {
     }
     
     override func bind() {
-        let input = ChatRoomListViewModel.Input(viewDidLoad: Observable.just(()))
+        let input = ChatRoomListViewModel.Input(viewDidLoad: Observable.just(()), 
+                                                chatRoomTapped: mainView.tableView.rx.modelSelected(ChatRoom.self).asObservable())
         let output = viewModel.transform(input: input)
         
         output.chatRoomList
@@ -32,6 +33,17 @@ final class ChatRoomListViewController: BaseViewController {
                 owner.mainView.setEmptyLabel(chatRoomList.isEmpty)
             }
             .disposed(by: disposeBag)
+        
+        output.chatRoomTapped
+            .drive(with: self) { owner, roomId in
+                owner.showChatVC(roomId: roomId)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showChatVC(roomId: String) {
+        let chatRoomVC = ChatRoomViewController(roomId: roomId)
+        navigationController?.pushViewController(chatRoomVC, animated: true)
     }
 
     override func loadView() {

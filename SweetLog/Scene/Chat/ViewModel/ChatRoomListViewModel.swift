@@ -14,15 +14,18 @@ final class ChatRoomListViewModel: ViewModelType {
     
     struct Input {
         let viewDidLoad: Observable<Void>
+        let chatRoomTapped: Observable<ChatRoom>
     }
     
     struct Output {
         let chatRoomList: Driver<[ChatRoom]>
+        let chatRoomTapped: Driver<String>
         let errorString: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let chatRoomList = BehaviorRelay<[ChatRoom]>(value: [])
+        let chatRoomTapped = PublishRelay<String>()
         let errorString = PublishRelay<String>()
         
         input.viewDidLoad
@@ -39,6 +42,14 @@ final class ChatRoomListViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(chatRoomList: chatRoomList.asDriver(), errorString: errorString.asDriver(onErrorDriveWith: .empty()))
+        input.chatRoomTapped
+            .bind { chatRoom in
+                chatRoomTapped.accept(chatRoom.roomId)
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(chatRoomList: chatRoomList.asDriver(), 
+                      chatRoomTapped: chatRoomTapped.asDriver(onErrorDriveWith: .empty()),
+                      errorString: errorString.asDriver(onErrorDriveWith: .empty()))
     }
 }

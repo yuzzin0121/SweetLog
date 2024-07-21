@@ -18,6 +18,10 @@ final class ChatRoomViewModel: ViewModelType {
         self.chatRoom = chatRoom
     }
     
+    deinit {
+        SocketIOManager.shared.leaveConnection()
+    }
+    
     struct Input {
         let viewDidLoad: Observable<Void>
     }

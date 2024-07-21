@@ -58,15 +58,19 @@ final class ChatRealmModel: Object {
     @Persisted var nickname: String
     @Persisted var profileImage: String?
     
-    convenience init(chatId: String, roomId: String, content: String, createdAt: String, files: List<String>, userId: String, nickname: String, profileImage: String) {
+    convenience init(chatId: String, roomId: String, content: String, createdAt: String, userId: String, nickname: String, profileImage: String?) {
         self.init()
         self.chatId = chatId
         self.roomId = roomId
         self.content = content
         self.createdAt = createdAt
-        self.files = files
         self.userId = userId
         self.nickname = nickname
         self.profileImage = profileImage
     }
+}
+
+
+struct ChatListModel: Decodable {
+    let data: [Chat]
 }

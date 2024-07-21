@@ -37,7 +37,7 @@ final class ProfileViewModel: ViewModelType {
         let fetchUserProfileSuccessTrigger: Driver<ProfileModel>
         let followTrigger: Driver<Void>
         let errorMessage: Driver<String>
-        let roomId: Driver<String>
+        let chatRoom: Driver<ChatRoom>
     }
     
     func transform(input: Input) -> Output {
@@ -47,7 +47,7 @@ final class ProfileViewModel: ViewModelType {
         let fetchUserProfileSuccessTrigger = PublishRelay<ProfileModel>()
         let followTrigger = PublishRelay<Void>()
         let errorMessage = PublishRelay<String>()
-        let roomId = PublishRelay<String>()
+        let chatRoomRelay = PublishRelay<ChatRoom>()
         
         input.messageButtonTapped
             .withLatestFrom(fetchUserProfileSuccessTrigger)
@@ -58,7 +58,7 @@ final class ProfileViewModel: ViewModelType {
                 switch result {
                 case .success(let chatRoom):
                     print(chatRoom)
-                    roomId.accept(chatRoom.roomId)
+                    chatRoomRelay.accept(chatRoom)
                 case .failure(let error):
                     errorMessage.accept(error.localizedDescription)
                 }
@@ -141,7 +141,7 @@ final class ProfileViewModel: ViewModelType {
                       fetchUserProfileSuccessTrigger: fetchUserProfileSuccessTrigger.asDriver(onErrorDriveWith: .empty()), 
                       followTrigger: followTrigger.asDriver(onErrorJustReturn: ()),
                       errorMessage: errorMessage.asDriver(onErrorJustReturn: ""),
-                      roomId: roomId.asDriver(onErrorDriveWith: .empty()))
+                      chatRoom: chatRoomRelay.asDriver(onErrorDriveWith: .empty()))
     }
     
     

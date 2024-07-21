@@ -25,6 +25,7 @@ final class NetworkManager {
                             single(.success(.success(model)))
                         case .failure(let error):
                             print("failure: \(error)")
+                            print(response.response?.statusCode)
                             guard let statusCode = response.response?.statusCode else {
                                 single(.success(.failure(APIError.serverError)))
                                 return
@@ -35,6 +36,7 @@ final class NetworkManager {
                         }
                     }
             } catch {
+                print(error)
                 single(.success(.failure(APIError.serverError)))
             }
             

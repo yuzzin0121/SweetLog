@@ -64,7 +64,13 @@ extension ChatRouter: TargetType {
     }
     
     var queryItems: [URLQueryItem]? {
-        return nil
+        switch self {
+        case .fetchChatHistory(let id, let fetchChatHistoryQuery):
+            return [
+                URLQueryItem(name: "cursor_date", value: fetchChatHistoryQuery.cursor_date)
+            ]
+        default: return nil
+        }
     }
     
     var body: Data? {
@@ -72,8 +78,6 @@ extension ChatRouter: TargetType {
         switch self {
         case .createChatroom(let chatQuery):
             return try? encoder.encode(chatQuery)
-        case .fetchChatHistory(_, let fetchChatHistoryQuery):
-            return try? encoder.encode(fetchChatHistoryQuery)
         case .sendChat(_, let sendChatQuery):
             return try? encoder.encode(sendChatQuery)
         default: return nil

@@ -7,52 +7,59 @@
 
 import Foundation
 import SocketIO
+import RxCocoa
 
 final class SocketIOManager {
 
-  static var shared: SocketIOManager = SocketIOManager()
+    static var shared: SocketIOManager = SocketIOManager()
 
-  var manager: SocketManager!
-  var socket: SocketIOClient!
+    var manager: SocketManager!
+    var socket: SocketIOClient!
 
+    var receivedUserChat = PublishRelay<Chat>()
     
-  private init() {}
+    private init() {}
 
-  func fetchSocket(roomId: String) {
-      manager = SocketManager(socketURL: URL(string: APIKey.baseURL.rawValue)!, config: [.log(true), .compress])
+    func fetchSocket(roomId: String) {
+        manager = SocketManager(socketURL: URL(string: APIKey.baseURL.rawValue)!, config: [.log(true), .compress])
 
-      socket = manager.socket(forNamespace: "/chats-\(roomId)")
+        socket = manager.socket(forNamespace: "/chats-\(roomId)")
 
-      socket.on(clientEvent: .connect) { data, ack in
-          print("socket connected", data, ack)
-      }
+        socket.on(clientEvent: .connect) { data, ack in
+            print("socket connected", data, ack)
+        }
 
-      // View에서 소켓 연결이 필요한 시점에 호출하는 메서드
-      // socket.connect()를 통해 소켓 연결이 성공적일 경우 init에 구현된 .connect 이벤트를 수신해 SOCKET IS CONNECTED가 출력된다.
-      socket.on(clientEvent: .disconnect) { data, ack in
-          print("socket disconnected", data, ack)
-      }
+        // View에서 소켓 연결이 필요한 시점에 호출하는 메서드
+        // socket.connect()를 통해 소켓 연결이 성공적일 경우 init에 구현된 .connect 이벤트를 수신해 SOCKET IS CONNECTED가 출력된다.
+        socket.on(clientEvent: .disconnect) { data, ack in
+            print("socket disconnected", data, ack)
+        }
 
-      // 소켓이 연결된 이후, "chat" 이벤트를 통해 채팅 수신 가능
-      socket.on("chat") { dataArray, ack in
-          print("chat received", dataArray, ack )
+        // 소켓이 연결된 이후, "chat" 이벤트를 통해 채팅 수신 가능
+        socket.on("chat") { dataArray, ack in
+            print("chat received", dataArray, ack )
 
-          if let data = dataArray.first {
-              
-          }
-      }
+            if let data = dataArray.first {
+                do {
+                    let result = try JSONSerialization.data(withJSONObject: data)
+                    let chat = try JSONDecoder().decode(Chat.self, from: result)
+                    self.receivedUserChat.accept(chat)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
   }
 
-  func establishConnection() {
-      socket?.connect()
-  }
+    func establishConnection() {
+        socket?.connect()
+    }
 
     // View에서 소켓 해제가 필요한 시점에 호출되는 메서드
     // socket.disconnect()를 통해 소켓 해제가 성공적일 경우 init에 구현된 .disconnect 이벤트를 수신해 SOKET IS DISCONNECTED가 출력된다.
-  func leaveConnection() {
-      socket?.disconnect()
-  }
-
+    func leaveConnection() {
+        socket?.disconnect()
+    }
 }
 
 

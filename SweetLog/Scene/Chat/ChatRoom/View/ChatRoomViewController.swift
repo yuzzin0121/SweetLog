@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ChatRoomViewController: BaseViewController {
     private let mainView = ChatRoomView()
     private var viewModel: ChatRoomViewModel
     
-    init(roomId: String) {
-        self.viewModel = ChatRoomViewModel(roomId: roomId)
+    init(chatRoom: ChatRoom) {
+        self.viewModel = ChatRoomViewModel(chatRoom: chatRoom)
         super.init()
     }
 
@@ -23,7 +24,16 @@ final class ChatRoomViewController: BaseViewController {
     }
     
     override func bind() {
+        setNavigationTitle(userName: viewModel.chatRoom.participants[1].nick)
         
+        let input = ChatRoomViewModel.Input(viewDidLoad: Observable.just(()))
+        let output = viewModel.transform(input: input)
+     
+        
+    }
+    
+    private func setNavigationTitle(userName: String) {
+        navigationItem.title = userName
     }
     
     override func loadView() {

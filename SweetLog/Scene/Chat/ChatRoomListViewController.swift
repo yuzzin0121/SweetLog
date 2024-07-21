@@ -23,7 +23,6 @@ final class ChatRoomListViewController: BaseViewController {
         
         output.chatRoomList
             .drive(mainView.tableView.rx.items(cellIdentifier: ChatRoomTableViewCell.identifier, cellType: ChatRoomTableViewCell.self)) { index, chatRoom, cell in
-                print(chatRoom)
                 cell.configureCell(chatRoom: chatRoom)
             }
             .disposed(by: disposeBag)
@@ -35,14 +34,14 @@ final class ChatRoomListViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.chatRoomTapped
-            .drive(with: self) { owner, roomId in
-                owner.showChatVC(roomId: roomId)
+            .drive(with: self) { owner, chatRoom in
+                owner.showChatVC(chatRoom: chatRoom)
             }
             .disposed(by: disposeBag)
     }
     
-    private func showChatVC(roomId: String) {
-        let chatRoomVC = ChatRoomViewController(roomId: roomId)
+    private func showChatVC(chatRoom: ChatRoom) {
+        let chatRoomVC = ChatRoomViewController(chatRoom: chatRoom)
         navigationController?.pushViewController(chatRoomVC, animated: true)
     }
 

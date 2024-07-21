@@ -168,9 +168,9 @@ final class ProfileViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.roomId
-            .drive(with: self) { owner, roomId in
-                owner.showChatVC(roomId: roomId)
+        output.chatRoom
+            .drive(with: self) { owner, chatRoom in
+                owner.showChatVC(chatRoom: chatRoom)
             }
             .disposed(by: disposeBag)
     }
@@ -183,8 +183,8 @@ final class ProfileViewController: BaseViewController {
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
-    private func showChatVC(roomId: String) {
-        let chatRoomVC = ChatRoomViewController(roomId: roomId)
+    private func showChatVC(chatRoom: ChatRoom) {
+        let chatRoomVC = ChatRoomViewController(chatRoom: chatRoom)
         navigationController?.pushViewController(chatRoomVC, animated: true)
     }
     

@@ -184,6 +184,8 @@ final class ProfileViewController: BaseViewController {
     }
     
     private func showChatVC(roomId: String) {
+        let chatRoomVC = ChatRoomViewController(roomId: roomId)
+        navigationController?.pushViewController(chatRoomVC, animated: true)
     }
     
     // 설정 화면으로 전환

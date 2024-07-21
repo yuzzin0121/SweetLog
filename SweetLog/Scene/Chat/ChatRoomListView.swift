@@ -11,6 +11,10 @@ final class ChatRoomListView: BaseView {
     let tableView = UITableView()
     let emptyLabel = UILabel()
     
+    func setEmptyLabel(_ isEmpty: Bool) {
+        emptyLabel.isHidden = !isEmpty
+    }
+    
     override func configureHierarchy() {
         addSubview(tableView)
         addSubview(emptyLabel)
@@ -31,8 +35,8 @@ final class ChatRoomListView: BaseView {
         tableView.backgroundColor = Color.white
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
-        tableView.register(ChatRoomTableViewCell.self, forCellReuseIdentifier: FollowDetailTableViewCell.identifier)
-        tableView.rowHeight = 80
+        tableView.register(ChatRoomTableViewCell.self, forCellReuseIdentifier: ChatRoomTableViewCell.identifier)
+        tableView.rowHeight = 70
         
         emptyLabel.design(text: "현재 채팅하는 유저가 없습니다", textColor: Color.gray, font: .pretendard(size: 15, weight: .medium), textAlignment: .center, numberOfLines: 2)
         emptyLabel.setLineSpacing(spacing: 8)

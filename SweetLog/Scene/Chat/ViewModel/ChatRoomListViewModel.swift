@@ -32,7 +32,7 @@ final class ChatRoomListViewModel: ViewModelType {
             .bind { result in
                 switch result {
                 case .success(let chatRoomListModel):
-                    print(chatRoomListModel)
+                    chatRoomList.accept(chatRoomListModel.data)
                 case .failure(let error):
                     errorString.accept(error.localizedDescription)
                 }

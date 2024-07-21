@@ -21,8 +21,15 @@ final class ChatRoomListViewController: BaseViewController {
         let output = viewModel.transform(input: input)
         
         output.chatRoomList
-            .drive(mainView.tableView.rx.items(cellIdentifier: ChatRoomTableViewCell.identifier, cellType: ChatRoomTableViewCell.self)) { [weak self] index, chatRoom, cell in
+            .drive(mainView.tableView.rx.items(cellIdentifier: ChatRoomTableViewCell.identifier, cellType: ChatRoomTableViewCell.self)) { index, chatRoom, cell in
+                print(chatRoom)
                 cell.configureCell(chatRoom: chatRoom)
+            }
+            .disposed(by: disposeBag)
+        
+        output.chatRoomList
+            .drive(with: self) { owner, chatRoomList in
+                owner.mainView.setEmptyLabel(chatRoomList.isEmpty)
             }
             .disposed(by: disposeBag)
     }

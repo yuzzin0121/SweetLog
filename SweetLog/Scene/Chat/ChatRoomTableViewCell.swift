@@ -12,14 +12,17 @@ final class ChatRoomTableViewCell: BaseTableViewCell {
     let stackView = UIStackView()
     let nicknameLabel = UILabel()
     let contentLabel = UILabel()
-    let createdAtLabel = UILabel()
+    let updatedAtLabel = UILabel()
     
     func configureCell(chatRoom: ChatRoom) {
-        guard let lastChat = chatRoom.lastChat else { return }
-        setProfileImage(user: lastChat.sender)
-        nicknameLabel.text = lastChat.sender.nick
+        let user = chatRoom.participants[1]
+        setProfileImage(user: user)
+        nicknameLabel.text = user.nick
+        updatedAtLabel.text = DateFormatterManager.shared.formattedDate(chatRoom.updatedAt)
+        guard let lastChat = chatRoom.lastChat else {
+            return
+        }
         contentLabel.text = lastChat.content
-        createdAtLabel.text = DateFormatterManager.shared.formattedDate(lastChat.createdAt)
     }
     
     private func setProfileImage(user: User) {
@@ -34,11 +37,12 @@ final class ChatRoomTableViewCell: BaseTableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        profileImageView.layer.cornerRadius = 5
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2.4
+        profileImageView.clipsToBounds = true
     }
     
     override func configureHierarchy() {
-        [profileImageView, stackView, createdAtLabel].forEach {
+        [profileImageView, stackView, updatedAtLabel].forEach {
             contentView.addSubview($0)
         }
         [nicknameLabel, contentLabel].forEach {
@@ -50,22 +54,28 @@ final class ChatRoomTableViewCell: BaseTableViewCell {
         profileImageView.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(6)
             make.leading.equalToSuperview()
-            make.size.equalTo(40)
+            make.width.equalTo(profileImageView.snp.height)
         }
         stackView.snp.makeConstraints { make in
             make.centerY.equalTo(profileImageView)
             make.leading.equalTo(profileImageView.snp.trailing).offset(12)
         }
-        createdAtLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImageView.snp.top)
+        contentLabel.snp.makeConstraints { make in
+            make.height.equalTo(14)
+        }
+        updatedAtLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.top).offset(2)
             make.trailing.equalToSuperview()
         }
     }
     
     override func configureView() {
+        stackView.axis = .vertical
+        stackView.spacing = 6
         profileImageView.image = Image.emptyProfileImage
+        profileImageView.contentMode = .scaleAspectFill
         nicknameLabel.design(font: .pretendard(size: 15, weight: .semiBold))
-        contentLabel.design(font: .pretendard(size: 14, weight: .light))
-        createdAtLabel.design(textColor: .gray, font: .pretendard(size: 13, weight: .regular))
+        contentLabel.design(text: "", font: .pretendard(size: 14, weight: .light))
+        updatedAtLabel.design(textColor: .gray5, font: .pretendard(size: 12, weight: .regular))
     }
 }

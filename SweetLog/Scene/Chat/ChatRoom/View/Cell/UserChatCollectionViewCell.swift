@@ -59,10 +59,14 @@ final class UserChatCollectionViewCell: BaseCollectionViewCell {
         nicknameLabel.design(font: .pretendard(size: 15, weight: .light))
         contentLabel.design(font: .pretendard(size: 16, weight: .regular), numberOfLines: 0)
         createdAtLabel.design(textColor: Color.gray4, font: .pretendard(size: 12, weight: .regular))
+        contentBackgroundView.backgroundColor = Color.sugarBrown
     }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2.5
+        profileImageView.clipsToBounds = true
+        contentBackgroundView.layer.cornerRadius = 12
+        contentBackgroundView.clipsToBounds = true
     }
 }

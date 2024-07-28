@@ -53,6 +53,8 @@
 		611BB8CF2C4C1B3300FFC28A /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */; };
 		611BB8D12C4C1B3A00FFC28A /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */; };
 		611BB8D32C4C1B4200FFC28A /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D22C4C1B4200FFC28A /* ChatRoomViewModel.swift */; };
+		611BB8D62C4D854100FFC28A /* MyChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D52C4D854100FFC28A /* MyChatCollectionViewCell.swift */; };
+		611BB8D82C4D856800FFC28A /* UserChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611BB8D72C4D856800FFC28A /* UserChatCollectionViewCell.swift */; };
 		612A0E152BEAA5690001D9E3 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */; };
 		614678DA2BE6AFEE00915E89 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */; };
 		614678DF2BE6BA5700915E89 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */; };
@@ -246,6 +248,8 @@
 		611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		611BB8D22C4C1B4200FFC28A /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		611BB8D52C4D854100FFC28A /* MyChatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatCollectionViewCell.swift; sourceTree = "<group>"; };
+		611BB8D72C4D856800FFC28A /* UserChatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatCollectionViewCell.swift; sourceTree = "<group>"; };
 		612A0E142BEAA5690001D9E3 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		614678D92BE6AFEE00915E89 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		614678DE2BE6BA5700915E89 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
@@ -619,10 +623,20 @@
 		611BB8CD2C4C1B2200FFC28A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				611BB8D42C4D852A00FFC28A /* Cell */,
 				611BB8CE2C4C1B3200FFC28A /* ChatRoomViewController.swift */,
 				611BB8D02C4C1B3A00FFC28A /* ChatRoomView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		611BB8D42C4D852A00FFC28A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				611BB8D52C4D854100FFC28A /* MyChatCollectionViewCell.swift */,
+				611BB8D72C4D856800FFC28A /* UserChatCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		614678D82BE6AFE300915E89 /* Annotation */ = {
@@ -1561,7 +1575,9 @@
 				616DCE0E2BD50CC50042BDC0 /* FilterItem.swift in Sources */,
 				618C772D2BC6F6A60033CD0D /* SignTextField.swift in Sources */,
 				61130D2C2BD978D2002D03C1 /* PostDetailViewModel.swift in Sources */,
+				611BB8D62C4D854100FFC28A /* MyChatCollectionViewCell.swift in Sources */,
 				61FA25C12BF0AAC600A9B04F /* PayViewModel.swift in Sources */,
+				611BB8D82C4D856800FFC28A /* UserChatCollectionViewCell.swift in Sources */,
 				614747122BD6C4E200B9B670 /* CreatePostView.swift in Sources */,
 				616DCE0C2BD509BB0042BDC0 /* FilterButton.swift in Sources */,
 				61FC8C172BE55C9600CF3146 /* TagSearchViewModel.swift in Sources */,

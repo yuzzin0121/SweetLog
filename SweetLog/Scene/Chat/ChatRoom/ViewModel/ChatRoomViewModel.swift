@@ -31,12 +31,14 @@ final class ChatRoomViewModel: ViewModelType {
     struct Output {
         let chatList: Driver<[Chat]>
         let sendButtonTapped: Driver<Void>
+        let sendContentSuccess: Driver<Void>
         let errorString: Driver<String>
     }
     
     func transform(input: Input) -> Output {
         let chatListRelay = BehaviorRelay<[Chat]>(value: [])
         let sendButtonTapped = PublishRelay<Void>()
+        let sendContentSuccess = PublishRelay<Void>()
         let errorString = PublishRelay<String>()
         
         // 소켓을 통해 유저의 채팅을 수신했을 때
@@ -89,16 +91,17 @@ final class ChatRoomViewModel: ViewModelType {
         input.sendContent
             .flatMap { [weak self] myContent in
                 guard let self else { return Single<Result<Chat, Error>>.never() }
-                return NetworkManager.shared.requestToServer(model: Chat.self, router: ChatRouter.sendChat(id: chatRoom.roomId, sendChatQuery: SendChatQuery(content: myContent)))
+                return NetworkManager.shared.requestToServer(model: Chat.self, router: ChatRouter.sendChat(id: chatRoom.roomId, sendChatQuery: SendChatQuery(content: myContent)))  // 서버에 채팅 전달
             }
             .bind(with: self) { owner, result in
                 switch result {
                 case .success(let chat):
                     print(chat)
                     let chatRealm = owner.getChatRealm(chat: chat)
-                    owner.chatRepository.createChat(chat: chatRealm)
+                    owner.chatRepository.createChat(chat: chatRealm)    // DB에 채팅 저장
                     let chatList = owner.getChatList(roomId: owner.chatRoom.roomId)
-                    chatListRelay.accept(chatList)
+                    chatListRelay.accept(chatList)  // DB 채팅 내역 조회
+                    sendContentSuccess.accept(())
                 case .failure(let error):
                     errorString.accept(error.localizedDescription)
                 }
@@ -107,6 +110,7 @@ final class ChatRoomViewModel: ViewModelType {
         
         return Output(chatList: chatListRelay.asDriver(),
                       sendButtonTapped: sendButtonTapped.asDriver(onErrorDriveWith: .empty()),
+                      sendContentSuccess: sendContentSuccess.asDriver(onErrorDriveWith: .empty()),
                       errorString: errorString.asDriver(onErrorDriveWith: .empty()))
     }
     

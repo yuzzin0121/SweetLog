@@ -13,6 +13,9 @@ final class ChatRoomView: BaseView {
     let inputTextView = UITextView()
     let sendButton = UIButton()
     
+    func setEmptyInputTextView() {
+        inputTextView.text = ""
+    }
 
     func isTextEmpty(_ isTextEmpty: Bool) {
         sendButton.isEnabled = !isTextEmpty

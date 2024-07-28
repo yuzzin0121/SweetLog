@@ -46,6 +46,12 @@ final class ChatRoomViewController: BaseViewController {
                 owner.sendConent()
             }
             .disposed(by: disposeBag)
+        
+        output.sendContentSuccess
+            .drive(with: self) { owner, _ in
+                owner.mainView.setEmptyInputTextView()
+            }
+            .disposed(by: disposeBag)
     }
     
     private func sendConent() {
@@ -57,11 +63,6 @@ final class ChatRoomViewController: BaseViewController {
     
     private func setDelegate() {
         mainView.inputTextView.delegate = self
-    }
-    
-    @objc private func sendButtonTapped(_ button: UIButton) {
-        let content = mainView.inputTextView.text.trimmingCharacters(in: [" "])
-        
     }
     
     private func setNavigationTitle(userName: String) {
@@ -84,8 +85,8 @@ extension ChatRoomViewController: UITextViewDelegate {
         isTextEmpty.accept(text.isEmpty)
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        let text = textView.text.trimmingCharacters(in: [" "])
-        
-    }
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        let text = textView.text.trimmingCharacters(in: [" "])
+//        
+//    }
 }

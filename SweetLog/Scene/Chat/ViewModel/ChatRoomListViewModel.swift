@@ -24,7 +24,7 @@ final class ChatRoomListViewModel: ViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        let chatRoomList = BehaviorRelay<[ChatRoom]>(value: [])
+        let chatRoomList = PublishRelay<[ChatRoom]>()
         let chatRoomTapped = PublishRelay<ChatRoom>()
         let errorString = PublishRelay<String>()
         
@@ -48,7 +48,7 @@ final class ChatRoomListViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(chatRoomList: chatRoomList.asDriver(), 
+        return Output(chatRoomList: chatRoomList.asDriver(onErrorDriveWith: .empty()), 
                       chatRoomTapped: chatRoomTapped.asDriver(onErrorDriveWith: .empty()),
                       errorString: errorString.asDriver(onErrorDriveWith: .empty()))
     }

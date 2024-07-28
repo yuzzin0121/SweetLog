@@ -23,6 +23,7 @@ final class ChatRoomListViewController: BaseViewController {
         
         output.chatRoomList
             .drive(mainView.tableView.rx.items(cellIdentifier: ChatRoomTableViewCell.identifier, cellType: ChatRoomTableViewCell.self)) { index, chatRoom, cell in
+                cell.selectionStyle = .none
                 cell.configureCell(chatRoom: chatRoom)
             }
             .disposed(by: disposeBag)

@@ -23,7 +23,7 @@ final class ChatRoomListView: BaseView {
     override func configureLayout() {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(14)
-            make.horizontalEdges.bottom.equalToSuperview().inset(14)
+            make.horizontalEdges.bottom.equalToSuperview().inset(16)
         }
         emptyLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()

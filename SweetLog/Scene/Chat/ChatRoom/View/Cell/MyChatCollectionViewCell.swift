@@ -12,6 +12,11 @@ final class MyChatCollectionViewCell: BaseCollectionViewCell {
     private let contentLabel = UILabel()
     private let createdAtLabel = UILabel()
     
+    func configureCell(chat: Chat) {
+        contentLabel.text = chat.content
+        createdAtLabel.text = DateFormatterManager.shared.formattedDate(chat.createdAt)
+    }
+    
     override func configureHierarchy() {
         contentView.addSubview(contentBackgroundView)
         contentView.addSubview(createdAtLabel)
@@ -20,18 +25,20 @@ final class MyChatCollectionViewCell: BaseCollectionViewCell {
     
     override func configureLayout() {
         contentBackgroundView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(10)
-            make.top.equalToSuperview().inset(4)
+            make.trailing.equalToSuperview().inset(14)
+            make.top.equalToSuperview().inset(6)
+            make.bottom.equalToSuperview()
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(12)
+            make.verticalEdges.equalToSuperview().inset(6)
+            make.horizontalEdges.equalToSuperview().inset(12)
         }
         
         createdAtLabel.snp.makeConstraints { make in
             make.bottom.equalTo(contentBackgroundView.snp.bottom)
             make.trailing.equalTo(contentBackgroundView.snp.leading).offset(-4)
-            make.leading.greaterThanOrEqualToSuperview()
+            make.leading.greaterThanOrEqualToSuperview().offset(60)
         }
     }
     

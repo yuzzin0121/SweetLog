@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class ChatRoomViewModel: ViewModelType {
     var disposeBag = DisposeBag()
@@ -29,14 +30,14 @@ final class ChatRoomViewModel: ViewModelType {
     }
     
     struct Output {
-        let chatList: Driver<[Chat]>
+        let sectionChatDataList: PublishSubject<[SectionOfChat]>
         let sendButtonTapped: Driver<Void>
         let sendContentSuccess: Driver<Void>
         let errorString: Driver<String>
     }
     
     func transform(input: Input) -> Output {
-        let chatListRelay = BehaviorRelay<[Chat]>(value: [])
+        let sectionChatDataListSubject = PublishSubject<[SectionOfChat]>()
         let sendButtonTapped = PublishRelay<Void>()
         let sendContentSuccess = PublishRelay<Void>()
         let errorString = PublishRelay<String>()
@@ -48,7 +49,8 @@ final class ChatRoomViewModel: ViewModelType {
                 let chatRealm = owner.getChatRealmList(chatList: [receivedUserChat])
                 owner.chatRepository.createChatList(chat: chatRealm)    // Realm에 수신한 채팅 저장
                 let chatList = owner.getChatList(roomId: owner.chatRoom.roomId) // roomId에 해당하는 채팅내역 조회
-                chatListRelay.accept(chatList)  // list에 반영
+                let sectionOfChatList = owner.setSectionChatData(chatList: chatList)
+                sectionChatDataListSubject.onNext(sectionOfChatList)
             }
             .disposed(by: disposeBag)
         
@@ -71,7 +73,9 @@ final class ChatRoomViewModel: ViewModelType {
                         owner.chatRepository.createChatList(chat: chatRealmList)
                     }
                     let chatList = owner.getChatList(roomId: owner.chatRoom.roomId)
-                    chatListRelay.accept(chatList)
+                    
+                    let sectionOfChatList = owner.setSectionChatData(chatList: chatList)
+                    sectionChatDataListSubject.onNext(sectionOfChatList)
                     // 소켓 연결
                     SocketIOManager.shared.fetchSocket(roomId: owner.chatRoom.roomId)
                 case .failure(let error):
@@ -100,18 +104,42 @@ final class ChatRoomViewModel: ViewModelType {
                     let chatRealm = owner.getChatRealm(chat: chat)
                     owner.chatRepository.createChat(chat: chatRealm)    // DB에 채팅 저장
                     let chatList = owner.getChatList(roomId: owner.chatRoom.roomId)
-                    chatListRelay.accept(chatList)  // DB 채팅 내역 조회
+
                     sendContentSuccess.accept(())
+                    let sectionOfChatList = owner.setSectionChatData(chatList: chatList)
+                    sectionChatDataListSubject.onNext(sectionOfChatList)
+                    
                 case .failure(let error):
                     errorString.accept(error.localizedDescription)
                 }
             }
             .disposed(by: disposeBag)
         
-        return Output(chatList: chatListRelay.asDriver(),
+        return Output(sectionChatDataList: sectionChatDataListSubject,
                       sendButtonTapped: sendButtonTapped.asDriver(onErrorDriveWith: .empty()),
                       sendContentSuccess: sendContentSuccess.asDriver(onErrorDriveWith: .empty()),
                       errorString: errorString.asDriver(onErrorDriveWith: .empty()))
+    }
+    
+    
+    private func setSectionChatData(chatList: [Chat]) -> [SectionOfChat] {
+
+        var userChatData: [SectionOfChat.Row] = []
+        var myChatData: [SectionOfChat.Row] = []
+        var dateData: [SectionOfChat.Row] = []
+        var sectionOfChatList: [SectionOfChat] = []
+        
+        for chat in chatList {
+            if chat.sender.user_id == UserDefaultManager.shared.userId {
+                print("나와 일치")
+                myChatData = [.myChatData(myChatData: chat)]
+                sectionOfChatList.append(.myChatSection(items: myChatData))
+            } else {
+                userChatData = [.userChatData(userChatData: chat)]
+                sectionOfChatList.append(.userChatSection(items: userChatData))
+            }
+        }
+        return sectionOfChatList
     }
     
     private func getChatRealmList(chatList: [Chat]) -> [ChatRealmModel] {
@@ -126,7 +154,7 @@ final class ChatRoomViewModel: ViewModelType {
     }
     
     private func getChatRealm(chat: Chat) -> ChatRealmModel {
-        var chatRealmModel = ChatRealmModel(chatId: chat.chatId, roomId: chat.roomId, content: chat.content, createdAt: chat.createdAt, userId: chat.sender.user_id, nickname: chat.sender.nick, profileImage: chat.sender.profileImage)
+        let chatRealmModel = ChatRealmModel(chatId: chat.chatId, roomId: chat.roomId, content: chat.content, createdAt: chat.createdAt, userId: chat.sender.user_id, nickname: chat.sender.nick, profileImage: chat.sender.profileImage)
         chat.files.forEach {
             chatRealmModel.files.append($0)
         }
@@ -151,3 +179,39 @@ final class ChatRoomViewModel: ViewModelType {
         }
     }
 }
+
+
+enum SectionOfChat: SectionModelType {
+    typealias ITEM = Row
+    
+    case userChatSection(items: [Row])
+    case myChatSection(items: [Row])
+    case dateSection(items: [Row])
+    
+    enum Row {
+        case userChatData(userChatData: Chat)
+        case myChatData(myChatData: Chat)
+        case dateData(dateData: String)
+    }
+    
+    var items: [Row] {
+        switch self {
+            case .userChatSection(let items): return items
+            case .myChatSection(let items): return items
+            case .dateSection(let items): return items
+        }
+    }
+    
+    init(original: SectionOfChat, items: [Row]) {
+    switch original {
+    case .userChatSection(_):
+      self = .userChatSection(items: items)
+
+    case .myChatSection(_):
+      self = .myChatSection(items: items)
+      
+    case .dateSection(_):
+    self = .dateSection(items: items)
+    }
+  }
+ }

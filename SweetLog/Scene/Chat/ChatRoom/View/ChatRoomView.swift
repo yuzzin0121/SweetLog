@@ -68,6 +68,8 @@ final class ChatRoomView: BaseView {
     override func configureView() {
         super.configureView()
         collectionView.backgroundColor = Color.white
+        collectionView.register(UserChatCollectionViewCell.self, forCellWithReuseIdentifier: UserChatCollectionViewCell.identifier)
+        collectionView.register(MyChatCollectionViewCell.self, forCellWithReuseIdentifier: MyChatCollectionViewCell.identifier)
         
         bottomBackgroundView.backgroundColor = Color.white
         inputTextView.backgroundColor = Color.sugarBrown2
@@ -82,24 +84,32 @@ final class ChatRoomView: BaseView {
         sendButton.configuration = config
         sendButton.alpha = 0
     }
+
     
     private func createChatLayout() -> UICollectionViewLayout {
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+        let sectionProvider = { (sectionIndex: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 
+            
             var config = UICollectionLayoutListConfiguration(appearance: .plain)
             config.showsSeparators = false
-            config.backgroundColor = Color.white
+            config.backgroundColor = .white
 
-            let section = NSCollectionLayoutSection.list(
-                using: config,
-                layoutEnvironment: layoutEnvironment
-            )
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-            section.interGroupSpacing = 18
-    
+            // Item Size
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            // Group Size
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(70))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
+            section.interGroupSpacing = 20
 
             return section
         }
+
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }

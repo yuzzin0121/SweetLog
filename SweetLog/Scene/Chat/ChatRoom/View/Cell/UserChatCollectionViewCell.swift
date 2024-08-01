@@ -54,7 +54,7 @@ final class UserChatCollectionViewCell: BaseCollectionViewCell {
     
     override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(4)
+            make.top.equalToSuperview().inset(10)
             make.leading.equalToSuperview().inset(14)
             make.size.equalTo(40)
         }

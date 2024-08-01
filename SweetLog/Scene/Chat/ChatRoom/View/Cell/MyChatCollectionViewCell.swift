@@ -31,7 +31,7 @@ final class MyChatCollectionViewCell: BaseCollectionViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(4)
+            make.verticalEdges.equalToSuperview().inset(10)
             make.horizontalEdges.equalToSuperview().inset(12)
         }
         

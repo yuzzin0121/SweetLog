@@ -31,7 +31,7 @@ final class ChatRoomViewController: BaseViewController {
     override func bind() {
         setNavigationTitle(userName: viewModel.chatRoom.participants[1].nick)
         configureCollectionViewDataSource()
-        
+        mainView.collectionView.collectionViewLayout = mainView.createChatLayout(dataSource: dataSource)
         
         let input = ChatRoomViewModel.Input(viewDidLoad: Observable.just(()),
                                             sendButtonTapped: mainView.sendButton.rx.tap.asObservable(), 

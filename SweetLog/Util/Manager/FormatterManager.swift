@@ -17,7 +17,7 @@ final class DateFormatterManager {
         isoFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         
         if let date = isoFormatter.date(from: dateString) {
-            dateFormatter.dateFormat = "M월 d일 hh:mm"
+            dateFormatter.dateFormat = "hh:mm"
             let formattedDateString = dateFormatter.string(from: date)
             return formattedDateString
         }

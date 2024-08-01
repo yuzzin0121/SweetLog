@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import RxDataSources
 
 final class ChatRoomView: BaseView {
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createChatLayout())
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     let bottomBackgroundView = UIView()
     let inputTextView = UITextView()
     let sendButton = UIButton()
@@ -85,31 +86,66 @@ final class ChatRoomView: BaseView {
         sendButton.alpha = 0
     }
 
-    
-    private func createChatLayout() -> UICollectionViewLayout {
-        let sectionProvider = { (sectionIndex: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-
+    func createChatLayout(dataSource: RxCollectionViewSectionedReloadDataSource<SectionOfChat>) -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, environment -> NSCollectionLayoutSection? in
+            guard let self else { return nil }
             
-            var config = UICollectionLayoutListConfiguration(appearance: .plain)
-            config.showsSeparators = false
-            config.backgroundColor = .white
-
-            // Item Size
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let section = dataSource.sectionModels[sectionIndex]
+            let layoutSection: NSCollectionLayoutSection
             
-            // Group Size
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(70))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
-            section.interGroupSpacing = 20
-
-            return section
+            switch section {
+            case .userChatSection(items: let items):
+                layoutSection = userChatLayout()
+            case .myChatSection(items: let items):
+                layoutSection = myChatLayout()
+            case .dateSection(items: let items):
+                layoutSection = myChatLayout()
+            }
+            
+            return layoutSection
         }
+        return layout
+    }
+    
+    private func userChatLayout() -> NSCollectionLayoutSection {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.showsSeparators = false
+        config.backgroundColor = .white
 
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+        // Item Size
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        // Group Size
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(70))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+        // Section
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
+        section.interGroupSpacing = 20
+
+        return section
+    }
+    
+    private func myChatLayout() -> NSCollectionLayoutSection {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.showsSeparators = false
+        config.backgroundColor = .white
+
+        // Item Size
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        // Group Size
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+        // Section
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
+        section.interGroupSpacing = 20
+
+        return section
     }
 }

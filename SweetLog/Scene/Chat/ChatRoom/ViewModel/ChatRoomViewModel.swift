@@ -33,6 +33,7 @@ final class ChatRoomViewModel: ViewModelType {
         let sectionChatDataList: PublishSubject<[SectionOfChat]>
         let sendButtonTapped: Driver<Void>
         let sendContentSuccess: Driver<Void>
+        let userNick: Driver<String>
         let errorString: Driver<String>
     }
     
@@ -40,6 +41,7 @@ final class ChatRoomViewModel: ViewModelType {
         let sectionChatDataListSubject = PublishSubject<[SectionOfChat]>()
         let sendButtonTapped = PublishRelay<Void>()
         let sendContentSuccess = PublishRelay<Void>()
+        let userNickRelay = PublishRelay<String>()
         let errorString = PublishRelay<String>()
         
         // 소켓을 통해 유저의 채팅을 수신했을 때
@@ -65,6 +67,8 @@ final class ChatRoomViewModel: ViewModelType {
                 return NetworkManager.shared.requestToServer(model: ChatListModel.self, router: ChatRouter.fetchChatHistory(id: roomId, fetchChatHistoryQuery: FetchChatHistoryQuery(cursor_date: cursorDate)))
             }
             .bind(with: self) { owner, result in
+                let userNick = owner.getUserNick(chatRoom: owner.chatRoom)
+                userNickRelay.accept(userNick ?? "")
                 switch result {
                 case .success(let chatListModel):
                     print(chatListModel.data)
@@ -117,10 +121,19 @@ final class ChatRoomViewModel: ViewModelType {
         
         return Output(sectionChatDataList: sectionChatDataListSubject,
                       sendButtonTapped: sendButtonTapped.asDriver(onErrorDriveWith: .empty()),
-                      sendContentSuccess: sendContentSuccess.asDriver(onErrorDriveWith: .empty()),
+                      sendContentSuccess: sendContentSuccess.asDriver(onErrorDriveWith: .empty()), 
+                      userNick: userNickRelay.asDriver(onErrorJustReturn: ""),
                       errorString: errorString.asDriver(onErrorDriveWith: .empty()))
     }
     
+    private func getUserNick(chatRoom: ChatRoom) -> String? {
+        for participant in chatRoom.participants {
+            if participant.user_id != UserDefaultManager.shared.userId {
+                return participant.nick
+            }
+        }
+        return nil
+    }
     
     private func setSectionChatData(chatList: [Chat]) -> [SectionOfChat] {
 

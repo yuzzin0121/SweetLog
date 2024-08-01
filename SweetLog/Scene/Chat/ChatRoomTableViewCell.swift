@@ -15,7 +15,14 @@ final class ChatRoomTableViewCell: BaseTableViewCell {
     let updatedAtLabel = UILabel()
     
     func configureCell(chatRoom: ChatRoom) {
-        let user = chatRoom.participants[1]
+        var user: User!
+        
+        for participant in chatRoom.participants {
+            if participant.user_id != UserDefaultManager.shared.userId {
+                user = participant
+            }
+        }
+        
         setProfileImage(user: user)
         nicknameLabel.text = user.nick
         updatedAtLabel.text = DateFormatterManager.shared.formattedDate(chatRoom.updatedAt)

@@ -29,7 +29,6 @@ final class ChatRoomViewController: BaseViewController {
     }
     
     override func bind() {
-        setNavigationTitle(userName: viewModel.chatRoom.participants[1].nick)
         configureCollectionViewDataSource()
         mainView.collectionView.collectionViewLayout = mainView.createChatLayout(dataSource: dataSource)
         
@@ -37,6 +36,12 @@ final class ChatRoomViewController: BaseViewController {
                                             sendButtonTapped: mainView.sendButton.rx.tap.asObservable(), 
                                             sendContent: sendContent.asObservable())
         let output = viewModel.transform(input: input)
+        
+        output.userNick
+            .drive(with: self) { owner, userNick in
+                owner.setNavigationTitle(userName: userNick)
+            }
+            .disposed(by: disposeBag)
         
         output.sectionChatDataList
             .bind(to: mainView.collectionView.rx.items(dataSource: dataSource))
@@ -93,17 +98,11 @@ extension ChatRoomViewController: UITextViewDelegate {
         let text = textView.text.trimmingCharacters(in: [" "])
         isTextEmpty.accept(text.isEmpty)
     }
-    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        let text = textView.text.trimmingCharacters(in: [" "])
-//        
-//    }
 }
 
 extension ChatRoomViewController {
     private func configureCollectionViewDataSource() {
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfChat>(configureCell: { dataSource, collectionView, indexPath, chatData in
-//            print(chatData)
             switch dataSource[indexPath] {
             case .userChatData(let userChat):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserChatCollectionViewCell.identifier, for: indexPath) as? UserChatCollectionViewCell else {
